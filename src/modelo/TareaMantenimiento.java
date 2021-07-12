@@ -3,41 +3,41 @@ package modelo;
 import java.time.LocalDate;
 
 public class TareaMantenimiento {
-	private LocalDate fechaInicio;
-	private LocalDate fechaFin;
-	private Integer id;
-	private String observaciones;
+	private LocalDate _fechaInicio;
+	private LocalDate _fechaFin;
+	private Integer _id;
+	private String _observaciones;
 	
 	public TareaMantenimiento(LocalDate fi, LocalDate ff, Integer id, String obs) {
-		this.fechaFin=ff;
-		this.fechaInicio=fi;
-		this.id=id;
-		this.observaciones=obs;
+		this._fechaFin=ff;
+		this._fechaInicio=fi;
+		this._id=id;
+		this._observaciones=obs;
 	}
 	
 	public LocalDate getFechaInicio() {
-		return fechaInicio;
+		return _fechaInicio;
 	}
 	public void setFechaInicio(LocalDate fechaInicio) {
-		this.fechaInicio = fechaInicio;
+		this._fechaInicio = fechaInicio;
 	}
 	public LocalDate getFechaFin() {
-		return fechaFin;
+		return _fechaFin;
 	}
 	public void setFechaFin(LocalDate fechaFin) {
-		this.fechaFin = fechaFin;
+		this._fechaFin = fechaFin;
 	}
 	public Integer getId() {
-		return id;
+		return _id;
 	}
 	public void setId(Integer id) {
-		this.id = id;
+		this._id = id;
 	}
 	public String getObservaciones() {
-		return observaciones;
+		return _observaciones;
 	}
 	public void setObservaciones(String observaciones) {
-		this.observaciones = observaciones;
+		this._observaciones = observaciones;
 	}
 	
 	
