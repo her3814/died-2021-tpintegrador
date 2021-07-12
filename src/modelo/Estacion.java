@@ -3,10 +3,10 @@ package modelo;
 import java.time.LocalTime;
 
 public class Estacion {
-	private LocalTime _prueba;
+	private int _id;
+	private String _nombre;
 	private LocalTime _horarioApertura;
 	private LocalTime _horarioCierre;
-	private String _nombre;
 	private EstadoEstacionEnum _estado;
 
 	public Estacion(String nombre) {
@@ -14,7 +14,8 @@ public class Estacion {
 		_estado = EstadoEstacionEnum.MANTENIMIENTO;
 	}
 
-	public Estacion(String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado) {
+	public Estacion(int Id, String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado) {
+		_id = Id;
 		_nombre = nombre;
 		_estado = estado;
 		_horarioApertura = horaApertura;
@@ -22,6 +23,10 @@ public class Estacion {
 
 	}
 
+	public int getId() {
+		return _id;
+	}
+	
 	public String getNombre() {
 		return _nombre;
 	}
@@ -64,10 +69,7 @@ public class Estacion {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((_estado == null) ? 0 : _estado.hashCode());
-		result = prime * result + ((_horarioApertura == null) ? 0 : _horarioApertura.hashCode());
-		result = prime * result + ((_horarioCierre == null) ? 0 : _horarioCierre.hashCode());
-		result = prime * result + ((_nombre == null) ? 0 : _nombre.hashCode());
+		result = prime * result + _id;
 		return result;
 	}
 
@@ -75,27 +77,16 @@ public class Estacion {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!(obj instanceof Estacion))
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
 			return false;
 		Estacion other = (Estacion) obj;
-		if (_estado != other._estado)
-			return false;
-		if (_horarioApertura == null) {
-			if (other._horarioApertura != null)
-				return false;
-		} else if (!_horarioApertura.equals(other._horarioApertura))
-			return false;
-		if (_horarioCierre == null) {
-			if (other._horarioCierre != null)
-				return false;
-		} else if (!_horarioCierre.equals(other._horarioCierre))
-			return false;
-		if (_nombre == null) {
-			if (other._nombre != null)
-				return false;
-		} else if (!_nombre.equals(other._nombre))
+		if (_id != other._id)
 			return false;
 		return true;
-	}
-
+	}	
+	
+	
+	
 }
