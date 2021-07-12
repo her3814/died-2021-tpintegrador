@@ -1,5 +1,5 @@
 package modelo;
 
 public enum EstadoLineaEnum {
-	ACTIVA, NO_ACTIVA;
+	ACTIVA, NO_ACTIVA
 }
