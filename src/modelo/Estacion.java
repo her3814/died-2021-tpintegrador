@@ -11,7 +11,7 @@ public class Estacion {
 
 	public Estacion(String nombre) {
 		_nombre = nombre;
-		_estado = EstadoEstacionEnum.CERRADA;
+		_estado = EstadoEstacionEnum.MANTENIMIENTO;
 	}
 
 	public Estacion(String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado) {
@@ -27,10 +27,10 @@ public class Estacion {
 	}
 
 	public EstadoEstacionEnum ToggleEstado() {
-		if (_estado.equals(EstadoEstacionEnum.ABIERTA))
-			_estado = EstadoEstacionEnum.CERRADA;
+		if (_estado.equals(EstadoEstacionEnum.OPERATIVA))
+			_estado = EstadoEstacionEnum.MANTENIMIENTO;
 		else
-			_estado = EstadoEstacionEnum.ABIERTA;
+			_estado = EstadoEstacionEnum.OPERATIVA;
 
 		return _estado;
 	}
