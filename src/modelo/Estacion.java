@@ -3,7 +3,7 @@ package modelo;
 import java.time.LocalTime;
 
 public class Estacion {
-
+	private LocalTime _prueba;
 	private LocalTime _horarioApertura;
 	private LocalTime _horarioCierre;
 	private String _nombre;
