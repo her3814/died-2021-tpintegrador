@@ -1,13 +1,43 @@
 package modelo;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
 
 public class Boleto {
 	private Integer _nroBoleto;
 	private String _correoCliente;
 	private String _nombreCliente;
 	private LocalDate _fechaVenta;
-	private Double costo;
+	private Double _costo;
+	private Estacion _origen;
+	private Estacion _destino;
+	private LinkedHashSet _tramos;
+	
+	
+	public Double get_costo() {
+		return _costo;
+	}
+	public void set_costo(Double _costo) {
+		this._costo = _costo;
+	}
+	public Estacion get_origen() {
+		return _origen;
+	}
+	public void set_origen(Estacion _origen) {
+		this._origen = _origen;
+	}
+	public Estacion get_destino() {
+		return _destino;
+	}
+	public void set_destino(Estacion _destino) {
+		this._destino = _destino;
+	}
+	public LinkedHashSet get_tramos() {
+		return _tramos;
+	}
+	public void set_tramos(LinkedHashSet _tramos) {
+		this._tramos = _tramos;
+	}
 	public Integer get_nroBoleto() {
 		return _nroBoleto;
 	}
@@ -33,10 +63,10 @@ public class Boleto {
 		this._fechaVenta = _fechaVenta;
 	}
 	public Double getCosto() {
-		return costo;
+		return _costo;
 	}
 	public void setCosto(Double costo) {
-		this.costo = costo;
+		this._costo = costo;
 	}
 	@Override
 	public int hashCode() {
@@ -61,8 +91,5 @@ public class Boleto {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
+
 }
