@@ -6,11 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/USER/Documents/FACULTAD/TERCER AÑO/DIED/TRABAJO PRACTICO/jcalendar-1.4.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/hhlopez/Downloads/mariadb-java-client-2.7.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/USER/Documents/FACULTAD/TERCER AÑO/DIED/TRABAJO PRACTICO/mariadb-java-client-2.7.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/USER/Documents/FACULTAD/TERCER AÑO/DIED/TRABAJO PRACTICO/jcalendar-1.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
