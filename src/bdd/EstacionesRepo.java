@@ -9,6 +9,8 @@ import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import filtros.EstacionesFiltro;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 
@@ -124,6 +126,7 @@ public class EstacionesRepo {
 		String sql = "SELECT * FROM estaciones";
 
 		Connection con = BddSingleton.GetConnection();
+		
 		try {
 			Statement stm;
 
@@ -181,7 +184,7 @@ public class EstacionesRepo {
 		List<Estacion> estaciones = new ArrayList<Estacion>();
 
 		if (filtro.esVacio())
-			return estaciones;
+			return ObtenerEstaciones();
 
 		String sql = "SELECT * FROM estaciones";
 

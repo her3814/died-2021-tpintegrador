@@ -12,6 +12,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 
+import com.toedter.calendar.JDateChooser;
+import com.github.lgooddatepicker.components.TimePicker;
+
+
 public class PanelAgregarTareaMantenimiento extends JPanel {
 	private JButton btnNewButton_1; 
 
@@ -21,7 +25,7 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		
 		gridBagLayout.columnWidths = new int[]{54, 95, 115, 158, 157, 67, 0};
 		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 0, 19, 19, 19, 21, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		

@@ -25,9 +25,13 @@ public class PanelGestionarEstaciones extends JPanel{
 	
 	public  PanelGestionarEstaciones() {
 	
+	
+		
 		this.gbc= new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		this.setBackground(Color.LIGHT_GRAY);
+		setSize(new Dimension(500,500));
+		setMinimumSize(new Dimension(300,300));
 		
 		tituloPag= new JLabel("GESTIONAR ESTACIONES");
 		this.gbc.gridx=0;
