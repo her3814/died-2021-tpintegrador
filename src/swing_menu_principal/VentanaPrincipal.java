@@ -103,7 +103,7 @@ public class VentanaPrincipal {
 				ventana1.setTitle("GESTIONAR LINEAS");
 				ventana1.setContentPane(panelGestionarLineas);
 				ventana1.setVisible(true);
-				ventana1.pack();
+				ventana1.pack(); 
 			}
 		});
 		
@@ -126,7 +126,7 @@ public class VentanaPrincipal {
 		});
 		
 		//------------------------------------------------------------------------------------
-		// 						TAREAS DE MANTENIMIENTO
+		// 						TAREAS DE MANTENIMIENTO 
 		
 		panelMenuPrincipal.getTareas_mantenimiento().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
