@@ -28,11 +28,9 @@ public class VentanaPrincipal {
 	private static PanelBuscarTareaMantenimiento panelBuscarTareaMantenimiento;
 	private static PanelVerHistorialTareaMantenimiento panelVerHistorialTareaMantenimiento;
 	
-	
 	private static PanelGestionarEstaciones panelGestionarEstaciones;
 	private static PanelAgregarEstacion panelAgregarEstacion;
 	private static PanelBuscarEstacion panelBuscarEstacion;
-	
 	
 	private static PanelGestionarLineas panelGestionarLineas;
 	private static PanelGestionarTramos panelGestionarTramos;
