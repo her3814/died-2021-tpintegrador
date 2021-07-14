@@ -1,2 +1,8 @@
 # TP Integrador
-DIED 2021 - Hernán H. López
+## Integrantes
+- Espertino, Clarisa
+- Forestello, Antonella
+- Lopez, Hernan
+
+## Librerias de terceros utilizadas
+- 
