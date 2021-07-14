@@ -22,7 +22,7 @@ public class RegistrarTareaMantenimientoEstacion {
 		
 		est.ToggleEstado();
 		
-		//EstacionesRepo.Guardar(est);
+		EstacionesRepo.ActualizarEstacion(est);
 		
 		return tarea;
 
