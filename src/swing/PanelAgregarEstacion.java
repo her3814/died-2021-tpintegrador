@@ -19,6 +19,8 @@ public class PanelAgregarEstacion extends JPanel {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private ButtonGroup estado;
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
 	/**
 	 * @wbp.nonvisual location=543,504
 	 */
@@ -141,7 +143,7 @@ public class PanelAgregarEstacion extends JPanel {
 		estado.add(rdbtnNewRadioButton);
 		estado.add(rdbtnNewRadioButton1);
 		
-		JButton btnNewButton = new JButton("GUARDAR");
+		btnNewButton = new JButton("GUARDAR");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
@@ -149,7 +151,7 @@ public class PanelAgregarEstacion extends JPanel {
 		gbc_btnNewButton.gridy = 8;
 		add(btnNewButton, gbc_btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("CANCELAR");
+		btnNewButton_1 = new JButton("CANCELAR");
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
@@ -157,6 +159,12 @@ public class PanelAgregarEstacion extends JPanel {
 		gbc_btnNewButton_1.gridy = 8;
 		add(btnNewButton_1, gbc_btnNewButton_1);
 		
+	}
+	public JButton getBtnNewButton() {
+		return btnNewButton;
+	}
+	public JButton getBtnNewButton_1() {
+		return btnNewButton_1;
 	}
 
 }

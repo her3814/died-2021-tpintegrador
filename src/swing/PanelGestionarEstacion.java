@@ -41,7 +41,7 @@ public class PanelGestionarEstacion extends JPanel{
 		
 		
 		
-		crear= new JButton("CREAR ESTACION");
+		crear= new JButton("AGREGAR ESTACION");
 		crear.setBackground(Color.WHITE);
 		crear.setFont(new Font("Arial", Font.BOLD,18));
 		this.gbc.gridx=0;

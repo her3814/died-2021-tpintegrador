@@ -53,6 +53,14 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
+		panelAgregarEstacion.getBtnNewButton_1().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("GESTIONAR ESTACIONES");
+				ventana1.setContentPane(panelGestionarEstacion);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
 		panelBuscarEstacion.getBtnNewButton_2().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("GESTIONAR ESTACIONES");
@@ -61,6 +69,7 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
+		
 	}
 	
 
