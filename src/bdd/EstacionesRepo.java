@@ -257,7 +257,6 @@ public interface EstacionesRepo {
 			String nombre = res.getString("nombre");
 			LocalTime hora_ape = res.getTime("hora_apertura").toLocalTime();
 			LocalTime hora_cie = res.getTime("hora_cierre").toLocalTime();
-			var est = res.getString("estado");
 			EstadoEstacionEnum estado = res.getString("estado").toUpperCase().equals("OPE") ? EstadoEstacionEnum.OPERATIVA
 					: EstadoEstacionEnum.MANTENIMIENTO;
 

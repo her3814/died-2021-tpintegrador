@@ -1,8 +1,9 @@
 package modelo;
 
+import java.util.Objects;
+
 public class Tramo {
 	
-	private Integer _id;
 	private Linea _linea;
 	private Integer _orden;
 	private Estacion _origen;
@@ -13,9 +14,8 @@ public class Tramo {
 	private Double _costo;
 	private EstadoTramoEnum _estadoTramo;
 
-	public Tramo(Integer id, Linea linea, Estacion origen, Estacion destino, Integer orden, Integer cant_pasajeros,
+	public Tramo(Linea linea, Integer orden, Estacion origen, Estacion destino, Integer cant_pasajeros,
 			Double duracion, Double distancia, Double costo, EstadoTramoEnum estado) {
-		_id = id;
 		_linea = linea;
 		_orden = orden;
 		_origen = origen;
@@ -25,10 +25,6 @@ public class Tramo {
 		_cantPasajeros = cant_pasajeros;
 		_costo = costo;
 		_estadoTramo = estado;		
-	}
-
-	public Boolean equals(Tramo t) {
-		return this.get_id()==t.get_id();
 	}
 
 	public Estacion getOrigen() {
@@ -42,24 +38,6 @@ public class Tramo {
 	public Double getCosto() {
 		return _costo;
 	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((_id == null) ? 0 : _id.hashCode());
-		return result;
-	}
-
-
-	public Integer get_id() {
-		return _id;
-	}
-
-
-	public void set_id(Integer _id) {
-		this._id = _id;
-	}
 
 	public Double getDuracion() {
 		return _duracionViaje;
@@ -67,5 +45,42 @@ public class Tramo {
 
 	public Double getDistancia() {
 		return _distancia;
+	}
+
+	public Linea getLinea() {
+		return _linea;
+	}
+	
+	public int getOrden() {
+		return _orden;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(_linea, _orden);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tramo other = (Tramo) obj;
+		return Objects.equals(_linea, other._linea) && Objects.equals(_orden, other._orden);
+	}
+	
+	@Override
+	public String toString() {
+		return "TRAMO LINEA " + "A COMPLETAR" + ": " + _origen.getNombre() + " a " + _destino.getNombre() + _costo;
+	}
+
+	public Integer get_cantPasajeros() {
+		return _cantPasajeros;
+	}
+
+	public EstadoTramoEnum get_estadoTramo() {
+		return _estadoTramo;
 	}
 }

@@ -12,6 +12,9 @@ public class Linea {
 	private Estacion _destino;	
 	private LinkedHashSet _tramos;
 
+	public Linea(Integer id) {
+		_id = id;
+	}
 	
 	
 	public Estacion get_origen() {
@@ -47,9 +50,7 @@ public class Linea {
 	public Integer get_id() {
 		return _id;
 	}
-	public void set_id(Integer _id) {
-		this._id = _id;
-	}
+
 	public String get_nombre() {
 		return _nombre;
 	}
