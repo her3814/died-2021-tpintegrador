@@ -8,6 +8,12 @@ public class TareaMantenimiento {
 	private Integer _id;
 	private String _observaciones;
 	
+	public TareaMantenimiento(LocalDate fi, LocalDate ff, String obs) {
+		this._fechaFin=ff;
+		this._fechaInicio=fi;
+		this._observaciones=obs;
+	}
+	
 	public TareaMantenimiento(LocalDate fi, LocalDate ff, Integer id, String obs) {
 		this._fechaFin=ff;
 		this._fechaInicio=fi;
@@ -30,9 +36,7 @@ public class TareaMantenimiento {
 	public Integer getId() {
 		return _id;
 	}
-	public void setId(Integer id) {
-		this._id = id;
-	}
+
 	public String getObservaciones() {
 		return _observaciones;
 	}

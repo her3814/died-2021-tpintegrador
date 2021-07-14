@@ -20,9 +20,15 @@ public class Estacion {
 		_estado = estado;
 		_horarioApertura = horaApertura;
 		_horarioCierre = horaCierre;
-
 	}
 
+	public Estacion( String nombre, LocalTime horaApertura, LocalTime horaCierre) {
+		_nombre = nombre;
+		_estado = EstadoEstacionEnum.OPERATIVA;
+		_horarioApertura = horaApertura;
+		_horarioCierre = horaCierre;
+	}
+	
 	public int getId() {
 		return _id;
 	}
