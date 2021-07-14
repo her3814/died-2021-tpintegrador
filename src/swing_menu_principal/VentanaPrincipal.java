@@ -164,6 +164,7 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
+		
 		//------------------------------------------------------------------------------------
 		// 						ESTACIONES
 		
@@ -222,11 +223,7 @@ public class VentanaPrincipal {
 		
 		
 		
-		
-		
-		
-		
-		
+
 		
 		panelGestionarLineas.getVolver().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
