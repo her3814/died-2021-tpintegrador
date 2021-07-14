@@ -102,15 +102,6 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		gbc_textArea.gridy = 4;
 		add(textArea, gbc_textArea);
 		
-		TimePicker timePicker = new TimePicker();
-		GridBagConstraints gbc_timePicker = new GridBagConstraints();
-		gbc_timePicker.insets = new Insets(0, 0, 5, 5);
-		gbc_timePicker.fill = GridBagConstraints.BOTH;
-		gbc_timePicker.gridx = 1;
-		gbc_timePicker.gridy = 6;
-		add(timePicker, gbc_timePicker);
-		
-
 		JButton btnNewButton = new JButton("GUARDAR");
 		btnNewButton.setFont(new Font("Arial", Font.BOLD, 15));
 		btnNewButton.setBackground(new Color(204, 204, 51));
