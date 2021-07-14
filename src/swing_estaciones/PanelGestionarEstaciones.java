@@ -1,3 +1,4 @@
+package swing_estaciones;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -72,7 +73,6 @@ public class PanelGestionarEstaciones extends JPanel{
 	public JButton getCrear() {
 		return crear;
 	}
-
 
 	public JButton getBuscar() {
 		return buscar;

@@ -14,7 +14,7 @@ import javax.swing.WindowConstants;
 public class VentanaPrincipal {
 
 	private static JFrame ventana1;
-	private static PanelGestionarEstacion panelGestionarEstacion;
+	private static PanelGestionarEstaciones panelGestionarEstacion;
 	private static PanelAgregarEstacion panelAgregarEstacion;
 	private static PanelBuscarEstacion panelBuscarEstacion;
 	public static void main(String[] args) {
@@ -26,7 +26,7 @@ public class VentanaPrincipal {
 		//ventana1.setSize(900, 900);
 		
 		
-		panelGestionarEstacion=  new PanelGestionarEstacion();
+		panelGestionarEstacion=  new PanelGestionarEstaciones();
 		panelAgregarEstacion= new PanelAgregarEstacion();
 		panelBuscarEstacion = new PanelBuscarEstacion();
 		

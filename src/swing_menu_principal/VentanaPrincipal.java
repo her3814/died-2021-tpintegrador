@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import swing_boletos.PanelGestionarBoletos;
+import swing_estaciones.PanelAgregarEstacion;
+import swing_estaciones.PanelBuscarEstacion;
 import swing_estaciones.PanelGestionarEstaciones;
 import swing_lineas.PanelGestionarLineas;
 import swing_tareas_mantenimiento.PanelAgregarTareaMantenimiento;
@@ -28,6 +30,10 @@ public class VentanaPrincipal {
 	
 	
 	private static PanelGestionarEstaciones panelGestionarEstaciones;
+	private static PanelAgregarEstacion panelAgregarEstacion;
+	private static PanelBuscarEstacion panelBuscarEstacion;
+	
+	
 	private static PanelGestionarLineas panelGestionarLineas;
 	private static PanelGestionarTramos panelGestionarTramos;
 	private static PanelGestionarBoletos panelGestionarBoletos;
@@ -48,6 +54,11 @@ public class VentanaPrincipal {
 		panelVerHistorialTareaMantenimiento = new PanelVerHistorialTareaMantenimiento();
 		
 		panelGestionarEstaciones = new PanelGestionarEstaciones();
+		panelAgregarEstacion= new PanelAgregarEstacion();
+		panelBuscarEstacion = new PanelBuscarEstacion();
+		
+		
+		
 		panelGestionarLineas = new PanelGestionarLineas();
 		panelGestionarTramos = new PanelGestionarTramos();
 		panelGestionarBoletos = new PanelGestionarBoletos();
@@ -61,14 +72,7 @@ public class VentanaPrincipal {
 		ventana1.setLocationRelativeTo(null);
 		ventana1.setVisible(true);
 		
-		panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ventana1.setTitle("GESTIONAR ESTACIONES");
-				ventana1.setContentPane(panelGestionarEstaciones);
-				ventana1.setVisible(true);
-				ventana1.pack();
-			}
-		});
+
 
 		panelMenuPrincipal.getLineas().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -160,7 +164,17 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
-
+		//------------------------------------------------------------------------------------
+		// 						ESTACIONES
+		
+		panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("GESTIONAR ESTACIONES");
+				ventana1.setContentPane(panelGestionarEstaciones);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
 		panelGestionarEstaciones.getVolver().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("MENU PRINCIPAL");
@@ -169,6 +183,51 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
+		panelGestionarEstaciones.getCrear().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("AGREGAR ESTACION");
+				ventana1.setContentPane(panelAgregarEstacion);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		panelGestionarEstaciones.getBuscar().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("BUSCAR ESTACION");
+				ventana1.setContentPane(panelBuscarEstacion);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		
+		//Eventos panelBuscarEstacion
+		panelBuscarEstacion.getBtnNewButton_2().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("GESTIONAR ESTACIONES");
+				ventana1.setContentPane(panelGestionarEstaciones);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		
+		//Eventos panelAgregarEstacion
+		panelAgregarEstacion.getBtnNewButton_1().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("GESTIONAR ESTACIONES");
+				ventana1.setContentPane(panelGestionarEstaciones);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		panelGestionarLineas.getVolver().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("MENU PRINCIPAL");
