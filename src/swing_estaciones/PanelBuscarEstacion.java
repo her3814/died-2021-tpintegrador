@@ -22,6 +22,7 @@ public class PanelBuscarEstacion extends JPanel {
 	private JTextField textField;
 	private JButton btnNewButton_2; 
 	private JTable table;
+	private SubPanelFiltros filtros;
 	public PanelBuscarEstacion() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -45,18 +46,9 @@ public class PanelBuscarEstacion extends JPanel {
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 1;
+		gbc_textField.gridwidth=3;
 		add(textField, gbc_textField);
 		textField.setColumns(10);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"ID", "NOMBRE", "HORA APERTURA", "HORA CIERRE", "ESTADO"}));
-		
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(5, 5, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 3;
-		gbc_comboBox.gridy = 1;
-		add(comboBox, gbc_comboBox);
 		
 		JButton btnNewButton = new JButton("BUSCAR");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
@@ -103,6 +95,14 @@ public class PanelBuscarEstacion extends JPanel {
 		gbc_btnNewButton_2.gridx = 3;
 		gbc_btnNewButton_2.gridy = 4;
 		add(btnNewButton_2, gbc_btnNewButton_2);
+		
+		filtros= new SubPanelFiltros();
+		GridBagConstraints gbcFiltros = new GridBagConstraints();
+		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
+		gbcFiltros.gridx=1;
+		gbcFiltros.gridy=2;
+		gbcFiltros.gridheight=2;
+		add(filtros, gbcFiltros);
 	}
 	public JButton getBtnNewButton_2() {
 		return btnNewButton_2;
