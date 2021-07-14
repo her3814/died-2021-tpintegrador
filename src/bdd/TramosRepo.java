@@ -1,5 +1,7 @@
 package bdd;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,21 +13,21 @@ import modelo.EstadoTramoEnum;
 import modelo.Linea;
 import modelo.Tramo;
 
-public interface TramosRepo {
+public class TramosRepo {
 
 	public static void GuardarTramo(Tramo tramo) {
-		var sql = "INSERT INTO tabla (id_linea_transporte, trayecto_orden, "
+		String sql = "INSERT INTO tabla (id_linea_transporte, trayecto_orden, "
 				+ "id_estacion_origen, id_estacion_destino, cant_pasajeros, duracion_min, costo, "
 				+ "distancia, estado) " + "VALUES (? , ?, ?, ?, ?, ?, ?, ?, ?) " + "ON DUPLICATE KEY UPDATE "
 				+ "id_linea_transporte = ?, trayecto_orden = ?, "
 				+ "id_estacion_origen = ?, id_estacion_destino = ?, cant_pasajeros = ? , duracion_min = ?, costo = ?, "
 				+ "distancia = ?, estado = ?;";
 
-		var con = BddSingleton.GetConnection();
+		Connection con = BddSingleton.GetConnection();
 		
 		try {
 			con.beginRequest();
-			var stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stm.setInt(1, tramo.getLinea().get_id());
 			stm.setInt(2, tramo.getOrden());
 			stm.setInt(3, tramo.getOrigen().getId());
@@ -71,13 +73,13 @@ public interface TramosRepo {
 
 	public static List<Tramo> ObtenerRecorrido(Linea linea) {
 		List<Tramo> res = new ArrayList<Tramo>();
-		var sql = "SELECT * FROM lineas_trayecto WHERE id_linea_transporte = ?";
-		var con = BddSingleton.GetConnection();
+		String sql = "SELECT * FROM lineas_trayecto WHERE id_linea_transporte = ?";
+		Connection con = BddSingleton.GetConnection();
 
 		try {
-			var stm = con.prepareStatement(sql);
+			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setInt(1, linea.get_id());
-			var result = stm.executeQuery();
+			ResultSet result = stm.executeQuery();
 
 			while (result.next()) {
 				res.add(ToEntity(result));
@@ -102,13 +104,13 @@ public interface TramosRepo {
 
 	public static List<Tramo> ObtenerDestinosDesde(Estacion origen) {
 		List<Tramo> res = new ArrayList<Tramo>();
-		var sql = "SELECT * FROM lineas_trayecto WHERE id_estacion_origen = ?";
-		var con = BddSingleton.GetConnection();
+		String sql = "SELECT * FROM lineas_trayecto WHERE id_estacion_origen = ?";
+		Connection con = BddSingleton.GetConnection();
 
 		try {
-			var stm = con.prepareStatement(sql);
+			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setInt(1, origen.getId());
-			var result = stm.executeQuery();
+			ResultSet result = stm.executeQuery();
 			while (result.next()) {
 				res.add(ToEntity(result));
 			}

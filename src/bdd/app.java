@@ -1,8 +1,11 @@
 package bdd;
 
 import java.time.LocalTime;
+import java.util.List;
 
+import modelo.Estacion;
 import modelo.Linea;
+import modelo.Tramo;
 import modelo.TramosFunciones;
 import servicios.VenderBoletoServicio;
 
@@ -13,27 +16,27 @@ public class app {
 
 	public static void main(String[] args) {
 
-		var filtro = new EstacionesFiltro();
+		EstacionesFiltro filtro = new EstacionesFiltro();
 		filtro.horaAperturaDesde = LocalTime.of(7, 0);
 		filtro.horaCierreHasta = LocalTime.of(22, 30);
 		filtro.id = 12;
-		var resultado = EstacionesRepo.ObtenerEstaciones(filtro);
+		List<Estacion> resultado = EstacionesRepo.ObtenerEstaciones(filtro);
 		System.out.println(resultado);
 
-		var est = EstacionesRepo.ObtenerEstacion(2);
+		Estacion est = EstacionesRepo.ObtenerEstacion(2);
 		est.ToggleEstado();
 		EstacionesRepo.ActualizarEstacion(est);
 		
-		var tramos = TramosRepo.ObtenerDestinosDesde(est);
+		List<Tramo> tramos = TramosRepo.ObtenerDestinosDesde(est);
 		System.out.println(tramos);
 		
-		var linea = new Linea(1);
-		var recLin = TramosRepo.ObtenerRecorrido(linea);
+		Linea linea = new Linea(1);
+		List<Tramo> recLin = TramosRepo.ObtenerRecorrido(linea);
 		System.out.println(recLin);
 		
 
 		System.out.println("---------MENOR DISTANCIA");
-		var camino = VenderBoletoServicio.CalcularCaminoMenorDistancia(EstacionesRepo.ObtenerEstacion(1), EstacionesRepo.ObtenerEstacion(4));
+		List<Tramo> camino = VenderBoletoServicio.CalcularCaminoMenorDistancia(EstacionesRepo.ObtenerEstacion(1), EstacionesRepo.ObtenerEstacion(4));
 		System.out.println(camino);
 		System.out.println("Costo: " + TramosFunciones.calcularCostoRecorrido.apply(camino));
 		System.out.println("Distancia: " + TramosFunciones.calcularDistanciaRecorrido.apply(camino));
@@ -41,7 +44,7 @@ public class app {
 		
 
 		System.out.println("---------MAS BARATO");
-		var caminoB = VenderBoletoServicio.CalcularCaminoMasBarato(EstacionesRepo.ObtenerEstacion(1), EstacionesRepo.ObtenerEstacion(4));
+		List<Tramo> caminoB = VenderBoletoServicio.CalcularCaminoMasBarato(EstacionesRepo.ObtenerEstacion(1), EstacionesRepo.ObtenerEstacion(4));
 		System.out.println(caminoB);
 		System.out.println("Costo: " + TramosFunciones.calcularCostoRecorrido.apply(caminoB));
 		System.out.println("Distancia: " + TramosFunciones.calcularDistanciaRecorrido.apply(caminoB));
@@ -50,7 +53,7 @@ public class app {
 
 
 		System.out.println("---------DESDE A");
-		var caminos = VenderBoletoServicio.CalcularCaminos(EstacionesRepo.ObtenerEstacion(1));
+		List<List<Tramo>> caminos = VenderBoletoServicio.CalcularCaminos(EstacionesRepo.ObtenerEstacion(1));
 		System.out.println(caminos);
 		
 	}

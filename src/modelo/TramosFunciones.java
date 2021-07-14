@@ -3,7 +3,7 @@ package modelo;
 import java.util.List;
 import java.util.function.Function;
 
-public interface TramosFunciones {
+public class TramosFunciones {
 	public static Function<List<Tramo>, Double> calcularCostoRecorrido = x -> x.stream()
 			.mapToDouble(t -> t.getCosto()).sum();
 

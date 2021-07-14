@@ -12,7 +12,7 @@ import java.util.List;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 
-public interface EstacionesRepo {
+public class EstacionesRepo {
 
 	public static void EliminarEstacion(Estacion estacion) {
 		String sql = "DELETE FROM estaciones WHERE id = ?;";
@@ -213,7 +213,7 @@ public interface EstacionesRepo {
 
 			pstm = con.prepareStatement(sql);
 
-			var i = 1;
+			Integer i = 1;
 			// Por cada parametro, asignandolos en el mismo orden que se agregaron al WHERE,
 			// si no es nulo, lo seteo y sumo un valor a i, a fin de aumentar la posicion
 			// del valor en el statement

@@ -9,7 +9,7 @@ import modelo.Estacion;
 import modelo.Tramo;
 import modelo.TramosFunciones;
 
-public interface VenderBoletoServicio {
+public class VenderBoletoServicio {
 
 	public static List<Tramo> CalcularCaminoMenorDistancia(Estacion origen, Estacion destino) {
 		if (origen.equals(destino))
