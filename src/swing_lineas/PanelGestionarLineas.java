@@ -18,60 +18,64 @@ import javax.swing.JPanel;
 public class PanelGestionarLineas extends JPanel{
 
 	private JLabel tituloPag;
-	private JButton crear;
+	private JButton agregar;
 	private JButton buscar;
-	private JButton historial;
-
-	private GridBagConstraints gbc;
-	private JButton volver; 
-
+	private JButton volver;
 	
+	private GridBagConstraints gbcTitulo;
+	private GridBagConstraints gbcAgregar;
+	private GridBagConstraints gbcBuscar;
+	
+	
+	public JButton getVolver() {
+		return volver;
+	}
+
 	public  PanelGestionarLineas() {
 		this.setSize(new Dimension(500,500));
 		this.setMinimumSize(new Dimension(300,300));
 		
-	
-		this.gbc= new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		this.setBackground(Color.LIGHT_GRAY);
 		
-		tituloPag= new JLabel("GESTIONAR TAREA DE MANTENIMIENTO");
-		this.gbc.gridx=0;
-		this.gbc.gridy=0;
-		this.gbc.ipadx=0;
-		this.gbc.ipady=20;
-		this.gbc.anchor=GridBagConstraints.CENTER;
-		tituloPag.setFont(new Font("Arial", Font.BOLD, 22));
-		this.add(tituloPag, gbc);
 		
-
-		crear= new JButton("CREAR TAREA DE MANTENIMIENTO");
-		crear.setBackground(Color.WHITE);
-		crear.setFont(new Font("Arial", Font.BOLD,18));
-		this.gbc.gridx=0;
-		this.gbc.gridy=1;
+		gbcTitulo= new GridBagConstraints();
+		tituloPag= new JLabel("GESTIONAR LINEAS");
+		this.gbcTitulo.gridx=0;
+		this.gbcTitulo.gridy=0;
+		this.gbcTitulo.ipadx=0;
+		this.gbcTitulo.ipady=20;
+		this.gbcTitulo.anchor=GridBagConstraints.CENTER;
+		tituloPag.setFont(new Font("Arial", Font.BOLD, 22));
+		this.add(tituloPag, gbcTitulo);
+		
+		
+		gbcAgregar= new GridBagConstraints();
+		agregar= new JButton("AGREGAR LINEA");
+		agregar.setBackground(Color.WHITE);
+		agregar.setFont(new Font("Arial", Font.BOLD,18));
+		this.gbcAgregar.gridx=0;
+		this.gbcAgregar.gridy=1;
+		this.gbcAgregar.ipadx=0;
+		this.gbcAgregar.ipady=20;
+		this.gbcAgregar.anchor=GridBagConstraints.CENTER;
 		//new Insets(top, left, botton,right)
-		this.gbc.insets= new Insets(5,0,5,0);
-		crear.setPreferredSize(new Dimension(400,20));
-		this.add(crear, gbc);
-
-		buscar= new JButton("BUSCAR TAREA DE MANTENIMIENTO");
+		this.gbcAgregar.insets= new Insets(5,0,5,0);
+		agregar.setPreferredSize(new Dimension(300,20));
+		this.add(agregar, gbcAgregar);
+		
+		gbcBuscar= new GridBagConstraints();
+		buscar= new JButton("BUSCAR LINEA");
 		buscar.setBackground(Color.WHITE);
 		buscar.setFont(new Font("Arial", Font.BOLD,18));
-		this.gbc.gridx=0;
-		this.gbc.gridy=2;
-		this.gbc.insets= new Insets(5,0,5,0); 
-		buscar.setPreferredSize(new Dimension(400,20));
-		this.add(buscar, gbc);
-
-		historial= new JButton("VER HISTORIAL");
-		historial.setBackground(Color.WHITE);
-		historial.setFont(new Font("Arial", Font.BOLD,18));
-		this.gbc.gridx=0;
-		this.gbc.gridy=3;
-		this.gbc.insets= new Insets(5,0,5,0); 
-		historial.setPreferredSize(new Dimension(400,20));
-		this.add(historial, gbc);
+		this.gbcBuscar.gridx=0;
+		this.gbcBuscar.gridy=2;
+		this.gbcBuscar.ipadx=0;
+		this.gbcBuscar.ipady=20;
+		this.gbcBuscar.anchor=GridBagConstraints.CENTER;
+		this.gbcBuscar.insets= new Insets(5,0,5,0); // espaciado
+		buscar.setPreferredSize(new Dimension(300,20));
+		this.add(buscar, gbcBuscar);
 		
 		volver = new JButton("VOLVER");
 		volver.setFont(new Font("Arial", Font.BOLD, 15));
@@ -82,23 +86,16 @@ public class PanelGestionarLineas extends JPanel{
 		gbc_btnNewButton_1.gridx = 4;
 		gbc_btnNewButton_1.gridy = 12;
 		add(volver, gbc_btnNewButton_1);
-		
 	}
 
-	public JButton getCrear() {
-		return crear;
+	public JButton getAgregar() {
+		return agregar;
 	}
+
 
 	public JButton getBuscar() {
 		return buscar;
 	}
 
-	public JButton getHistorial() {
-		return historial;
-	}
 	
-	public JButton getVolver() {
-		return volver;
-	}
-
 }

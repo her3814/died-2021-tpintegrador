@@ -1,33 +1,27 @@
-package swing_estaciones;
+package swing_lineas;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Font;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTable;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.border.LineBorder;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class PanelBuscarEstacion extends JPanel {
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
+
+public class PanelBuscarLinea extends JPanel {
 	private JTextField textField;
-	private JButton btnNewButton_2; 
+	private JButton btnCancelar; 
 	private JTable table;
-	public PanelBuscarEstacion() {
-		
-		this.setSize(new Dimension(500,500));
-		this.setMinimumSize(new Dimension(300,300));
-		
+	public PanelBuscarLinea() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, -16, 55, 0, 0, 0, 0};
@@ -35,7 +29,7 @@ public class PanelBuscarEstacion extends JPanel {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel lblNewLabel = new JLabel("BUSCAR ESTACI\u00D3N");
+		JLabel lblNewLabel = new JLabel("BUSCAR LINEA");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.insets = new Insets(10, 5, 5, 5);
@@ -54,8 +48,7 @@ public class PanelBuscarEstacion extends JPanel {
 		textField.setColumns(10);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"ID", "NOMBRE", "HORA APERTURA", "HORA CIERRE", "ESTADO"}));
-		
+		comboBox.setToolTipText("");
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(5, 5, 5, 5);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -102,15 +95,15 @@ public class PanelBuscarEstacion extends JPanel {
 		gbc_btnNewButton_1.gridy = 4;
 		add(btnNewButton_1, gbc_btnNewButton_1);
 		
-		 btnNewButton_2 = new JButton("CANCELAR");
+		btnCancelar = new JButton("CANCELAR");
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_2.gridx = 3;
 		gbc_btnNewButton_2.gridy = 4;
-		add(btnNewButton_2, gbc_btnNewButton_2);
+		add(btnCancelar, gbc_btnNewButton_2);
 	}
-	public JButton getBtnNewButton_2() {
-		return btnNewButton_2;
+	public JButton getBtncancelar() {
+		return btnCancelar;
 	}
 
 }
