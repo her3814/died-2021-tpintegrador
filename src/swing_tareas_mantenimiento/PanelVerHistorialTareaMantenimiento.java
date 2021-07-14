@@ -1,4 +1,4 @@
-package swing;
+package swing_tareas_mantenimiento;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,13 +12,13 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class PanelVerHistorial extends JPanel {
+public class PanelVerHistorialTareaMantenimiento extends JPanel {
 	private JButton btnNewButton_2; 
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelVerHistorial() {
+	public PanelVerHistorialTareaMantenimiento() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 33, 0, 0, 0, 0, 0};

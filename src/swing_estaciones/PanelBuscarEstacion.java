@@ -1,4 +1,4 @@
-package swing;
+package swing_estaciones;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;

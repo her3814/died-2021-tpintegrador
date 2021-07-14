@@ -1,4 +1,4 @@
-package swing;
+package swing_boletos;
 
 
 import java.awt.Color;
@@ -15,7 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class PanelGestionarTareaMantenimiento extends JPanel{
+public class PanelGestionarBoletos extends JPanel{
 
 	private JLabel tituloPag;
 	private JButton crear;
@@ -23,9 +23,10 @@ public class PanelGestionarTareaMantenimiento extends JPanel{
 	private JButton historial;
 
 	private GridBagConstraints gbc;
+	private JButton volver; 
+
 	
-	
-	public  PanelGestionarTareaMantenimiento() {
+	public  PanelGestionarBoletos() {
 		
 	
 		this.gbc= new GridBagConstraints();
@@ -69,6 +70,17 @@ public class PanelGestionarTareaMantenimiento extends JPanel{
 		this.gbc.insets= new Insets(5,0,5,0); 
 		historial.setPreferredSize(new Dimension(400,20));
 		this.add(historial, gbc);
+		
+		volver = new JButton("VOLVER");
+		volver.setFont(new Font("Arial", Font.BOLD, 15));
+		volver.setBackground(new Color(204, 204, 51));
+		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnNewButton_1.insets = new Insets(25, 0, 5, 5);
+		gbc_btnNewButton_1.gridx = 4;
+		gbc_btnNewButton_1.gridy = 12;
+		add(volver, gbc_btnNewButton_1);
+		
 	}
 
 	public JButton getCrear() {
@@ -83,4 +95,8 @@ public class PanelGestionarTareaMantenimiento extends JPanel{
 		return historial;
 	}
 	
+	public JButton getVolver() {
+		return volver;
+	}
+
 }

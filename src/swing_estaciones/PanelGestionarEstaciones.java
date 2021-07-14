@@ -1,4 +1,3 @@
-package swing;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,23 +13,22 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class PanelGestionarEstacion extends JPanel{
+public class PanelGestionarEstaciones extends JPanel{
 
 	private JLabel tituloPag;
 	private JButton crear;
 	private JButton buscar;
-	
+	private JButton volver;
+
 	private GridBagConstraints gbc;
 	
-	
-	public  PanelGestionarEstacion() {
-		
+	public  PanelGestionarEstaciones() {
 	
 		this.gbc= new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		this.setBackground(Color.LIGHT_GRAY);
 		
-		tituloPag= new JLabel("GESTIONAR ESTACION");
+		tituloPag= new JLabel("GESTIONAR ESTACIONES");
 		this.gbc.gridx=0;
 		this.gbc.gridy=0;
 		this.gbc.ipadx=0;
@@ -38,9 +36,7 @@ public class PanelGestionarEstacion extends JPanel{
 		this.gbc.anchor=GridBagConstraints.CENTER;
 		tituloPag.setFont(new Font("Arial", Font.BOLD, 22));
 		this.add(tituloPag, gbc);
-		
-		
-		
+
 		crear= new JButton("AGREGAR ESTACION");
 		crear.setBackground(Color.WHITE);
 		crear.setFont(new Font("Arial", Font.BOLD,18));
@@ -61,6 +57,16 @@ public class PanelGestionarEstacion extends JPanel{
 		buscar.setPreferredSize(new Dimension(300,20));
 		this.add(buscar, gbc);
 		
+		volver = new JButton("VOLVER");
+		volver.setFont(new Font("Arial", Font.BOLD, 15));
+		volver.setBackground(new Color(204, 204, 51));
+		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnNewButton_1.insets = new Insets(25, 0, 5, 5);
+		gbc_btnNewButton_1.gridx = 4;
+		gbc_btnNewButton_1.gridy = 12;
+		add(volver, gbc_btnNewButton_1);
+		
 	}
 
 	public JButton getCrear() {
@@ -71,6 +77,8 @@ public class PanelGestionarEstacion extends JPanel{
 	public JButton getBuscar() {
 		return buscar;
 	}
-
+	public JButton getVolver() {
+		return volver;
+	}
 	
 }

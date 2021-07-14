@@ -1,4 +1,4 @@
-package swing;
+package swing_estaciones;
 
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;

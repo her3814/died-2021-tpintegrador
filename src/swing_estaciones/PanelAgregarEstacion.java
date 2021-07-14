@@ -1,4 +1,4 @@
-package swing;
+package swing_estaciones;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -21,9 +21,7 @@ public class PanelAgregarEstacion extends JPanel {
 	private ButtonGroup estado;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
-	/**
-	 * @wbp.nonvisual location=543,504
-	 */
+
 	private final JLabel label = new JLabel("New label");
 	public PanelAgregarEstacion() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
