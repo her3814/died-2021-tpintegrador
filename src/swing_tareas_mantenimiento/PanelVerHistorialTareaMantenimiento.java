@@ -1,4 +1,5 @@
 package swing_tareas_mantenimiento;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,12 +20,15 @@ public class PanelVerHistorialTareaMantenimiento extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelVerHistorialTareaMantenimiento() {
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 33, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
+		setSize(new Dimension(500,500));
+		setMinimumSize(new Dimension(300,300));
 		
 		JLabel lblNewLabel = new JLabel("VER HISTORIAL");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22));
