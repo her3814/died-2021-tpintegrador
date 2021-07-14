@@ -2,6 +2,8 @@ package swing_estaciones;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -24,6 +26,8 @@ public class PanelAgregarEstacion extends JPanel {
 
 	private final JLabel label = new JLabel("New label");
 	public PanelAgregarEstacion() {
+		
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
 		gridBagLayout.columnWidths = new int[]{54, 90, 141, 211, 67, 0};
@@ -31,6 +35,8 @@ public class PanelAgregarEstacion extends JPanel {
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
+		setSize(new Dimension(500,500));
+		setMinimumSize(new Dimension(300,300));
 		
 		JLabel lblNewLabel = new JLabel("AGREGAR ESTACION");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22));

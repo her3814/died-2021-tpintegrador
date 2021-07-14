@@ -28,7 +28,9 @@ public class PanelGestionarBoletos extends JPanel{
 	
 	public  PanelGestionarBoletos() {
 		
-	
+		this.setSize(new Dimension(500,500));
+		this.setMinimumSize(new Dimension(300,300));
+		
 		this.gbc= new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		this.setBackground(Color.LIGHT_GRAY);

@@ -41,7 +41,11 @@ public class VentanaPrincipal {
 		ventana1= new JFrame();
 		ventana1.setTitle("MENU PRINCIPAL");
 		ventana1.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
+		
+		ventana1.setSize(new Dimension(600,600));
+		ventana1.setMinimumSize(new Dimension(300,300));
+		
+		
 		panelMenuPrincipal = new PanelMenuPrincipal();
 		GridBagLayout gridBagLayout = (GridBagLayout) panelMenuPrincipal.getLayout();
 		gridBagLayout.columnWeights = new double[]{1.0};

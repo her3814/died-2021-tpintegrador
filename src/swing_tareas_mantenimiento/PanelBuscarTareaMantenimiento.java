@@ -14,17 +14,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.SwingConstants;
 
 public class PanelBuscarTareaMantenimiento extends JPanel {
 	private JButton btnNewButton_2; 
 	public PanelBuscarTareaMantenimiento() {
+		
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 127, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 33, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
+		setSize(new Dimension(500,500));
+		setMinimumSize(new Dimension(300,300));
 		
 		JLabel lblNewLabel = new JLabel("BUSCAR TAREA DE MANTENIMIENTO");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);

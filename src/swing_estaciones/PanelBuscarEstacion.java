@@ -16,12 +16,17 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Dimension;
 
 public class PanelBuscarEstacion extends JPanel {
 	private JTextField textField;
 	private JButton btnNewButton_2; 
 	private JTable table;
 	public PanelBuscarEstacion() {
+		
+		this.setSize(new Dimension(500,500));
+		this.setMinimumSize(new Dimension(300,300));
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, -16, 55, 0, 0, 0, 0};
