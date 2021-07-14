@@ -3,15 +3,30 @@ package modelo;
 public class Tramo {
 	
 	private Integer _id;
-	private Double _distancia;
-	private Double _duracionViaje;
-	private Integer _cantPasajeros;
-	private EstadoTramo _estadoTRamo;
-	private Double _costo;
-	private TipoMedioTransporte _tipoMedio;
+	private Linea _linea;
+	private Integer _orden;
 	private Estacion _origen;
 	private Estacion _destino;
-	
+	private Double _duracionViaje;
+	private Double _distancia;
+	private Integer _cantPasajeros;
+	private Double _costo;
+	private EstadoTramoEnum _estadoTramo;
+
+	public Tramo(Integer id, Linea linea, Estacion origen, Estacion destino, Integer orden, Integer cant_pasajeros,
+			Double duracion, Double distancia, Double costo, EstadoTramoEnum estado) {
+		_id = id;
+		_linea = linea;
+		_orden = orden;
+		_origen = origen;
+		_destino = destino;
+		_duracionViaje = duracion;
+		_distancia = distancia;
+		_cantPasajeros = cant_pasajeros;
+		_costo = costo;
+		_estadoTramo = estado;		
+	}
+
 	public Boolean equals(Tramo t) {
 		return this.get_id()==t.get_id();
 	}

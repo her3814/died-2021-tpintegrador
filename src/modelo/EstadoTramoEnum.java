@@ -1,5 +1,5 @@
 package modelo;
 
-public enum EstadoTramo {
+public enum EstadoTramoEnum {
 	ACTIVO, INACTIVO
 }
