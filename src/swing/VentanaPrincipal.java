@@ -37,6 +37,8 @@ public class VentanaPrincipal {
 		ventana1.setLocationRelativeTo(null); // me abre la ventana en el centro de mi pantalla
 		ventana1.setVisible(true);
 		
+		
+		//eventos panelGestionarEstacion
 		panelGestionarEstacion.getCrear().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("AGREGAR ESTACION");
@@ -53,14 +55,8 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
-		panelAgregarEstacion.getBtnNewButton_1().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ventana1.setTitle("GESTIONAR ESTACIONES");
-				ventana1.setContentPane(panelGestionarEstacion);
-				ventana1.setVisible(true);
-				ventana1.pack();
-			}
-		});
+		
+		//Eventos panelBuscarEstacion
 		panelBuscarEstacion.getBtnNewButton_2().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("GESTIONAR ESTACIONES");
@@ -69,6 +65,17 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
+		
+		//Eventos panelAgregarEstacion
+		panelAgregarEstacion.getBtnNewButton_1().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("GESTIONAR ESTACIONES");
+				ventana1.setContentPane(panelGestionarEstacion);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		
 		
 	}
 	

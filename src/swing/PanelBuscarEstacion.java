@@ -11,17 +11,22 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 public class PanelBuscarEstacion extends JPanel {
 	private JTextField textField;
-	private JTextField txtNoTendriaQ;
 	private JButton btnNewButton_2; 
+	private JTable table;
 	public PanelBuscarEstacion() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, -16, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, -16, 55, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblNewLabel = new JLabel("BUSCAR ESTACI\u00D3N");
@@ -54,9 +59,9 @@ public class PanelBuscarEstacion extends JPanel {
 		JButton btnNewButton = new JButton("BUSCAR");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(5, 5, 5, 5);
-		gbc_btnNewButton.gridx = 1;
+		gbc_btnNewButton.gridx = 2;
 		gbc_btnNewButton.gridy = 2;
-		gbc_btnNewButton.gridwidth=4;
+		gbc_btnNewButton.gridwidth=1;
 		add(btnNewButton, gbc_btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("GUARDAR");
@@ -64,6 +69,26 @@ public class PanelBuscarEstacion extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
+		
+		String nombreColumnas[]= {"Estacion"};
+		Object datosFila [] []= {
+				{"Estacion1"},
+				{"Estacion2"}
+		};
+		
+		
+		
+		table = new JTable(datosFila,nombreColumnas);
+		table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		GridBagConstraints gbc_table = new GridBagConstraints();
+		
+		JScrollPane scrollPane= new JScrollPane(table);
+		gbc_table.insets = new Insets(5, 5, 5, 5);
+		gbc_table.fill = GridBagConstraints.BOTH;
+		gbc_table.gridx = 2;
+		gbc_table.gridy = 3;
+		add(scrollPane, gbc_table);
+		
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_1.gridx = 1;
@@ -76,16 +101,6 @@ public class PanelBuscarEstacion extends JPanel {
 		gbc_btnNewButton_2.gridx = 3;
 		gbc_btnNewButton_2.gridy = 4;
 		add(btnNewButton_2, gbc_btnNewButton_2);
-		
-		txtNoTendriaQ = new JTextField();
-		txtNoTendriaQ.setText(" NO TENDRIA Q SER VOLVER EL BOTON??");
-		GridBagConstraints gbc_txtNoTendriaQ = new GridBagConstraints();
-		gbc_txtNoTendriaQ.insets = new Insets(0, 0, 0, 5);
-		gbc_txtNoTendriaQ.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtNoTendriaQ.gridx = 2;
-		gbc_txtNoTendriaQ.gridy = 6;
-		add(txtNoTendriaQ, gbc_txtNoTendriaQ);
-		txtNoTendriaQ.setColumns(10);
 	}
 	public JButton getBtnNewButton_2() {
 		return btnNewButton_2;
