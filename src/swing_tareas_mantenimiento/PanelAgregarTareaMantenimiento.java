@@ -7,7 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JButton;
 import java.awt.Color;
-import java.awt.Dimension;
+import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
@@ -15,15 +15,13 @@ import javax.swing.JTextArea;
 import com.toedter.calendar.JDateChooser;
 import com.github.lgooddatepicker.components.TimePicker;
 
+
 public class PanelAgregarTareaMantenimiento extends JPanel {
 	private JButton btnNewButton_1; 
 
 	public PanelAgregarTareaMantenimiento() {
 		setBackground(Color.WHITE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		
-		this.setSize(new Dimension(500,500));
-		this.setMinimumSize(new Dimension(300,300));
 		
 		gridBagLayout.columnWidths = new int[]{54, 95, 115, 158, 157, 67, 0};
 		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 0, 19, 19, 19, 21, 0, 0, 0, 0, 0, 0};
@@ -55,7 +53,6 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		
 		GridBagConstraints gbc_dateChooser = new GridBagConstraints();
 		gbc_dateChooser.gridwidth = 3;
 		gbc_dateChooser.insets = new Insets(0, 0, 5, 5);
