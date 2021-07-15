@@ -15,14 +15,15 @@ import modelo.LineaTipoTransporteEnum;
 public class LineasRepo {
 
 	public static void ModificarLinea(Linea linea) {
-		//TODO Modificar Linea
+		String sql = "UPDATE lineas_transporte SET nombre = ?, color = ?, estado = ?, tipo_transporte = ? WHERE id = ?";
 	}
 	
-	public static void AgregarLinea(Linea linea) {
-		String sql = "INSERT INTO lineas_transporte (nombre, color, estado, tipo_trasnporte) VALUES (?, ?, ?, ?);";
+	public static Linea AgregarLinea(Linea linea) {
+		String sql = "INSERT INTO lineas_transporte (nombre, color, estado, tipo_transporte) VALUES (?, ?, ?, ?);";
 		
 		
 		Connection con = BddSingleton.GetConnection();
+		Linea nLinea = null;
 		
 		try {
 			con.beginRequest();
@@ -38,7 +39,7 @@ public class LineasRepo {
 
 			ResultSet rs = pstm.getGeneratedKeys();
 			rs.next();
-			linea = new Linea(rs.getInt(1), linea.get_nombre(), linea.get_color(), linea.get_estado(), linea.get_tipoTransporte());
+			nLinea = new Linea(rs.getInt(1), linea.get_nombre(), linea.get_color(), linea.get_estado(), linea.get_tipoTransporte());
 
 			rs.close();
 			pstm.close();
@@ -57,7 +58,9 @@ public class LineasRepo {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}				
+		}	
+		
+		return nLinea;
 	}
 	
 	public static Linea ObtenerLinea(Integer id) {

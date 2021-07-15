@@ -16,6 +16,10 @@ import modelo.EstadoEstacionEnum;
 
 public class EstacionesRepo {
 
+	/** 
+	 * Elimina la estacion indicada de la base de datos
+	 * @param estacion Estacion a eliminar
+	 */
 	public static void EliminarEstacion(Estacion estacion) {
 		String sql = "DELETE FROM estaciones WHERE id = ?;";
 		Connection con = BddSingleton.GetConnection();
@@ -42,6 +46,10 @@ public class EstacionesRepo {
 		}
 	}
 
+	/**
+	 * Modifica la estacion indicada. Para alterar su estado se deberá de realizar a traves del ABM de Tareas de Mantenimiento
+	 * @param estacion Estacion a modificar
+	 */
 	public static void ModificarEstacion(Estacion estacion) {
 		String sql = "UPDATE estaciones SET nombre = ?, hora_apertura = ?, hora_cierre = ?,  WHERE id = ?";
 		Connection con = BddSingleton.GetConnection();
@@ -74,25 +82,27 @@ public class EstacionesRepo {
 
 	}
 
-	public static void AgregarEstacion(Estacion estacion) {
-		
+	public static Estacion AgregarEstacion(Estacion estacion) {
+
 		String sql = "INSERT INTO estaciones (nombre, hora_apertura, hora_cierre) VALUES(?, ?, ?)";
 		Connection con = BddSingleton.GetConnection();
-
+		Estacion nEst = null;
+		
 		try {
 			con.beginRequest();
-			
+
 			PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stm.setString(1, estacion.getNombre());
 			stm.setTime(2, Time.valueOf(estacion.getHorarioApertura()));
 			stm.setTime(3, Time.valueOf(estacion.getHorarioCierre()));
-			
+
 			stm.executeUpdate();
 			con.commit();
 
 			ResultSet rs = stm.getGeneratedKeys();
 			rs.next();
-			estacion = new Estacion(rs.getInt(1), estacion.getNombre(), estacion.getHorarioApertura(),
+
+			nEst = new Estacion(rs.getInt(1), estacion.getNombre(), estacion.getHorarioApertura(),
 					estacion.getHorarioCierre(), estacion.getEstado());
 			rs.close();
 			stm.close();
@@ -110,6 +120,8 @@ public class EstacionesRepo {
 				e.printStackTrace();
 			}
 		}
+		
+		return nEst;
 	}
 
 	public static List<Estacion> ObtenerEstaciones() {
@@ -133,13 +145,13 @@ public class EstacionesRepo {
 
 			result.close();
 			stm.close();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				con.close();
-			} catch(SQLException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
