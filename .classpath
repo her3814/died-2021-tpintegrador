@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="libs/jcalendar-1.4.jar"/>
 	<classpathentry kind="lib" path="libs/mariadb-java-client-2.7.3.jar"/>
 	<classpathentry kind="lib" path="libs/LGoodDatePicker-11.2.1.jar"/>
+	<classpathentry kind="lib" path="libs/JTimeChooser_0.1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
