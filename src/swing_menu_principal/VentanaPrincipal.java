@@ -14,6 +14,7 @@ import bdd.EstacionesRepo;
 import filtros.EstacionesFiltro;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
+import servicios.AltaEstacionServicio;
 import swing_lineas.PanelAgregarLinea;
 import swing_lineas.PanelBuscarLinea;
 import swing_menu_principal.PanelMenuPrincipal;
@@ -512,6 +513,11 @@ public class VentanaPrincipal {
 		}
 		if(!nueva.getNombre().isEmpty() && nueva.getHorarioCierre()!=null && nueva.getHorarioApertura()!=null){
 			panelAgregarEstacion.mensajeEstacionCreada();
+		if(nueva.getEstado()==EstadoEstacionEnum.OPERATIVA) {
+			AltaEstacionServicio.AltaEstacion(nueva);
+		}else {
+			//panelAgregarEstacion.mostrarDatosOperativa
+		}
 		}
 	}
 }
