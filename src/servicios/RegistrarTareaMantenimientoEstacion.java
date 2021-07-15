@@ -4,13 +4,14 @@ import java.time.LocalDate;
 
 import bdd.EstacionesRepo;
 import excepciones.EstacionEnMantenimientoException;
+import excepciones.FechaFinMenorFechaInicioException;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 import modelo.TareaMantenimiento;
 
 public class RegistrarTareaMantenimientoEstacion {
 
-	public TareaMantenimiento RegistrarTareaManteminiento(Estacion estacion, LocalDate fechaInicio, LocalDate fechaFin, String observaciones) throws EstacionEnMantenimientoException {
+	public TareaMantenimiento RegistrarTareaManteminiento(Estacion estacion, LocalDate fechaInicio, LocalDate fechaFin, String observaciones) throws EstacionEnMantenimientoException, FechaFinMenorFechaInicioException {
 		
 		Estacion est = EstacionesRepo.ObtenerEstacion(estacion.getId());
 		
