@@ -29,6 +29,7 @@ import swing_tareas_mantenimiento.PanelAgregarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelBuscarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelGestionarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelVerHistorialTareaMantenimiento;
+import swing_tramos.PanelAgregarTramo;
 import swing_tramos.PanelGestionarTramos;
 
 import java.awt.Color;
@@ -50,6 +51,7 @@ public class VentanaPrincipal {
 	private static PanelErrorEnTodo panelErrorEnTodo;
 	
 	private static PanelGestionarTramos panelGestionarTramos;
+	private static PanelAgregarTramo panelAgregarTramo;
 	
 	private static PanelGestionarBoletos panelGestionarBoletos;
 //	private static PanelAgregarBoleto panelAgregarBoleto;
@@ -132,7 +134,12 @@ public class VentanaPrincipal {
 		panelGestionarTramos.setSize(new Dimension(600,600));
 		panelGestionarTramos.setMinimumSize(new Dimension(600,500));
 		panelGestionarTramos.setBackground(Color.WHITE);
-
+		
+		panelAgregarTramo = new PanelAgregarTramo();
+		panelAgregarTramo.setSize(new Dimension(600,600));
+		panelAgregarTramo.setMinimumSize(new Dimension(600,500));
+		panelAgregarTramo.setBackground(Color.WHITE);
+		
 		//BOLETOS
 		panelGestionarBoletos = new PanelGestionarBoletos();
 		panelGestionarBoletos.setSize(new Dimension(600,600));
@@ -201,6 +208,9 @@ public class VentanaPrincipal {
 			}
 		});
 		
+		//------------------------------------------------------------------------------------
+		// 					TRAMOS
+		
 		panelMenuPrincipal.getTramos().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("GESTIONAR TRAMOS");
@@ -209,6 +219,31 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
+		panelGestionarTramos.getCrear().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("AGREGAR TRAMO");
+				ventana1.setContentPane(panelAgregarTramo);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		panelAgregarTramo.getBtnCancelar().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("GESTIONAR TRAMOS");
+				ventana1.setContentPane(panelGestionarTramos);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		/*
+		panelGestionarTramos.getBuscar().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("BUSCAR TRAMO");
+				ventana1.setContentPane(panelBuscarTramo);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		})*/
 		
 		//------------------------------------------------------------------------------------
 		// 						TAREAS DE MANTENIMIENTO 

@@ -20,7 +20,6 @@ public class PanelGestionarTramos extends JPanel{
 	private JLabel tituloPag;
 	private JButton crear;
 	private JButton buscar;
-	private JButton historial;
 
 	private GridBagConstraints gbc;
 	private JButton volver; 
@@ -34,7 +33,7 @@ public class PanelGestionarTramos extends JPanel{
 		setSize(new Dimension(500,500));
 		setMinimumSize(new Dimension(300,300));
 		
-		tituloPag= new JLabel("GESTIONAR TAREA DE MANTENIMIENTO");
+		tituloPag= new JLabel("GESTIONAR TRAMOS");
 		this.gbc.gridx=0;
 		this.gbc.gridy=0;
 		this.gbc.ipadx=0;
@@ -44,7 +43,7 @@ public class PanelGestionarTramos extends JPanel{
 		this.add(tituloPag, gbc);
 		
 
-		crear= new JButton("CREAR TAREA DE MANTENIMIENTO");
+		crear= new JButton("AGREGAR TRAMO");
 		crear.setBackground(new Color(204,204,204));
 		crear.setFont(new Font("Arial", Font.BOLD,18));
 		this.gbc.gridx=0;
@@ -54,7 +53,7 @@ public class PanelGestionarTramos extends JPanel{
 		crear.setPreferredSize(new Dimension(500,20));
 		this.add(crear, gbc);
 
-		buscar= new JButton("BUSCAR TAREA DE MANTENIMIENTO");
+		buscar= new JButton("BUSCAR TRAMO");
 		buscar.setBackground(new Color(204,204,153));
 		buscar.setFont(new Font("Arial", Font.BOLD,18));
 		this.gbc.gridx=0;
@@ -62,15 +61,6 @@ public class PanelGestionarTramos extends JPanel{
 		this.gbc.insets= new Insets(5,0,5,0); 
 		buscar.setPreferredSize(new Dimension(500,20));
 		this.add(buscar, gbc);
-
-		historial= new JButton("VER HISTORIAL");
-		historial.setBackground(new Color(204,204,102));
-		historial.setFont(new Font("Arial", Font.BOLD,18));
-		this.gbc.gridx=0;
-		this.gbc.gridy=3;
-		this.gbc.insets= new Insets(5,0,5,0); 
-		historial.setPreferredSize(new Dimension(500,20));
-		this.add(historial, gbc);
 		
 		volver = new JButton("VOLVER");
 		volver.setFont(new Font("Arial", Font.BOLD, 15));
@@ -90,10 +80,6 @@ public class PanelGestionarTramos extends JPanel{
 
 	public JButton getBuscar() {
 		return buscar;
-	}
-
-	public JButton getHistorial() {
-		return historial;
 	}
 	
 	public JButton getVolver() {
