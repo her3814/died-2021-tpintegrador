@@ -1,4 +1,4 @@
-package swing_estaciones;
+package swing_boletos;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
@@ -11,46 +11,32 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
-
-import bdd.EstacionesRepo;
-import modelo.Estacion;
-
 import java.awt.Color;
 import java.awt.Dimension;
 
-public class PanelBuscarEstacion extends JPanel {
+public class PanelBuscarBoleto extends JPanel {
 	private JTextField textField;
-	private JButton btnNewButton_2; 
+	private JButton cancelar; 
 	private JTable table;
-	private SubPanelFiltros filtros;
-	private JButton btnNewButton;
-	private List<Estacion> estacionesBDD;
-	private List<String> nombresEstaciones;
-	private List<String> horariosApertura;
-	private List<String> horariosCierre ;
-	private Object datosFila [][];
-	private String nombreColumnas[];
-	
-	public PanelBuscarEstacion() {
+	private SubPanelFiltrosBoletos filtros;
+	public PanelBuscarBoleto() {
 		
 		this.setSize(new Dimension(500,500));
 		this.setMinimumSize(new Dimension(300,300));
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, -16, 298, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, -16, 55, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel lblNewLabel = new JLabel("BUSCAR ESTACI\u00D3N");
+		JLabel lblNewLabel = new JLabel("BUSCAR BOLETO");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.insets = new Insets(10, 5, 5, 5);
@@ -69,7 +55,7 @@ public class PanelBuscarEstacion extends JPanel {
 		add(textField, gbc_textField);
 		textField.setColumns(10);
 		
-		btnNewButton = new JButton("BUSCAR");
+		JButton btnNewButton = new JButton("BUSCAR");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(5, 5, 5, 5);
 		gbc_btnNewButton.gridx = 2;
@@ -77,36 +63,18 @@ public class PanelBuscarEstacion extends JPanel {
 		gbc_btnNewButton.gridwidth=1;
 		add(btnNewButton, gbc_btnNewButton);
 		
-
-		estacionesBDD = EstacionesRepo.ObtenerEstaciones();
-		nombresEstaciones = new ArrayList<String>();
-		horariosApertura = new ArrayList<String>();
-		horariosCierre = new ArrayList<String>();
-		
-		for(Estacion e: estacionesBDD) {
-			nombresEstaciones.add(e.getNombre());
-			horariosApertura.add(e.getHorarioApertura().toString());
-			horariosCierre.add(e.getHorarioCierre().toString());
-		}
-		
 		JButton btnNewButton_1 = new JButton("GUARDAR");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		
-		String nombreColumnas[] = {"Nombre estacion", "Horario apertura", "Horario cierre"};
-		datosFila= new Object[nombresEstaciones.size()] [3];
-		
-		for(int i=0; i<nombresEstaciones.size();i++) {
-			datosFila[i][0]= nombresEstaciones.get(i);
-			datosFila[i][1]= horariosApertura.get(i);
-			datosFila[i][2]= horariosCierre.get(i);
-		}
-		
-		
-		
-		
+		String nombreColumnas[]= {"BOLETO"};
+		Object datosFila [] []= {
+				{"BOLETO1"},
+				{"BOLETO2"}
+		};
+
 		table = new JTable(datosFila,nombreColumnas);
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_table = new GridBagConstraints();
@@ -119,58 +87,28 @@ public class PanelBuscarEstacion extends JPanel {
 		add(scrollPane, gbc_table);
 		
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.insets = new Insets(10, 0, 5, 5);
+		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_1.gridx = 1;
-		gbc_btnNewButton_1.gridy = 6;
+		gbc_btnNewButton_1.gridy = 4;
 		add(btnNewButton_1, gbc_btnNewButton_1);
 		
-		 btnNewButton_2 = new JButton("CANCELAR");
+		cancelar = new JButton("CANCELAR");
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_2.gridx = 3;
-		gbc_btnNewButton_2.gridy = 6;
-		add(btnNewButton_2, gbc_btnNewButton_2);
+		gbc_btnNewButton_2.gridy = 4;
+		add(cancelar, gbc_btnNewButton_2);
 		
-		filtros= new SubPanelFiltros();
+		filtros= new SubPanelFiltrosBoletos();
 		GridBagConstraints gbcFiltros = new GridBagConstraints();
-		gbcFiltros.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
 		gbcFiltros.gridx=1; 
 		gbcFiltros.gridy=2;
-		gbcFiltros.gridheight=4;
+		gbcFiltros.gridheight=2;
 		add(filtros, gbcFiltros);
-		
 	}
-	public JButton getBtnNewButton_2() {
-		return btnNewButton_2;
-	}
-	public JButton getBtnNewButton() {
-		return btnNewButton;
-	}
-	public void setBtnNewButton(JButton btnNewButton) {
-		this.btnNewButton = btnNewButton;
+	public JButton getCancelar() {
+		return cancelar;
 	}
 
-	public String getTextoEscrito() {
-		return this.textField.getText();
-	}
-	
-	public JTable renovarTabla(List<Estacion> nuevosDatos) {
-		nombresEstaciones = new ArrayList<String>();
-		horariosApertura = new ArrayList<String>();
-		horariosCierre = new ArrayList<String>();
-		
-		for(Estacion e: nuevosDatos) {
-			nombresEstaciones.add(e.getNombre());
-			horariosApertura.add(e.getHorarioApertura().toString());
-			horariosCierre.add(e.getHorarioCierre().toString());
-		}
-		for(int i=0; i<nombresEstaciones.size();i++) {
-			datosFila[i][0]= nombresEstaciones.get(i);
-			datosFila[i][1]= horariosApertura.get(i);
-			datosFila[i][2]= horariosCierre.get(i);
-		}
-		return new JTable(datosFila,nombreColumnas);
-		
-	}
 }

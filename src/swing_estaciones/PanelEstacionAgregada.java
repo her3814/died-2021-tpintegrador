@@ -1,27 +1,22 @@
 package swing_estaciones;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
+
 import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
-import javax.swing.JRadioButton;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+
 import com.github.lgooddatepicker.components.TimePicker;
 
-import modelo.Estacion;
-
-import java.awt.Color;
-
-public class PanelAgregarEstacion extends JPanel {
-
+public class PanelEstacionAgregada extends JPanel {
 	private JTextField textField_1;
 	private ButtonGroup estado;
 	private JButton btnNewButton;
@@ -31,18 +26,19 @@ public class PanelAgregarEstacion extends JPanel {
 	private JRadioButton rdbtnNewRadioButton;
 	private JRadioButton rdbtnNewRadioButton1;
 	private final JLabel label = new JLabel("New label");
-	public PanelAgregarEstacion() {
+	private JLabel lblNewLabel_1;
+	public PanelEstacionAgregada() {
 		setBackground(Color.WHITE);
 		
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
 		gridBagLayout.columnWidths = new int[]{54, 90, 141, 211, 67, 0};
-		gridBagLayout.rowHeights = new int[]{0, 26, 19, 19, 19, 19, 21, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 26, 19, 19, 19, 19, 21, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		setSize(new Dimension(500,500));
+		setSize(new Dimension(500, 502));
 		setMinimumSize(new Dimension(300,300));
 		
 		JLabel lblNewLabel = new JLabel("AGREGAR ESTACION");
@@ -148,9 +144,10 @@ public class PanelAgregarEstacion extends JPanel {
 		btnNewButton.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
-		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 2;
 		gbc_btnNewButton.gridy = 7;
+		btnNewButton.setEnabled(false);
 		add(btnNewButton, gbc_btnNewButton);
 		
 		btnNewButton_1 = new JButton("CANCELAR");
@@ -158,14 +155,20 @@ public class PanelAgregarEstacion extends JPanel {
 		btnNewButton_1.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_1.gridx = 3;
 		gbc_btnNewButton_1.gridy = 7;
 		add(btnNewButton_1, gbc_btnNewButton_1);
 		
-	}
-	public JTextField getTextField_1() {
-		return textField_1;
+		lblNewLabel_1 = new JLabel("LA ESTACI\u00D3N SE HA INGRESADO CORRECTAMENTE");
+		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 15));
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.insets = new Insets(10, 0, 10, 5);
+		gbc_lblNewLabel_1.gridx = 1;
+		gbc_lblNewLabel_1.gridy = 9;
+		gbc_lblNewLabel_1.gridwidth=4;
+		add(lblNewLabel_1, gbc_lblNewLabel_1);
+		
 	}
 	public JButton getBtnNewButton() {
 		return btnNewButton;
@@ -173,34 +176,5 @@ public class PanelAgregarEstacion extends JPanel {
 	public JButton getBtnNewButton_1() {
 		return btnNewButton_1;
 	}
-
-	public String estacionIngresada() {
-		return "Nombre: "+this.textField_1.getText()
-		+ "Hora apertura: "+this.timePicker.getText()
-		+"Hora cierre: "+this.timePicker_1.getText()
-		+"Estado: "+this.estadoSeleccionado();
-	}
-
-	//crea una estacion con los datos ingresados (si son null la creamos igual con null)
-	public Estacion getEstacionCreada() {
-		return new Estacion(this.textField_1.getText(), this.timePicker.getTime(), this.timePicker_1.getTime());
-	}
 	
-	
-	private String estadoSeleccionado() {
-		if(rdbtnNewRadioButton.isSelected()) {
-			return rdbtnNewRadioButton.getText();
-		}
-		else if(rdbtnNewRadioButton1.isSelected()) {
-			return rdbtnNewRadioButton1.getText();
-		}else {
-			return new String("no se ha seleccionado estado");
-	}
-	}
-	
-	public void limpiarDatos() {
-		this.textField_1.setText(null);
-		this.timePicker.setText(null);
-		this.timePicker_1.setText(null);
-	}
 }

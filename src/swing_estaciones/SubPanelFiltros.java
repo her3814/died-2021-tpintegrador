@@ -19,13 +19,18 @@ public class SubPanelFiltros extends JPanel {
 	private ButtonGroup horaApertura;
 	private ButtonGroup horaCierre;
 	private ButtonGroup estado;
+	private JRadioButton rdbtnNewRadioButton;
+	private JRadioButton rdbtnNewRadioButton_1;
+	private JRadioButton rdbtnNewRadioButton_3;
+	private JRadioButton rdbtnNewRadioButton_4;
+	
 	
 	public SubPanelFiltros() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		setLayout(gridBagLayout);
 		
 		JLabel lblNewLabel = new JLabel("FILTROS");
@@ -34,7 +39,7 @@ public class SubPanelFiltros extends JPanel {
 		gbc_lblNewLabel.insets = new Insets(0, 10, 5, 5);
 		gbc_lblNewLabel.anchor = GridBagConstraints.BASELINE;
 		gbc_lblNewLabel.gridx = 1;
-		gbc_lblNewLabel.gridy = 1;
+		gbc_lblNewLabel.gridy = 0;
 		gbc_lblNewLabel.anchor=GridBagConstraints.WEST;
 		add(lblNewLabel, gbc_lblNewLabel);
 		
@@ -43,44 +48,44 @@ public class SubPanelFiltros extends JPanel {
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.insets = new Insets(0, 10, 5, 5);
 		gbc_lblNewLabel_1.gridx = 1;
-		gbc_lblNewLabel_1.gridy = 2;
+		gbc_lblNewLabel_1.gridy = 1;
 		gbc_lblNewLabel_1.anchor=GridBagConstraints.WEST;
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("00:01 a 06:00");
+		rdbtnNewRadioButton = new JRadioButton("00:01 a 06:00");
 		rdbtnNewRadioButton.setHorizontalAlignment(SwingConstants.LEFT);
 		rdbtnNewRadioButton.setFont(new Font("Arial", Font.BOLD, 10));
 		GridBagConstraints gbc_rdbtnNewRadioButton = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton.insets = new Insets(0, 10, 5, 5);
 		gbc_rdbtnNewRadioButton.gridx = 1;
-		gbc_rdbtnNewRadioButton.gridy = 3;
+		gbc_rdbtnNewRadioButton.gridy = 2;
 		gbc_rdbtnNewRadioButton.anchor=GridBagConstraints.WEST;
 		add(rdbtnNewRadioButton, gbc_rdbtnNewRadioButton);
 		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("06:01 a 12:00");
+		rdbtnNewRadioButton_1 = new JRadioButton("06:01 a 12:00");
 		rdbtnNewRadioButton_1.setFont(new Font("Arial", Font.BOLD, 10));
 		GridBagConstraints gbc_rdbtnNewRadioButton_1 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton_1.insets = new Insets(0, 10, 5, 5);
 		gbc_rdbtnNewRadioButton_1.gridx = 1;
-		gbc_rdbtnNewRadioButton_1.gridy = 4;
+		gbc_rdbtnNewRadioButton_1.gridy = 3;
 		gbc_rdbtnNewRadioButton_1.anchor=GridBagConstraints.WEST;
 		add(rdbtnNewRadioButton_1, gbc_rdbtnNewRadioButton_1);
 		
-		JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("12:01 a 18:00");
+		rdbtnNewRadioButton_3 = new JRadioButton("12:01 a 18:00");
 		rdbtnNewRadioButton_3.setFont(new Font("Arial", Font.BOLD, 10));
 		GridBagConstraints gbc_rdbtnNewRadioButton_3 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton_3.insets = new Insets(0, 10, 5, 5);
 		gbc_rdbtnNewRadioButton_3.gridx = 1;
-		gbc_rdbtnNewRadioButton_3.gridy = 5;
+		gbc_rdbtnNewRadioButton_3.gridy = 4;
 		gbc_rdbtnNewRadioButton_3.anchor=GridBagConstraints.WEST;
 		add(rdbtnNewRadioButton_3, gbc_rdbtnNewRadioButton_3);
 		
-		JRadioButton rdbtnNewRadioButton_4 = new JRadioButton("18:01 a 00:00");
+		rdbtnNewRadioButton_4 = new JRadioButton("18:01 a 00:00");
 		rdbtnNewRadioButton_4.setFont(new Font("Arial", Font.BOLD, 10));
 		GridBagConstraints gbc_rdbtnNewRadioButton_4 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton_4.insets = new Insets(0,10, 5, 5);
 		gbc_rdbtnNewRadioButton_4.gridx = 1;
-		gbc_rdbtnNewRadioButton_4.gridy = 6;
+		gbc_rdbtnNewRadioButton_4.gridy = 5;
 		gbc_rdbtnNewRadioButton_4.anchor=GridBagConstraints.WEST;
 		add(rdbtnNewRadioButton_4, gbc_rdbtnNewRadioButton_4);
 		
@@ -96,7 +101,7 @@ public class SubPanelFiltros extends JPanel {
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.insets = new Insets(0, 10, 5, 5);
 		gbc_lblNewLabel_2.gridx = 1;
-		gbc_lblNewLabel_2.gridy = 7;
+		gbc_lblNewLabel_2.gridy = 6;
 		gbc_lblNewLabel_2.anchor=GridBagConstraints.WEST;
 		add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
@@ -105,7 +110,7 @@ public class SubPanelFiltros extends JPanel {
 		GridBagConstraints gbc_rdbtnNewRadioButton_5 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton_5.insets = new Insets(0, 10, 5, 5);
 		gbc_rdbtnNewRadioButton_5.gridx = 1;
-		gbc_rdbtnNewRadioButton_5.gridy = 8;
+		gbc_rdbtnNewRadioButton_5.gridy = 7;
 		gbc_rdbtnNewRadioButton_5.anchor=GridBagConstraints.WEST;
 		add(rdbtnNewRadioButton_5, gbc_rdbtnNewRadioButton_5);
 		
@@ -114,7 +119,7 @@ public class SubPanelFiltros extends JPanel {
 		GridBagConstraints gbc_rdbtnNewRadioButton_6 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton_6.insets = new Insets(0, 10, 5, 5);
 		gbc_rdbtnNewRadioButton_6.gridx = 1;
-		gbc_rdbtnNewRadioButton_6.gridy = 9;
+		gbc_rdbtnNewRadioButton_6.gridy = 8;
 		gbc_rdbtnNewRadioButton_6.anchor=GridBagConstraints.WEST;
 		add(rdbtnNewRadioButton_6, gbc_rdbtnNewRadioButton_6);
 		
@@ -123,7 +128,7 @@ public class SubPanelFiltros extends JPanel {
 		GridBagConstraints gbc_rdbtnNewRadioButton_7 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton_7.insets = new Insets(0, 10, 5, 5);
 		gbc_rdbtnNewRadioButton_7.gridx = 1;
-		gbc_rdbtnNewRadioButton_7.gridy = 10;
+		gbc_rdbtnNewRadioButton_7.gridy = 9;
 		gbc_rdbtnNewRadioButton_7.anchor=GridBagConstraints.WEST;
 		add(rdbtnNewRadioButton_7, gbc_rdbtnNewRadioButton_7);
 		
@@ -132,7 +137,7 @@ public class SubPanelFiltros extends JPanel {
 		GridBagConstraints gbc_rdbtnNewRadioButton_8 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton_8.insets = new Insets(0,10, 5, 5);
 		gbc_rdbtnNewRadioButton_8.gridx = 1;
-		gbc_rdbtnNewRadioButton_8.gridy = 11;
+		gbc_rdbtnNewRadioButton_8.gridy = 10;
 		gbc_rdbtnNewRadioButton_8.anchor=GridBagConstraints.WEST;
 		add(rdbtnNewRadioButton_8, gbc_rdbtnNewRadioButton_8);
 		
@@ -147,7 +152,7 @@ public class SubPanelFiltros extends JPanel {
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 		gbc_lblNewLabel_3.insets = new Insets(0,10, 5, 5);
 		gbc_lblNewLabel_3.gridx = 1;
-		gbc_lblNewLabel_3.gridy = 12;
+		gbc_lblNewLabel_3.gridy = 11;
 		gbc_lblNewLabel_3.anchor=GridBagConstraints.WEST;
 		add(lblNewLabel_3, gbc_lblNewLabel_3);
 		
@@ -156,7 +161,7 @@ public class SubPanelFiltros extends JPanel {
 		GridBagConstraints gbc_rdbtnNewRadioButton_9 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton_9.insets = new Insets(0, 10, 5, 5);
 		gbc_rdbtnNewRadioButton_9.gridx = 1;
-		gbc_rdbtnNewRadioButton_9.gridy = 13;
+		gbc_rdbtnNewRadioButton_9.gridy = 12;
 		gbc_rdbtnNewRadioButton_9.anchor=GridBagConstraints.WEST;
 		add(rdbtnNewRadioButton_9, gbc_rdbtnNewRadioButton_9);
 		
@@ -166,13 +171,14 @@ public class SubPanelFiltros extends JPanel {
 		GridBagConstraints gbc_rdbtnNewRadioButton_10 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton_10.insets = new Insets(0, 10, 5, 5);
 		gbc_rdbtnNewRadioButton_10.gridx = 1;
-		gbc_rdbtnNewRadioButton_10.gridy = 14;
+		gbc_rdbtnNewRadioButton_10.gridy = 13;
 		gbc_rdbtnNewRadioButton_10.anchor=GridBagConstraints.WEST;
 		add(rdbtnNewRadioButton_10, gbc_rdbtnNewRadioButton_10);
 
 		estado= new ButtonGroup();
 		estado.add(rdbtnNewRadioButton_9); 
 		estado.add(rdbtnNewRadioButton_10);
+		
 		
 		JButton btnNewButton = new JButton("Limpiar filtros");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
@@ -187,9 +193,11 @@ public class SubPanelFiltros extends JPanel {
 				horaApertura.clearSelection();
 				horaCierre.clearSelection();
 				estado.clearSelection();
-				// TO-DO tendria que mostrar todos los datos de la BDD
 			}
 		});
+		
+		
+		
 	}
 
 }

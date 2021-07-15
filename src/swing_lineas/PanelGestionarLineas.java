@@ -36,7 +36,7 @@ public class PanelGestionarLineas extends JPanel{
 		this.setMinimumSize(new Dimension(300,300));
 		
 		this.setLayout(new GridBagLayout());
-		this.setBackground(Color.LIGHT_GRAY);
+		this.setBackground(Color.WHITE);
 		
 		
 		gbcTitulo= new GridBagConstraints();
@@ -52,7 +52,7 @@ public class PanelGestionarLineas extends JPanel{
 		
 		gbcAgregar= new GridBagConstraints();
 		agregar= new JButton("AGREGAR LINEA");
-		agregar.setBackground(Color.WHITE);
+		agregar.setBackground(new Color(204,204,204));
 		agregar.setFont(new Font("Arial", Font.BOLD,18));
 		this.gbcAgregar.gridx=0;
 		this.gbcAgregar.gridy=1;
@@ -61,12 +61,12 @@ public class PanelGestionarLineas extends JPanel{
 		this.gbcAgregar.anchor=GridBagConstraints.CENTER;
 		//new Insets(top, left, botton,right)
 		this.gbcAgregar.insets= new Insets(5,0,5,0);
-		agregar.setPreferredSize(new Dimension(300,20));
+		agregar.setPreferredSize(new Dimension(500,20));
 		this.add(agregar, gbcAgregar);
 		
 		gbcBuscar= new GridBagConstraints();
 		buscar= new JButton("BUSCAR LINEA");
-		buscar.setBackground(Color.WHITE);
+		buscar.setBackground(new Color(204,204,153));
 		buscar.setFont(new Font("Arial", Font.BOLD,18));
 		this.gbcBuscar.gridx=0;
 		this.gbcBuscar.gridy=2;
@@ -74,7 +74,7 @@ public class PanelGestionarLineas extends JPanel{
 		this.gbcBuscar.ipady=20;
 		this.gbcBuscar.anchor=GridBagConstraints.CENTER;
 		this.gbcBuscar.insets= new Insets(5,0,5,0); // espaciado
-		buscar.setPreferredSize(new Dimension(300,20));
+		buscar.setPreferredSize(new Dimension(500,20));
 		this.add(buscar, gbcBuscar);
 		
 		volver = new JButton("VOLVER");
@@ -82,8 +82,9 @@ public class PanelGestionarLineas extends JPanel{
 		volver.setBackground(new Color(204, 204, 51));
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnNewButton_1.insets = new Insets(25, 0, 5, 5);
-		gbc_btnNewButton_1.gridx = 4;
+		gbc_btnNewButton_1.insets = new Insets(25, 405, 5, 0);
+
+		gbc_btnNewButton_1.gridx = 0;
 		gbc_btnNewButton_1.gridy = 12;
 		add(volver, gbc_btnNewButton_1);
 	}
