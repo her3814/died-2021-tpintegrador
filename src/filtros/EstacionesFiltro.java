@@ -13,6 +13,16 @@ public class EstacionesFiltro {
 	public LocalTime horaCierreHasta;
 	public EstadoEstacionEnum estado;
 
+	
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
 	public EstacionesFiltro() {
 		nombre = null;
 		id = null;

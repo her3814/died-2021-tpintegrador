@@ -6,9 +6,11 @@ import java.awt.event.ActionListener;
 import java.time.LocalTime;
 
 import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
 import bdd.EstacionesRepo;
+import filtros.EstacionesFiltro;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 import swing_lineas.PanelAgregarLinea;
@@ -398,6 +400,17 @@ public class VentanaPrincipal {
 			}
 		});
 		
+		panelBuscarEstacion.getBtnNewButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EstacionesFiltro ef= new EstacionesFiltro();
+				ef.setNombre(panelBuscarEstacion.getTextoEscrito());
+				ef.setId(Integer.getInteger(panelBuscarEstacion.getTextoEscrito()));
+				
+				JTable nuevaTabla= panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones(ef));
+				
+				//aplicar filtro segun el texto ingresado
+			}
+		});
 		//------------------------------------------------------------------------------------
 		// 					BOTONES VOLVER
 		

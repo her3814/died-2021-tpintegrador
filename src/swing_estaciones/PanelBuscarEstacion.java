@@ -30,6 +30,14 @@ public class PanelBuscarEstacion extends JPanel {
 	private JButton btnNewButton_2; 
 	private JTable table;
 	private SubPanelFiltros filtros;
+	private JButton btnNewButton;
+	private List<Estacion> estacionesBDD;
+	private List<String> nombresEstaciones;
+	private List<String> horariosApertura;
+	private List<String> horariosCierre ;
+	private Object datosFila [][];
+	private String nombreColumnas[];
+	
 	public PanelBuscarEstacion() {
 		
 		this.setSize(new Dimension(500,500));
@@ -37,9 +45,9 @@ public class PanelBuscarEstacion extends JPanel {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, -16, 55, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, -16, 298, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblNewLabel = new JLabel("BUSCAR ESTACI\u00D3N");
@@ -61,7 +69,7 @@ public class PanelBuscarEstacion extends JPanel {
 		add(textField, gbc_textField);
 		textField.setColumns(10);
 		
-		JButton btnNewButton = new JButton("BUSCAR");
+		btnNewButton = new JButton("BUSCAR");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(5, 5, 5, 5);
 		gbc_btnNewButton.gridx = 2;
@@ -70,10 +78,10 @@ public class PanelBuscarEstacion extends JPanel {
 		add(btnNewButton, gbc_btnNewButton);
 		
 
-		List<Estacion> estacionesBDD = EstacionesRepo.ObtenerEstaciones();
-		List<String> nombresEstaciones = new ArrayList<String>();
-		List<String> horariosApertura = new ArrayList<String>();
-		List<String> horariosCierre = new ArrayList<String>();
+		estacionesBDD = EstacionesRepo.ObtenerEstaciones();
+		nombresEstaciones = new ArrayList<String>();
+		horariosApertura = new ArrayList<String>();
+		horariosCierre = new ArrayList<String>();
 		
 		for(Estacion e: estacionesBDD) {
 			nombresEstaciones.add(e.getNombre());
@@ -87,8 +95,8 @@ public class PanelBuscarEstacion extends JPanel {
 			}
 		});
 		
-		String nombreColumnas[]= {"Nombre estacion", "Horario apertura", "Horario cierre"};
-		Object datosFila [][]= new Object[nombresEstaciones.size()] [3];
+		String nombreColumnas[] = {"Nombre estacion", "Horario apertura", "Horario cierre"};
+		datosFila= new Object[nombresEstaciones.size()] [3];
 		
 		for(int i=0; i<nombresEstaciones.size();i++) {
 			datosFila[i][0]= nombresEstaciones.get(i);
@@ -111,28 +119,58 @@ public class PanelBuscarEstacion extends JPanel {
 		add(scrollPane, gbc_table);
 		
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_1.insets = new Insets(10, 0, 5, 5);
 		gbc_btnNewButton_1.gridx = 1;
-		gbc_btnNewButton_1.gridy = 4;
+		gbc_btnNewButton_1.gridy = 6;
 		add(btnNewButton_1, gbc_btnNewButton_1);
 		
 		 btnNewButton_2 = new JButton("CANCELAR");
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_2.gridx = 3;
-		gbc_btnNewButton_2.gridy = 4;
+		gbc_btnNewButton_2.gridy = 6;
 		add(btnNewButton_2, gbc_btnNewButton_2);
 		
 		filtros= new SubPanelFiltros();
 		GridBagConstraints gbcFiltros = new GridBagConstraints();
+		gbcFiltros.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
 		gbcFiltros.gridx=1; 
 		gbcFiltros.gridy=2;
-		gbcFiltros.gridheight=2;
+		gbcFiltros.gridheight=4;
 		add(filtros, gbcFiltros);
+		
 	}
 	public JButton getBtnNewButton_2() {
 		return btnNewButton_2;
 	}
+	public JButton getBtnNewButton() {
+		return btnNewButton;
+	}
+	public void setBtnNewButton(JButton btnNewButton) {
+		this.btnNewButton = btnNewButton;
+	}
 
+	public String getTextoEscrito() {
+		return this.textField.getText();
+	}
+	
+	public JTable renovarTabla(List<Estacion> nuevosDatos) {
+		nombresEstaciones = new ArrayList<String>();
+		horariosApertura = new ArrayList<String>();
+		horariosCierre = new ArrayList<String>();
+		
+		for(Estacion e: nuevosDatos) {
+			nombresEstaciones.add(e.getNombre());
+			horariosApertura.add(e.getHorarioApertura().toString());
+			horariosCierre.add(e.getHorarioCierre().toString());
+		}
+		for(int i=0; i<nombresEstaciones.size();i++) {
+			datosFila[i][0]= nombresEstaciones.get(i);
+			datosFila[i][1]= horariosApertura.get(i);
+			datosFila[i][2]= horariosCierre.get(i);
+		}
+		return new JTable(datosFila,nombreColumnas);
+		
+	}
 }
