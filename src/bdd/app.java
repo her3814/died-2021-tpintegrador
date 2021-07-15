@@ -29,6 +29,10 @@ public class app {
 	System.out.println(est);
 	 est = EstacionesRepo.ObtenerEstacion(1);
 	System.out.println(est);
+	
+	
+	List<Linea> lineas = LineasRepo.ObtenerLineas();
+	System.out.println(lineas);
 	}
 
 }

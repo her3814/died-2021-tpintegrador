@@ -8,44 +8,65 @@ public class Linea {
 	private String _color;
 	private EstadoLineaEnum _estado;
 	private Estacion _origen;
-	private Estacion _destino;	
+	private Estacion _destino;
 	private LinkedHashSet _tramos;
+	private LineaTipoTransporteEnum _tipoTransporte;
 
 	public Linea(Integer id) {
 		_id = id;
 	}
-	
-	
+
+	public Linea(Integer id, String nombre, String color, EstadoLineaEnum estado, Estacion origen, Estacion destino,
+			LineaTipoTransporteEnum tipoTransporte) {
+		_id = id;
+		_nombre = nombre;
+		_color = color;
+		_estado = estado;
+		_origen = origen;
+		_destino = destino;
+		_tipoTransporte=tipoTransporte;
+	}
+
 	public Estacion get_origen() {
 		return _origen;
 	}
+
 	public void set_origen(Estacion _origen) {
 		this._origen = _origen;
 	}
+
 	public Estacion get_destino() {
 		return _destino;
 	}
+
 	public void set_destino(Estacion _destino) {
 		this._destino = _destino;
 	}
+
 	public LinkedHashSet get_tramos() {
 		return _tramos;
 	}
+
 	public void set_tramos(LinkedHashSet _tramos) {
 		this._tramos = _tramos;
 	}
+
 	public Estacion getOrigen() {
 		return _origen;
 	}
+
 	public void setOrigen(Estacion origen) {
 		this._origen = origen;
 	}
+
 	public Estacion getDestino() {
 		return _destino;
 	}
+
 	public void setDestino(Estacion destino) {
 		this._destino = destino;
 	}
+
 	public Integer get_id() {
 		return _id;
 	}
@@ -53,21 +74,36 @@ public class Linea {
 	public String get_nombre() {
 		return _nombre;
 	}
+
 	public void set_nombre(String _nombre) {
 		this._nombre = _nombre;
 	}
+
 	public String get_color() {
 		return _color;
 	}
+
 	public void set_color(String _color) {
 		this._color = _color;
 	}
+
 	public EstadoLineaEnum get_estado() {
 		return _estado;
 	}
+
 	public void set_estado(EstadoLineaEnum _estado) {
 		this._estado = _estado;
 	}
+
+
+	public LineaTipoTransporteEnum get_tipoTransporte() {
+		return _tipoTransporte;
+	}
+
+	public void set_tipoTransporte(LineaTipoTransporteEnum _tipoTransporte) {
+		this._tipoTransporte = _tipoTransporte;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -75,6 +111,7 @@ public class Linea {
 		result = prime * result + ((_id == null) ? 0 : _id.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -91,6 +128,10 @@ public class Linea {
 			return false;
 		return true;
 	}
-	
+
+	@Override
+	public String toString() {
+		return String.format("Linea %s (%s)", _nombre, _color);
+	}
 	
 }
