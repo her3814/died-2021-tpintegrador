@@ -1,5 +1,6 @@
 package swing_lineas;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -33,6 +34,8 @@ public class PanelAgregarLinea extends JPanel {
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
+		setPreferredSize(new Dimension(500,500));
+		setMinimumSize(new Dimension(300,300));
 		
 		JLabel lblNewLabel = new JLabel("AGREGAR LINEA");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22)); 

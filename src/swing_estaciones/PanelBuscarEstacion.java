@@ -39,16 +39,15 @@ public class PanelBuscarEstacion extends JPanel {
 	private String nombreColumnas[];
 	
 	public PanelBuscarEstacion() {
-		
-		this.setSize(new Dimension(500,500));
-		this.setMinimumSize(new Dimension(300,300));
-		
+
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, -16, 298, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
+		setPreferredSize(new Dimension(500,500));
+		setMinimumSize(new Dimension(300,300));
 		
 		JLabel lblNewLabel = new JLabel("BUSCAR ESTACI\u00D3N");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22));
