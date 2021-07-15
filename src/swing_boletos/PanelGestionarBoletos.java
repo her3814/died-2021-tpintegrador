@@ -44,16 +44,7 @@ public class PanelGestionarBoletos extends JPanel{
 		this.gbc.insets= new Insets(5,0,5,0);
 		crear.setPreferredSize(new Dimension(500,20));
 		this.add(crear , gbc);
-		
-		eliminar = new JButton("ELIMINAR BOLETO");
-		eliminar.setBackground(new Color(204,204,153));
-		eliminar.setFont(new Font("Arial", Font.BOLD,18));
-		this.gbc.gridx=0;
-		this.gbc.gridy=2;
-		this.gbc.insets= new Insets(5,0,5,0);
-		eliminar.setPreferredSize(new Dimension(500,20));
-		this.add(eliminar , gbc);
-		
+
 		buscar = new JButton("BUSCAR BOLETO");
 		buscar.setBackground(new Color(204,204,102));
 		buscar.setFont(new Font("Arial", Font.BOLD,18));
@@ -83,10 +74,6 @@ public class PanelGestionarBoletos extends JPanel{
 		return buscar;
 	}
 
-	public JButton getEliminar() {
-		return eliminar;
-	}
-	
 	public JButton getVolver() {
 		return volver;
 	}

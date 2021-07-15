@@ -14,6 +14,8 @@ import modelo.EstadoEstacionEnum;
 import swing_lineas.PanelAgregarLinea;
 import swing_lineas.PanelBuscarLinea;
 import swing_menu_principal.PanelMenuPrincipal;
+import swing_boletos.PanelAgregarBoleto;
+import swing_boletos.PanelBuscarBoleto;
 import swing_boletos.PanelGestionarBoletos;
 import swing_estaciones.PanelAgregarEstacion;
 import swing_estaciones.PanelBuscarEstacion;
@@ -42,7 +44,11 @@ public class VentanaPrincipal {
 	private static PanelBuscarEstacion panelBuscarEstacion;
 	
 	private static PanelGestionarTramos panelGestionarTramos;
+	
 	private static PanelGestionarBoletos panelGestionarBoletos;
+	private static PanelAgregarBoleto panelAgregarBoleto;
+	private static PanelBuscarBoleto panelBuscarBoleto;
+
 	private static PanelMenuPrincipal panelMenuPrincipal;
 	
 	private static PanelGestionarLineas panelGestionarLineas;
@@ -117,25 +123,31 @@ public class VentanaPrincipal {
 		panelGestionarBoletos.setMinimumSize(new Dimension(600,500));
 		panelGestionarBoletos.setBackground(Color.WHITE);
 
-
+		panelAgregarBoleto = new PanelAgregarBoleto();
+		panelAgregarBoleto.setSize(new Dimension(600,600));
+		panelAgregarBoleto.setMinimumSize(new Dimension(600,500));
+		panelAgregarBoleto.setBackground(Color.WHITE);
+		
+		panelBuscarBoleto = new PanelBuscarBoleto();
+		panelBuscarBoleto.setSize(new Dimension(600,600));
+		panelBuscarBoleto.setMinimumSize(new Dimension(600,500));
+		panelBuscarBoleto.setBackground(Color.WHITE);
+		
 		//LINEAS
 		panelGestionarLineas= new PanelGestionarLineas();
 		panelGestionarLineas.setSize(new Dimension(600,600));
 		panelGestionarLineas.setMinimumSize(new Dimension(600,500));
 		panelGestionarLineas.setBackground(Color.WHITE);
 
-
 		panelAgregarLinea = new PanelAgregarLinea();
 		panelAgregarLinea.setSize(new Dimension(600,600));
 		panelAgregarLinea.setMinimumSize(new Dimension(600,500));
 		panelAgregarLinea.setBackground(Color.WHITE);
 
-		
 		panelBuscarLinea= new PanelBuscarLinea();
 		panelBuscarLinea.setSize(new Dimension(600,600));
 		panelBuscarLinea.setMinimumSize(new Dimension(600,500));
 		panelBuscarLinea.setBackground(Color.WHITE);
-
 
 		ventana1.setContentPane(panelMenuPrincipal);
 		ventana1.pack();
@@ -227,7 +239,7 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
-		panelBuscarTareaMantenimiento.getBtnNewButton_2().addActionListener(new ActionListener() {
+		panelBuscarTareaMantenimiento.getCancelar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("GESTIONAR TAREAS DE MANTENIMIENTO");
 				ventana1.setContentPane(panelGestionarTareaMantenimiento);
@@ -245,6 +257,52 @@ public class VentanaPrincipal {
 			}
 		});
 		
+		//------------------------------------------------------------------------------------
+		// 					BOLETOS
+		panelGestionarBoletos.getVolver().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("MENU PRINCIPAL");
+				ventana1.setContentPane(panelMenuPrincipal);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		
+		panelGestionarBoletos.getCrear().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("AGREGAR BOLETO");
+				ventana1.setContentPane(panelAgregarBoleto);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		
+		panelGestionarBoletos.getBuscar().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("BUSCAR BOLETO");
+				ventana1.setContentPane(panelBuscarBoleto);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		
+		panelAgregarBoleto.getCancelar().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("GESTIONAR BOLETOS");
+				ventana1.setContentPane(panelGestionarBoletos);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		
+		panelBuscarBoleto.getCancelar().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("GESTIONAR BOLETOS");
+				ventana1.setContentPane(panelGestionarBoletos);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
 		
 
 		//------------------------------------------------------------------------------------
@@ -316,7 +374,6 @@ public class VentanaPrincipal {
 			}
 		});
 		
-
 		panelGestionarTramos.getVolver().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("MENU PRINCIPAL");
@@ -325,17 +382,7 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
-		
-		panelGestionarBoletos.getVolver().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ventana1.setTitle("MENU PRINCIPAL");
-				ventana1.setContentPane(panelMenuPrincipal);
-				ventana1.setVisible(true);
-				ventana1.pack();
-			}
-		});
-		
-		
+				
 		panelGestionarTareaMantenimiento.getVolver().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("MENU PRINCIPAL");

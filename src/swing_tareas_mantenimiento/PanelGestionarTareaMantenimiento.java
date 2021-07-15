@@ -25,8 +25,7 @@ public class PanelGestionarTareaMantenimiento extends JPanel{
 		this.gbc= new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		this.setBackground(Color.WHITE);
-		setSize(new Dimension(500,500));
-		setMinimumSize(new Dimension(300,300));
+
 		
 		tituloPag= new JLabel("GESTIONAR TAREA DE MANTENIMIENTO");
 		this.gbc.gridx=0;
