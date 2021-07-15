@@ -1,7 +1,7 @@
 package modelo;
 
 public class Linea {
-	private Integer _id;
+	private final Integer _id;
 	private String _nombre;
 	private String _color;
 	private EstadoLineaEnum _estado;

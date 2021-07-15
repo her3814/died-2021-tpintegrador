@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Function;
 
 public class TramosFunciones {
+	
 	public static Function<List<Tramo>, Double> calcularCostoRecorrido = x -> x.stream()
 			.mapToDouble(t -> t.getCosto()).sum();
 

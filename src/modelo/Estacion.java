@@ -3,7 +3,7 @@ package modelo;
 import java.time.LocalTime;
 
 public class Estacion {
-	private int _id;
+	private final Integer _id;
 	private String _nombre;
 	private LocalTime _horarioApertura;
 	private LocalTime _horarioCierre;
@@ -22,14 +22,14 @@ public class Estacion {
 		_horarioCierre = horaCierre;
 	}
 
-	public Estacion( String nombre, LocalTime horaApertura, LocalTime horaCierre) {
+	public Estacion(String nombre, LocalTime horaApertura, LocalTime horaCierre) {
 		_nombre = nombre;
 		_estado = EstadoEstacionEnum.OPERATIVA;
 		_horarioApertura = horaApertura;
 		_horarioCierre = horaCierre;
 	}
 	
-	public int getId() {
+	public Integer getId() {
 		return _id;
 	}
 	

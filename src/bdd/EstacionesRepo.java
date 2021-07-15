@@ -16,6 +16,10 @@ import modelo.EstadoEstacionEnum;
 
 public class EstacionesRepo {
 
+	/** 
+	 * Elimina la estacion indicada de la base de datos
+	 * @param estacion Estacion a eliminar
+	 */
 	public static void EliminarEstacion(Estacion estacion) {
 		String sql = "DELETE FROM estaciones WHERE id = ?;";
 		Connection con = BddSingleton.GetConnection();
@@ -42,6 +46,10 @@ public class EstacionesRepo {
 		}
 	}
 
+	/**
+	 * Modifica la estacion indicada. Para alterar su estado se deberá de realizar a traves del ABM de Tareas de Mantenimiento
+	 * @param estacion Estacion a modificar
+	 */
 	public static void ModificarEstacion(Estacion estacion) {
 		String sql = "UPDATE estaciones SET nombre = ?, hora_apertura = ?, hora_cierre = ?,  WHERE id = ?";
 		Connection con = BddSingleton.GetConnection();

@@ -3,22 +3,23 @@ package modelo;
 import java.time.LocalDate;
 
 public class TareaMantenimiento {
+	private final Integer _id;
 	private LocalDate _fechaInicio;
 	private LocalDate _fechaFin;
-	private Integer _id;
 	private String _observaciones;
 	
 	public TareaMantenimiento(LocalDate fi, LocalDate ff, String obs) {
-		this._fechaFin=ff;
-		this._fechaInicio=fi;
-		this._observaciones=obs;
+		_id = null;
+		_fechaFin=ff;
+		_fechaInicio=fi;
+		_observaciones=obs;
 	}
 	
-	public TareaMantenimiento(LocalDate fi, LocalDate ff, Integer id, String obs) {
-		this._fechaFin=ff;
-		this._fechaInicio=fi;
-		this._id=id;
-		this._observaciones=obs;
+	public TareaMantenimiento(Integer id, LocalDate fi, LocalDate ff, String obs) {
+		_fechaFin=ff;
+		_fechaInicio=fi;
+		_id=id;
+		_observaciones=obs;
 	}
 	
 	public LocalDate getFechaInicio() {

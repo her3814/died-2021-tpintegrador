@@ -15,6 +15,12 @@ import modelo.Tramo;
 
 public class TramosRepo {
 
+	/**
+	 * Guarda o actualiza el tramo de una linea, si ya existe un tramo con la
+	 * posicion indicada, el mismo es reemplazado con la nueva información
+	 * 
+	 * @param tramo Tramo a agregar o actualizar
+	 */
 	public static void GuardarTramo(Tramo tramo) {
 		String sql = "INSERT INTO tabla (id_linea_transporte, trayecto_orden, "
 				+ "id_estacion_origen, id_estacion_destino, cant_pasajeros, duracion_min, costo, "
@@ -24,7 +30,7 @@ public class TramosRepo {
 				+ "distancia = ?, estado = ?;";
 
 		Connection con = BddSingleton.GetConnection();
-		
+
 		try {
 			con.beginRequest();
 			PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
