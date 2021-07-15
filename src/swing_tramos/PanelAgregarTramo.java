@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -13,8 +15,13 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import bdd.EstacionesRepo;
+import modelo.Estacion;
+
 import javax.swing.JComboBox;
 import java.awt.Color;
+import javax.swing.DefaultComboBoxModel;
 
 public class PanelAgregarTramo extends JPanel {
 	
@@ -60,7 +67,13 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_lblNewLabel_1.gridy = 2;
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
+		List<Estacion> estaciones = EstacionesRepo.ObtenerEstaciones();
+		
 		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(		
+				 estaciones.stream().map(e -> e.getNombre())
+				.collect(Collectors.toList())
+				.toArray()));
 		comboBox.setBackground(new Color(204, 204, 204));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridwidth = 3;
@@ -81,6 +94,10 @@ public class PanelAgregarTramo extends JPanel {
 		add(lblNewLabel_1_1, gbc_lblNewLabel_1_1);
 		
 		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setModel(new DefaultComboBoxModel(		
+				 estaciones.stream().map(e -> e.getNombre())
+				.collect(Collectors.toList())
+				.toArray()));
 		comboBox_1.setBackground(new Color(204, 204, 204));
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
 		gbc_comboBox_1.gridwidth = 3;
