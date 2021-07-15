@@ -1,6 +1,5 @@
 package swing_menu_principal;
 
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -29,9 +28,7 @@ public class PanelMenuPrincipal extends JPanel{
 
 		this.gbc= new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
-		this.setBackground(Color.LIGHT_GRAY);
-		setSize(new Dimension(500,500));
-		setMinimumSize(new Dimension(300,300));
+		this.setBackground(Color.WHITE);
 		
 		tituloPag= new JLabel("MENU PRINCIPAL");
 		this.gbc.gridx=0;
@@ -42,18 +39,17 @@ public class PanelMenuPrincipal extends JPanel{
 		tituloPag.setFont(new Font("Arial", Font.BOLD, 22));
 		this.add(tituloPag, gbc);
 		
-
 		estaciones = new JButton("GESTIONAR ESTACIONES");
-		estaciones .setBackground(Color.WHITE);
-		estaciones .setFont(new Font("Arial", Font.BOLD,18));
+		estaciones.setBackground(new Color(204,204,204));
+		estaciones.setFont(new Font("Arial", Font.BOLD,18));
 		this.gbc.gridx=0;
 		this.gbc.gridy=1;
 		this.gbc.insets= new Insets(5,0,5,0);
-		estaciones .setPreferredSize(new Dimension(500,20));
+		estaciones.setPreferredSize(new Dimension(500,20));
 		this.add(estaciones , gbc);
 
 		tareas_mantenimiento= new JButton("GESTIONAR TAREAS DE MANTENIMIENTO");
-		tareas_mantenimiento.setBackground(Color.WHITE);
+		tareas_mantenimiento.setBackground(new Color(204,204,153));
 		tareas_mantenimiento.setFont(new Font("Arial", Font.BOLD,18));
 		this.gbc.gridx=0;
 		this.gbc.gridy=2;
@@ -62,7 +58,7 @@ public class PanelMenuPrincipal extends JPanel{
 		this.add(tareas_mantenimiento, gbc);
 
 		lineas= new JButton("GESTIONAR LINEAS");
-		lineas.setBackground(Color.WHITE);
+		lineas.setBackground(new Color(204,204,102));
 		lineas.setFont(new Font("Arial", Font.BOLD,18));
 		this.gbc.gridx=0;
 		this.gbc.gridy=3;
@@ -71,7 +67,7 @@ public class PanelMenuPrincipal extends JPanel{
 		this.add(lineas, gbc);
 		
 		boletos= new JButton("GESTIONAR BOLETOS");
-		boletos.setBackground(Color.WHITE);
+		boletos.setBackground(new Color(204,204,51));
 		boletos.setFont(new Font("Arial", Font.BOLD,18));
 		this.gbc.gridx=0;
 		this.gbc.gridy=4;
@@ -80,7 +76,7 @@ public class PanelMenuPrincipal extends JPanel{
 		this.add(boletos, gbc);
 		
 		tramos = new JButton("GESTIONAR TRAMOS");
-		tramos.setBackground(Color.WHITE);
+		tramos.setBackground(new Color(204,204,0));
 		tramos.setFont(new Font("Arial", Font.BOLD,18));
 		this.gbc.gridx=0;
 		this.gbc.gridy=5;
