@@ -41,9 +41,9 @@ public class PanelAgregarTramo extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
 		gridBagLayout.columnWidths = new int[]{54, 135, -105, 110, 94, 0, 67, 0};
-		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 0, 0, 0, 0, 19, 19, 19, 21, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 0, 0, 0, 0, 0, 19, 19, 19, 21, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		setPreferredSize(new Dimension(500,500));
 		
@@ -107,6 +107,29 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_comboBox_1.gridy = 3;
 		add(comboBox_1, gbc_comboBox_1);
 		
+		
+		//TODO agregar en la lista desplegable las lineas existentes
+		
+		JLabel lblNewLabel_1_1_3 = new JLabel("LINEA:");
+		lblNewLabel_1_1_3.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_1_1_3.setFont(new Font("Arial", Font.BOLD, 13));
+		GridBagConstraints gbc_lblNewLabel_1_1_3 = new GridBagConstraints();
+		gbc_lblNewLabel_1_1_3.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_1_1_3.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1_1_3.gridx = 1;
+		gbc_lblNewLabel_1_1_3.gridy = 4;
+		add(lblNewLabel_1_1_3, gbc_lblNewLabel_1_1_3);
+		
+		JComboBox comboBox_1_1 = new JComboBox();
+		comboBox_1_1.setBackground(new Color(204, 204, 204));
+		GridBagConstraints gbc_comboBox_1_1 = new GridBagConstraints();
+		gbc_comboBox_1_1.gridwidth = 2;
+		gbc_comboBox_1_1.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_1_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox_1_1.gridx = 3;
+		gbc_comboBox_1_1.gridy = 4;
+		add(comboBox_1_1, gbc_comboBox_1_1);
+		
 		JLabel lblNewLabel_1_1_2 = new JLabel("DURACION:");
 		lblNewLabel_1_1_2.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_1_2.setFont(new Font("Arial", Font.BOLD, 13));
@@ -114,7 +137,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_lblNewLabel_1_1_2.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1_1_2.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1_1_2.gridx = 1;
-		gbc_lblNewLabel_1_1_2.gridy = 4;
+		gbc_lblNewLabel_1_1_2.gridy = 5;
 		add(lblNewLabel_1_1_2, gbc_lblNewLabel_1_1_2);
 		
 		textField = new JTextField();
@@ -123,7 +146,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 2;
-		gbc_textField.gridy = 4;
+		gbc_textField.gridy = 5;
 		add(textField, gbc_textField);
 		textField.setColumns(10);
 		
@@ -134,7 +157,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_lblNewLabel_1_1_2_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1_1_2_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1_1_2_1.gridx = 1;
-		gbc_lblNewLabel_1_1_2_1.gridy = 5;
+		gbc_lblNewLabel_1_1_2_1.gridy = 6;
 		add(lblNewLabel_1_1_2_1, gbc_lblNewLabel_1_1_2_1);
 		
 		textField_1 = new JTextField();
@@ -143,7 +166,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_1.gridx = 2;
-		gbc_textField_1.gridy = 5;
+		gbc_textField_1.gridy = 6;
 		add(textField_1, gbc_textField_1);
 		textField_1.setColumns(10);
 		
@@ -154,7 +177,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_lblNewLabel_1_1_2_2.anchor = GridBagConstraints.ABOVE_BASELINE_TRAILING;
 		gbc_lblNewLabel_1_1_2_2.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1_1_2_2.gridx = 1;
-		gbc_lblNewLabel_1_1_2_2.gridy = 6;
+		gbc_lblNewLabel_1_1_2_2.gridy = 7;
 		add(lblNewLabel_1_1_2_2, gbc_lblNewLabel_1_1_2_2);
 		
 		textField_4 = new JTextField();
@@ -163,7 +186,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_4.gridx = 2;
-		gbc_textField_4.gridy = 6;
+		gbc_textField_4.gridy = 7;
 		add(textField_4, gbc_textField_4);
 		textField_4.setColumns(10);
 		
@@ -174,7 +197,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_lblNewLabel_1_1_2_3.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1_1_2_3.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1_1_2_3.gridx = 1;
-		gbc_lblNewLabel_1_1_2_3.gridy = 7;
+		gbc_lblNewLabel_1_1_2_3.gridy = 8;
 		add(lblNewLabel_1_1_2_3, gbc_lblNewLabel_1_1_2_3);
 		
 		textField_5 = new JTextField();
@@ -183,7 +206,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_textField_5.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_5.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_5.gridx = 2;
-		gbc_textField_5.gridy = 7;
+		gbc_textField_5.gridy = 8;
 		add(textField_5, gbc_textField_5);
 		textField_5.setColumns(10);
 		
@@ -194,7 +217,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_lblNewLabel_1_1_1_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1_1_1_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1_1_1_1.gridx = 1;
-		gbc_lblNewLabel_1_1_1_1.gridy = 8;
+		gbc_lblNewLabel_1_1_1_1.gridy = 9;
 		add(lblNewLabel_1_1_1_1, gbc_lblNewLabel_1_1_1_1);
 		
 		JRadioButton rdbtnSubte = new JRadioButton("Subte");
@@ -202,14 +225,14 @@ public class PanelAgregarTramo extends JPanel {
 		GridBagConstraints gbc_rdbtnSubte = new GridBagConstraints();
 		gbc_rdbtnSubte.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnSubte.gridx = 3;
-		gbc_rdbtnSubte.gridy = 8;
+		gbc_rdbtnSubte.gridy = 9;
 		add(rdbtnSubte, gbc_rdbtnSubte);
 		JRadioButton rdbtnColectivo = new JRadioButton("Colectivo");
 		rdbtnColectivo.setFont(new Font("Arial", Font.BOLD, 13));
 		GridBagConstraints gbc_rdbtnColectivo = new GridBagConstraints();
 		gbc_rdbtnColectivo.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnColectivo.gridx = 4;
-		gbc_rdbtnColectivo.gridy = 8;
+		gbc_rdbtnColectivo.gridy = 9;
 		add(rdbtnColectivo, gbc_rdbtnColectivo);
 		
 		JRadioButton rdbtnTren = new JRadioButton("Tren");
@@ -217,7 +240,7 @@ public class PanelAgregarTramo extends JPanel {
 		GridBagConstraints gbc_rdbtnTren = new GridBagConstraints();
 		gbc_rdbtnTren.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnTren.gridx = 5;
-		gbc_rdbtnTren.gridy = 8;
+		gbc_rdbtnTren.gridy = 9;
 		add(rdbtnTren, gbc_rdbtnTren);
 		
 		medio = new ButtonGroup();
@@ -233,7 +256,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_lblNewLabel_1_1_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1_1_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1_1_1.gridx = 1;
-		gbc_lblNewLabel_1_1_1.gridy = 9;
+		gbc_lblNewLabel_1_1_1.gridy = 10;
 		add(lblNewLabel_1_1_1, gbc_lblNewLabel_1_1_1);
 		
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Activo");
@@ -241,7 +264,7 @@ public class PanelAgregarTramo extends JPanel {
 		GridBagConstraints gbc_rdbtnNewRadioButton = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnNewRadioButton.gridx = 3;
-		gbc_rdbtnNewRadioButton.gridy = 9;
+		gbc_rdbtnNewRadioButton.gridy = 10;
 		add(rdbtnNewRadioButton, gbc_rdbtnNewRadioButton);
 		
 		JRadioButton rdbtnNewRadioButton1 = new JRadioButton("No activo");
@@ -249,7 +272,7 @@ public class PanelAgregarTramo extends JPanel {
 		GridBagConstraints gbc_rdbtnNewRadioButton1 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton1.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnNewRadioButton1.gridx = 4;
-		gbc_rdbtnNewRadioButton1.gridy = 9;
+		gbc_rdbtnNewRadioButton1.gridy = 10;
 		add(rdbtnNewRadioButton1, gbc_rdbtnNewRadioButton1);
 		
 		estado = new ButtonGroup();
@@ -263,7 +286,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton.gridx = 3;
-		gbc_btnNewButton.gridy = 14;
+		gbc_btnNewButton.gridy = 15;
 		add(btnGuardar, gbc_btnNewButton);
 		
 		btnCancelar = new JButton("CANCELAR");
@@ -273,7 +296,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton_1.gridx = 4;
-		gbc_btnNewButton_1.gridy = 14;
+		gbc_btnNewButton_1.gridy = 15;
 		add(btnCancelar, gbc_btnNewButton_1);
 		
 	}
