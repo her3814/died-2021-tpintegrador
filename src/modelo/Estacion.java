@@ -9,11 +9,6 @@ public class Estacion {
 	private LocalTime _horarioCierre;
 	private EstadoEstacionEnum _estado;
 
-	public Estacion(String nombre) {
-		_nombre = nombre;
-		_estado = EstadoEstacionEnum.MANTENIMIENTO;
-	}
-
 	public Estacion(int Id, String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado) {
 		_id = Id;
 		_nombre = nombre;
@@ -23,6 +18,7 @@ public class Estacion {
 	}
 
 	public Estacion(String nombre, LocalTime horaApertura, LocalTime horaCierre) {
+		_id = null;
 		_nombre = nombre;
 		_estado = EstadoEstacionEnum.OPERATIVA;
 		_horarioApertura = horaApertura;
@@ -35,15 +31,6 @@ public class Estacion {
 	
 	public String getNombre() {
 		return _nombre;
-	}
-
-	public EstadoEstacionEnum ToggleEstado() {
-		if (_estado.equals(EstadoEstacionEnum.OPERATIVA))
-			_estado = EstadoEstacionEnum.MANTENIMIENTO;
-		else
-			_estado = EstadoEstacionEnum.OPERATIVA;
-
-		return _estado;
 	}
 
 	@Override

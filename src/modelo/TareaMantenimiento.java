@@ -4,22 +4,29 @@ import java.time.LocalDate;
 
 public class TareaMantenimiento {
 	private final Integer _id;
+	private Estacion _estacion;
 	private LocalDate _fechaInicio;
 	private LocalDate _fechaFin;
 	private String _observaciones;
 	
-	public TareaMantenimiento(LocalDate fi, LocalDate ff, String obs) {
+	public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs) {
 		_id = null;
+		_estacion = estacion;
 		_fechaFin=ff;
 		_fechaInicio=fi;
 		_observaciones=obs;
 	}
 	
-	public TareaMantenimiento(Integer id, LocalDate fi, LocalDate ff, String obs) {
+	public TareaMantenimiento(Integer id, Estacion estacion, LocalDate fi, LocalDate ff, String obs) {
+		_id=id;
+		_estacion = estacion;
 		_fechaFin=ff;
 		_fechaInicio=fi;
-		_id=id;
 		_observaciones=obs;
+	}
+	
+	public Estacion getEstacion() {
+		return _estacion;
 	}
 	
 	public LocalDate getFechaInicio() {
