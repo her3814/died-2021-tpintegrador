@@ -3,9 +3,14 @@ import java.awt.GridBagLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalTime;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import bdd.EstacionesRepo;
+import modelo.Estacion;
+import modelo.EstadoEstacionEnum;
 import swing_lineas.PanelAgregarLinea;
 import swing_lineas.PanelBuscarLinea;
 import swing_menu_principal.PanelMenuPrincipal;
@@ -44,6 +49,8 @@ public class VentanaPrincipal {
 	private static PanelGestionarLineas panelGestionarLineas;
 	private static PanelAgregarLinea panelAgregarLinea;
 	private static PanelBuscarLinea panelBuscarLinea;
+	
+	
 	
 	public static void main(String[] args) {
 		ventana1= new JFrame();
@@ -109,7 +116,7 @@ public class VentanaPrincipal {
 		
 		panelMenuPrincipal.getBoletos().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ventana1.setTitle("GESTIONAR BOLETOS");
+				ventana1.setTitle("GESTIONAR BOLETOS"); 
 				ventana1.setContentPane(panelGestionarBoletos);
 				ventana1.setVisible(true);
 				ventana1.pack();
@@ -236,6 +243,16 @@ public class VentanaPrincipal {
 			}
 		});
 		
+		//public Estacion( String nombre, LocalTime horaApertura, LocalTime horaCierre)
+	
+		/*panelAgregarEstacion.getBtnNewButton_1().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Estacion estacion= new Estacion("Estacion Belgrano", LocalTime.of(6, 0), LocalTime.of(20, 0));
+				EstacionesRepo.AgregarEstacion(estacion);
+			}
+		});
+		
+		*/
 		//BOTONES VOLVER
 		
 		panelGestionarLineas.getVolver().addActionListener(new ActionListener() {

@@ -35,7 +35,7 @@ public class PanelAgregarLinea extends JPanel {
 		setLayout(gridBagLayout);
 		
 		JLabel lblNewLabel = new JLabel("AGREGAR LINEA");
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22));
+		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22)); 
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel.gridx = 1;

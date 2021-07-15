@@ -104,7 +104,7 @@ public class PanelBuscarEstacion extends JPanel {
 		filtros= new SubPanelFiltros();
 		GridBagConstraints gbcFiltros = new GridBagConstraints();
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
-		gbcFiltros.gridx=1;
+		gbcFiltros.gridx=1; 
 		gbcFiltros.gridy=2;
 		gbcFiltros.gridheight=2;
 		add(filtros, gbcFiltros);

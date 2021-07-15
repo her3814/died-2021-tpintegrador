@@ -21,6 +21,7 @@ public class PanelBuscarLinea extends JPanel {
 	private JTextField textField;
 	private JButton btnCancelar; 
 	private JTable table;
+	private SubPanelFiltrosLinea filtros;
 	public PanelBuscarLinea() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -44,17 +45,9 @@ public class PanelBuscarLinea extends JPanel {
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 1;
+		gbc_textField.gridwidth=3;
 		add(textField, gbc_textField);
 		textField.setColumns(10);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setToolTipText("");
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(5, 5, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 3;
-		gbc_comboBox.gridy = 1;
-		add(comboBox, gbc_comboBox);
 		
 		JButton btnNewButton = new JButton("BUSCAR");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
@@ -101,9 +94,17 @@ public class PanelBuscarLinea extends JPanel {
 		gbc_btnNewButton_2.gridx = 3;
 		gbc_btnNewButton_2.gridy = 4;
 		add(btnCancelar, gbc_btnNewButton_2);
+		
+		filtros= new SubPanelFiltrosLinea();
+		GridBagConstraints gbcFiltros = new GridBagConstraints();
+		gbcFiltros.insets = new Insets(0, 0, 5, 5);
+		gbcFiltros.gridx = 1;
+		gbcFiltros.gridy = 3;
+		add(filtros, gbcFiltros);
 	}
 	public JButton getBtncancelar() {
 		return btnCancelar;
 	}
+		
 
 }
