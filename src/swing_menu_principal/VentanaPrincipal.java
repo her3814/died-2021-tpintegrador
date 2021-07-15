@@ -1,6 +1,7 @@
 package swing_menu_principal;
 import java.awt.GridBagLayout;
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalTime;
@@ -23,8 +24,7 @@ import swing_boletos.PanelBuscarBoleto;
 import swing_boletos.PanelGestionarBoletos;
 import swing_estaciones.PanelAgregarEstacion;
 import swing_estaciones.PanelBuscarEstacion;
-import swing_estaciones.PanelErrorEnTodo;
-import swing_estaciones.PanelEstacionAgregada;
+
 import swing_estaciones.PanelGestionarEstaciones;
 import swing_lineas.PanelGestionarLineas;
 import swing_tareas_mantenimiento.PanelAgregarTareaMantenimiento;
@@ -49,8 +49,7 @@ public class VentanaPrincipal {
 	private static PanelGestionarEstaciones panelGestionarEstaciones;
 	private static PanelAgregarEstacion panelAgregarEstacion;
 	private static PanelBuscarEstacion panelBuscarEstacion;
-	private static PanelEstacionAgregada panelEstacionAgregada;
-	private static PanelErrorEnTodo panelErrorEnTodo;
+	
 	
 	private static PanelGestionarTramos panelGestionarTramos;
 	private static PanelAgregarTramo panelAgregarTramo;
@@ -121,15 +120,6 @@ public class VentanaPrincipal {
 		panelBuscarEstacion.setMinimumSize(new Dimension(600,500));
 		panelBuscarEstacion.setBackground(Color.WHITE);
 		
-		panelEstacionAgregada = new PanelEstacionAgregada();
-		panelEstacionAgregada.setSize(new Dimension(600,600));
-		panelEstacionAgregada.setMinimumSize(new Dimension(600,500));
-		panelEstacionAgregada.setBackground(Color.WHITE);
-		
-		panelErrorEnTodo = new PanelErrorEnTodo();
-		panelErrorEnTodo.setSize(new Dimension(600,600));
-		panelErrorEnTodo.setMinimumSize(new Dimension(600,500));
-		panelErrorEnTodo.setBackground(Color.WHITE);
 
 		//TRAMOS
 		panelGestionarTramos = new PanelGestionarTramos();
@@ -399,6 +389,7 @@ public class VentanaPrincipal {
 		panelAgregarEstacion.getBtnNewButton_1().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelAgregarEstacion.limpiarDatos();
+				panelAgregarEstacion.limpiarWarnings();
 				ventana1.setTitle("GESTIONAR ESTACIONES");
 				ventana1.setContentPane(panelGestionarEstaciones);
 				ventana1.setVisible(true);
@@ -411,32 +402,17 @@ public class VentanaPrincipal {
 		panelAgregarEstacion.getBtnNewButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				panelAgregarEstacion.limpiarWarnings();
 				VentanaPrincipal.agregarEstacion();
 				//Estacion nueva =panelAgregarEstacion.getEstacionCreada();
 				//EstacionesRepo.AgregarEstacion(nueva);
 				//System.out.println(panelAgregarEstacion.estacionIngresada());
+				
 			}
 		});
 		
-		panelEstacionAgregada.getBtnNewButton_1().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelAgregarEstacion.limpiarDatos();
-				ventana1.setTitle("GESTIONAR ESTACIONES");
-				ventana1.setContentPane(panelGestionarEstaciones);
-				ventana1.setVisible(true);
-				ventana1.pack();
-			}
-		});
 		
-		panelErrorEnTodo.getBtnNewButton_1().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ventana1.setTitle("GESTIONAR ESTACIONES");
-				ventana1.setContentPane(panelGestionarEstaciones);
-				ventana1.setVisible(true);
-				ventana1.pack();
-			}
-		});
-		
+		 
 		panelBuscarEstacion.getBtnNewButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EstacionesFiltro ef= new EstacionesFiltro();
@@ -522,15 +498,20 @@ public class VentanaPrincipal {
 	public static void agregarEstacion() {
 		Estacion nueva =panelAgregarEstacion.getEstacionCreada();
 		//Error en todo
-		if(!nueva.getNombre().isEmpty() && nueva.getHorarioApertura()!=null && nueva.getHorarioCierre()!=null) {
-			//EstacionesRepo.AgregarEstacion(nueva);
-		}		
-		if(nueva.getNombre().isEmpty() && nueva.getHorarioApertura()==null && nueva.getHorarioCierre()==null) {
-			ventana1.setTitle("AGREGAR ESTACION");
-			ventana1.setContentPane(panelErrorEnTodo);
-			ventana1.setVisible(true);
-			ventana1.pack();
+		if(nueva.getNombre().isEmpty()) {
+			panelAgregarEstacion.nombreFaltante();			
 		}
-		
+		if(nueva.getHorarioCierre()==null) {
+			panelAgregarEstacion.horaCierreFaltante();
+		}
+		if(nueva.getHorarioApertura()==null) {
+			panelAgregarEstacion.horaAperturaFaltante();
+		}
+		if(nueva.getEstado()!=EstadoEstacionEnum.OPERATIVA && nueva.getEstado()!=EstadoEstacionEnum.MANTENIMIENTO) {
+			panelAgregarEstacion.estadoFaltante();
+		}
+		if(!nueva.getNombre().isEmpty() && nueva.getHorarioCierre()!=null && nueva.getHorarioApertura()!=null){
+			panelAgregarEstacion.mensajeEstacionCreada();
+		}
 	}
 }

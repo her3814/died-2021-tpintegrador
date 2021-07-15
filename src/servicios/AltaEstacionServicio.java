@@ -8,7 +8,7 @@ public class AltaEstacionServicio {
 //TODO Alta de nueva estacion con estado EN MANTENIMIENTO
 	}
 
-	public void AltaEstacion(Estacion estaacion) {
+	public void AltaEstacion(Estacion estacion) {
 //TODO Alta de nueva estacion con estado ACTIVO
 	}
 }
