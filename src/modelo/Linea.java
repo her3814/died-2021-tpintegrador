@@ -1,6 +1,5 @@
 package modelo;
 
-import java.awt.Color;
 import java.util.LinkedHashSet;
 
 public class Linea {

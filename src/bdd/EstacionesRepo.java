@@ -30,7 +30,6 @@ public class EstacionesRepo {
 			try {
 				con.rollback();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
@@ -38,14 +37,13 @@ public class EstacionesRepo {
 			try {
 				con.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 
 	public static void ActualizarEstacion(Estacion estacion) {
-		String sql = "UPDATE estaciones SET nombre = ?, hora_apertura = ?, hora_cierre = ?, estado = ? WHERE id = ?";
+		String sql = "UPDATE estaciones SET nombre = ?, hora_apertura = ?, hora_cierre = ?,  WHERE id = ?";
 		Connection con = BddSingleton.GetConnection();
 		try {
 			con.beginRequest();
@@ -53,8 +51,7 @@ public class EstacionesRepo {
 			pstm.setString(1, estacion.getNombre());
 			pstm.setTime(2, Time.valueOf(estacion.getHorarioApertura()));
 			pstm.setTime(3, Time.valueOf(estacion.getHorarioCierre()));
-			pstm.setString(4, estacion.getEstado() == EstadoEstacionEnum.OPERATIVA ? "OPE" : "MAN");
-			pstm.setInt(5, estacion.getId());
+			pstm.setInt(4, estacion.getId());
 
 			pstm.executeUpdate();
 
@@ -64,15 +61,13 @@ public class EstacionesRepo {
 			try {
 				con.rollback();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
 		} finally {
 			try {
-				con.close(); 
+				con.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -80,7 +75,7 @@ public class EstacionesRepo {
 	}
 
 	public static Integer AgregarEstacion(Estacion estacion) {
-		String sql = "INSERT INTO estaciones (nombre, hora_apertura, hora_cierre, estado) VALUES(?, ?, ?, ?)";
+		String sql = "INSERT INTO estaciones (nombre, hora_apertura, hora_cierre) VALUES(?, ?, ?)";
 		Connection con = BddSingleton.GetConnection();
 		Integer auto_id = null;
 		try {
@@ -89,7 +84,6 @@ public class EstacionesRepo {
 			stm.setString(1, estacion.getNombre());
 			stm.setTime(2, Time.valueOf(estacion.getHorarioApertura()));
 			stm.setTime(3, Time.valueOf(estacion.getHorarioCierre()));
-			stm.setString(4, estacion.getEstado() == EstadoEstacionEnum.OPERATIVA ? "OPE" : "MAN");
 			stm.executeUpdate();
 
 			con.commit();
@@ -104,7 +98,6 @@ public class EstacionesRepo {
 			try {
 				con.rollback();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
@@ -112,7 +105,6 @@ public class EstacionesRepo {
 			try {
 				con.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -126,7 +118,7 @@ public class EstacionesRepo {
 		String sql = "SELECT * FROM estaciones";
 
 		Connection con = BddSingleton.GetConnection();
-		
+
 		try {
 			Statement stm;
 
@@ -142,7 +134,6 @@ public class EstacionesRepo {
 			stm.close();
 			con.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -173,7 +164,6 @@ public class EstacionesRepo {
 			pstm.close();
 			con.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -204,8 +194,6 @@ public class EstacionesRepo {
 			sqlWhere.add(" hora_cierre >= ? ");
 		if (filtro.horaCierreHasta != null)
 			sqlWhere.add(" hora_cierre <= ? ");
-		if (filtro.estado != null)
-			sqlWhere.add(" estado = ? ");
 
 		// Actualizo el sql con el comando WHERE y los parametros de filtrado
 		sql = sql + " WHERE " + String.join(" AND ", sqlWhere) + ";";
@@ -232,8 +220,6 @@ public class EstacionesRepo {
 				pstm.setTime(i++, Time.valueOf(filtro.horaCierreDesde));
 			if (filtro.horaCierreHasta != null)
 				pstm.setTime(i++, Time.valueOf(filtro.horaCierreHasta));
-			if (filtro.estado != null)
-				pstm.setString(i++, filtro.estado == EstadoEstacionEnum.OPERATIVA ? "OPE" : "MAN");
 
 			ResultSet result = pstm.executeQuery();
 			// Mientras la consulta devuelva resultados, se convierte a una entidad del
@@ -245,7 +231,6 @@ public class EstacionesRepo {
 			pstm.close();
 			con.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -260,10 +245,8 @@ public class EstacionesRepo {
 			String nombre = res.getString("nombre");
 			LocalTime hora_ape = res.getTime("hora_apertura").toLocalTime();
 			LocalTime hora_cie = res.getTime("hora_cierre").toLocalTime();
-			EstadoEstacionEnum estado = res.getString("estado").toUpperCase().equals("OPE") ? EstadoEstacionEnum.OPERATIVA
-					: EstadoEstacionEnum.MANTENIMIENTO;
-
-			estacion = new Estacion(id, nombre, hora_ape, hora_cie, estado);
+			// TODO Cargar el estado de la estacion en base a las tareas de mantenimiento.
+			estacion = new Estacion(id, nombre, hora_ape, hora_cie, EstadoEstacionEnum.OPERATIVA);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

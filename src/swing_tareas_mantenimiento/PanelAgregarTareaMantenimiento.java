@@ -12,9 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 
-import com.toedter.calendar.JDateChooser;
-import com.github.lgooddatepicker.components.TimePicker;
-
 
 public class PanelAgregarTareaMantenimiento extends JPanel {
 	private JButton btnNewButton_1; 

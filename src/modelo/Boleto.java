@@ -11,7 +11,7 @@ public class Boleto {
 	private Double _costo;
 	private Estacion _origen;
 	private Estacion _destino;
-	private LinkedHashSet _tramos;
+	private LinkedHashSet<Tramo> _tramos;
 	
 	
 	public Double get_costo() {
@@ -32,10 +32,10 @@ public class Boleto {
 	public void set_destino(Estacion _destino) {
 		this._destino = _destino;
 	}
-	public LinkedHashSet get_tramos() {
+	public LinkedHashSet<Tramo> get_tramos() {
 		return _tramos;
 	}
-	public void set_tramos(LinkedHashSet _tramos) {
+	public void set_tramos(LinkedHashSet<Tramo> _tramos) {
 		this._tramos = _tramos;
 	}
 	public Integer get_nroBoleto() {
