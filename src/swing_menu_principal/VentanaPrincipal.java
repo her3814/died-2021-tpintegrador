@@ -16,6 +16,8 @@ import modelo.EstadoEstacionEnum;
 import swing_lineas.PanelAgregarLinea;
 import swing_lineas.PanelBuscarLinea;
 import swing_menu_principal.PanelMenuPrincipal;
+import swing_boletos.PanelAgregarBoleto;
+import swing_boletos.PanelBuscarBoleto;
 //import swing_boletos.PanelAgregarBoleto;
 //import swing_boletos.PanelBuscarBoleto;
 import swing_boletos.PanelGestionarBoletos;
@@ -54,8 +56,8 @@ public class VentanaPrincipal {
 	private static PanelAgregarTramo panelAgregarTramo;
 	
 	private static PanelGestionarBoletos panelGestionarBoletos;
-//	private static PanelAgregarBoleto panelAgregarBoleto;
-//	private static PanelBuscarBoleto panelBuscarBoleto;
+	private static PanelAgregarBoleto panelAgregarBoleto;
+	private static PanelBuscarBoleto panelBuscarBoleto;
 
 	private static PanelMenuPrincipal panelMenuPrincipal;
 	
@@ -146,7 +148,7 @@ public class VentanaPrincipal {
 		panelGestionarBoletos.setMinimumSize(new Dimension(600,500));
 		panelGestionarBoletos.setBackground(Color.WHITE);
 
-	/*	panelAgregarBoleto = new PanelAgregarBoleto();
+		panelAgregarBoleto = new PanelAgregarBoleto();
 		panelAgregarBoleto.setSize(new Dimension(600,600));
 		panelAgregarBoleto.setMinimumSize(new Dimension(600,500));
 		panelAgregarBoleto.setBackground(Color.WHITE);
@@ -156,7 +158,7 @@ public class VentanaPrincipal {
 		panelBuscarBoleto.setMinimumSize(new Dimension(600,500));
 		panelBuscarBoleto.setBackground(Color.WHITE);
 		
-		*/
+		
 		//LINEAS
 		panelGestionarLineas= new PanelGestionarLineas();
 		panelGestionarLineas.setSize(new Dimension(600,600));
@@ -319,7 +321,7 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
-		/*
+		
 		panelGestionarBoletos.getCrear().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("AGREGAR BOLETO");
@@ -355,7 +357,7 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
-		*/
+		
 
 		//------------------------------------------------------------------------------------
 		// 					ESTACIONES

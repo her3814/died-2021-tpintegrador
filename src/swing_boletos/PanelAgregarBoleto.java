@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -103,7 +104,14 @@ public class PanelAgregarBoleto extends JPanel {
 		gbc_lblNewLabel_1.gridy = 4;
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
+		List<Estacion> estaciones = EstacionesRepo.ObtenerEstaciones();
+		
 		comboBox = new JComboBox();
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(		
+				 estaciones.stream().map(e -> e.getNombre())
+				.collect(Collectors.toList())
+				.toArray()));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridwidth = 2;
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
@@ -120,9 +128,12 @@ public class PanelAgregarBoleto extends JPanel {
 		gbc_lblNewLabel_4.gridx = 1;
 		gbc_lblNewLabel_4.gridy = 5;
 		add(lblNewLabel_4, gbc_lblNewLabel_4);
-	
-		comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel());
+
+		comboBox_1 = new JComboBox();	
+		comboBox_1.setModel(new DefaultComboBoxModel(		
+				 estaciones.stream().map(e -> e.getNombre())
+				.collect(Collectors.toList())
+				.toArray()));
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
 		gbc_comboBox_1.gridwidth = 2;
 		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);

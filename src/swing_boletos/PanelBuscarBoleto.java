@@ -20,6 +20,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 public class PanelBuscarBoleto extends JPanel {
+	
 	private JTextField textField;
 	private JButton cancelar; 
 	private JTable table;
@@ -99,7 +100,7 @@ public class PanelBuscarBoleto extends JPanel {
 		gbc_btnNewButton_2.gridy = 4;
 		add(cancelar, gbc_btnNewButton_2);
 		
-		filtros= new SubPanelFiltrosBoletos();
+		filtros = new SubPanelFiltrosBoletos();
 		GridBagConstraints gbcFiltros = new GridBagConstraints();
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
 		gbcFiltros.gridx=1; 

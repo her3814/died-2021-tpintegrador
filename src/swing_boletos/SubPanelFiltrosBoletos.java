@@ -116,7 +116,6 @@ public class SubPanelFiltrosBoletos extends JPanel {
 		gbc_lblNewLabel_3.anchor=GridBagConstraints.WEST;
 		add(lblNewLabel_3, gbc_lblNewLabel_3);
 		
-		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(		
 				 estaciones.stream().map(e -> e.getNombre())
