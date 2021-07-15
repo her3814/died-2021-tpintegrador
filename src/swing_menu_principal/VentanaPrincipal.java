@@ -472,7 +472,9 @@ public class VentanaPrincipal {
 	public static void agregarEstacion() {
 		Estacion nueva =panelAgregarEstacion.getEstacionCreada();
 		//Error en todo
-		
+		if(!nueva.getNombre().isEmpty() && nueva.getHorarioApertura()!=null && nueva.getHorarioCierre()!=null) {
+			//EstacionesRepo.AgregarEstacion(nueva);
+		}		
 		if(nueva.getNombre().isEmpty() && nueva.getHorarioApertura()==null && nueva.getHorarioCierre()==null) {
 			ventana1.setTitle("AGREGAR ESTACION");
 			ventana1.setContentPane(panelErrorEnTodo);

@@ -11,11 +11,17 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
+
+import bdd.EstacionesRepo;
+import modelo.Estacion;
+
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -63,17 +69,33 @@ public class PanelBuscarEstacion extends JPanel {
 		gbc_btnNewButton.gridwidth=1;
 		add(btnNewButton, gbc_btnNewButton);
 		
+
+		List<Estacion> estacionesBDD = EstacionesRepo.ObtenerEstaciones();
+		List<String> nombresEstaciones = new ArrayList<String>();
+		List<String> horariosApertura = new ArrayList<String>();
+		List<String> horariosCierre = new ArrayList<String>();
+		
+		for(Estacion e: estacionesBDD) {
+			nombresEstaciones.add(e.getNombre());
+			horariosApertura.add(e.getHorarioApertura().toString());
+			horariosCierre.add(e.getHorarioCierre().toString());
+		}
+		
 		JButton btnNewButton_1 = new JButton("GUARDAR");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		
-		String nombreColumnas[]= {"Estacion"};
-		Object datosFila [] []= {
-				{"Estacion1"},
-				{"Estacion2"}
-		};
+		String nombreColumnas[]= {"Nombre estacion", "Horario apertura", "Horario cierre"};
+		Object datosFila [][]= new Object[nombresEstaciones.size()] [3];
+		
+		for(int i=0; i<nombresEstaciones.size();i++) {
+			datosFila[i][0]= nombresEstaciones.get(i);
+			datosFila[i][1]= horariosApertura.get(i);
+			datosFila[i][2]= horariosCierre.get(i);
+		}
+		
 		
 		
 		
