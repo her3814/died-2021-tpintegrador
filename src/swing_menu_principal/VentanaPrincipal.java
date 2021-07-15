@@ -25,8 +25,11 @@ import swing_boletos.PanelBuscarBoleto;
 import swing_boletos.PanelGestionarBoletos;
 import swing_estaciones.PanelAgregarEstacion;
 import swing_estaciones.PanelBuscarEstacion;
-
+import swing_estaciones.PanelFlujoMaximo;
 import swing_estaciones.PanelGestionarEstaciones;
+import swing_estaciones.PanelInformacionEstaciones;
+import swing_estaciones.PanelPageRank;
+import swing_estaciones.PanelProximoMantenimiento;
 import swing_lineas.PanelGestionarLineas;
 import swing_tareas_mantenimiento.PanelAgregarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelBuscarTareaMantenimiento;
@@ -50,8 +53,11 @@ public class VentanaPrincipal {
 	private static PanelGestionarEstaciones panelGestionarEstaciones;
 	private static PanelAgregarEstacion panelAgregarEstacion;
 	private static PanelBuscarEstacion panelBuscarEstacion;
-	
-	
+	private static PanelInformacionEstaciones panelInformacionEstaciones;
+	private static PanelProximoMantenimiento panelProximoMantenimiento;
+	private static PanelFlujoMaximo panelFlujoMaximo;
+	private static PanelPageRank panelPageRank;
+
 	private static PanelGestionarTramos panelGestionarTramos;
 	private static PanelAgregarTramo panelAgregarTramo;
 	
@@ -71,7 +77,7 @@ public class VentanaPrincipal {
 		ventana1.setTitle("MENU PRINCIPAL");
 		ventana1.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
-		ventana1.setSize(new Dimension(600,600));
+		ventana1.setPreferredSize(new Dimension(500,500));
 		ventana1.setMinimumSize(new Dimension(300,300));
 		ventana1.setBackground(Color.WHITE);
 		
@@ -107,6 +113,17 @@ public class VentanaPrincipal {
 		panelBuscarEstacion = new PanelBuscarEstacion();
 		panelBuscarEstacion.setBackground(Color.WHITE);
 
+		panelInformacionEstaciones = new PanelInformacionEstaciones();
+		panelInformacionEstaciones.setBackground(Color.WHITE);
+
+		panelFlujoMaximo = new PanelFlujoMaximo();
+		panelFlujoMaximo.setBackground(Color.WHITE);
+
+		panelPageRank = new PanelPageRank();
+		panelPageRank.setBackground(Color.WHITE);
+
+		panelProximoMantenimiento = new PanelProximoMantenimiento();
+		panelProximoMantenimiento.setBackground(Color.WHITE);
 
 		//TRAMOS
 		panelGestionarTramos = new PanelGestionarTramos();
@@ -346,10 +363,81 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
+		
+		panelGestionarEstaciones.getInformacion().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("INFORMACION DE ESTACIONES");
+				ventana1.setContentPane(panelInformacionEstaciones);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		
 		panelBuscarEstacion.getBtnNewButton_2().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("GESTIONAR ESTACIONES");
 				ventana1.setContentPane(panelGestionarEstaciones);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		
+		panelInformacionEstaciones.getVolver().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("GESTIONAR ESTACIONES");
+				ventana1.setContentPane(panelGestionarEstaciones);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		
+		panelInformacionEstaciones.getMantenimiento().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("PROXIMO MANTENIMIENTO");
+				ventana1.setContentPane(panelProximoMantenimiento);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		
+		panelInformacionEstaciones.getPageRank().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("PAGE RANK");
+				ventana1.setContentPane(panelPageRank);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		
+		panelInformacionEstaciones.getFlujoMaximo().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("FLUJO MAXIMO");
+				ventana1.setContentPane(panelFlujoMaximo);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+			
+		panelPageRank.getCancelar().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("INFORMACION DE ESTACIONES");
+				ventana1.setContentPane(panelInformacionEstaciones);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		panelFlujoMaximo.getCancelar().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("INFORMACION DE ESTACIONES");
+				ventana1.setContentPane(panelInformacionEstaciones);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		panelProximoMantenimiento.getCancelar().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("INFORMACION DE ESTACIONES");
+				ventana1.setContentPane(panelInformacionEstaciones);
 				ventana1.setVisible(true);
 				ventana1.pack();
 			}
@@ -380,8 +468,6 @@ public class VentanaPrincipal {
 			}
 		});
 		
-		
-		 
 		panelBuscarEstacion.getBtnNewButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EstacionesFiltro ef= new EstacionesFiltro();
