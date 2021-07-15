@@ -42,7 +42,7 @@ public class PanelAgregarEstacion extends JPanel {
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		setSize(new Dimension(500,500));
+		setPreferredSize(new Dimension(500,500));
 		setMinimumSize(new Dimension(300,300));
 		
 		JLabel lblNewLabel = new JLabel("AGREGAR ESTACION");

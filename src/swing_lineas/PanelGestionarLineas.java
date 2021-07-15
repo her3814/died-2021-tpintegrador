@@ -32,11 +32,11 @@ public class PanelGestionarLineas extends JPanel{
 	}
 
 	public  PanelGestionarLineas() {
-		this.setSize(new Dimension(500,500));
-		this.setMinimumSize(new Dimension(300,300));
 		
 		this.setLayout(new GridBagLayout());
 		this.setBackground(Color.WHITE);
+		setPreferredSize(new Dimension(500,500));
+		setMinimumSize(new Dimension(300,300));
 		
 		
 		gbcTitulo= new GridBagConstraints();
