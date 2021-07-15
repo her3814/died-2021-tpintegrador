@@ -16,6 +16,10 @@ import modelo.EstadoEstacionEnum;
 
 public class EstacionesRepo {
 
+	/** 
+	 * Elimina la estacion indicada de la base de datos
+	 * @param estacion Estacion a eliminar
+	 */
 	public static void EliminarEstacion(Estacion estacion) {
 		String sql = "DELETE FROM estaciones WHERE id = ?;";
 		Connection con = BddSingleton.GetConnection();
@@ -42,7 +46,11 @@ public class EstacionesRepo {
 		}
 	}
 
-	public static void ActualizarEstacion(Estacion estacion) {
+	/**
+	 * Modifica la estacion indicada. Para alterar su estado se deberá de realizar a traves del ABM de Tareas de Mantenimiento
+	 * @param estacion Estacion a modificar
+	 */
+	public static void ModificarEstacion(Estacion estacion) {
 		String sql = "UPDATE estaciones SET nombre = ?, hora_apertura = ?, hora_cierre = ?,  WHERE id = ?";
 		Connection con = BddSingleton.GetConnection();
 		try {
@@ -74,24 +82,28 @@ public class EstacionesRepo {
 
 	}
 
-	public static Integer AgregarEstacion(Estacion estacion) {
+	public static Estacion AgregarEstacion(Estacion estacion) {
+
 		String sql = "INSERT INTO estaciones (nombre, hora_apertura, hora_cierre) VALUES(?, ?, ?)";
 		Connection con = BddSingleton.GetConnection();
-		Integer auto_id = null;
+		Estacion nEst = null;
+		
 		try {
 			con.beginRequest();
+
 			PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stm.setString(1, estacion.getNombre());
 			stm.setTime(2, Time.valueOf(estacion.getHorarioApertura()));
 			stm.setTime(3, Time.valueOf(estacion.getHorarioCierre()));
-			stm.executeUpdate();
 
+			stm.executeUpdate();
 			con.commit();
 
 			ResultSet rs = stm.getGeneratedKeys();
 			rs.next();
-			auto_id = rs.getInt(1);
 
+			nEst = new Estacion(rs.getInt(1), estacion.getNombre(), estacion.getHorarioApertura(),
+					estacion.getHorarioCierre(), estacion.getEstado());
 			rs.close();
 			stm.close();
 		} catch (SQLException e) {
@@ -108,28 +120,23 @@ public class EstacionesRepo {
 				e.printStackTrace();
 			}
 		}
-
-		return auto_id;
+		
+		return nEst;
 	}
 
 	public static List<Estacion> ObtenerEstaciones() {
 		List<Estacion> estaciones = new ArrayList<Estacion>();
 
-		String sql = "select *, NOT EXISTS (SELECT * "
-				+ "FROM estaciones_tareas_mantenimiento etm "
-				+ "WHERE etm.id_estacion = est.id "
-				+ "AND "
+		String sql = "select *, NOT EXISTS (SELECT * " + "FROM estaciones_tareas_mantenimiento etm "
+				+ "WHERE etm.id_estacion = est.id " + "AND "
 				+ "((fecha_fin is not null and CURRENT_DATE() BETWEEN fecha_inicio and fecha_fin) OR "
-				+ "(fecha_fin is null and CURRENT_DATE() >= fecha_inicio))) AS estado "
-				+ "FROM estaciones est;";
+				+ "(fecha_fin is null and CURRENT_DATE() >= fecha_inicio))) AS estado " + "FROM estaciones est;";
 
 		Connection con = BddSingleton.GetConnection();
 
 		try {
 			Statement stm;
-
 			stm = con.createStatement();
-
 			ResultSet result = stm.executeQuery(sql);
 
 			// MIENTRAS QUEDEN COLUMNAS, SE PROCESAN Y AGREGAN A LA LISTA DE ESTACIONES
@@ -138,9 +145,15 @@ public class EstacionesRepo {
 
 			result.close();
 			stm.close();
-			con.close();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return estaciones;
@@ -150,10 +163,8 @@ public class EstacionesRepo {
 	public static Estacion ObtenerEstacion(int id) {
 
 		Estacion estacion = null;
-		String sql = "select *, NOT EXISTS (SELECT * "
-				+ "FROM estaciones_tareas_mantenimiento etm "
-				+ "WHERE etm.id_estacion = est.id "
-				+ "AND "
+		String sql = "select *, NOT EXISTS (SELECT * " + "FROM estaciones_tareas_mantenimiento etm "
+				+ "WHERE etm.id_estacion = est.id " + "AND "
 				+ "((fecha_fin is not null and CURRENT_DATE() BETWEEN fecha_inicio and fecha_fin) OR "
 				+ "(fecha_fin is null and CURRENT_DATE() >= fecha_inicio))) AS estado "
 				+ "FROM estaciones est WHERE id = ?;";
@@ -188,13 +199,10 @@ public class EstacionesRepo {
 		if (filtro.esVacio())
 			return ObtenerEstaciones();
 
-		String sql = "SELECT *, NOT EXISTS (SELECT * "
-				+ "FROM estaciones_tareas_mantenimiento etm "
-				+ "WHERE etm.id_estacion = est.id "
-				+ "AND "
+		String sql = "SELECT *, NOT EXISTS (SELECT * " + "FROM estaciones_tareas_mantenimiento etm "
+				+ "WHERE etm.id_estacion = est.id " + "AND "
 				+ "((fecha_fin is not null and CURRENT_DATE() BETWEEN fecha_inicio and fecha_fin) OR "
-				+ "(fecha_fin is null and CURRENT_DATE() >= fecha_inicio))) AS estado "
-				+ "from estaciones est ";
+				+ "(fecha_fin is null and CURRENT_DATE() >= fecha_inicio))) AS estado " + "from estaciones est ";
 
 		List<String> sqlWhere = new ArrayList<String>();
 
@@ -212,15 +220,12 @@ public class EstacionesRepo {
 			sqlWhere.add(" hora_cierre >= ? ");
 		if (filtro.horaCierreHasta != null)
 			sqlWhere.add(" hora_cierre <= ? ");
-		if(filtro.estado != null)
-		{
-			String sqlEstado = " EXISTS (SELECT * "
-					+ "FROM estaciones_tareas_mantenimiento etm "
-					+ "WHERE etm.id_estacion = est.id "
-					+ "AND "
+		if (filtro.estado != null) {
+			String sqlEstado = " EXISTS (SELECT * " + "FROM estaciones_tareas_mantenimiento etm "
+					+ "WHERE etm.id_estacion = est.id " + "AND "
 					+ "((fecha_fin is not null and CURRENT_DATE() BETWEEN fecha_inicio and fecha_fin) OR "
 					+ "(fecha_fin is null and CURRENT_DATE() >= fecha_inicio))) ";
-			if(filtro.estado == EstadoEstacionEnum.OPERATIVA)
+			if (filtro.estado == EstadoEstacionEnum.OPERATIVA)
 				sqlEstado = "NOT" + sqlEstado;
 			sqlWhere.add(sqlEstado);
 		}
@@ -274,7 +279,8 @@ public class EstacionesRepo {
 			String nombre = res.getString("nombre");
 			LocalTime hora_ape = res.getTime("hora_apertura").toLocalTime();
 			LocalTime hora_cie = res.getTime("hora_cierre").toLocalTime();
-			EstadoEstacionEnum estado = res.getBoolean("estado") ? EstadoEstacionEnum.OPERATIVA : EstadoEstacionEnum.MANTENIMIENTO;
+			EstadoEstacionEnum estado = res.getBoolean("estado") ? EstadoEstacionEnum.OPERATIVA
+					: EstadoEstacionEnum.MANTENIMIENTO;
 			// TODO Cargar el estado de la estacion en base a las tareas de mantenimiento.
 			estacion = new Estacion(id, nombre, hora_ape, hora_cie, estado);
 		} catch (SQLException e) {

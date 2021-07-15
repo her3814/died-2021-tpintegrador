@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,55 @@ import modelo.LineaTipoTransporteEnum;
 
 public class LineasRepo {
 
+	public static void ModificarLinea(Linea linea) {
+		String sql = "UPDATE lineas_transporte SET nombre = ?, color = ?, estado = ?, tipo_transporte = ? WHERE id = ?";
+	}
+	
+	public static Linea AgregarLinea(Linea linea) {
+		String sql = "INSERT INTO lineas_transporte (nombre, color, estado, tipo_transporte) VALUES (?, ?, ?, ?);";
+		
+		
+		Connection con = BddSingleton.GetConnection();
+		Linea nLinea = null;
+		
+		try {
+			con.beginRequest();
+			PreparedStatement pstm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			pstm.setString(1, linea.get_nombre());
+			pstm.setString(2, linea.get_color());
+			pstm.setString(3, linea.get_estado().equals(EstadoLineaEnum.ACTIVA) ? "ACT" : "INA");
+			pstm.setString(4, linea.get_tipoTransporte().name());
+			
+			pstm.executeUpdate();
+
+			con.commit();
+
+			ResultSet rs = pstm.getGeneratedKeys();
+			rs.next();
+			nLinea = new Linea(rs.getInt(1), linea.get_nombre(), linea.get_color(), linea.get_estado(), linea.get_tipoTransporte());
+
+			rs.close();
+			pstm.close();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+			try {
+				con.rollback();
+				con.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+		
+		return nLinea;
+	}
+	
 	public static Linea ObtenerLinea(Integer id) {
 		String sql = "SELECT * FROM lineas_transporte WHERE id = ?;";
 
@@ -36,7 +86,6 @@ public class LineasRepo {
 			try {
 				con.close();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		} finally {
@@ -44,7 +93,6 @@ public class LineasRepo {
 				if (!con.isClosed())
 					con.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -75,7 +123,6 @@ public class LineasRepo {
 			try {
 				con.close();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		} finally {
@@ -83,7 +130,6 @@ public class LineasRepo {
 				if (!con.isClosed())
 					con.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -96,11 +142,8 @@ public class LineasRepo {
 		try {
 			linea = new Linea(res.getInt("id"), res.getString("nombre"), res.getString("color"),
 					res.getString("estado").equals("ACT") ? EstadoLineaEnum.ACTIVA : EstadoLineaEnum.NO_ACTIVA,
-					EstacionesRepo.ObtenerEstacion(res.getInt("id_estacion_origen")),
-					EstacionesRepo.ObtenerEstacion(res.getInt("id_estacion_destino")),
 					LineaTipoTransporteEnum.valueOf(res.getString("tipo_transporte")));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return linea;

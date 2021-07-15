@@ -11,19 +11,16 @@ import modelo.TareaMantenimiento;
 public class RegistrarTareaMantenimientoEstacion {
 
 	public TareaMantenimiento RegistrarTareaManteminiento(Estacion estacion, LocalDate fechaInicio, LocalDate fechaFin, String observaciones) throws EstacionEnMantenimientoException {
+		
 		Estacion est = EstacionesRepo.ObtenerEstacion(estacion.getId());
 		
 		if(est.getEstado() == EstadoEstacionEnum.MANTENIMIENTO)
 			throw new EstacionEnMantenimientoException(estacion);
 		
 		// La clase TareaMantenimiento no posee referencia a que Estacion corresponde?
-		TareaMantenimiento tarea = new TareaMantenimiento(fechaInicio, fechaFin, null, observaciones);
+		TareaMantenimiento tarea = new TareaMantenimiento(estacion, fechaInicio, fechaFin, observaciones);
 		//var tarea = TareaMantenimento.Agregar(tarea, est);
-		
-		est.ToggleEstado();
-		
-		EstacionesRepo.ActualizarEstacion(est);
-		
+				
 		return tarea;
 
 	}

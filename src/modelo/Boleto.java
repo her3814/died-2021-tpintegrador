@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.LinkedHashSet;
 
 public class Boleto {
-	private Integer _nroBoleto;
+	private final Integer _nroBoleto;
 	private String _correoCliente;
 	private String _nombreCliente;
 	private LocalDate _fechaVenta;
@@ -13,7 +13,28 @@ public class Boleto {
 	private Estacion _destino;
 	private LinkedHashSet<Tramo> _tramos;
 	
+	public Boleto(Integer numero, String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, LinkedHashSet<Tramo> recorrido) {
+		_nroBoleto = numero;
+		_correoCliente=correo;
+		_nombreCliente = nombre;
+		_fechaVenta=fechaVenta;
+		_costo = costo;
+		_origen = origen;
+		_destino = destino;
+		_tramos = recorrido;
+	}
 	
+	public Boleto(String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, LinkedHashSet<Tramo> recorrido) {
+		_nroBoleto = null;
+		_correoCliente=correo;
+		_nombreCliente = nombre;
+		_fechaVenta=fechaVenta;
+		_costo = costo;
+		_origen = origen;
+		_destino = destino;
+		_tramos = recorrido;
+	}
+
 	public Double get_costo() {
 		return _costo;
 	}
@@ -41,9 +62,7 @@ public class Boleto {
 	public Integer get_nroBoleto() {
 		return _nroBoleto;
 	}
-	public void set_nroBoleto(Integer _nroBoleto) {
-		this._nroBoleto = _nroBoleto;
-	}
+
 	public String get_correoCliente() {
 		return _correoCliente;
 	}

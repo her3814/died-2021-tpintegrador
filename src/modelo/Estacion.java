@@ -3,16 +3,11 @@ package modelo;
 import java.time.LocalTime;
 
 public class Estacion {
-	private int _id;
+	private final Integer _id;
 	private String _nombre;
 	private LocalTime _horarioApertura;
 	private LocalTime _horarioCierre;
 	private EstadoEstacionEnum _estado;
-
-	public Estacion(String nombre) {
-		_nombre = nombre;
-		_estado = EstadoEstacionEnum.MANTENIMIENTO;
-	}
 
 	public Estacion(int Id, String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado) {
 		_id = Id;
@@ -22,28 +17,26 @@ public class Estacion {
 		_horarioCierre = horaCierre;
 	}
 
-	public Estacion( String nombre, LocalTime horaApertura, LocalTime horaCierre) {
+	public Estacion(String nombre, LocalTime horaApertura, LocalTime horaCierre) {
+		_id = null;
 		_nombre = nombre;
-		_estado = EstadoEstacionEnum.OPERATIVA;
 		_horarioApertura = horaApertura;
 		_horarioCierre = horaCierre;
 	}
 	
-	public int getId() {
+	public Estacion( String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado) {
+		_nombre = nombre;
+		_estado = estado;
+		_horarioApertura = horaApertura;
+		_horarioCierre = horaCierre;
+	}
+	
+	public Integer getId() {
 		return _id;
 	}
 	
 	public String getNombre() {
 		return _nombre;
-	}
-
-	public EstadoEstacionEnum ToggleEstado() {
-		if (_estado.equals(EstadoEstacionEnum.OPERATIVA))
-			_estado = EstadoEstacionEnum.MANTENIMIENTO;
-		else
-			_estado = EstadoEstacionEnum.OPERATIVA;
-
-		return _estado;
 	}
 
 	@Override
