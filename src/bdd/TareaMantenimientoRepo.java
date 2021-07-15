@@ -15,6 +15,74 @@ import modelo.TareaMantenimiento;
 
 public class TareaMantenimientoRepo {
 	
+public static void EliminarTareaMantenimiento(TareaMantenimiento tarea) {
+	String sql = "DELETE FROM estaciones_tareas_mantenimiento WHERE id = ?;";
+	Connection con = BddSingleton.GetConnection();
+
+	try {
+		PreparedStatement pstm = con.prepareStatement(sql);
+		pstm.setInt(1, tarea.getId());
+
+		con.beginRequest();
+
+		pstm.executeUpdate();
+
+		con.commit();
+		pstm.close();
+	} catch (SQLException e) {
+		try {
+			con.rollback();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		e.printStackTrace();
+	} finally {
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+}
+	public static void ModificarTareaMantenimiento(TareaMantenimiento tarea) {
+		String sql = "UPDATE estaciones_tareas_mantenimiento SET id_estacion = ?, fecha_inicio = ? , fecha_fin = ?, observaciones = ? WHERE id = ?";
+		Connection con = BddSingleton.GetConnection();
+
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql);
+			pstm.setInt(1, tarea.getEstacion().getId());
+			pstm.setDate(2, Date.valueOf(tarea.getFechaInicio()));
+
+			if (tarea.getFechaFin() != null)
+				pstm.setDate(3, Date.valueOf(tarea.getFechaFin()));
+			else
+				pstm.setNull(3, java.sql.Types.DATE);
+
+			pstm.setString(4, tarea.getObservaciones());
+			pstm.setInt(5, tarea.getId());
+
+			con.beginRequest();
+
+			pstm.executeUpdate();
+
+			con.commit();
+			pstm.close();
+		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public static TareaMantenimiento AgregarTareaMantenimiento(TareaMantenimiento tarea) {
 		String sql = "INSERT INTO estaciones_tareas_mantenimiento (id_estacion, fecha_inicio, fecha_fin, observaciones) VALUES(?, ?, ?, ?)";
 		Connection con = BddSingleton.GetConnection();
@@ -25,13 +93,14 @@ public class TareaMantenimientoRepo {
 			PreparedStatement pstm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			pstm.setInt(1, tarea.getEstacion().getId());
 			pstm.setDate(2, Date.valueOf(tarea.getFechaInicio()));
-			
-			if(tarea.getFechaFin() != null)
+
+			if (tarea.getFechaFin() != null)
 				pstm.setDate(3, Date.valueOf(tarea.getFechaFin()));
-			else pstm.setNull(3, java.sql.Types.DATE);
-			
+			else
+				pstm.setNull(3, java.sql.Types.DATE);
+
 			pstm.setString(4, tarea.getObservaciones());
-			
+
 			con.beginRequest();
 
 			pstm.executeUpdate();
@@ -41,7 +110,7 @@ public class TareaMantenimientoRepo {
 
 			nTarea = new TareaMantenimiento(rs.getInt(1), tarea.getEstacion(), tarea.getFechaInicio(),
 					tarea.getFechaFin(), tarea.getObservaciones());
-			
+
 			con.commit();
 			rs.close();
 			pstm.close();
@@ -71,7 +140,7 @@ public class TareaMantenimientoRepo {
 
 		return nTarea;
 	}
-	
+
 	public static List<TareaMantenimiento> Obtener(Estacion estacion) {
 		String sql = "SELECT * FROM estaciones_tareas_mantenimiento WHERE id_estacion = ?;";
 
@@ -151,7 +220,8 @@ public class TareaMantenimientoRepo {
 
 		try {
 			tarea = new TareaMantenimiento(res.getInt("id"), EstacionesRepo.ObtenerEstacion(res.getInt("id_estacion")),
-					res.getDate("fecha_inicio").toLocalDate(), res.getDate("fecha_fin") != null ? res.getDate("fecha_fin").toLocalDate() : null,
+					res.getDate("fecha_inicio").toLocalDate(),
+					res.getDate("fecha_fin") != null ? res.getDate("fecha_fin").toLocalDate() : null,
 					res.getString("observaciones"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

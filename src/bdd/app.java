@@ -37,7 +37,13 @@ public class app {
 		tareas = TareaMantenimientoRepo.Obtener(est);
 		System.out.println(tareas);
 
+		var t = tareas.get(0);
 		
+		TareaMantenimientoRepo.EliminarTareaMantenimiento(t);
+	
+
+		tareas = TareaMantenimientoRepo.Obtener(est);
+		System.out.println(tareas);
 	}
 
 }
