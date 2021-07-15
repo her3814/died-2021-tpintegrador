@@ -131,7 +131,7 @@ public class TramosRepo {
 		return res;
 	}
 
-	public static Tramo ToEntity(ResultSet result) {
+	private static Tramo ToEntity(ResultSet result) {
 
 		Tramo tramo = null;
 

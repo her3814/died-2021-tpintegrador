@@ -1,70 +1,23 @@
 package modelo;
 
-import java.util.LinkedHashSet;
-
 public class Linea {
 	private Integer _id;
 	private String _nombre;
 	private String _color;
 	private EstadoLineaEnum _estado;
-	private Estacion _origen;
-	private Estacion _destino;
-	private LinkedHashSet _tramos;
 	private LineaTipoTransporteEnum _tipoTransporte;
 
 	public Linea(Integer id) {
 		_id = id;
 	}
 
-	public Linea(Integer id, String nombre, String color, EstadoLineaEnum estado, Estacion origen, Estacion destino,
+	public Linea(Integer id, String nombre, String color, EstadoLineaEnum estado,
 			LineaTipoTransporteEnum tipoTransporte) {
 		_id = id;
 		_nombre = nombre;
 		_color = color;
-		_estado = estado;
-		_origen = origen;
-		_destino = destino;
+		_estado = estado;		
 		_tipoTransporte=tipoTransporte;
-	}
-
-	public Estacion get_origen() {
-		return _origen;
-	}
-
-	public void set_origen(Estacion _origen) {
-		this._origen = _origen;
-	}
-
-	public Estacion get_destino() {
-		return _destino;
-	}
-
-	public void set_destino(Estacion _destino) {
-		this._destino = _destino;
-	}
-
-	public LinkedHashSet get_tramos() {
-		return _tramos;
-	}
-
-	public void set_tramos(LinkedHashSet _tramos) {
-		this._tramos = _tramos;
-	}
-
-	public Estacion getOrigen() {
-		return _origen;
-	}
-
-	public void setOrigen(Estacion origen) {
-		this._origen = origen;
-	}
-
-	public Estacion getDestino() {
-		return _destino;
-	}
-
-	public void setDestino(Estacion destino) {
-		this._destino = destino;
 	}
 
 	public Integer get_id() {
