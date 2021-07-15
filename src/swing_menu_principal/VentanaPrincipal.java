@@ -4,7 +4,9 @@ import java.awt.GridBagLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.Instant;
 import java.time.LocalTime;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
@@ -106,15 +108,7 @@ public class VentanaPrincipal {
 
 		panelBuscarEstacion = new PanelBuscarEstacion();
 		panelBuscarEstacion.setBackground(Color.WHITE);
-		
-<<<<<<< HEAD
-		panelEstacionAgregada = new PanelEstacionAgregada();
-		panelEstacionAgregada.setBackground(Color.WHITE);
-		
-		panelErrorEnTodo = new PanelErrorEnTodo();
-		panelErrorEnTodo.setBackground(Color.WHITE);
-=======
->>>>>>> 65b1c95e4d50c697a5554f481ed97e66552be70d
+	
 
 		//TRAMOS
 		panelGestionarTramos = new PanelGestionarTramos();
@@ -374,8 +368,6 @@ public class VentanaPrincipal {
 			}
 		});
 		
-		//public Estacion( String nombre, LocalTime horaApertura, LocalTime horaCierre)
-	
 		panelAgregarEstacion.getBtnNewButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -385,6 +377,24 @@ public class VentanaPrincipal {
 				//EstacionesRepo.AgregarEstacion(nueva);
 				//System.out.println(panelAgregarEstacion.estacionIngresada());
 				
+			}
+		});
+		panelAgregarEstacion.getBtnNewButton_3().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelAgregarEstacion.limpiarDatos();
+				panelAgregarEstacion.limpiarWarnings();
+				panelAgregarEstacion.sacarMantenimiento();
+				ventana1.setTitle("AGREGAR ESTACION");
+				ventana1.setContentPane(panelAgregarEstacion);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		panelAgregarEstacion.getBtnNewButton4().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(panelAgregarEstacion.getDateChooser_1().getDate().before(Date.from(Instant.now()))) {
+					
+				}
 			}
 		});
 		
@@ -488,11 +498,11 @@ public class VentanaPrincipal {
 			panelAgregarEstacion.estadoFaltante();
 		}
 		if(!nueva.getNombre().isEmpty() && nueva.getHorarioCierre()!=null && nueva.getHorarioApertura()!=null){
-			panelAgregarEstacion.mensajeEstacionCreada();
 		if(nueva.getEstado()==EstadoEstacionEnum.OPERATIVA) {
 			AltaEstacionServicio.AltaEstacion(nueva);
+			panelAgregarEstacion.mensajeEstacionCreada();
 		}else {
-			//panelAgregarEstacion.mostrarDatosOperativa
+			panelAgregarEstacion.mostrarDatosMantenimiento();
 		}
 		}
 	}

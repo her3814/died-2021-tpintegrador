@@ -8,14 +8,23 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 import javax.swing.JButton;
 import com.github.lgooddatepicker.components.TimePicker;
+import com.toedter.calendar.JDateChooser;
 
+import bdd.EstacionesRepo;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 
@@ -37,6 +46,16 @@ public class PanelAgregarEstacion extends JPanel {
 	private JLabel inserteHoraCierre;
 	private JLabel seleccioneEstado;
 	private JLabel lblNewLabel_6;
+	private PanelAgregarEstacionConMantenimiento tareaMant;
+	private JLabel agregarMant;
+	private JLabel fechaFin;
+	private JDateChooser dateChooser_1;
+	public JLabel obs;  
+	private JTextArea textArea ;
+	private JButton btnNewButton_3 ;
+	private JButton btnNewButton4;
+	private JLabel fechaFin1;
+	
 	public PanelAgregarEstacion() {
 		setBackground(Color.WHITE);
 		
@@ -44,11 +63,11 @@ public class PanelAgregarEstacion extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
 		gridBagLayout.columnWidths = new int[]{54, 90, 141, 211, 67, 0};
-		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 19, 0, 19, 0, 19, 21, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 19, 0, 19, 0, 19, 21, 0, 0, 85, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		setLayout(gridBagLayout);
-		setPreferredSize(new Dimension(500,500));
+		setSize(new Dimension(503, 555));
 		setMinimumSize(new Dimension(300,300));
 		
 		JLabel lblNewLabel = new JLabel("AGREGAR ESTACION");
@@ -219,16 +238,122 @@ public class PanelAgregarEstacion extends JPanel {
 		add(btnNewButton, gbc_btnNewButton);
 		
 		lblNewLabel_6 = new JLabel("LA ESTACI\u00D3N SE AGREG\u00D3 CORRECTAMENTE");
-		lblNewLabel_6.setFont(new Font("Arial", Font.BOLD, 13));
+		lblNewLabel_6.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
-		gbc_lblNewLabel_6.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_6.gridx = 1;
 		gbc_lblNewLabel_6.gridy = 11;
 		gbc_lblNewLabel_6.gridwidth=3;
 		add(lblNewLabel_6, gbc_lblNewLabel_6);
 		lblNewLabel_6.setVisible(false);
 		
+		/*tareaMant= new PanelAgregarEstacionConMantenimiento();
+		GridBagConstraints gbc_mant = new GridBagConstraints();
+		gbc_mant.insets= new Insets(5,5,5,5);
+		gbc_mant.gridx=1;
+		gbc_mant.gridy=12;
+		gbc_mant.gridheight=3;
+		gbc_mant.gridwidth=3;
+		add(tareaMant,gbc_mant);
 		
+		*/
+		
+
+		agregarMant= new JLabel("AGREGAR TAREA DE MANTENIMIENTO");
+		agregarMant.setFont(new Font("Arial", Font.BOLD, 20));
+		GridBagConstraints gbc_agregarMant = new GridBagConstraints();
+		gbc_agregarMant.anchor = GridBagConstraints.CENTER;
+		gbc_agregarMant.insets = new Insets(0, 0, 5, 5);
+		gbc_agregarMant.gridx = 1;
+		gbc_agregarMant.gridy = 12;
+		gbc_agregarMant.gridwidth=4;
+		add(agregarMant,gbc_agregarMant);
+		agregarMant.setVisible(false);
+		
+		
+
+		fechaFin = new JLabel("FECHA FIN:");
+		fechaFin.setFont(new Font("Arial", Font.BOLD, 14));
+		GridBagConstraints gbc_fin = new GridBagConstraints();
+		gbc_fin.anchor = GridBagConstraints.EAST;
+		gbc_fin.insets = new Insets(0, 0, 5, 5);
+		gbc_fin.gridx = 1;
+		gbc_fin.gridy = 13;
+		add(fechaFin,gbc_fin);
+		fechaFin.setVisible(false);
+		
+		
+		dateChooser_1 = new JDateChooser();
+		dateChooser_1.getCalendarButton().setBackground(new Color(204, 204, 102));
+		GridBagConstraints gbc_dateChooser_1 = new GridBagConstraints();
+		gbc_dateChooser_1.anchor = GridBagConstraints.WEST;
+		gbc_dateChooser_1.insets = new Insets(0, 0, 5, 5);
+		gbc_dateChooser_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_dateChooser_1.gridx = 2;
+		gbc_dateChooser_1.gridy = 13;
+		add(dateChooser_1,gbc_dateChooser_1);
+		dateChooser_1.setVisible(false);
+		
+		fechaFin1 = new JLabel("Por favor, inserte una fecha de fin de mantenimiento.");
+		fechaFin1.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 10));
+		fechaFin1.setForeground(Color.RED);
+		GridBagConstraints gbc_fin1 = new GridBagConstraints();
+		gbc_fin1.gridy = 14;
+		gbc_fin1.insets = new Insets(0, 0, 5, 5);
+		gbc_fin1.gridx = 1;
+		gbc_fin1.gridwidth=7;
+		gbc_fin1.anchor=GridBagConstraints.WEST;
+		add(fechaFin1, gbc_fin1);
+		fechaFin1.setVisible(false);
+		
+		obs = new JLabel("OBSERVACIONES:");
+		obs.setFont(new Font("Arial", Font.BOLD, 14));
+		GridBagConstraints gbc_obs = new GridBagConstraints();
+		gbc_obs.anchor = GridBagConstraints.EAST;
+		gbc_obs.insets = new Insets(0, 0, 5, 5);
+		gbc_obs.gridx =1;
+		gbc_obs.gridy = 15;
+		add(obs,gbc_obs);
+		obs.setVisible(false);
+		
+		textArea = new JTextArea();
+		textArea.setLineWrap(true);
+		textArea.setRows(8);
+		textArea.setBackground(Color.WHITE);
+		GridBagConstraints gbc_textArea = new GridBagConstraints();
+		gbc_textArea.anchor = GridBagConstraints.NORTHWEST;
+		gbc_textArea.insets = new Insets(10, 0, 5, 5);
+		gbc_textArea.gridx = 2;
+		gbc_textArea.gridy = 15;
+		gbc_textArea.gridwidth=2;
+		gbc_textArea.gridheight=2;
+		add(textArea,gbc_textArea);
+		textArea.setVisible(false);
+		
+		btnNewButton_3 = new JButton("CANCELAR");
+		btnNewButton_3.setBackground(new Color(204, 204, 51));
+		btnNewButton_3.setFont(new Font("Arial", Font.BOLD, 12));
+		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
+		gbc_btnNewButton_3.fill = GridBagConstraints.VERTICAL;
+		gbc_btnNewButton_3.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton_3.gridx = 3;
+		gbc_btnNewButton_3.gridy = 17;
+		add(btnNewButton_3, gbc_btnNewButton_3);
+		btnNewButton_3.setVisible(false);
+		
+		btnNewButton4 = new JButton("GUARDAR");
+		btnNewButton4.setBackground(new Color(204, 204, 51));
+		btnNewButton4.setFont(new Font("Arial", Font.BOLD, 12));
+		GridBagConstraints gbc_btnNewButton4 = new GridBagConstraints();
+		gbc_btnNewButton4.fill = GridBagConstraints.VERTICAL;
+		gbc_btnNewButton4.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton4.gridx = 2;
+		gbc_btnNewButton4.gridy = 17;
+		add(btnNewButton4, gbc_btnNewButton4);
+		btnNewButton4.setVisible(false);
+	}
+	public JDateChooser getDateChooser_1() {
+		return dateChooser_1;
 	}
 	public JTextField getTextField_1() {
 		return textField_1;
@@ -265,6 +390,7 @@ public class PanelAgregarEstacion extends JPanel {
 	}
 	
 	
+	
 	private String estadoSeleccionado() {
 		if(rdbtnNewRadioButton.isSelected()) {
 			return rdbtnNewRadioButton.getText();
@@ -281,7 +407,9 @@ public class PanelAgregarEstacion extends JPanel {
 		this.timePicker.setText(null);
 		this.timePicker_1.setText(null);
 		this.estado.clearSelection();
-		
+		dateChooser_1.setCalendar(null);
+		this.textArea.setText(null);
+
 	}
 	
 	public void limpiarWarnings() {
@@ -308,5 +436,36 @@ public class PanelAgregarEstacion extends JPanel {
 	}
 	public void estadoFaltante() {
 		seleccioneEstado.setVisible(true);
+	}
+	
+	public void mostrarDatosMantenimiento() {
+		//tareaMant.setVisible(true);
+		btnNewButton_1.setEnabled(false);
+		btnNewButton.setEnabled(false);
+		agregarMant.setVisible(true);
+		fechaFin.setVisible(true);
+		dateChooser_1.setVisible(true);
+		obs.setVisible(true);
+		textArea .setVisible(true);
+		btnNewButton_3.setVisible(true);
+		btnNewButton4.setVisible(true);
+	}
+	
+	public void sacarMantenimiento() {
+		btnNewButton_1.setEnabled(true);
+		btnNewButton.setEnabled(true);
+		agregarMant.setVisible(false);
+		fechaFin.setVisible(false);
+		dateChooser_1.setVisible(false);
+		obs.setVisible(false);
+		textArea .setVisible(false);
+		btnNewButton_3.setVisible(false);
+		btnNewButton4.setVisible(false);
+	}
+	public JButton getBtnNewButton_3() {
+		return btnNewButton_3;
+	}
+	public JButton getBtnNewButton4() {
+		return btnNewButton4;
 	}
 }
