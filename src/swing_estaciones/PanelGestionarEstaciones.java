@@ -20,7 +20,8 @@ public class PanelGestionarEstaciones extends JPanel{
 	private JButton crear;
 	private JButton buscar;
 	private JButton volver;
-
+	private JButton informacion;
+	
 	private GridBagConstraints gbc;
 	
 	public  PanelGestionarEstaciones() {
@@ -61,6 +62,17 @@ public class PanelGestionarEstaciones extends JPanel{
 		this.gbc.insets= new Insets(5,0,5,0); // espaciado
 		buscar.setPreferredSize(new Dimension(500,20));
 		this.add(buscar, gbc);
+		
+		informacion = new JButton("INFORMACION DE ESTACIONES");
+		informacion.setBackground(new Color(204,204,102));
+		informacion.setFont(new Font("Arial", Font.BOLD,18));
+		this.gbc.gridx=0;
+		this.gbc.gridy=3;
+		this.gbc.insets= new Insets(5,0,5,0); // espaciado
+		informacion.setPreferredSize(new Dimension(500,20));
+		this.add(informacion, gbc);
+		
+		
 		
 		volver = new JButton("VOLVER");
 		volver.setFont(new Font("Arial", Font.BOLD, 15));

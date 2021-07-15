@@ -105,15 +105,7 @@ public class VentanaPrincipal {
 
 		panelBuscarEstacion = new PanelBuscarEstacion();
 		panelBuscarEstacion.setBackground(Color.WHITE);
-		
-<<<<<<< HEAD
-		panelEstacionAgregada = new PanelEstacionAgregada();
-		panelEstacionAgregada.setBackground(Color.WHITE);
-		
-		panelErrorEnTodo = new PanelErrorEnTodo();
-		panelErrorEnTodo.setBackground(Color.WHITE);
-=======
->>>>>>> 65b1c95e4d50c697a5554f481ed97e66552be70d
+
 
 		//TRAMOS
 		panelGestionarTramos = new PanelGestionarTramos();
