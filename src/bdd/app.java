@@ -33,6 +33,11 @@ public class app {
 	
 	List<Linea> lineas = LineasRepo.ObtenerLineas();
 	System.out.println(lineas);
+	
+	Estacion esta = new Estacion("T", LocalTime.of(8, 30), LocalTime.of(23, 00));
+	esta = EstacionesRepo.AgregarEstacion(esta);
+	System.out.println(esta.getId() + " " + esta);
+	
 	}
 
 }

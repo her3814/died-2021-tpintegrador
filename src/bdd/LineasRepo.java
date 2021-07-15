@@ -15,11 +15,11 @@ import modelo.LineaTipoTransporteEnum;
 public class LineasRepo {
 
 	public static void ModificarLinea(Linea linea) {
-		//TODO Modificar Linea
+		String sql = "UPDATE lineas_transporte SET nombre = ?, color = ?, estado = ?, tipo_transporte = ? WHERE id = ?";
 	}
 	
 	public static void AgregarLinea(Linea linea) {
-		String sql = "INSERT INTO lineas_transporte (nombre, color, estado, tipo_trasnporte) VALUES (?, ?, ?, ?);";
+		String sql = "INSERT INTO lineas_transporte (nombre, color, estado, tipo_transporte) VALUES (?, ?, ?, ?);";
 		
 		
 		Connection con = BddSingleton.GetConnection();
