@@ -250,13 +250,18 @@ public class PanelAgregarEstacion extends JPanel {
 */
 	//crea una estacion con los datos ingresados (si son null la creamos igual con null)
 	public Estacion getEstacionCreada() {
-		EstadoEstacionEnum e;
+		EstadoEstacionEnum e = null;
 		if(rdbtnNewRadioButton.isSelected()) {
 			e= EstadoEstacionEnum.OPERATIVA;
 		}else if(rdbtnNewRadioButton1.isSelected()){
 			e= EstadoEstacionEnum.MANTENIMIENTO;
 		}
+		if(e==null) {
 		return new Estacion(this.textField_1.getText(), this.timePicker.getTime(), this.timePicker_1.getTime());
+		}else {
+			return new Estacion(this.textField_1.getText(), this.timePicker.getTime(), this.timePicker_1.getTime(),e);
+		}
+		
 	}
 	
 	

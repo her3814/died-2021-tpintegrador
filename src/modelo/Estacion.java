@@ -25,6 +25,7 @@ public class Estacion {
 	}
 	
 	public Estacion( String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado) {
+		_id = null;
 		_nombre = nombre;
 		_estado = estado;
 		_horarioApertura = horaApertura;
