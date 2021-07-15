@@ -48,7 +48,7 @@ public class Estacion {
 
 	@Override
 	public String toString() {
-		return "Estacion [ " + _nombre + " ]";
+		return "Estacion " + _nombre + " (" + _estado + ")";
 	}
 
 	public EstadoEstacionEnum getEstado() {

@@ -115,7 +115,13 @@ public class EstacionesRepo {
 	public static List<Estacion> ObtenerEstaciones() {
 		List<Estacion> estaciones = new ArrayList<Estacion>();
 
-		String sql = "SELECT * FROM estaciones";
+		String sql = "select *, NOT EXISTS (SELECT * "
+				+ "FROM estaciones_tareas_mantenimiento etm "
+				+ "WHERE etm.id_estacion = est.id "
+				+ "AND "
+				+ "((fecha_fin is not null and CURRENT_DATE() BETWEEN fecha_inicio and fecha_fin) OR "
+				+ "(fecha_fin is null and CURRENT_DATE() >= fecha_inicio))) AS estado "
+				+ "FROM estaciones est;";
 
 		Connection con = BddSingleton.GetConnection();
 
@@ -144,7 +150,13 @@ public class EstacionesRepo {
 	public static Estacion ObtenerEstacion(int id) {
 
 		Estacion estacion = null;
-		String sql = "SELECT * FROM estaciones WHERE id = ?;";
+		String sql = "select *, NOT EXISTS (SELECT * "
+				+ "FROM estaciones_tareas_mantenimiento etm "
+				+ "WHERE etm.id_estacion = est.id "
+				+ "AND "
+				+ "((fecha_fin is not null and CURRENT_DATE() BETWEEN fecha_inicio and fecha_fin) OR "
+				+ "(fecha_fin is null and CURRENT_DATE() >= fecha_inicio))) AS estado "
+				+ "FROM estaciones est WHERE id = ?;";
 
 		Connection con = BddSingleton.GetConnection();
 		try {
@@ -176,7 +188,13 @@ public class EstacionesRepo {
 		if (filtro.esVacio())
 			return ObtenerEstaciones();
 
-		String sql = "SELECT * FROM estaciones";
+		String sql = "SELECT *, NOT EXISTS (SELECT * "
+				+ "FROM estaciones_tareas_mantenimiento etm "
+				+ "WHERE etm.id_estacion = est.id "
+				+ "AND "
+				+ "((fecha_fin is not null and CURRENT_DATE() BETWEEN fecha_inicio and fecha_fin) OR "
+				+ "(fecha_fin is null and CURRENT_DATE() >= fecha_inicio))) AS estado "
+				+ "from estaciones est ";
 
 		List<String> sqlWhere = new ArrayList<String>();
 
@@ -194,7 +212,18 @@ public class EstacionesRepo {
 			sqlWhere.add(" hora_cierre >= ? ");
 		if (filtro.horaCierreHasta != null)
 			sqlWhere.add(" hora_cierre <= ? ");
-
+		if(filtro.estado != null)
+		{
+			String sqlEstado = " EXISTS (SELECT * "
+					+ "FROM estaciones_tareas_mantenimiento etm "
+					+ "WHERE etm.id_estacion = est.id "
+					+ "AND "
+					+ "((fecha_fin is not null and CURRENT_DATE() BETWEEN fecha_inicio and fecha_fin) OR "
+					+ "(fecha_fin is null and CURRENT_DATE() >= fecha_inicio))) ";
+			if(filtro.estado == EstadoEstacionEnum.OPERATIVA)
+				sqlEstado = "NOT" + sqlEstado;
+			sqlWhere.add(sqlEstado);
+		}
 		// Actualizo el sql con el comando WHERE y los parametros de filtrado
 		sql = sql + " WHERE " + String.join(" AND ", sqlWhere) + ";";
 
@@ -245,8 +274,9 @@ public class EstacionesRepo {
 			String nombre = res.getString("nombre");
 			LocalTime hora_ape = res.getTime("hora_apertura").toLocalTime();
 			LocalTime hora_cie = res.getTime("hora_cierre").toLocalTime();
+			EstadoEstacionEnum estado = res.getBoolean("estado") ? EstadoEstacionEnum.OPERATIVA : EstadoEstacionEnum.MANTENIMIENTO;
 			// TODO Cargar el estado de la estacion en base a las tareas de mantenimiento.
-			estacion = new Estacion(id, nombre, hora_ape, hora_cie, EstadoEstacionEnum.OPERATIVA);
+			estacion = new Estacion(id, nombre, hora_ape, hora_cie, estado);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
