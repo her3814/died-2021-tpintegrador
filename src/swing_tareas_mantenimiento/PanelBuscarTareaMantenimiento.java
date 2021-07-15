@@ -30,7 +30,7 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 	private JTextField textField;
 	private JButton cancelar; 
 	private JTable table;
-	private SubPanelFiltrosTareaMantenimiento filtros;
+//	private SubPanelFiltrosTareaMantenimiento filtros;
 	
 	public PanelBuscarTareaMantenimiento() {
 				
@@ -105,13 +105,13 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 			gbc_btnNewButton_2.gridy = 4;
 			add(cancelar, gbc_btnNewButton_2);
 			
-			filtros= new SubPanelFiltrosTareaMantenimiento();
+		/*	filtros= new SubPanelFiltrosTareaMantenimiento();
 			GridBagConstraints gbcFiltros = new GridBagConstraints();
 			gbcFiltros.insets = new Insets(0, 0, 5, 5);
 			gbcFiltros.gridx = 1;
 			gbcFiltros.gridy = 3;
 			add(filtros, gbcFiltros);
-		
+		*/
 	}
 	
 	public JButton getCancelar() {
