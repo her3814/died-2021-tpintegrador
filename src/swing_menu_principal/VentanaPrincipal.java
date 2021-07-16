@@ -47,7 +47,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 public class VentanaPrincipal {
-
+ 
 	private static JFrame ventana1;
 	
 	private static PanelGestionarTareaMantenimiento panelGestionarTareaMantenimiento;
@@ -62,7 +62,7 @@ public class VentanaPrincipal {
 	private static PanelProximoMantenimiento panelProximoMantenimiento;
 	private static PanelFlujoMaximo panelFlujoMaximo;
 	private static PanelPageRank panelPageRank;
-
+	
 	private static PanelGestionarTramos panelGestionarTramos;
 	private static PanelAgregarTramo panelAgregarTramo;
 	

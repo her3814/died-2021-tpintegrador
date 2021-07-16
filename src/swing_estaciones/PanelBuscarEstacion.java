@@ -5,6 +5,8 @@ import javax.swing.JRadioButton;
 
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Font;
@@ -16,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,7 @@ import javax.swing.table.TableColumnModel;
 
 import bdd.EstacionesRepo;
 import modelo.Estacion;
+import modelo.EstadoEstacionEnum;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -44,12 +48,14 @@ public class PanelBuscarEstacion extends JPanel {
 	private JButton btnNewButton;
 	private List<Estacion> estacionesBDD;
 	private List<String> nombresEstaciones;
-	private List<String> horariosApertura;
-	private List<String> horariosCierre ;
+	private List<LocalTime> horariosApertura;
+	private List<LocalTime> horariosCierre ;
+	private List<EstadoEstacionEnum> estado ;
+
 	private Object datosFila [][];
 	private String nombreColumnas[];
 	private JButton btnNewButton_3;
-	private JButton btnNewButton_4;
+	private JButton modificar;
 	private JButton btnNewButton_2;
 	private JLabel lblNewLabel_1;
 	
@@ -110,23 +116,26 @@ public class PanelBuscarEstacion extends JPanel {
 		
 		estacionesBDD = EstacionesRepo.ObtenerEstaciones();
 		nombresEstaciones = new ArrayList<String>();
-		horariosApertura = new ArrayList<String>();
-		horariosCierre = new ArrayList<String>();
+		horariosApertura = new ArrayList<LocalTime>();
+		horariosCierre = new ArrayList<LocalTime>();
+		estado = new ArrayList<EstadoEstacionEnum>();
 		
 		for(Estacion e: estacionesBDD) {
 			nombresEstaciones.add(e.getNombre());
-			horariosApertura.add(e.getHorarioApertura().toString());
-			horariosCierre.add(e.getHorarioCierre().toString());
+			horariosApertura.add(e.getHorarioApertura());
+			horariosCierre.add(e.getHorarioCierre());
+			estado.add(e.getEstado());
 		}
 		
-		String nombreColumnas[] = {"Nombre estacion", "Horario apertura", "Horario cierre"};
-		datosFila = new Object[nombresEstaciones.size()] [3];
+		String nombreColumnas[] = {"Nombre estacion", "Horario apertura", "Horario cierre", "Estado"};
+		datosFila = new Object[nombresEstaciones.size()] [4];
 		
 		
 		for(int i=0; i<nombresEstaciones.size();i++) {
 			datosFila[i][0] = nombresEstaciones.get(i);
 			datosFila[i][1] = horariosApertura.get(i);
 			datosFila[i][2] = horariosCierre.get(i);
+			datosFila[i][3] = estado.get(i);
 		}
 		
 		//Crear modelo de la tabla
@@ -149,9 +158,23 @@ public class PanelBuscarEstacion extends JPanel {
 		btnNewButton_3 = new JButton("ELIMINAR");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int fila = table.getSelectedRow();
+				String nombre = (String) table.getValueAt(fila, 0);
+				int seguir = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar la estacion: " + nombre + "?", 
+				null, 2);
+				System.out.println(seguir);
+				if(seguir==0) {
+				LocalTime hi = (LocalTime) table.getValueAt(fila, 1);
+				LocalTime hf = (LocalTime) table.getValueAt(fila, 2);
+				EstadoEstacionEnum estado = (EstadoEstacionEnum) table.getValueAt(fila, 3);
+				Estacion actual = new Estacion(nombre, hi, hf, estado); 
+				EstacionesRepo.EliminarEstacion(actual);
+				estacionesBDD = EstacionesRepo.ObtenerEstaciones();
+				renovarTabla(estacionesBDD);
+				}
 				
-			}
-		});
+		}});
+		
 		btnNewButton_3.setBackground(new Color(204, 204, 153));
 		btnNewButton_3.setEnabled(false);
 		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
@@ -161,24 +184,23 @@ public class PanelBuscarEstacion extends JPanel {
 		gbc_btnNewButton_3.gridy = 5;
 		add(btnNewButton_3, gbc_btnNewButton_3);
 		
-		btnNewButton_4 = new JButton("MODIFICAR");
-		btnNewButton_4.setBackground(new Color(204, 204, 153));
-		btnNewButton_4.setEnabled(false);
+		modificar = new JButton("MODIFICAR");
+		modificar.setBackground(new Color(204, 204, 153));
+		modificar.setEnabled(false);
 		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
 		gbc_btnNewButton_4.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton_4.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_4.gridx = 3;
 		gbc_btnNewButton_4.gridy = 5;
-		add(btnNewButton_4, gbc_btnNewButton_4);
+		add(modificar, gbc_btnNewButton_4);
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() { 
 			    public void valueChanged(ListSelectionEvent e) { 
 			        int cuentaFilasSeleccionadas = table.getSelectedRowCount(); 
 			        if (cuentaFilasSeleccionadas == 1) { 
-			        	btnNewButton_4.setEnabled(true);
+			        	modificar.setEnabled(true);
 			        	btnNewButton_3.setEnabled(true);
 			        } 
-
 			}});
 		
 		JScrollPane scrollPane= new JScrollPane(table);
@@ -218,6 +240,9 @@ public class PanelBuscarEstacion extends JPanel {
 	public JButton getBtnNewButton() {
 		return btnNewButton;
 	}
+	public JButton getModificar() {
+		return modificar;
+	}
 	public void setBtnNewButton(JButton btnNewButton) {
 		this.btnNewButton = btnNewButton;
 	}
@@ -228,20 +253,35 @@ public class PanelBuscarEstacion extends JPanel {
 	
 	public JTable renovarTabla(List<Estacion> nuevosDatos) {
 		nombresEstaciones = new ArrayList<String>();
-		horariosApertura = new ArrayList<String>();
-		horariosCierre = new ArrayList<String>();
+		horariosApertura = new ArrayList<LocalTime>();
+		horariosCierre = new ArrayList<LocalTime>();
 		
 		for(Estacion e: nuevosDatos) {
 			nombresEstaciones.add(e.getNombre());
-			horariosApertura.add(e.getHorarioApertura().toString());
-			horariosCierre.add(e.getHorarioCierre().toString());
+			horariosApertura.add(e.getHorarioApertura());
+			horariosCierre.add(e.getHorarioCierre());
 		}
 		for(int i=0; i<nombresEstaciones.size();i++) {
 			datosFila[i][0]= nombresEstaciones.get(i);
 			datosFila[i][1]= horariosApertura.get(i);
 			datosFila[i][2]= horariosCierre.get(i);
 		}
-		return new JTable(datosFila,nombreColumnas);
+		JTable nueva = new JTable (datosFila, nombreColumnas);
+		DefaultTableModel model = new DefaultTableModel(datosFila,nombreColumnas){
+		    public boolean isCellEditable(int rowIndex,int columnIndex){
+		    	return false;
+		    	}
+		};
+		nueva.setModel(model); 
+		
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  
+		table.setFillsViewportHeight(true);
+		
+		table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		GridBagConstraints gbc_table = new GridBagConstraints();
+		gbc_table.gridwidth = 8;
+		
+		return nueva;
 		
 	}
 	
