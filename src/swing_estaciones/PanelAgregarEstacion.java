@@ -39,7 +39,7 @@ public class PanelAgregarEstacion extends JPanel {
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private TimePicker timePicker;
-	private TimePicker timePicker_1;
+	private TimePicker timePicker_1; s
 	private JRadioButton rdbtnNewRadioButton;
 	private JRadioButton rdbtnNewRadioButton1;
 	private final JLabel label = new JLabel("New label");
