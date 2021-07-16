@@ -147,6 +147,11 @@ public class PanelBuscarEstacion extends JPanel {
 		gbc_table.gridwidth = 8;
 		
 		btnNewButton_3 = new JButton("ELIMINAR");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnNewButton_3.setBackground(new Color(204, 204, 153));
 		btnNewButton_3.setEnabled(false);
 		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
@@ -182,8 +187,6 @@ public class PanelBuscarEstacion extends JPanel {
 		gbc_table.gridx = 2;
 		gbc_table.gridy = 4;
 		add(scrollPane, gbc_table);
-		
-	
 		
 		JButton btnNewButton_1 = new JButton("CANCELAR");
 		btnNewButton_1.setBackground(new Color(204, 204, 51));
