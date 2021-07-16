@@ -10,6 +10,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,7 @@ import com.toedter.calendar.JDateChooser;
 import bdd.EstacionesRepo;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
+import modelo.TareaMantenimiento;
 
 import java.awt.Color;
 
@@ -55,6 +57,7 @@ public class PanelAgregarEstacion extends JPanel {
 	private JButton btnNewButton_3 ;
 	private JButton btnNewButton4;
 	private JLabel fechaFin1;
+	private JLabel reingFecha;
 	
 	public PanelAgregarEstacion() {
 		setBackground(Color.WHITE);
@@ -306,6 +309,18 @@ public class PanelAgregarEstacion extends JPanel {
 		add(fechaFin1, gbc_fin1);
 		fechaFin1.setVisible(false);
 		
+		reingFecha = new JLabel("Por favor, ingrese una fecha posterior a la actual.");
+		reingFecha.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 10));
+		reingFecha.setForeground(Color.RED);
+		GridBagConstraints gbc_reingF = new GridBagConstraints();
+		gbc_reingF.gridy = 14;
+		gbc_reingF.insets = new Insets(0, 0, 5, 5);
+		gbc_reingF.gridx = 1;
+		gbc_reingF.gridwidth=7;
+		gbc_reingF.anchor=GridBagConstraints.WEST;
+		add(reingFecha, gbc_reingF);
+		reingFecha.setVisible(false);
+		
 		obs = new JLabel("OBSERVACIONES:");
 		obs.setFont(new Font("Arial", Font.BOLD, 14));
 		GridBagConstraints gbc_obs = new GridBagConstraints();
@@ -409,7 +424,6 @@ public class PanelAgregarEstacion extends JPanel {
 		this.estado.clearSelection();
 		dateChooser_1.setCalendar(null);
 		this.textArea.setText(null);
-
 	}
 	
 	public void limpiarWarnings() {
@@ -418,6 +432,8 @@ public class PanelAgregarEstacion extends JPanel {
 		lblNewLabel_6.setVisible(false);
 		inserteHoraCierre.setVisible(false);
 		this.inserteHoraApertura.setVisible(false);
+		this.reingFecha.setVisible(false);
+		this.fechaFin1.setVisible(false);
 	}
 	
 	
@@ -467,5 +483,42 @@ public class PanelAgregarEstacion extends JPanel {
 	}
 	public JButton getBtnNewButton4() {
 		return btnNewButton4;
+	}
+	
+	public void mensajeFechaErronea() {
+		reingFecha.setVisible(true);
+	}
+	public TareaMantenimiento getTareaMantenimiento(Estacion nueva) {
+		//public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs)
+		return new TareaMantenimiento(nueva, LocalDate.now(),LocalDate.of(this.dateChooser_1.getDate().getYear(), this.dateChooser_1.getDate().getMonth(), this.dateChooser_1.getDate().getDay()), textArea.getText() );
+	}
+	public void deshabilitarGuardado() {
+		btnNewButton.setEnabled(false);
+	}
+	public void deshabilitarGuardado1() {
+		btnNewButton4.setEnabled(false);
+	}
+	public void habilitarBotones() {
+		btnNewButton.setEnabled(true);
+		btnNewButton4.setEnabled(true);
+	}
+	
+	public void deshabilitarCambios() {
+		textField_1.setEditable(false);
+		timePicker.setEnabled(false);
+		this.timePicker_1.setEnabled(false);
+		this.rdbtnNewRadioButton.setEnabled(false);
+		this.rdbtnNewRadioButton1.setEnabled(false);
+	}
+	
+	public void habilitar() {
+		textField_1.setEditable(true);
+		timePicker.setEnabled(true);
+		this.timePicker_1.setEnabled(true);
+		this.rdbtnNewRadioButton.setEnabled(true);
+		this.rdbtnNewRadioButton1.setEnabled(true);
+	}
+	public void faltaFechaMant() {
+		fechaFin1.setVisible(true);
 	}
 }
