@@ -117,7 +117,9 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		add(lblNewLabel_5, gbc_lblNewLabel_5);
 		
 		JTextArea textArea = new JTextArea();
+		textArea.setBackground(Color.LIGHT_GRAY);
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
+		gbc_textArea.gridheight = 2;
 		gbc_textArea.gridwidth = 2;
 		gbc_textArea.insets = new Insets(0, 0, 5, 5);
 		gbc_textArea.fill = GridBagConstraints.BOTH;

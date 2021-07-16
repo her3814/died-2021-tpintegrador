@@ -35,6 +35,8 @@ public class PanelAgregarBoleto extends JPanel {
 	private JLabel lblNewLabel_4;
 	private JComboBox comboBox;
 	private JComboBox comboBox_1;
+	private JLabel lblNewLabel_5;
+	private JComboBox comboBox_2;
 
 	public PanelAgregarBoleto() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -141,13 +143,33 @@ public class PanelAgregarBoleto extends JPanel {
 		gbc_comboBox_1.gridx = 2;
 		gbc_comboBox_1.gridy = 5;
 		add(comboBox_1, gbc_comboBox_1);
+		
+		lblNewLabel_5 = new JLabel("MEJOR CAMINO:");
+		lblNewLabel_5.setFont(new Font("Arial", Font.BOLD, 14));
+		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
+		gbc_lblNewLabel_5.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_5.gridx = 1;
+		gbc_lblNewLabel_5.gridy = 6;
+		add(lblNewLabel_5, gbc_lblNewLabel_5);
+		
+		comboBox_2 = new JComboBox();
+		comboBox_2.setFont(new Font("Arial", Font.BOLD, 13));
+		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"M\u00C1S BARATO", "MENOR DISTANCIA", "M\u00C1S R\u00C1PIDO"}));
+		GridBagConstraints gbc_comboBox_2 = new GridBagConstraints();
+		gbc_comboBox_2.gridwidth = 2;
+		gbc_comboBox_2.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox_2.gridx = 2;
+		gbc_comboBox_2.gridy = 6;
+		add(comboBox_2, gbc_comboBox_2);
 
 		guardar = new JButton("GUARDAR");
 		guardar.setBackground(new Color(204, 204, 51));
 		guardar.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
-		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton.insets = new Insets(10, 0, 0, 5);
 		gbc_btnNewButton.gridx = 2;
 		gbc_btnNewButton.gridy = 7;
 		add(guardar, gbc_btnNewButton);
@@ -157,7 +179,7 @@ public class PanelAgregarBoleto extends JPanel {
 		cancelar.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton_1.insets = new Insets(10, 0, 0, 5);
 		gbc_btnNewButton_1.gridx = 3;
 		gbc_btnNewButton_1.gridy = 7;
 		add(cancelar, gbc_btnNewButton_1);

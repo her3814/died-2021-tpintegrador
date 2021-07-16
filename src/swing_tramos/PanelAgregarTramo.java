@@ -17,7 +17,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import bdd.EstacionesRepo;
+import bdd.LineasRepo;
 import modelo.Estacion;
+import modelo.Linea;
 
 import javax.swing.JComboBox;
 import java.awt.Color;
@@ -121,6 +123,13 @@ public class PanelAgregarTramo extends JPanel {
 		add(lblNewLabel_1_1_3, gbc_lblNewLabel_1_1_3);
 		
 		JComboBox comboBox_1_1 = new JComboBox();
+		
+		List<Linea> lineas = LineasRepo.ObtenerLineas();
+				comboBox_1_1.setModel(new DefaultComboBoxModel(		
+						lineas.stream().map(e -> e.get_color())
+						.collect(Collectors.toList())
+						.toArray()));
+			
 		comboBox_1_1.setBackground(new Color(204, 204, 204));
 		GridBagConstraints gbc_comboBox_1_1 = new GridBagConstraints();
 		gbc_comboBox_1_1.gridwidth = 2;

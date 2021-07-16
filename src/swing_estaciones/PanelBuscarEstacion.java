@@ -1,12 +1,15 @@
 package swing_estaciones;
 
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Font;
 import javax.swing.JComboBox;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -18,12 +21,15 @@ import javax.swing.JTable;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import bdd.EstacionesRepo;
 import modelo.Estacion;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import javax.swing.JCheckBox;
 
 public class PanelBuscarEstacion extends JPanel {
 	private JTextField textField;
@@ -37,13 +43,14 @@ public class PanelBuscarEstacion extends JPanel {
 	private List<String> horariosCierre ;
 	private Object datosFila [][];
 	private String nombreColumnas[];
+	private JCheckBox chckbxNewCheckBox;
 	
 	public PanelBuscarEstacion() {
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 154, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, -16, 298, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		setPreferredSize(new Dimension(500,500));
@@ -53,9 +60,9 @@ public class PanelBuscarEstacion extends JPanel {
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.insets = new Insets(10, 5, 5, 5);
-		gbc_lblNewLabel.gridx = 1;
+		gbc_lblNewLabel.gridx = 2;
 		gbc_lblNewLabel.gridy = 0;
-		gbc_lblNewLabel.gridwidth=4;
+		gbc_lblNewLabel.gridwidth=5;
 		add(lblNewLabel, gbc_lblNewLabel);
 		
 		textField = new JTextField();
@@ -64,19 +71,26 @@ public class PanelBuscarEstacion extends JPanel {
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 1;
-		gbc_textField.gridwidth=3;
+		gbc_textField.gridwidth=5;
 		add(textField, gbc_textField);
 		textField.setColumns(10);
 		
+		filtros= new SubPanelFiltros();
+		GridBagConstraints gbcFiltros = new GridBagConstraints();
+		gbcFiltros.insets = new Insets(0, 0, 5, 5);
+		gbcFiltros.gridx=1; 
+		gbcFiltros.gridy=2;
+		gbcFiltros.gridheight=4;
+		add(filtros, gbcFiltros);
+			
 		btnNewButton = new JButton("BUSCAR");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(5, 5, 5, 5);
-		gbc_btnNewButton.gridx = 2;
+		gbc_btnNewButton.gridx = 4;
 		gbc_btnNewButton.gridy = 2;
 		gbc_btnNewButton.gridwidth=1;
 		add(btnNewButton, gbc_btnNewButton);
 		
-
 		estacionesBDD = EstacionesRepo.ObtenerEstaciones();
 		nombresEstaciones = new ArrayList<String>();
 		horariosApertura = new ArrayList<String>();
@@ -94,21 +108,21 @@ public class PanelBuscarEstacion extends JPanel {
 			}
 		});
 		
-		String nombreColumnas[] = {"Nombre estacion", "Horario apertura", "Horario cierre"};
-		datosFila= new Object[nombresEstaciones.size()] [3];
+		String nombreColumnas[] = {"Nombre estacion", "Horario apertura", "Horario cierre", "Eliminar", "Modificar"};
+		datosFila = new Object[nombresEstaciones.size()] [5];
 		
 		for(int i=0; i<nombresEstaciones.size();i++) {
-			datosFila[i][0]= nombresEstaciones.get(i);
-			datosFila[i][1]= horariosApertura.get(i);
-			datosFila[i][2]= horariosCierre.get(i);
+			datosFila[i][0] = nombresEstaciones.get(i);
+			datosFila[i][1] = horariosApertura.get(i);
+			datosFila[i][2] = horariosCierre.get(i);
+			datosFila[i][3] = false;
+			datosFila[i][4] = false;
 		}
-		
-		
-		
-		
+
 		table = new JTable(datosFila,nombreColumnas);
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_table = new GridBagConstraints();
+		gbc_table.gridwidth = 5;
 		
 		JScrollPane scrollPane= new JScrollPane(table);
 		gbc_table.insets = new Insets(5, 5, 5, 5);
@@ -119,25 +133,17 @@ public class PanelBuscarEstacion extends JPanel {
 		
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.insets = new Insets(10, 0, 5, 5);
-		gbc_btnNewButton_1.gridx = 1;
+		gbc_btnNewButton_1.gridx = 2;
 		gbc_btnNewButton_1.gridy = 6;
 		add(btnNewButton_1, gbc_btnNewButton_1);
 		
-		 btnNewButton_2 = new JButton("CANCELAR");
+		btnNewButton_2 = new JButton("CANCELAR");
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_2.gridx = 3;
+		gbc_btnNewButton_2.gridx = 5;
 		gbc_btnNewButton_2.gridy = 6;
 		add(btnNewButton_2, gbc_btnNewButton_2);
-		
-		filtros= new SubPanelFiltros();
-		GridBagConstraints gbcFiltros = new GridBagConstraints();
-		gbcFiltros.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
-		gbcFiltros.gridx=1; 
-		gbcFiltros.gridy=2;
-		gbcFiltros.gridheight=4;
-		add(filtros, gbcFiltros);
 		
 	}
 	public JButton getBtnNewButton_2() {
