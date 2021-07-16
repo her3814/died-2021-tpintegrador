@@ -13,6 +13,8 @@ import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
 import bdd.EstacionesRepo;
+import bdd.TareaMantenimientoRepo;
+import excepciones.FechaFinMenorFechaInicioException;
 import filtros.EstacionesFiltro;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
@@ -292,6 +294,32 @@ public class VentanaPrincipal {
 			}
 		});
 		
+		panelAgregarTareaMantenimiento.getBtnNewButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelAgregarTareaMantenimiento.limpiarWarnings();
+				try {
+					VentanaPrincipal.agregarTareaMantenimiento();
+				} catch (FechaFinMenorFechaInicioException e1) {
+					panelAgregarTareaMantenimiento.mensajeFechaErronea();
+				}
+			}
+		});
+		
+		panelAgregarTareaMantenimiento.getBtnNewButton_1().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelAgregarTareaMantenimiento.limpiarWarnings();
+				panelAgregarTareaMantenimiento.limpiarDatos();
+				panelAgregarTareaMantenimiento.habilitarBotones();
+				ventana1.setTitle("GESTIONAR ESTACIONES");
+				ventana1.setContentPane(panelGestionarEstaciones);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		
+
+		
+		
 		//------------------------------------------------------------------------------------
 		// 					BOLETOS
 		panelGestionarBoletos.getVolver().addActionListener(new ActionListener() {
@@ -485,17 +513,21 @@ public class VentanaPrincipal {
 				if(panelAgregarEstacion.getDateChooser_1().getDate()==null) {
 					panelAgregarEstacion.faltaFechaMant();
 				}
-				if(panelAgregarEstacion.getDateChooser_1().getDate().before(Date.from(Instant.now()))) {
-					panelAgregarEstacion.mensajeFechaErronea();
-				}
 				else {
 					Estacion nueva =panelAgregarEstacion.getEstacionCreada();
-					TareaMantenimiento tarea= panelAgregarEstacion.getTareaMantenimiento(nueva);
+					TareaMantenimiento tarea=null;
+					try {
+						tarea = panelAgregarEstacion.getTareaMantenimiento(nueva);
+					} catch (FechaFinMenorFechaInicioException e1) {
+						panelAgregarEstacion.mensajeFechaErronea();
+					}
+					if(tarea.getFechaFin().isAfter(tarea.getFechaInicio())) {
 					AltaEstacionServicio.AltaEstacion(nueva, tarea);
 					panelAgregarEstacion.limpiarWarnings();
 					panelAgregarEstacion.mensajeEstacionCreada();
 					panelAgregarEstacion.deshabilitarGuardado1();
 					//panelAgregarEstacion.deshabilitarCambios();
+					}
 				}
 			}
 		});
@@ -516,7 +548,7 @@ public class VentanaPrincipal {
 		
 		panelGestionarLineas.getVolver().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ventana1.setTitle("MENU PRINCIPAL");
+				ventana1.setTitle("MENU PRINCIPAL");  
 				ventana1.setContentPane(panelMenuPrincipal);
 				ventana1.setVisible(true);
 				ventana1.pack();
@@ -609,5 +641,25 @@ public class VentanaPrincipal {
 			panelAgregarEstacion.deshabilitarCambios();
 		}
 		}
+	}
+	
+	public static void agregarTareaMantenimiento() throws FechaFinMenorFechaInicioException {
+		TareaMantenimiento nueva = panelAgregarTareaMantenimiento.getTareaCreada();
+		if(nueva.getEstacion()==null) {
+			panelAgregarTareaMantenimiento.seleccioneEstacion();
+		}
+		if(nueva.getFechaInicio()==null) {
+			panelAgregarTareaMantenimiento.seleccioneFechaInicio();
+		}
+		if(nueva.getFechaFin()==null) {
+			panelAgregarTareaMantenimiento.seleccioneFechaFin();
+		}
+		if(nueva.getEstacion()!=null && nueva.getFechaInicio()!=null && nueva.getFechaFin()!=null){
+			//AltaTareaMantenimiento.AltaTareaMantenimiento(nueva);
+			panelAgregarTareaMantenimiento.mensajeTareaCreada();
+			panelAgregarTareaMantenimiento.deshabilitarGuardado();
+			TareaMantenimientoRepo.AgregarTareaMantenimiento(nueva);
+		}
+		
 	}
 }

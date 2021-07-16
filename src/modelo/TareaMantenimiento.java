@@ -27,7 +27,7 @@ public class TareaMantenimiento {
 		setFechaInicio(fi);
 		setFechaFin(ff);
 		_observaciones = obs;
-	}
+	} 
 
 	public Estacion getEstacion() {
 		return _estacion;
@@ -38,7 +38,7 @@ public class TareaMantenimiento {
 	}
 
 	public void setFechaInicio(LocalDate fechaInicio) throws FechaFinMenorFechaInicioException {
-		if (_fechaFin != null && fechaInicio != null && _fechaFin.compareTo(fechaInicio) < 0)
+		if (_fechaFin != null && fechaInicio != null && _fechaFin.isBefore(fechaInicio))
 			throw new FechaFinMenorFechaInicioException();
 
 		this._fechaInicio = fechaInicio;
@@ -49,7 +49,7 @@ public class TareaMantenimiento {
 	}
 
 	public void setFechaFin(LocalDate fechaFin) throws FechaFinMenorFechaInicioException {
-		if (fechaFin != null && _fechaInicio != null && fechaFin.compareTo(_fechaInicio) < 0)
+		if (fechaFin != null && _fechaInicio != null && fechaFin.isBefore(_fechaInicio))
 			throw new FechaFinMenorFechaInicioException();
 
 		this._fechaFin = fechaFin;

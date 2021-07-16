@@ -26,6 +26,7 @@ import com.github.lgooddatepicker.components.TimePicker;
 import com.toedter.calendar.JDateChooser;
 
 import bdd.EstacionesRepo;
+import excepciones.FechaFinMenorFechaInicioException;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 import modelo.TareaMantenimiento;
@@ -214,7 +215,7 @@ public class PanelAgregarEstacion extends JPanel {
 		estadoGbc.gridwidth=9;
 		estadoGbc.anchor=GridBagConstraints.WEST;
 		add(seleccioneEstado, estadoGbc);
-		seleccioneEstado.setVisible(false);
+		seleccioneEstado.setVisible(false); 
 		
 		estado = new ButtonGroup();
 		estado.add(rdbtnNewRadioButton);
@@ -488,9 +489,10 @@ public class PanelAgregarEstacion extends JPanel {
 	public void mensajeFechaErronea() {
 		reingFecha.setVisible(true);
 	}
-	public TareaMantenimiento getTareaMantenimiento(Estacion nueva) {
+	public TareaMantenimiento getTareaMantenimiento(Estacion nueva) throws FechaFinMenorFechaInicioException {
 		//public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs)
 		return new TareaMantenimiento(nueva, LocalDate.now(),LocalDate.of(this.dateChooser_1.getDate().getYear(), this.dateChooser_1.getDate().getMonth(), this.dateChooser_1.getDate().getDay()), textArea.getText() );
+		
 	}
 	public void deshabilitarGuardado() {
 		btnNewButton.setEnabled(false);

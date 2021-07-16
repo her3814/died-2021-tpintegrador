@@ -12,7 +12,7 @@ public class Estacion {
 	public Estacion(int Id, String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado) {
 		_id = Id;
 		_nombre = nombre;
-		_estado = estado;
+		_estado = estado;  
 		_horarioApertura = horaApertura;
 		_horarioCierre = horaCierre;
 	}
