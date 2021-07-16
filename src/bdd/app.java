@@ -1,12 +1,15 @@
 package bdd;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import excepciones.FechaFinMenorFechaInicioException;
 import filtros.EstacionesFiltro;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 import modelo.Linea;
+import modelo.TareaMantenimiento;
 import modelo.Tramo;
 import modelo.TramosFunciones;
 import servicios.VenderBoletoServicio;
@@ -26,18 +29,21 @@ public class app {
 		System.out.println(resultado);
 
 		Estacion est = EstacionesRepo.ObtenerEstacion(2);
-	System.out.println(est);
-	 est = EstacionesRepo.ObtenerEstacion(1);
-	System.out.println(est);
+		System.out.println(est);
+
+		var tareas = TareaMantenimientoRepo.Obtener();
+		System.out.println(tareas);
+
+		tareas = TareaMantenimientoRepo.Obtener(est);
+		System.out.println(tareas);
+
+		var t = tareas.get(0);
+		
+		TareaMantenimientoRepo.EliminarTareaMantenimiento(t);
 	
-	
-	List<Linea> lineas = LineasRepo.ObtenerLineas();
-	System.out.println(lineas);
-	
-	Estacion esta = new Estacion("T", LocalTime.of(8, 30), LocalTime.of(23, 00));
-	esta = EstacionesRepo.AgregarEstacion(esta);
-	System.out.println(esta.getId() + " " + esta);
-	
+
+		tareas = TareaMantenimientoRepo.Obtener(est);
+		System.out.println(tareas);
 	}
 
 }
