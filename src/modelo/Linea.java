@@ -19,6 +19,15 @@ public class Linea {
 		_estado = estado;		
 		_tipoTransporte=tipoTransporte;
 	}
+	
+	public Linea(String nombre, String color, EstadoLineaEnum estado,
+			LineaTipoTransporteEnum tipoTransporte) {
+		_id=null;
+		_nombre = nombre;
+		_color = color;
+		_estado = estado;		
+		_tipoTransporte=tipoTransporte;
+	}
 
 	public Integer get_id() {
 		return _id;

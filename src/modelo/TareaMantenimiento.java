@@ -13,6 +13,8 @@ public class TareaMantenimiento {
 
 	public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs)
 			throws FechaFinMenorFechaInicioException {
+		if (ff != null && fi != null && ff.isBefore(fi)) {
+			throw new FechaFinMenorFechaInicioException();}
 		_id = null;
 		_estacion = estacion;
 		setFechaInicio(fi);
@@ -22,6 +24,8 @@ public class TareaMantenimiento {
 
 	public TareaMantenimiento(Integer id, Estacion estacion, LocalDate fi, LocalDate ff, String obs)
 			throws FechaFinMenorFechaInicioException {
+		if (ff != null && fi != null && ff.isBefore(fi))
+			throw new FechaFinMenorFechaInicioException();
 		_id = id;
 		_estacion = estacion;
 		setFechaInicio(fi);

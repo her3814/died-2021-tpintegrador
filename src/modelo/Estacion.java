@@ -2,6 +2,8 @@ package modelo;
 
 import java.time.LocalTime;
 
+
+
 public class Estacion {
 	private final Integer _id;
 	private String _nombre;
@@ -10,6 +12,7 @@ public class Estacion {
 	private EstadoEstacionEnum _estado;
 
 	public Estacion(int Id, String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado) {
+	
 		_id = Id;
 		_nombre = nombre;
 		_estado = estado;  
@@ -17,14 +20,15 @@ public class Estacion {
 		_horarioCierre = horaCierre;
 	}
 
-	public Estacion(String nombre, LocalTime horaApertura, LocalTime horaCierre) {
+	public Estacion(String nombre, LocalTime horaApertura, LocalTime horaCierre)  {
+		
 		_id = null;
 		_nombre = nombre;
 		_horarioApertura = horaApertura;
 		_horarioCierre = horaCierre;
 	}
 	 
-	public Estacion( String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado) {
+	public Estacion( String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado)  {
 		_id = null;
 		_nombre = nombre;
 		_estado = estado;
@@ -53,7 +57,7 @@ public class Estacion {
 		return _horarioApertura;
 	}
 
-	public void setHorarioApertura(LocalTime _horarioApertura) {
+	public void setHorarioApertura(LocalTime _horarioApertura){
 		this._horarioApertura = _horarioApertura;
 	}
 
@@ -61,7 +65,7 @@ public class Estacion {
 		return _horarioCierre;
 	}
 
-	public void setHorarioCierre(LocalTime _horarioCierre) {
+	public void setHorarioCierre(LocalTime _horarioCierre){
 		this._horarioCierre = _horarioCierre;
 	}
 

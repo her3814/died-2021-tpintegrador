@@ -288,5 +288,6 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 	public void mensajeFechaErronea() {
 		fechaFinMayor.setVisible(true);
 	}
+	
 
 }

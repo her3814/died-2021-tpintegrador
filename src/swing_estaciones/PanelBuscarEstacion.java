@@ -34,6 +34,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import bdd.EstacionesRepo;
+import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 
@@ -167,7 +168,8 @@ public class PanelBuscarEstacion extends JPanel {
 				LocalTime hi = (LocalTime) table.getValueAt(fila, 1);
 				LocalTime hf = (LocalTime) table.getValueAt(fila, 2);
 				EstadoEstacionEnum estado = (EstadoEstacionEnum) table.getValueAt(fila, 3);
-				Estacion actual = new Estacion(nombre, hi, hf, estado); 
+				Estacion actual = null;
+				actual = new Estacion(nombre, hi, hf, estado); 
 				EstacionesRepo.EliminarEstacion(actual);
 				estacionesBDD = EstacionesRepo.ObtenerEstaciones();
 				renovarTabla(estacionesBDD);
