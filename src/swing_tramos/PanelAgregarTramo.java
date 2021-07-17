@@ -35,7 +35,7 @@ public class PanelAgregarTramo extends JPanel {
 	 * @wbp.nonvisual location=543,504
 	 */
 	private final JLabel label = new JLabel("New label");
-	private JTextField textField;
+	private JTextField textField; 
 	private JTextField textField_1;
 	private JTextField textField_4;
 	private JTextField textField_5;

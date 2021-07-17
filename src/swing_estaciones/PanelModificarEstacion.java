@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +34,7 @@ import modelo.TareaMantenimiento;
 
 import java.awt.Color;
 
-public class PanelAgregarEstacion extends JPanel {
+public class PanelModificarEstacion extends JPanel {
 
 	private JTextField textField_1;
 	private ButtonGroup estado;
@@ -59,11 +60,15 @@ public class PanelAgregarEstacion extends JPanel {
 	private JButton btnNewButton4;
 	private JLabel fechaFin1;
 	private JLabel reingFecha;
+	/*private String nombreEst;
+	private LocalTime hi;
+	private LocalTime hf;
+	private EstadoEstacionEnum estadoEst;
+	*/
 	
-	public PanelAgregarEstacion() {
+	public PanelModificarEstacion(String nombreEst, LocalTime hi, LocalTime hf, EstadoEstacionEnum estadoEst) {
 		setBackground(Color.WHITE);
-		
-		
+
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
 		gridBagLayout.columnWidths = new int[]{54, 90, 141, 211, 67, 0};
@@ -74,7 +79,7 @@ public class PanelAgregarEstacion extends JPanel {
 		setSize(new Dimension(503, 555));
 		setMinimumSize(new Dimension(300,300));
 		
-		JLabel lblNewLabel = new JLabel("AGREGAR ESTACION");
+		JLabel lblNewLabel = new JLabel("MODIFICAR ESTACION");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.insets = new Insets(10, 0, 5, 5);
@@ -82,7 +87,6 @@ public class PanelAgregarEstacion extends JPanel {
 		gbc_lblNewLabel.gridy = 1;
 		gbc_lblNewLabel.gridwidth=4;
 		add(lblNewLabel, gbc_lblNewLabel);
-		
 		
 		JLabel lblNewLabel_2 = new JLabel("NOMBRE:");
 		lblNewLabel_2.setFont(new Font("Arial", Font.BOLD, 14));
@@ -94,6 +98,7 @@ public class PanelAgregarEstacion extends JPanel {
 		add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
 		textField_1 = new JTextField();
+		textField_1.setText(nombreEst);
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
@@ -117,6 +122,7 @@ public class PanelAgregarEstacion extends JPanel {
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
 		JLabel lblNewLabel_3 = new JLabel("HORA APERTURA:");
+		lblNewLabel_3.setText(hi.toString());
 		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
@@ -149,6 +155,7 @@ public class PanelAgregarEstacion extends JPanel {
 		inserteHoraApertura.setVisible(false);
 		
 		JLabel lblNewLabel_4 = new JLabel("HORA CIERRE:");
+		lblNewLabel_4.setText(hf.toString());
 		lblNewLabel_4.setFont(new Font("Arial", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
 		gbc_lblNewLabel_4.anchor = GridBagConstraints.EAST;
@@ -204,6 +211,11 @@ public class PanelAgregarEstacion extends JPanel {
 		gbc_rdbtnNewRadioButton1.gridx = 3;
 		gbc_rdbtnNewRadioButton1.gridy = 8;
 		add(rdbtnNewRadioButton1, gbc_rdbtnNewRadioButton1);
+		
+		if(estadoEst.equals(EstadoEstacionEnum.OPERATIVA)) {
+			rdbtnNewRadioButton.setSelected(true);
+		}
+		else rdbtnNewRadioButton1.setSelected(true);
 		
 		seleccioneEstado = new JLabel("Por favor, seleccione un estado.");
 		seleccioneEstado.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
@@ -368,6 +380,7 @@ public class PanelAgregarEstacion extends JPanel {
 		add(btnNewButton4, gbc_btnNewButton4);
 		btnNewButton4.setVisible(false);
 	}
+
 	public JDateChooser getDateChooser_1() {
 		return dateChooser_1;
 	}
@@ -404,9 +417,7 @@ public class PanelAgregarEstacion extends JPanel {
 		}
 		
 	}
-	
-	
-	
+		
 	private String estadoSeleccionado() {
 		if(rdbtnNewRadioButton.isSelected()) {
 			return rdbtnNewRadioButton.getText();
@@ -482,6 +493,8 @@ public class PanelAgregarEstacion extends JPanel {
 	public JButton getBtnNewButton_3() {
 		return btnNewButton_3;
 	}
+	
+	
 	public JButton getBtnNewButton4() {
 		return btnNewButton4;
 	}
@@ -523,4 +536,6 @@ public class PanelAgregarEstacion extends JPanel {
 	public void faltaFechaMant() {
 		fechaFin1.setVisible(true);
 	}
+
+
 }
