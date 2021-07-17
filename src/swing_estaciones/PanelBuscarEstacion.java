@@ -52,14 +52,15 @@ public class PanelBuscarEstacion extends JPanel {
 	private List<LocalTime> horariosApertura;
 	private List<LocalTime> horariosCierre ;
 	private List<EstadoEstacionEnum> estado ;
-
+	
 	private Object datosFila [][];
 	private String nombreColumnas[];
 	private JButton btnNewButton_3;
 	private JButton modificar;
 	private JButton btnNewButton_2;
 	private JLabel lblNewLabel_1;
-	
+	private Estacion actual;
+	  
 	public PanelBuscarEstacion() {
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -163,7 +164,6 @@ public class PanelBuscarEstacion extends JPanel {
 				String nombre = (String) table.getValueAt(fila, 0);
 				int seguir = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar la estacion: " + nombre + "?", 
 				null, 2);
-				System.out.println(seguir);
 				if(seguir==0) {
 				LocalTime hi = (LocalTime) table.getValueAt(fila, 1);
 				LocalTime hf = (LocalTime) table.getValueAt(fila, 2);
@@ -172,9 +172,8 @@ public class PanelBuscarEstacion extends JPanel {
 				actual = new Estacion(nombre, hi, hf, estado); 
 				EstacionesRepo.EliminarEstacion(actual);
 				estacionesBDD = EstacionesRepo.ObtenerEstaciones();
-				renovarTabla(estacionesBDD);
+					renovarTabla(estacionesBDD);
 				}
-				
 		}});
 		
 		btnNewButton_3.setBackground(new Color(204, 204, 153));
@@ -187,6 +186,16 @@ public class PanelBuscarEstacion extends JPanel {
 		add(btnNewButton_3, gbc_btnNewButton_3);
 		
 		modificar = new JButton("MODIFICAR");
+		modificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int fila = table.getSelectedRow();
+				String nombreEstacion = (String) table.getValueAt(fila, 0);
+				LocalTime hi = (LocalTime) table.getValueAt(fila, 1);
+				LocalTime hf = (LocalTime) table.getValueAt(fila, 2);
+				EstadoEstacionEnum estadoEst = (EstadoEstacionEnum) table.getValueAt(fila, 3);
+				actual = new Estacion(nombreEstacion, hi, hf, estadoEst);
+			}});
+		
 		modificar.setBackground(new Color(204, 204, 153));
 		modificar.setEnabled(false);
 		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
@@ -194,7 +203,7 @@ public class PanelBuscarEstacion extends JPanel {
 		gbc_btnNewButton_4.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_4.gridx = 3;
 		gbc_btnNewButton_4.gridy = 5;
-		add(modificar, gbc_btnNewButton_4);
+		add(modificar, gbc_btnNewButton_4);  
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() { 
 			    public void valueChanged(ListSelectionEvent e) { 
@@ -251,6 +260,9 @@ public class PanelBuscarEstacion extends JPanel {
 
 	public String getTextoEscrito() {
 		return this.textField.getText();
+	} 
+	public Estacion getActual() {
+		return actual;
 	}
 	
 	public JTable renovarTabla(List<Estacion> nuevosDatos) {
@@ -286,5 +298,6 @@ public class PanelBuscarEstacion extends JPanel {
 		return nueva;
 		
 	}
+
 	
 }

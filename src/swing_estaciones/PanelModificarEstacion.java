@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,22 +28,20 @@ import com.toedter.calendar.JDateChooser;
 
 import bdd.EstacionesRepo;
 import excepciones.FechaFinMenorFechaInicioException;
-import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 import modelo.TareaMantenimiento;
 
 import java.awt.Color;
 
-public class PanelAgregarEstacion extends JPanel {
+public class PanelModificarEstacion extends JPanel {
 
 	private JTextField textField_1;
 	private ButtonGroup estado;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private TimePicker timePicker;
-
-	private TimePicker timePicker_1; 
+	private TimePicker timePicker_1;
 	private JRadioButton rdbtnNewRadioButton;
 	private JRadioButton rdbtnNewRadioButton1;
 	private final JLabel label = new JLabel("New label");
@@ -61,15 +60,18 @@ public class PanelAgregarEstacion extends JPanel {
 	private JButton btnNewButton4;
 	private JLabel fechaFin1;
 	private JLabel reingFecha;
-	private JLabel cierrePosteriorAp;
+	/*private String nombreEst;
+	private LocalTime hi;
+	private LocalTime hf;
+	private EstadoEstacionEnum estadoEst;
+	*/
 	
-	public PanelAgregarEstacion() {
+	public PanelModificarEstacion(String nombreEst, LocalTime hi, LocalTime hf, EstadoEstacionEnum estadoEst) {
 		setBackground(Color.WHITE);
-		
-		
+
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
-		gridBagLayout.columnWidths = new int[]{30, 90, 141, 211, 67, 0};
+		gridBagLayout.columnWidths = new int[]{54, 90, 141, 211, 67, 0};
 		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 19, 0, 19, 0, 19, 21, 0, 0, 85, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
@@ -77,7 +79,7 @@ public class PanelAgregarEstacion extends JPanel {
 		setSize(new Dimension(503, 555));
 		setMinimumSize(new Dimension(300,300));
 		
-		JLabel lblNewLabel = new JLabel("AGREGAR ESTACION");
+		JLabel lblNewLabel = new JLabel("MODIFICAR ESTACION");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.insets = new Insets(10, 0, 5, 5);
@@ -85,7 +87,6 @@ public class PanelAgregarEstacion extends JPanel {
 		gbc_lblNewLabel.gridy = 1;
 		gbc_lblNewLabel.gridwidth=4;
 		add(lblNewLabel, gbc_lblNewLabel);
-		
 		
 		JLabel lblNewLabel_2 = new JLabel("NOMBRE:");
 		lblNewLabel_2.setFont(new Font("Arial", Font.BOLD, 14));
@@ -97,6 +98,7 @@ public class PanelAgregarEstacion extends JPanel {
 		add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
 		textField_1 = new JTextField();
+		textField_1.setText(nombreEst);
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
@@ -120,6 +122,7 @@ public class PanelAgregarEstacion extends JPanel {
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
 		JLabel lblNewLabel_3 = new JLabel("HORA APERTURA:");
+		lblNewLabel_3.setText(hi.toString());
 		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
@@ -152,6 +155,7 @@ public class PanelAgregarEstacion extends JPanel {
 		inserteHoraApertura.setVisible(false);
 		
 		JLabel lblNewLabel_4 = new JLabel("HORA CIERRE:");
+		lblNewLabel_4.setText(hf.toString());
 		lblNewLabel_4.setFont(new Font("Arial", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
 		gbc_lblNewLabel_4.anchor = GridBagConstraints.EAST;
@@ -183,18 +187,6 @@ public class PanelAgregarEstacion extends JPanel {
 		add(inserteHoraCierre, horaCgbc);
 		inserteHoraCierre.setVisible(false);
 		
-		cierrePosteriorAp = new JLabel("Por favor, inserte un horario de cierre posterior al horario de apertura.");
-		cierrePosteriorAp.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 10));
-		cierrePosteriorAp.setForeground(Color.RED);
-		GridBagConstraints hora1Cgbc = new GridBagConstraints();
-		hora1Cgbc.gridy = 7;
-		hora1Cgbc.insets = new Insets(0, 0, 5, 5);
-		hora1Cgbc.gridx = 1;
-		hora1Cgbc.gridwidth=7;
-		hora1Cgbc.anchor=GridBagConstraints.WEST;
-		add(cierrePosteriorAp, hora1Cgbc);
-		cierrePosteriorAp.setVisible(false);
-		
 		JLabel lblNewLabel_5 = new JLabel("ESTADO:");
 		lblNewLabel_5.setFont(new Font("Arial", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
@@ -219,6 +211,11 @@ public class PanelAgregarEstacion extends JPanel {
 		gbc_rdbtnNewRadioButton1.gridx = 3;
 		gbc_rdbtnNewRadioButton1.gridy = 8;
 		add(rdbtnNewRadioButton1, gbc_rdbtnNewRadioButton1);
+		
+		if(estadoEst.equals(EstadoEstacionEnum.OPERATIVA)) {
+			rdbtnNewRadioButton.setSelected(true);
+		}
+		else rdbtnNewRadioButton1.setSelected(true);
 		
 		seleccioneEstado = new JLabel("Por favor, seleccione un estado.");
 		seleccioneEstado.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
@@ -383,6 +380,7 @@ public class PanelAgregarEstacion extends JPanel {
 		add(btnNewButton4, gbc_btnNewButton4);
 		btnNewButton4.setVisible(false);
 	}
+
 	public JDateChooser getDateChooser_1() {
 		return dateChooser_1;
 	}
@@ -419,9 +417,7 @@ public class PanelAgregarEstacion extends JPanel {
 		}
 		
 	}
-	
-	
-	
+		
 	private String estadoSeleccionado() {
 		if(rdbtnNewRadioButton.isSelected()) {
 			return rdbtnNewRadioButton.getText();
@@ -450,7 +446,6 @@ public class PanelAgregarEstacion extends JPanel {
 		this.inserteHoraApertura.setVisible(false);
 		this.reingFecha.setVisible(false);
 		this.fechaFin1.setVisible(false);
-		this.cierrePosteriorAp.setVisible(false);
 	}
 	
 	
@@ -498,6 +493,8 @@ public class PanelAgregarEstacion extends JPanel {
 	public JButton getBtnNewButton_3() {
 		return btnNewButton_3;
 	}
+	
+	
 	public JButton getBtnNewButton4() {
 		return btnNewButton4;
 	}
@@ -505,10 +502,9 @@ public class PanelAgregarEstacion extends JPanel {
 	public void mensajeFechaErronea() {
 		reingFecha.setVisible(true);
 	}
-	@SuppressWarnings("deprecation")
 	public TareaMantenimiento getTareaMantenimiento(Estacion nueva) throws FechaFinMenorFechaInicioException {
 		//public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs)
-		return new TareaMantenimiento(nueva,LocalDate.now(),LocalDate.of(this.dateChooser_1.getDate().getYear(), this.dateChooser_1.getDate().getMonth(), this.dateChooser_1.getDate().getDay()), textArea.getText() );
+		return new TareaMantenimiento(nueva, LocalDate.now(),LocalDate.of(this.dateChooser_1.getDate().getYear(), this.dateChooser_1.getDate().getMonth(), this.dateChooser_1.getDate().getDay()), textArea.getText() );
 		
 	}
 	public void deshabilitarGuardado() {
@@ -540,7 +536,6 @@ public class PanelAgregarEstacion extends JPanel {
 	public void faltaFechaMant() {
 		fechaFin1.setVisible(true);
 	}
-	public void horaCierrePost() {
-		this.cierrePosteriorAp.setVisible(true);
-	}
+
+
 }

@@ -33,6 +33,7 @@ import swing_estaciones.PanelBuscarEstacion;
 import swing_estaciones.PanelFlujoMaximo;
 import swing_estaciones.PanelGestionarEstaciones;
 import swing_estaciones.PanelInformacionEstaciones;
+import swing_estaciones.PanelModificarEstacion;
 import swing_estaciones.PanelPageRank;
 import swing_estaciones.PanelProximoMantenimiento;
 import swing_lineas.PanelGestionarLineas;
@@ -62,6 +63,7 @@ public class VentanaPrincipal {
 	private static PanelProximoMantenimiento panelProximoMantenimiento;
 	private static PanelFlujoMaximo panelFlujoMaximo;
 	private static PanelPageRank panelPageRank;
+	private static PanelModificarEstacion panelModificarEstacion;
 	
 	private static PanelGestionarTramos panelGestionarTramos;
 	private static PanelAgregarTramo panelAgregarTramo;
@@ -117,7 +119,7 @@ public class VentanaPrincipal {
 
 		panelBuscarEstacion = new PanelBuscarEstacion();
 		panelBuscarEstacion.setBackground(Color.WHITE);
-
+		
 		panelInformacionEstaciones = new PanelInformacionEstaciones();
 		panelInformacionEstaciones.setBackground(Color.WHITE);
 
@@ -129,7 +131,6 @@ public class VentanaPrincipal {
 
 		panelProximoMantenimiento = new PanelProximoMantenimiento();
 		panelProximoMantenimiento.setBackground(Color.WHITE);
-
 
 		//TRAMOS
 		panelGestionarTramos = new PanelGestionarTramos();
@@ -302,7 +303,7 @@ public class VentanaPrincipal {
 				} catch (FechaFinMenorFechaInicioException e1) {
 					panelAgregarTareaMantenimiento.mensajeFechaErronea();
 				}
-			}
+			}  
 		});
 		
 		panelAgregarTareaMantenimiento.getBtnNewButton_1().addActionListener(new ActionListener() {
@@ -326,9 +327,9 @@ public class VentanaPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("MENU PRINCIPAL");
 				ventana1.setContentPane(panelMenuPrincipal);
-				ventana1.setVisible(true);
+ 				ventana1.setVisible(true);
 				ventana1.pack();
-			}
+			} 
 		});
 		
 		panelGestionarBoletos.getCrear().addActionListener(new ActionListener() {
@@ -414,6 +415,39 @@ public class VentanaPrincipal {
 			}
 		});
 		
+		/*panelBuscarEstacion.getModificar().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("MODIFICAR ESTACION");
+				panelModificarEstacion = new PanelModificarEstacion(
+				panelBuscarEstacion.getActual().getNombre(),
+				panelBuscarEstacion.getActual().getHorarioCierre(),
+				panelBuscarEstacion.getActual().getHorarioApertura(),
+				panelBuscarEstacion.getActual().getEstado());
+				panelModificarEstacion.setBackground(Color.WHITE);
+				ventana1.setContentPane(panelModificarEstacion);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}  
+		}); 
+		*/
+		/*panelModificarEstacion.getBtnNewButton_3().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("BUSCAR ESTACION");
+				ventana1.setContentPane(panelBuscarEstacion);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		
+		panelModificarEstacion.getBtnNewButton4().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("BUSCAR ESTACION");
+				ventana1.setContentPane(panelBuscarEstacion);
+				ventana1.setVisible(true);
+				ventana1.pack(); 
+			} 
+		});*/
+		
 		panelInformacionEstaciones.getVolver().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("GESTIONAR ESTACIONES");
@@ -464,7 +498,7 @@ public class VentanaPrincipal {
 				ventana1.setContentPane(panelInformacionEstaciones);
 				ventana1.setVisible(true);
 				ventana1.pack();
-			}
+			} 
 		});
 		panelProximoMantenimiento.getCancelar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -531,7 +565,7 @@ public class VentanaPrincipal {
 				JTable nuevaTabla= panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones(ef));
 				
 				//aplicar filtro segun el texto ingresado
-			}
+			} 
 		});
 		//------------------------------------------------------------------------------------
 		// 					BOTONES VOLVER
