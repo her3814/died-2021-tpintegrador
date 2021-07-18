@@ -34,7 +34,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import bdd.EstacionesRepo;
-import excepciones.HoraCierreMenorHoraAperturaException;
+//import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 
@@ -52,7 +52,7 @@ public class PanelBuscarEstacion extends JPanel {
 	private List<LocalTime> horariosApertura;
 	private List<LocalTime> horariosCierre ;
 	private List<EstadoEstacionEnum> estado ;
-	
+	private List<Integer> ids;
 	private Object datosFila [][];
 	private String nombreColumnas[];
 	private JButton btnNewButton_3;
@@ -118,26 +118,28 @@ public class PanelBuscarEstacion extends JPanel {
 		
 		estacionesBDD = EstacionesRepo.ObtenerEstaciones();
 		nombresEstaciones = new ArrayList<String>();
+		ids = new ArrayList<Integer>();
 		horariosApertura = new ArrayList<LocalTime>();
 		horariosCierre = new ArrayList<LocalTime>();
 		estado = new ArrayList<EstadoEstacionEnum>();
 		
 		for(Estacion e: estacionesBDD) {
 			nombresEstaciones.add(e.getNombre());
+			ids.add(e.getId());
 			horariosApertura.add(e.getHorarioApertura());
 			horariosCierre.add(e.getHorarioCierre());
 			estado.add(e.getEstado());
 		}
 		
-		String nombreColumnas[] = {"Nombre estacion", "Horario apertura", "Horario cierre", "Estado"};
-		datosFila = new Object[nombresEstaciones.size()] [4];
-		
+		String nombreColumnas[] = {"Id","Nombre estacion", "Horario apertura", "Horario cierre", "Estado"};
+		datosFila = new Object[nombresEstaciones.size()] [5];
 		
 		for(int i=0; i<nombresEstaciones.size();i++) {
-			datosFila[i][0] = nombresEstaciones.get(i);
-			datosFila[i][1] = horariosApertura.get(i);
-			datosFila[i][2] = horariosCierre.get(i);
-			datosFila[i][3] = estado.get(i);
+			datosFila[i][0] = ids.get(i);
+			datosFila[i][1] = nombresEstaciones.get(i);
+			datosFila[i][2] = horariosApertura.get(i);
+			datosFila[i][3] = horariosCierre.get(i);
+			datosFila[i][4] = estado.get(i);
 		}
 		
 		//Crear modelo de la tabla
@@ -149,7 +151,6 @@ public class PanelBuscarEstacion extends JPanel {
 				
 		table = new JTable();
 		table.setModel(model);
-		
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  
 		table.setFillsViewportHeight(true);
 		
@@ -161,18 +162,19 @@ public class PanelBuscarEstacion extends JPanel {
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int fila = table.getSelectedRow();
-				String nombre = (String) table.getValueAt(fila, 0);
+				Integer id = (Integer) table.getValueAt(fila, 0);
+				String nombre = (String) table.getValueAt(fila, 1);
 				int seguir = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar la estacion: " + nombre + "?", 
 				null, 2);
 				if(seguir==0) {
-				LocalTime hi = (LocalTime) table.getValueAt(fila, 1);
-				LocalTime hf = (LocalTime) table.getValueAt(fila, 2);
-				EstadoEstacionEnum estado = (EstadoEstacionEnum) table.getValueAt(fila, 3);
+				LocalTime hi = (LocalTime) table.getValueAt(fila, 2);
+				LocalTime hf = (LocalTime) table.getValueAt(fila, 3);
+				EstadoEstacionEnum estado = (EstadoEstacionEnum) table.getValueAt(fila, 4);
 				Estacion actual = null;
-				actual = new Estacion(nombre, hi, hf, estado); 
+				actual = new Estacion(id,nombre, hi, hf, estado); 
 				EstacionesRepo.EliminarEstacion(actual);
 				estacionesBDD = EstacionesRepo.ObtenerEstaciones();
-					renovarTabla(estacionesBDD);
+					table = renovarTabla(estacionesBDD);
 				}
 		}});
 		
@@ -266,28 +268,42 @@ public class PanelBuscarEstacion extends JPanel {
 	}
 	
 	public JTable renovarTabla(List<Estacion> nuevosDatos) {
+
+		estacionesBDD = EstacionesRepo.ObtenerEstaciones();
 		nombresEstaciones = new ArrayList<String>();
+		ids = new ArrayList<Integer>();
 		horariosApertura = new ArrayList<LocalTime>();
 		horariosCierre = new ArrayList<LocalTime>();
+		estado = new ArrayList<EstadoEstacionEnum>();
 		
-		for(Estacion e: nuevosDatos) {
+		for(Estacion e: estacionesBDD) {
 			nombresEstaciones.add(e.getNombre());
+			ids.add(e.getId());
 			horariosApertura.add(e.getHorarioApertura());
 			horariosCierre.add(e.getHorarioCierre());
+			estado.add(e.getEstado());
 		}
-		for(int i=0; i<nombresEstaciones.size();i++) {
-			datosFila[i][0]= nombresEstaciones.get(i);
-			datosFila[i][1]= horariosApertura.get(i);
-			datosFila[i][2]= horariosCierre.get(i);
-		}
-		JTable nueva = new JTable (datosFila, nombreColumnas);
-		DefaultTableModel model = new DefaultTableModel(datosFila,nombreColumnas){
-		    public boolean isCellEditable(int rowIndex,int columnIndex){
-		    	return false;
-		    	}
-		};
-		nueva.setModel(model); 
 		
+		String nombreColumnas[] = {"Id","Nombre estacion", "Horario apertura", "Horario cierre", "Estado"};
+		datosFila = new Object[nombresEstaciones.size()] [5];
+		
+		for(int i=0; i<nombresEstaciones.size();i++) {
+			datosFila[i][0] = ids.get(i);
+			datosFila[i][1] = nombresEstaciones.get(i);
+			datosFila[i][2] = horariosApertura.get(i);
+			datosFila[i][3] = horariosCierre.get(i);
+			datosFila[i][4] = estado.get(i);
+		}
+		
+		//Crear modelo de la tabla
+				DefaultTableModel model = new DefaultTableModel(datosFila,nombreColumnas){
+				    public boolean isCellEditable(int rowIndex,int columnIndex){
+				    	return false;
+				    	}
+				};
+				
+		table = new JTable();
+		table.setModel(model);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  
 		table.setFillsViewportHeight(true);
 		
@@ -295,7 +311,7 @@ public class PanelBuscarEstacion extends JPanel {
 		GridBagConstraints gbc_table = new GridBagConstraints();
 		gbc_table.gridwidth = 8;
 		
-		return nueva;
+		return table;
 		
 	}
 

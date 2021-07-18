@@ -27,7 +27,7 @@ import com.toedter.calendar.JDateChooser;
 
 import bdd.EstacionesRepo;
 import excepciones.FechaFinMenorFechaInicioException;
-import excepciones.HoraCierreMenorHoraAperturaException;
+//import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 import modelo.TareaMantenimiento;
