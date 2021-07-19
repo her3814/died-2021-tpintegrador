@@ -433,6 +433,8 @@ public class VentanaPrincipal {
 			}
 		});
 		
+		
+		
 		panelBuscarEstacion.getModificar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("MODIFICAR ESTACION");
@@ -444,6 +446,16 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}  
 		}); 
+		
+		panelBuscarEstacion.getBtnNewButton_3().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("BUSCAR ESTACION");
+				ventana1.setContentPane(panelBuscarEstacion);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
+		
 		
 		/*panelModificarEstacion.getBtnNewButton_3().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
