@@ -174,6 +174,7 @@ public class VentanaPrincipal {
 				ventana1.setContentPane(panelGestionarEstaciones);
 				ventana1.setVisible(true);
 				ventana1.pack();
+		
 			}
 		});
 
@@ -433,23 +434,33 @@ public class VentanaPrincipal {
 			}
 		});
 		
-		
-		
 		panelBuscarEstacion.getModificar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("MODIFICAR ESTACION");
 				panelModificarEstacion = new PanelModificarEstacion();
-				panelModificarEstacion.setearPanel(panelBuscarEstacion.getActual());
 				panelModificarEstacion.setBackground(Color.WHITE);
+				panelModificarEstacion.setearPanel(panelBuscarEstacion.getActual());
 				ventana1.setContentPane(panelModificarEstacion);
 				ventana1.setVisible(true);
 				ventana1.pack();
+				
+				//boton de volver desde modificar a buscar
+				panelModificarEstacion.getBtnNewButton_1().addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						ventana1.setTitle("BUSCAR ESTACION");
+						ventana1.setContentPane(panelBuscarEstacion);
+						ventana1.setVisible(true);
+						ventana1.pack();
+					}
+				});		
+				
 			}  
 		}); 
 		
 		panelBuscarEstacion.getBtnNewButton_3().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("BUSCAR ESTACION");
+				panelBuscarEstacion = new PanelBuscarEstacion();
 				ventana1.setContentPane(panelBuscarEstacion);
 				ventana1.setVisible(true);
 				ventana1.pack();
@@ -457,33 +468,6 @@ public class VentanaPrincipal {
 		});
 		
 		
-		/*panelModificarEstacion.getBtnNewButton_3().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ventana1.setTitle("BUSCAR ESTACION");
-				ventana1.setContentPane(panelBuscarEstacion);
-				ventana1.setVisible(true);
-				ventana1.pack();
-			}
-		});
-	
-		panelModificarEstacion.getBtnNewButton4().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ventana1.setTitle("BUSCAR ESTACION");
-				ventana1.setContentPane(panelBuscarEstacion);
-				ventana1.setVisible(true);
-				ventana1.pack(); 
-			} 
-		});
-		
-		panelModificarEstacion.getBtnNewButton().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ventana1.setTitle("BUSCAR ESTACION");
-				ventana1.setContentPane(panelBuscarEstacion);
-				ventana1.setVisible(true);
-				ventana1.pack(); 
-			} 
-		});
-	*/			
 		panelInformacionEstaciones.getVolver().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("GESTIONAR ESTACIONES");
@@ -588,9 +572,6 @@ public class VentanaPrincipal {
 				nueva= EstacionesRepo.AgregarEstacion(nueva);
 				
 						VentanaPrincipal.agregarTareaMantenimiento(nueva);
-						
-			
-				
 			}
 		});
 		

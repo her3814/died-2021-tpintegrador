@@ -125,7 +125,7 @@ public class PanelBuscarEstacion extends JPanel {
 				EstadoEstacionEnum estado = (EstadoEstacionEnum) table.getValueAt(fila, 4);
 				Estacion actual = new Estacion(id,nombre, hi, hf, estado); 
 				EstacionesRepo.EliminarEstacion(actual);
-				//	table = renovarTabla(EstacionesRepo.ObtenerEstaciones());
+					table = renovarTabla(EstacionesRepo.ObtenerEstaciones());
 				}
 		}});
 		
