@@ -1,7 +1,6 @@
 package swing_estaciones;
 
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -10,28 +9,21 @@ import javax.swing.JOptionPane;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Font;
-import javax.swing.JComboBox;
-import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 
 import bdd.EstacionesRepo;
 //import excepciones.HoraCierreMenorHoraAperturaException;
@@ -40,7 +32,6 @@ import modelo.EstadoEstacionEnum;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import javax.swing.JCheckBox;
 
 public class PanelBuscarEstacion extends JPanel {
 	private JTextField textField;
@@ -58,6 +49,8 @@ public class PanelBuscarEstacion extends JPanel {
 	private JButton btnNewButton_3;
 	private JButton modificar;
 	private JButton btnNewButton_2;
+	private JButton cancelar;
+
 	private JLabel lblNewLabel_1;
 	private Estacion actual;
 	  
@@ -117,7 +110,7 @@ public class PanelBuscarEstacion extends JPanel {
 		add(btnNewButton, gbc_btnNewButton);
 		
 		estacionesBDD = EstacionesRepo.ObtenerEstaciones();
-		nombresEstaciones = new ArrayList<String>();
+		/*nombresEstaciones = new ArrayList<String>();
 		ids = new ArrayList<Integer>();
 		horariosApertura = new ArrayList<LocalTime>();
 		horariosCierre = new ArrayList<LocalTime>();
@@ -148,9 +141,9 @@ public class PanelBuscarEstacion extends JPanel {
 				    	return false;
 				    	}
 				};
-				
+		*/
 		table = new JTable();
-		table.setModel(model);
+	/*	table.setModel(model);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  
 		table.setFillsViewportHeight(true);
 		
@@ -158,6 +151,15 @@ public class PanelBuscarEstacion extends JPanel {
 		GridBagConstraints gbc_table = new GridBagConstraints();
 		gbc_table.gridwidth = 8;
 		
+				JScrollPane scrollPane= new JScrollPane(table);
+		gbc_table.insets = new Insets(5, 5, 5, 5);
+		gbc_table.fill = GridBagConstraints.BOTH;
+		gbc_table.gridx = 2;
+		gbc_table.gridy = 4;
+		add(scrollPane, gbc_table);
+		*/
+		 
+		table = renovarTabla(estacionesBDD);
 		btnNewButton_3 = new JButton("ELIMINAR");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -188,16 +190,18 @@ public class PanelBuscarEstacion extends JPanel {
 		add(btnNewButton_3, gbc_btnNewButton_3);
 		
 		modificar = new JButton("MODIFICAR");
-		modificar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		/*modificar.addActionListener(new ActionListener() {
+			 	public void actionPerformed(ActionEvent e) {
 				int fila = table.getSelectedRow();
-				String nombreEstacion = (String) table.getValueAt(fila, 0);
-				LocalTime hi = (LocalTime) table.getValueAt(fila, 1);
-				LocalTime hf = (LocalTime) table.getValueAt(fila, 2);
-				EstadoEstacionEnum estadoEst = (EstadoEstacionEnum) table.getValueAt(fila, 3);
-				actual = new Estacion(nombreEstacion, hi, hf, estadoEst);
-			}});
-		
+				Integer id = (Integer) table.getValueAt(fila, 0);
+				String nombreEstacion = (String) table.getValueAt(fila, 1);
+				LocalTime hi = (LocalTime) table.getValueAt(fila, 2);
+				LocalTime hf = (LocalTime) table.getValueAt(fila, 3);
+				EstadoEstacionEnum estadoEst = (EstadoEstacionEnum) table.getValueAt(fila, 4);
+				actual = new Estacion(id,nombreEstacion, hi, hf, estadoEst);
+			}}); 
+			*/		
+	
 		modificar.setBackground(new Color(204, 204, 153));
 		modificar.setEnabled(false);
 		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
@@ -213,22 +217,19 @@ public class PanelBuscarEstacion extends JPanel {
 			        if (cuentaFilasSeleccionadas == 1) { 
 			        	modificar.setEnabled(true);
 			        	btnNewButton_3.setEnabled(true);
-			        } 
+			        	int fila = table.getSelectedRow();
+						Integer id = (Integer) table.getValueAt(fila, 0);
+						String nombreEstacion = (String) table.getValueAt(fila, 1);
+						LocalTime hi = (LocalTime) table.getValueAt(fila, 2);
+						LocalTime hf = (LocalTime) table.getValueAt(fila, 3);
+						EstadoEstacionEnum estadoEst = (EstadoEstacionEnum) table.getValueAt(fila, 4);
+						actual = new Estacion(id,nombreEstacion, hi, hf, estadoEst);
+			        }
+			        
 			}});
-		
-		JScrollPane scrollPane= new JScrollPane(table);
-		gbc_table.insets = new Insets(5, 5, 5, 5);
-		gbc_table.fill = GridBagConstraints.BOTH;
-		gbc_table.gridx = 2;
-		gbc_table.gridy = 4;
-		add(scrollPane, gbc_table);
-		
-		JButton btnNewButton_1 = new JButton("CANCELAR");
-		btnNewButton_1.setBackground(new Color(204, 204, 51));
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+	
+		cancelar = new JButton("CANCELAR");
+		cancelar.setBackground(new Color(204, 204, 51));
 		
 		btnNewButton_2 = new JButton("GUARDAR");
 		btnNewButton_2.setBackground(new Color(204, 204, 51));
@@ -244,7 +245,7 @@ public class PanelBuscarEstacion extends JPanel {
 		gbc_btnNewButton_1.insets = new Insets(10, 0, 5, 5);
 		gbc_btnNewButton_1.gridx = 5;
 		gbc_btnNewButton_1.gridy = 7;
-		add(btnNewButton_1, gbc_btnNewButton_1);
+		add(cancelar, gbc_btnNewButton_1);
 		
 	}
 	public JButton getBtnNewButton_2() {
@@ -252,6 +253,9 @@ public class PanelBuscarEstacion extends JPanel {
 	}
 	public JButton getBtnNewButton() {
 		return btnNewButton;
+	}
+	public JButton getCancelar() {
+		return cancelar;
 	}
 	public JButton getModificar() {
 		return modificar;
@@ -266,10 +270,9 @@ public class PanelBuscarEstacion extends JPanel {
 	public Estacion getActual() {
 		return actual;
 	}
-	
+
 	public JTable renovarTabla(List<Estacion> nuevosDatos) {
 
-		estacionesBDD = EstacionesRepo.ObtenerEstaciones();
 		nombresEstaciones = new ArrayList<String>();
 		ids = new ArrayList<Integer>();
 		horariosApertura = new ArrayList<LocalTime>();
@@ -310,6 +313,13 @@ public class PanelBuscarEstacion extends JPanel {
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_table = new GridBagConstraints();
 		gbc_table.gridwidth = 8;
+		
+		JScrollPane scrollPane= new JScrollPane(table);
+		gbc_table.insets = new Insets(5, 5, 5, 5);
+		gbc_table.fill = GridBagConstraints.BOTH;
+		gbc_table.gridx = 2;
+		gbc_table.gridy = 4;
+		add(scrollPane, gbc_table);
 		
 		return table;
 		

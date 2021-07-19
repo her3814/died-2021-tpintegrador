@@ -65,8 +65,8 @@ public class PanelModificarEstacion extends JPanel {
 	private LocalTime hf;
 	private EstadoEstacionEnum estadoEst;
 	*/
-	
-	public PanelModificarEstacion(String nombreEst, LocalTime hi, LocalTime hf, EstadoEstacionEnum estadoEst) {
+	public PanelModificarEstacion() {}
+	public void setearPanel (Estacion actual) {
 		setBackground(Color.WHITE);
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -98,7 +98,7 @@ public class PanelModificarEstacion extends JPanel {
 		add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
 		textField_1 = new JTextField();
-		textField_1.setText(nombreEst);
+		textField_1.setText(actual.getNombre());
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
@@ -122,7 +122,6 @@ public class PanelModificarEstacion extends JPanel {
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
 		JLabel lblNewLabel_3 = new JLabel("HORA APERTURA:");
-		lblNewLabel_3.setText(hi.toString());
 		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
@@ -134,6 +133,7 @@ public class PanelModificarEstacion extends JPanel {
 		timePicker = new TimePicker();
 		timePicker.getComponentToggleTimeMenuButton().setFont(new Font("Arial", Font.PLAIN, 10));
 		timePicker.getComponentToggleTimeMenuButton().setBackground(new Color(204, 204, 153));
+		timePicker.setText(actual.getHorarioApertura().toString());
 		GridBagConstraints gbc_timePicker = new GridBagConstraints();
 		gbc_timePicker.insets = new Insets(0, 0, 5, 5);
 		gbc_timePicker.fill = GridBagConstraints.BOTH;
@@ -155,7 +155,6 @@ public class PanelModificarEstacion extends JPanel {
 		inserteHoraApertura.setVisible(false);
 		
 		JLabel lblNewLabel_4 = new JLabel("HORA CIERRE:");
-		lblNewLabel_4.setText(hf.toString());
 		lblNewLabel_4.setFont(new Font("Arial", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
 		gbc_lblNewLabel_4.anchor = GridBagConstraints.EAST;
@@ -167,6 +166,8 @@ public class PanelModificarEstacion extends JPanel {
 		timePicker_1 = new TimePicker();
 		timePicker_1.getComponentToggleTimeMenuButton().setFont(new Font("Arial", Font.PLAIN, 11));
 		timePicker_1.getComponentToggleTimeMenuButton().setBackground(new Color(204, 204, 153));
+		timePicker_1.setText(actual.getHorarioApertura().toString());
+
 		GridBagConstraints gbc_timePicker_1 = new GridBagConstraints();
 		gbc_timePicker_1.insets = new Insets(0, 0, 5, 5);
 		gbc_timePicker_1.fill = GridBagConstraints.BOTH;
@@ -212,7 +213,7 @@ public class PanelModificarEstacion extends JPanel {
 		gbc_rdbtnNewRadioButton1.gridy = 8;
 		add(rdbtnNewRadioButton1, gbc_rdbtnNewRadioButton1);
 		
-		if(estadoEst.equals(EstadoEstacionEnum.OPERATIVA)) {
+		if(actual.getEstado().equals(EstadoEstacionEnum.OPERATIVA)) {
 			rdbtnNewRadioButton.setSelected(true);
 		}
 		else rdbtnNewRadioButton1.setSelected(true);
@@ -380,7 +381,7 @@ public class PanelModificarEstacion extends JPanel {
 		add(btnNewButton4, gbc_btnNewButton4);
 		btnNewButton4.setVisible(false);
 	}
-
+	
 	public JDateChooser getDateChooser_1() {
 		return dateChooser_1;
 	}

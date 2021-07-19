@@ -406,7 +406,7 @@ public class VentanaPrincipal {
 			}
 		});
 		
-		panelBuscarEstacion.getBtnNewButton_2().addActionListener(new ActionListener() {
+		panelBuscarEstacion.getCancelar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("GESTIONAR ESTACIONES");
 				ventana1.setContentPane(panelGestionarEstaciones);
@@ -415,21 +415,18 @@ public class VentanaPrincipal {
 			}
 		});
 		
-		/*panelBuscarEstacion.getModificar().addActionListener(new ActionListener() {
+		panelBuscarEstacion.getModificar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("MODIFICAR ESTACION");
-				panelModificarEstacion = new PanelModificarEstacion(
-				panelBuscarEstacion.getActual().getNombre(),
-				panelBuscarEstacion.getActual().getHorarioCierre(),
-				panelBuscarEstacion.getActual().getHorarioApertura(),
-				panelBuscarEstacion.getActual().getEstado());
+				panelModificarEstacion = new PanelModificarEstacion();
+				panelModificarEstacion.setearPanel(panelBuscarEstacion.getActual());
 				panelModificarEstacion.setBackground(Color.WHITE);
 				ventana1.setContentPane(panelModificarEstacion);
 				ventana1.setVisible(true);
 				ventana1.pack();
 			}  
 		}); 
-		*/
+		
 		/*panelModificarEstacion.getBtnNewButton_3().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("BUSCAR ESTACION");
@@ -561,7 +558,6 @@ public class VentanaPrincipal {
 				EstacionesFiltro ef= new EstacionesFiltro();
 				ef.setNombre(panelBuscarEstacion.getTextoEscrito());
 				ef.setId(Integer.getInteger(panelBuscarEstacion.getTextoEscrito()));
-				
 				JTable nuevaTabla= panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones(ef));
 				
 				//aplicar filtro segun el texto ingresado
