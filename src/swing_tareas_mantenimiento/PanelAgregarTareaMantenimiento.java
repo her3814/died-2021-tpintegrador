@@ -86,11 +86,8 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		
 		ArrayList<Estacion> estaciones = (ArrayList<Estacion>) EstacionesRepo.ObtenerEstaciones();
 		
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(		
-				 estaciones.stream().map(e -> e.getNombre())
-				.collect(Collectors.toList())
-				.toArray()));
+		comboBox = new JComboBox(estaciones.toArray());
+
 		comboBox.setBackground(new Color(204, 204, 204));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 
@@ -265,18 +262,22 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 	}
 	public TareaMantenimiento getTareaCreada() throws FechaFinMenorFechaInicioException {
 		//public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs)
-		EstacionesFiltro e= new EstacionesFiltro();
-		e.setNombre(this.comboBox.getSelectedItem().toString());
+		//EstacionesFiltro e= new EstacionesFiltro();
+		//e.setNombre(this.comboBox.getSelectedItem().toString());
+		
+		Estacion e = (Estacion)this.comboBox.getSelectedItem();
+		
+		
 		if(this.dateChooser.getDate()==null && this.dateChooser_1.getDate()==null) {
-			return new TareaMantenimiento(EstacionesRepo.ObtenerEstaciones(e).get(0),null,null, this.textArea.getText());
+			return new TareaMantenimiento(e,null,null, this.textArea.getText());
 		}else if(this.dateChooser.getDate()==null) {
-			return new TareaMantenimiento(EstacionesRepo.ObtenerEstaciones(e).get(0),null,
+			return new TareaMantenimiento(e,null,
 					this.dateChooser_1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), this.textArea.getText());
 		}else if(this.dateChooser_1.getDate()==null) {
-			return new TareaMantenimiento(EstacionesRepo.ObtenerEstaciones(e).get(0),this.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+			return new TareaMantenimiento(e,this.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
 					null, this.textArea.getText());
 		}else {
-			return new TareaMantenimiento(EstacionesRepo.ObtenerEstaciones(e).get(0),this.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+			return new TareaMantenimiento(e,this.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
 					this.dateChooser_1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), this.textArea.getText());
 		}
 
