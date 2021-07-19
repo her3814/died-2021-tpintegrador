@@ -462,8 +462,17 @@ public class VentanaPrincipal {
 				ventana1.setVisible(true);
 				ventana1.pack(); 
 			} 
-		});*/
+		});
 		
+		panelModificarEstacion.getBtnNewButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("BUSCAR ESTACION");
+				ventana1.setContentPane(panelBuscarEstacion);
+				ventana1.setVisible(true);
+				ventana1.pack(); 
+			} 
+		});
+	*/			
 		panelInformacionEstaciones.getVolver().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("GESTIONAR ESTACIONES");

@@ -258,7 +258,7 @@ public class PanelAgregarEstacion extends JPanel {
 		gbc_btnNewButton.gridy = 10;
 		add(btnNewButton, gbc_btnNewButton);
 		
-		lblNewLabel_6 = new JLabel("LA ESTACI\u00D3N SE AGREG\u00D3 CORRECTAMENTE");
+		lblNewLabel_6 = new JLabel("LA ESTACIÓN SE AGREGÓ CORRECTAMENTE");
 		lblNewLabel_6.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
 		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 5);
@@ -278,7 +278,6 @@ public class PanelAgregarEstacion extends JPanel {
 		add(tareaMant,gbc_mant);
 		
 		*/
-		
 
 		agregarMant= new JLabel("AGREGAR TAREA DE MANTENIMIENTO");
 		agregarMant.setFont(new Font("Arial", Font.BOLD, 20));
@@ -292,7 +291,6 @@ public class PanelAgregarEstacion extends JPanel {
 		agregarMant.setVisible(false);
 		
 		
-
 		fechaFin = new JLabel("FECHA FIN:");
 		fechaFin.setFont(new Font("Arial", Font.BOLD, 14));
 		GridBagConstraints gbc_fin = new GridBagConstraints();
@@ -302,7 +300,6 @@ public class PanelAgregarEstacion extends JPanel {
 		gbc_fin.gridy = 13;
 		add(fechaFin,gbc_fin);
 		fechaFin.setVisible(false);
-		
 		
 		dateChooser_1 = new JDateChooser();
 		dateChooser_1.getCalendarButton().setBackground(new Color(204, 204, 102));

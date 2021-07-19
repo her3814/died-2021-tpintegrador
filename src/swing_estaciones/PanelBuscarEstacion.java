@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -53,6 +54,10 @@ public class PanelBuscarEstacion extends JPanel {
 
 	private JLabel lblNewLabel_1;
 	private Estacion actual;
+	private JButton btnNewButton_1;
+	private String estadoFiltrado;
+	private String horaCierreFiltrada;
+	private String horaAperturaFiltrada;
 	  
 	public PanelBuscarEstacion() {
 
@@ -65,7 +70,7 @@ public class PanelBuscarEstacion extends JPanel {
 		setPreferredSize(new Dimension(500,500));
 		setMinimumSize(new Dimension(300,300));
 		
-		JLabel lblNewLabel = new JLabel("BUSCAR ESTACI\u00D3N");
+		JLabel lblNewLabel = new JLabel("BUSCAR ESTACIÓN");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.insets = new Insets(10, 5, 5, 5);
@@ -110,55 +115,7 @@ public class PanelBuscarEstacion extends JPanel {
 		add(btnNewButton, gbc_btnNewButton);
 		
 		estacionesBDD = EstacionesRepo.ObtenerEstaciones();
-		/*nombresEstaciones = new ArrayList<String>();
-		ids = new ArrayList<Integer>();
-		horariosApertura = new ArrayList<LocalTime>();
-		horariosCierre = new ArrayList<LocalTime>();
-		estado = new ArrayList<EstadoEstacionEnum>();
-		
-		for(Estacion e: estacionesBDD) {
-			nombresEstaciones.add(e.getNombre());
-			ids.add(e.getId());
-			horariosApertura.add(e.getHorarioApertura());
-			horariosCierre.add(e.getHorarioCierre());
-			estado.add(e.getEstado());
-		}
-		
-		String nombreColumnas[] = {"Id","Nombre estacion", "Horario apertura", "Horario cierre", "Estado"};
-		datosFila = new Object[nombresEstaciones.size()] [5];
-		
-		for(int i=0; i<nombresEstaciones.size();i++) {
-			datosFila[i][0] = ids.get(i);
-			datosFila[i][1] = nombresEstaciones.get(i);
-			datosFila[i][2] = horariosApertura.get(i);
-			datosFila[i][3] = horariosCierre.get(i);
-			datosFila[i][4] = estado.get(i);
-		}
-		
-		//Crear modelo de la tabla
-				DefaultTableModel model = new DefaultTableModel(datosFila,nombreColumnas){
-				    public boolean isCellEditable(int rowIndex,int columnIndex){
-				    	return false;
-				    	}
-				};
-		*/
 		table = new JTable();
-	/*	table.setModel(model);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  
-		table.setFillsViewportHeight(true);
-		
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		GridBagConstraints gbc_table = new GridBagConstraints();
-		gbc_table.gridwidth = 8;
-		
-				JScrollPane scrollPane= new JScrollPane(table);
-		gbc_table.insets = new Insets(5, 5, 5, 5);
-		gbc_table.fill = GridBagConstraints.BOTH;
-		gbc_table.gridx = 2;
-		gbc_table.gridy = 4;
-		add(scrollPane, gbc_table);
-		*/
-		 
 		table = renovarTabla(estacionesBDD);
 		btnNewButton_3 = new JButton("ELIMINAR");
 		btnNewButton_3.addActionListener(new ActionListener() {
@@ -231,6 +188,53 @@ public class PanelBuscarEstacion extends JPanel {
 		cancelar = new JButton("CANCELAR");
 		cancelar.setBackground(new Color(204, 204, 51));
 		
+		btnNewButton_1 = new JButton("Aplicar filtros");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				estacionesBDD = new ArrayList<Estacion>();
+				estacionesBDD = EstacionesRepo.ObtenerEstaciones();
+				System.out.println(estacionesBDD.size());
+
+				if( ! (filtros.getEstado().equals("no seleccionado"))) {
+				estadoFiltrado = filtros.getEstado();
+				
+				if(estadoFiltrado.equals("En mantenimiento")) {
+					estacionesBDD.stream().filter(est -> est.getEstado().equals(EstadoEstacionEnum.MANTENIMIENTO))
+					.collect(Collectors.toList());
+				}
+				else if (estadoFiltrado.equals("Operativa")){
+					estacionesBDD.stream().filter(est -> est.getEstado().equals(EstadoEstacionEnum.OPERATIVA))
+					.collect(Collectors.toList());
+				}}
+
+				if( ! (filtros.getHoraCierre().equals("no seleccionado"))) {
+				horaCierreFiltrada = filtros.getHoraCierre();
+				estacionesBDD.stream().filter(est -> est.getHorarioCierre().equals(horaCierreFiltrada))
+				.collect(Collectors.toList());
+				}
+				if( ! (filtros.getHoraApertura().equals("no seleccionado"))){
+				horaAperturaFiltrada = filtros.getHoraApertura();	
+				estacionesBDD.stream().filter(est -> est.getHorarioApertura().equals(horaAperturaFiltrada))
+				.collect(Collectors.toList());				
+				}
+				
+				System.out.println(horaAperturaFiltrada);
+				System.out.println(estadoFiltrado);
+				System.out.println(horaCierreFiltrada);
+				
+				table = renovarTabla(estacionesBDD);
+				System.out.println(estacionesBDD.size());
+
+			}
+		});
+		
+		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_1.gridx = 1;
+		gbc_btnNewButton_1.gridy = 7;
+		add(btnNewButton_1, gbc_btnNewButton_1);
+		
 		btnNewButton_2 = new JButton("GUARDAR");
 		btnNewButton_2.setBackground(new Color(204, 204, 51));
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
@@ -240,12 +244,12 @@ public class PanelBuscarEstacion extends JPanel {
 		gbc_btnNewButton_2.gridy = 7;
 		add(btnNewButton_2, gbc_btnNewButton_2);
 		
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.anchor = GridBagConstraints.SOUTHEAST;
-		gbc_btnNewButton_1.insets = new Insets(10, 0, 5, 5);
-		gbc_btnNewButton_1.gridx = 5;
-		gbc_btnNewButton_1.gridy = 7;
-		add(cancelar, gbc_btnNewButton_1);
+		GridBagConstraints gbc_btnNewButton_11 = new GridBagConstraints();
+		gbc_btnNewButton_11.anchor = GridBagConstraints.SOUTHEAST;
+		gbc_btnNewButton_11.insets = new Insets(10, 0, 5, 5);
+		gbc_btnNewButton_11.gridx = 5;
+		gbc_btnNewButton_11.gridy = 7;
+		add(cancelar, gbc_btnNewButton_11);
 		
 	}
 	public JButton getBtnNewButton_2() {

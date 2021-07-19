@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,13 +45,11 @@ public class PanelModificarEstacion extends JPanel {
 	private TimePicker timePicker_1;
 	private JRadioButton rdbtnNewRadioButton;
 	private JRadioButton rdbtnNewRadioButton1;
-	private final JLabel label = new JLabel("New label");
 	private JLabel lblNewLabel_1;
 	private JLabel inserteHoraApertura;
 	private JLabel inserteHoraCierre;
 	private JLabel seleccioneEstado;
 	private JLabel lblNewLabel_6;
-	private PanelAgregarEstacionConMantenimiento tareaMant;
 	private JLabel agregarMant;
 	private JLabel fechaFin;
 	private JDateChooser dateChooser_1;
@@ -60,11 +59,8 @@ public class PanelModificarEstacion extends JPanel {
 	private JButton btnNewButton4;
 	private JLabel fechaFin1;
 	private JLabel reingFecha;
-	/*private String nombreEst;
-	private LocalTime hi;
-	private LocalTime hf;
-	private EstadoEstacionEnum estadoEst;
-	*/
+	private List<Estacion> estacionesBDD;
+	
 	public PanelModificarEstacion() {}
 	public void setearPanel (Estacion actual) {
 		setBackground(Color.WHITE);
@@ -253,8 +249,25 @@ public class PanelModificarEstacion extends JPanel {
 		gbc_btnNewButton.gridx = 2;
 		gbc_btnNewButton.gridy = 10;
 		add(btnNewButton, gbc_btnNewButton);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				estacionesBDD = new ArrayList<Estacion>();
+				estacionesBDD = EstacionesRepo.ObtenerEstaciones();
+				Boolean encontrado = false;
+				int i = 0;
+				while (! encontrado) {
+					if(estacionesBDD.get(i).getId().equals(actual.getId())) {
+						Estacion nueva = getEstacionCreada();
+						EstacionesRepo.EliminarEstacion(estacionesBDD.get(i));
+						EstacionesRepo.AgregarEstacion(actual);
+						//EstacionesRepo.ModificarEstacion(actual);
+						encontrado = true;
+					}
+				}
+			}});
+			
 		
-		lblNewLabel_6 = new JLabel("LA ESTACI\u00D3N SE AGREG\u00D3 CORRECTAMENTE");
+		lblNewLabel_6 = new JLabel("LA ESTACIÓN SE MODIFICÓ CORRECTAMENTE");
 		lblNewLabel_6.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
 		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 5);
@@ -272,10 +285,8 @@ public class PanelModificarEstacion extends JPanel {
 		gbc_mant.gridheight=3;
 		gbc_mant.gridwidth=3;
 		add(tareaMant,gbc_mant);
-		
 		*/
 		
-
 		agregarMant= new JLabel("AGREGAR TAREA DE MANTENIMIENTO");
 		agregarMant.setFont(new Font("Arial", Font.BOLD, 20));
 		GridBagConstraints gbc_agregarMant = new GridBagConstraints();
@@ -286,7 +297,6 @@ public class PanelModificarEstacion extends JPanel {
 		gbc_agregarMant.gridwidth=4;
 		add(agregarMant,gbc_agregarMant);
 		agregarMant.setVisible(false);
-		
 		
 
 		fechaFin = new JLabel("FECHA FIN:");
@@ -494,7 +504,7 @@ public class PanelModificarEstacion extends JPanel {
 	public JButton getBtnNewButton_3() {
 		return btnNewButton_3;
 	}
-	
+
 	
 	public JButton getBtnNewButton4() {
 		return btnNewButton4;

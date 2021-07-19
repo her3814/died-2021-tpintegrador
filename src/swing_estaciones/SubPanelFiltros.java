@@ -3,6 +3,7 @@ package swing_estaciones;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import java.awt.GridBagLayout;
@@ -12,8 +13,11 @@ import java.awt.Insets;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Enumeration;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+
+import modelo.EstadoEstacionEnum;
 
 public class SubPanelFiltros extends JPanel {
 	private ButtonGroup horaApertura;
@@ -23,8 +27,7 @@ public class SubPanelFiltros extends JPanel {
 	private JRadioButton rdbtnNewRadioButton_1;
 	private JRadioButton rdbtnNewRadioButton_3;
 	private JRadioButton rdbtnNewRadioButton_4;
-	
-	
+
 	public SubPanelFiltros() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
@@ -179,8 +182,9 @@ public class SubPanelFiltros extends JPanel {
 		estado.add(rdbtnNewRadioButton_9); 
 		estado.add(rdbtnNewRadioButton_10);
 		
-		
+	
 		JButton btnNewButton = new JButton("Limpiar filtros");
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(0, 10, 0, 5);
 		gbc_btnNewButton.gridx = 1;
@@ -196,8 +200,42 @@ public class SubPanelFiltros extends JPanel {
 			}
 		});
 		
-		
-		
 	}
 
+	public String getHoraApertura() {
+		return getSelectedButtonText(horaApertura);
+	}
+	public String getHoraCierre() {
+		return getSelectedButtonText(horaCierre);
+	}
+	public String getEstado() {
+		return getSelectedButtonText(estado);
+	}
+	
+	public String getSelectedButtonText(ButtonGroup buttonGroup) {
+        for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+
+            if (button.isSelected()) {
+                return button.getText();
+            }
+        }
+
+        return "no seleccionado";
+    }
+
+
+	public void setHoraApertura(ButtonGroup horaApertura) {
+		this.horaApertura = horaApertura;
+	}
+
+	public void setHoraCierre(ButtonGroup horaCierre) {
+		this.horaCierre = horaCierre;
+	}
+
+	public void setEstado(ButtonGroup estado) {
+		this.estado = estado;
+	}
+	
+	
 }
