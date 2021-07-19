@@ -573,7 +573,8 @@ public class VentanaPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				panelAgregarEstacion.limpiarWarnings();
 				Estacion nueva =panelAgregarEstacion.getEstacionCreada();
-	
+				nueva= EstacionesRepo.AgregarEstacion(nueva);
+				
 						VentanaPrincipal.agregarTareaMantenimiento(nueva);
 						
 			
@@ -689,7 +690,7 @@ public class VentanaPrincipal {
 		if(!nueva.getNombre().isEmpty() && nueva.getHorarioCierre()!=null && nueva.getHorarioApertura()!=null){
 			
 		if(nueva.getEstado()==EstadoEstacionEnum.OPERATIVA) {
-			AltaEstacionServicio.AltaEstacion(nueva);
+			nueva= EstacionesRepo.AgregarEstacion(nueva);
 			panelAgregarEstacion.mensajeEstacionCreada();
 			panelAgregarEstacion.deshabilitarGuardado();
 			
@@ -697,6 +698,7 @@ public class VentanaPrincipal {
 			panelAgregarEstacion.deshabilitarCambios();
 			panelAgregarEstacion.mostrarDatosMantenimiento();
 		}
+		
 		}
 	}
 	
@@ -733,7 +735,7 @@ public class VentanaPrincipal {
 				panelAgregarEstacion.limpiarWarnings();
 				panelAgregarEstacion.mensajeEstacionCreada();
 				panelAgregarEstacion.deshabilitarGuardado1();  
-				AltaEstacionServicio.AltaEstacion(nueva, tarea);
+				TareaMantenimientoRepo.AgregarTareaMantenimiento(tarea);
 		}
 			
 		} catch (FechaFinMenorFechaInicioException e) {
