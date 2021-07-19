@@ -46,7 +46,6 @@ public class PanelBuscarEstacion extends JPanel {
 	private List<EstadoEstacionEnum> estado ;
 	private List<Integer> ids;
 	private Object datosFila [][];
-	private String nombreColumnas[];
 	private JButton btnNewButton_3;
 	private JButton modificar;
 	private JButton btnNewButton_2;
@@ -106,17 +105,10 @@ public class PanelBuscarEstacion extends JPanel {
 		gbcFiltros.gridheight=4;
 		add(filtros, gbcFiltros);
 			
-		btnNewButton = new JButton("BUSCAR");
-		btnNewButton.setBackground(new Color(204, 204, 204));
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(5, 5, 5, 5);
-		gbc_btnNewButton.gridx = 4;
-		gbc_btnNewButton.gridy = 3;
-		add(btnNewButton, gbc_btnNewButton);
-		
 		estacionesBDD = EstacionesRepo.ObtenerEstaciones();
 		table = new JTable();
 		table = renovarTabla(estacionesBDD);
+		
 		btnNewButton_3 = new JButton("ELIMINAR");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -136,6 +128,25 @@ public class PanelBuscarEstacion extends JPanel {
 					table = renovarTabla(estacionesBDD);
 				}
 		}});
+		
+		btnNewButton = new JButton("BUSCAR");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				estacionesBDD = EstacionesRepo.ObtenerEstaciones();
+				System.out.println(table.getRowCount());
+				table = renovarTabla(estacionesBDD.stream().filter(est->est.getNombre().equals(textField.getText()))
+						.collect(Collectors.toList()));
+				System.out.println(table.getRowCount());
+			}
+		});
+		
+		btnNewButton.setBackground(new Color(204, 204, 204));
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.insets = new Insets(5, 5, 5, 5);
+		gbc_btnNewButton.gridx = 4;
+		gbc_btnNewButton.gridy = 3;
+		add(btnNewButton, gbc_btnNewButton);
+		
 		
 		btnNewButton_3.setBackground(new Color(204, 204, 153));
 		btnNewButton_3.setEnabled(false);

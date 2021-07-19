@@ -445,7 +445,6 @@ public class VentanaPrincipal {
 			}  
 		}); 
 		
-		
 		/*panelModificarEstacion.getBtnNewButton_3().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("BUSCAR ESTACION");
