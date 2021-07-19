@@ -50,11 +50,12 @@ public class PanelAgregarTramo extends JPanel {
 	private JComboBox comboBox_1_1;
 	private JRadioButton rdbtnNewRadioButton;
 	private JRadioButton rdbtnNewRadioButton1;
+	private JLabel tramoAgregado;
 	
 	public PanelAgregarTramo() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
-		gridBagLayout.columnWidths = new int[]{54, 135, -105, 110, 94, 0, 0, 67, 0};
+		gridBagLayout.columnWidths = new int[]{54, 135, 13, 85, 67, 0, 0, 67, 0};
 		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 19, 21, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -299,7 +300,7 @@ public class PanelAgregarTramo extends JPanel {
 		add(textField_4, gbc_textField_4);
 		textField_4.setColumns(10);
 		
-		inserteCP = new JLabel("Por favor, inserte la cantidad máxima de pasajeros permitida.");
+		inserteCP = new JLabel("Por favor, inserte la cantidad máxima de pasajeros.");
 		inserteCP.setForeground(Color.RED);
 		inserteCP.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
 		inserteCP.setHorizontalAlignment(SwingConstants.LEFT);
@@ -412,6 +413,15 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_btnNewButton_1.gridy = 18;
 		add(btnCancelar, gbc_btnNewButton_1);
 		
+		tramoAgregado = new JLabel("EL TRAMO SE HA AGREGADO CORRECTAMENTE");
+		tramoAgregado.setFont(new Font("Arial", Font.BOLD, 12));
+		GridBagConstraints gbcTramoAgregado = new GridBagConstraints();
+		gbcTramoAgregado.insets = new Insets(0, 0, 5, 5);
+		gbcTramoAgregado.gridx = 1;
+		gbcTramoAgregado.gridy = 19;
+		gbcTramoAgregado.gridwidth=3;
+		add(tramoAgregado, gbcTramoAgregado);
+		tramoAgregado.setVisible(false);
 	}
 	public JButton getBtnGuardar() {
 		return btnGuardar;
@@ -429,6 +439,7 @@ public class PanelAgregarTramo extends JPanel {
 		this.inserteEstado.setVisible(false);
 		this.inserteLinea.setVisible(false);
 		this.inserteOrigen.setVisible(false);
+		this.tramoAgregado.setVisible(false);
 	}
 	public void limpiarDatos() {
 		comboBox.setSelectedIndex(0);
@@ -444,9 +455,9 @@ public class PanelAgregarTramo extends JPanel {
 	public Tramo obtenerTramoCreado() {
 		//public Tramo(Linea linea, Integer orden, Estacion origen, Estacion destino, Integer cant_pasajeros,
 		//Double duracion, Double distancia, Double costo, EstadoTramoEnum estado)
-		EstacionesFiltro origen= null;
+		EstacionesFiltro origen= new EstacionesFiltro();
 		origen.setNombre(comboBox.getSelectedItem().toString());
-		EstacionesFiltro destino = null;
+		EstacionesFiltro destino = new EstacionesFiltro();
 		destino.setNombre(comboBox_1.getSelectedItem().toString());
 		EstadoTramoEnum estado= null;
 		if(this.rdbtnNewRadioButton.isSelected()) {
@@ -455,8 +466,17 @@ public class PanelAgregarTramo extends JPanel {
 			estado= EstadoTramoEnum.INACTIVO;
 		}
 		
-		return new Tramo(LineasRepo.ObtenerLinea(1), 1, EstacionesRepo.ObtenerEstaciones(origen).get(0),EstacionesRepo.ObtenerEstaciones(destino).get(0),Integer.parseInt(textField_4.getText()) ,
-				Double.parseDouble(textField.getText()),Double.parseDouble(textField_1.getText()),Double.parseDouble(textField_5.getText()),estado);
+		Integer cant_pasajeros=null;
+		if(!textField_4.getText().isEmpty()) cant_pasajeros= Integer.parseInt(textField_4.getText());
+		Double duracion=null;
+		if(!textField.getText().isEmpty()) duracion = Double.parseDouble(textField.getText());
+		Double distancia=null;
+		if(!textField_1.getText().isEmpty()) distancia= Double.parseDouble(textField_1.getText());
+		Double costo=null;
+		if(!textField_5.getText().isEmpty()) costo= Double.parseDouble(textField_5.getText());
+		
+		return new Tramo(LineasRepo.ObtenerLinea(1), 1, EstacionesRepo.ObtenerEstaciones(origen).get(0),EstacionesRepo.ObtenerEstaciones(destino).get(0),cant_pasajeros ,
+				duracion,distancia,costo,estado);
 	}
 	
 	public void mostrarCantPasajeros() {
@@ -482,6 +502,15 @@ public class PanelAgregarTramo extends JPanel {
 	}
 	public void mostrarOrigen() {
 		this.inserteOrigen.setVisible(true);
+	}
+	public void mensajeTramoCreado() {
+		this.tramoAgregado.setVisible(true);
+	}
+	public void deshabilitarGuardar() {
+		this.btnGuardar.setEnabled(false);
+	}
+	public void habilitarGuardar() {
+		this.btnGuardar.setEnabled(true);
 	}
 
 }

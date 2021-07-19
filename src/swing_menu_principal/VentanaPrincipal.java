@@ -16,6 +16,7 @@ import javax.swing.WindowConstants;
 import bdd.EstacionesRepo;
 import bdd.LineasRepo;
 import bdd.TareaMantenimientoRepo;
+import bdd.TramosRepo;
 import excepciones.FechaFinMenorFechaInicioException;
 import filtros.EstacionesFiltro;
 import modelo.*;
@@ -219,6 +220,7 @@ public class VentanaPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				panelAgregarTramo.limpiarWarnings();
 				panelAgregarTramo.limpiarDatos();
+				panelAgregarTramo.habilitarGuardar();
 				ventana1.setTitle("GESTIONAR TRAMOS");
 				ventana1.setContentPane(panelGestionarTramos);
 				ventana1.setVisible(true);
@@ -766,21 +768,28 @@ public class VentanaPrincipal {
 		if(nuevo.getCosto()==null) {
 			panelAgregarTramo.mostrarCosto();
 		}
-		if(nuevo.getDestino()==null) {
+		/*if(nuevo.getDestino()==null) {
 			panelAgregarTramo.mostrarDestino();
-		}
+		}*/
 		if(nuevo.getDistancia()==null) {
 			panelAgregarTramo.mostrarDistancia();
 		}
 		if(nuevo.getDuracion()==null) {
 			panelAgregarTramo.mostrarDuracion();
 		}
-		if(nuevo.getLinea()==null) {
+		/*if(nuevo.getLinea()==null) {
 			panelAgregarTramo.mostrarLinea();
 		}
 		if(nuevo.getOrigen()==null) {
 			panelAgregarTramo.mostrarOrigen();
+		}*/
+		if(nuevo.get_cantPasajeros()!=null && nuevo.get_estadoTramo()!=null && nuevo.getCosto()!=null && nuevo.getDistancia()!=null && nuevo.getDuracion()!=null) {
+			TramosRepo.GuardarTramo(nuevo);
+			panelAgregarTramo.mensajeTramoCreado();
+			panelAgregarTramo.deshabilitarGuardar();
 		}
+		
+		
 	}
 	
 	public static void agregarBoleto() {
