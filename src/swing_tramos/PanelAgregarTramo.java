@@ -18,8 +18,11 @@ import javax.swing.SwingConstants;
 
 import bdd.EstacionesRepo;
 import bdd.LineasRepo;
+import filtros.EstacionesFiltro;
 import modelo.Estacion;
+import modelo.EstadoTramoEnum;
 import modelo.Linea;
+import modelo.Tramo;
 
 import javax.swing.JComboBox;
 import java.awt.Color;
@@ -45,6 +48,8 @@ public class PanelAgregarTramo extends JPanel {
 	private JComboBox comboBox;
 	private JComboBox comboBox_1;
 	private JComboBox comboBox_1_1;
+	private JRadioButton rdbtnNewRadioButton;
+	private JRadioButton rdbtnNewRadioButton1;
 	
 	public PanelAgregarTramo() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -353,7 +358,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_lblNewLabel_1_1_1.gridy = 16;
 		add(lblNewLabel_1_1_1, gbc_lblNewLabel_1_1_1);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Activo");
+		rdbtnNewRadioButton = new JRadioButton("Activo");
 		rdbtnNewRadioButton.setFont(new Font("Arial", Font.BOLD, 13));
 		GridBagConstraints gbc_rdbtnNewRadioButton = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton.insets = new Insets(0, 0, 5, 5);
@@ -361,7 +366,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_rdbtnNewRadioButton.gridy = 16;
 		add(rdbtnNewRadioButton, gbc_rdbtnNewRadioButton);
 		
-		JRadioButton rdbtnNewRadioButton1 = new JRadioButton("No activo");
+		rdbtnNewRadioButton1 = new JRadioButton("No activo");
 		rdbtnNewRadioButton1.setFont(new Font("Arial", Font.BOLD, 13));
 		GridBagConstraints gbc_rdbtnNewRadioButton1 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton1.insets = new Insets(0, 0, 5, 5);
@@ -434,6 +439,49 @@ public class PanelAgregarTramo extends JPanel {
 		textField_4.setText(null);
 		textField_5.setText(null);
 		estado.clearSelection();
+	}
+	
+	public Tramo obtenerTramoCreado() {
+		//public Tramo(Linea linea, Integer orden, Estacion origen, Estacion destino, Integer cant_pasajeros,
+		//Double duracion, Double distancia, Double costo, EstadoTramoEnum estado)
+		EstacionesFiltro origen= null;
+		origen.setNombre(comboBox.getSelectedItem().toString());
+		EstacionesFiltro destino = null;
+		destino.setNombre(comboBox_1.getSelectedItem().toString());
+		EstadoTramoEnum estado= null;
+		if(this.rdbtnNewRadioButton.isSelected()) {
+			estado= EstadoTramoEnum.ACTIVO;
+		}else if(rdbtnNewRadioButton1.isSelected()) {
+			estado= EstadoTramoEnum.INACTIVO;
+		}
+		
+		return new Tramo(LineasRepo.ObtenerLinea(1), 1, EstacionesRepo.ObtenerEstaciones(origen).get(0),EstacionesRepo.ObtenerEstaciones(destino).get(0),Integer.parseInt(textField_4.getText()) ,
+				Double.parseDouble(textField.getText()),Double.parseDouble(textField_1.getText()),Double.parseDouble(textField_5.getText()),estado);
+	}
+	
+	public void mostrarCantPasajeros() {
+		this.inserteCP.setVisible(true);
+	}
+	public void mostratEstado() {
+		this.inserteEstado.setVisible(true);
+	}
+	public void mostrarCosto() {
+		this.inserteCosto.setVisible(true);
+	}
+	public void mostrarDestino() {
+		this.inserteDestino.setVisible(true);
+	}
+	public void mostrarDistancia() {
+		this.inserteDistancia.setVisible(true);
+	}
+	public void mostrarDuracion() {
+		this.inserteDuracion.setVisible(true);
+	}
+	public void mostrarLinea() {
+		this.inserteLinea.setVisible(true);
+	}
+	public void mostrarOrigen() {
+		this.inserteOrigen.setVisible(true);
 	}
 
 }

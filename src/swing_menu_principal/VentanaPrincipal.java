@@ -33,7 +33,7 @@ import swing_estaciones.PanelBuscarEstacion;
 import swing_estaciones.PanelFlujoMaximo;
 import swing_estaciones.PanelGestionarEstaciones;
 import swing_estaciones.PanelInformacionEstaciones;
-//import swing_estaciones.PanelModificarEstacion;
+import swing_estaciones.PanelModificarEstacion;
 import swing_estaciones.PanelPageRank;
 import swing_estaciones.PanelProximoMantenimiento;
 import swing_lineas.PanelGestionarLineas;
@@ -63,7 +63,7 @@ public class VentanaPrincipal {
 	private static PanelProximoMantenimiento panelProximoMantenimiento;
 	private static PanelFlujoMaximo panelFlujoMaximo;
 	private static PanelPageRank panelPageRank;
-	//private static PanelModificarEstacion panelModificarEstacion;
+	private static PanelModificarEstacion panelModificarEstacion;
 	
 	private static PanelGestionarTramos panelGestionarTramos;
 	private static PanelAgregarTramo panelAgregarTramo;
@@ -225,6 +225,14 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
+		
+		panelAgregarTramo.getBtnGuardar().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelAgregarTramo.limpiarWarnings();
+				VentanaPrincipal.agregarTramo();
+			}
+		});
+			
 		/*
 		panelGestionarTramos.getBuscar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -255,6 +263,7 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
+		
 		panelGestionarTareaMantenimiento.getBuscar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("BUSCAR TAREA DE MANTENIMIENTO");
@@ -274,14 +283,7 @@ public class VentanaPrincipal {
 		});
 		
 		panelVerHistorialTareaMantenimiento.getBtnNewButton_2().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ventana1.setTitle("GESTIONAR TAREAS DE MANTENIMIENTO");
-				ventana1.setContentPane(panelGestionarTareaMantenimiento);
-				ventana1.setVisible(true);
-				ventana1.pack();
-			}
-		});
-		panelBuscarTareaMantenimiento.getCancelar().addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("GESTIONAR TAREAS DE MANTENIMIENTO");
 				ventana1.setContentPane(panelGestionarTareaMantenimiento);
@@ -290,6 +292,14 @@ public class VentanaPrincipal {
 			}
 		});
 		
+		panelBuscarTareaMantenimiento.getCancelar().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventana1.setTitle("GESTIONAR TAREAS DE MANTENIMIENTO");
+				ventana1.setContentPane(panelGestionarTareaMantenimiento);
+				ventana1.setVisible(true);
+				ventana1.pack();
+			}
+		});
 		
 		panelAgregarTareaMantenimiento.getBtnNewButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -421,7 +431,7 @@ public class VentanaPrincipal {
 			}
 		});
 		
-	/*	panelBuscarEstacion.getModificar().addActionListener(new ActionListener() {
+		panelBuscarEstacion.getModificar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("MODIFICAR ESTACION");
 				panelModificarEstacion = new PanelModificarEstacion();
@@ -432,7 +442,7 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}  
 		}); 
-		*/
+		
 		
 		/*panelModificarEstacion.getBtnNewButton_3().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -442,7 +452,7 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
-		
+	
 		panelModificarEstacion.getBtnNewButton4().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("BUSCAR ESTACION");
@@ -505,6 +515,7 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			} 
 		});
+		
 		panelProximoMantenimiento.getCancelar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana1.setTitle("INFORMACION DE ESTACIONES");
@@ -647,8 +658,7 @@ public class VentanaPrincipal {
 				ventana1.pack();
 			}
 		});
-		
-		
+
 	}
 	
 	public static void agregarEstacion() {
@@ -745,7 +755,37 @@ public class VentanaPrincipal {
 		}
 	}
 	
+	public static void agregarTramo() {
+		Tramo nuevo = panelAgregarTramo.obtenerTramoCreado();
+		if(nuevo.get_cantPasajeros()==null) {
+			panelAgregarTramo.mostrarCantPasajeros();
+		}
+		if(nuevo.get_estadoTramo()==null) {
+			panelAgregarTramo.mostratEstado();
+		}
+		if(nuevo.getCosto()==null) {
+			panelAgregarTramo.mostrarCosto();
+		}
+		if(nuevo.getDestino()==null) {
+			panelAgregarTramo.mostrarDestino();
+		}
+		if(nuevo.getDistancia()==null) {
+			panelAgregarTramo.mostrarDistancia();
+		}
+		if(nuevo.getDuracion()==null) {
+			panelAgregarTramo.mostrarDuracion();
+		}
+		if(nuevo.getLinea()==null) {
+			panelAgregarTramo.mostrarLinea();
+		}
+		if(nuevo.getOrigen()==null) {
+			panelAgregarTramo.mostrarOrigen();
+		}
+	}
+	
 	public static void agregarBoleto() {
 		//Boleto nuevo= panelAgregarBoleto.obtenerBoletoCreado();
 	}
+	
+
 }

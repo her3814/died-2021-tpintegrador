@@ -267,9 +267,19 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		//public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs)
 		EstacionesFiltro e= new EstacionesFiltro();
 		e.setNombre(this.comboBox.getSelectedItem().toString());
+		if(this.dateChooser.getDate()==null && this.dateChooser_1.getDate()==null) {
+			return new TareaMantenimiento(EstacionesRepo.ObtenerEstaciones(e).get(0),null,null, this.textArea.getText());
+		}else if(this.dateChooser.getDate()==null) {
+			return new TareaMantenimiento(EstacionesRepo.ObtenerEstaciones(e).get(0),null,
+					this.dateChooser_1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), this.textArea.getText());
+		}else if(this.dateChooser_1.getDate()==null) {
+			return new TareaMantenimiento(EstacionesRepo.ObtenerEstaciones(e).get(0),this.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+					null, this.textArea.getText());
+		}else {
+			return new TareaMantenimiento(EstacionesRepo.ObtenerEstaciones(e).get(0),this.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+					this.dateChooser_1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), this.textArea.getText());
+		}
 
-		return new TareaMantenimiento(EstacionesRepo.ObtenerEstaciones(e).get(0),this.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-				this.dateChooser_1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), this.textArea.getText());
 	}
 	
 	public void mensajeTareaCreada() {
