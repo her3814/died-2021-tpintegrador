@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -505,10 +506,11 @@ public class PanelAgregarEstacion extends JPanel {
 	public void mensajeFechaErronea() {
 		reingFecha.setVisible(true);
 	}
-	@SuppressWarnings("deprecation")
+
 	public TareaMantenimiento getTareaMantenimiento(Estacion nueva) throws FechaFinMenorFechaInicioException {
 		//public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs)
-		return new TareaMantenimiento(nueva,LocalDate.now(),LocalDate.of(this.dateChooser_1.getDate().getYear(), this.dateChooser_1.getDate().getMonth(), this.dateChooser_1.getDate().getDay()), textArea.getText() );
+		//fechaAntigua.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+		return new TareaMantenimiento(nueva,LocalDate.now(),this.dateChooser_1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), textArea.getText() );
 		
 	}
 	public void deshabilitarGuardado() {

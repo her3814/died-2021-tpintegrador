@@ -34,6 +34,11 @@ public class PanelAgregarLinea extends JPanel {
 	private JRadioButton rdbtnNewRadioButton;
 	private JRadioButton rdbtnNewRadioButton1;
 	private JLabel lineaAgregada;
+	private ButtonGroup medio;
+	private JLabel inserteMedio;
+	private JRadioButton rdbtnSubte;
+	private JRadioButton rdbtnTren;
+	private JRadioButton rdbtnColectivo;
 	
 	/**
 	 * @wbp.nonvisual location=543,504
@@ -42,8 +47,8 @@ public class PanelAgregarLinea extends JPanel {
 	public PanelAgregarLinea() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
-		gridBagLayout.columnWidths = new int[]{54, 90, 141, 211, 67, 0};
-		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 19, 0, 19, 0, 19, 21, 0, 0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{40, 152, 111, 114, 67, 0};
+		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 19, 0, 19, 0, 0, 21, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
@@ -124,26 +129,80 @@ public class PanelAgregarLinea extends JPanel {
 		add(inserteColor, gbc_i_col);
 		inserteColor.setVisible(false);
 		
+		JLabel lblNewLabel_1_1_1_1 = new JLabel("MEDIO DE TRANSPORTE:");
+		lblNewLabel_1_1_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_1_1_1_1.setFont(new Font("Arial", Font.BOLD, 13));
+		GridBagConstraints gbc_lblNewLabel_1_1_1_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1_1_1_1.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_1_1_1_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1_1_1_1.gridx = 1;
+		gbc_lblNewLabel_1_1_1_1.gridy = 6;
+		add(lblNewLabel_1_1_1_1, gbc_lblNewLabel_1_1_1_1);
+		
+		rdbtnSubte = new JRadioButton("Subte");
+		rdbtnSubte.setFont(new Font("Arial", Font.BOLD, 13));
+		GridBagConstraints gbc_rdbtnSubte = new GridBagConstraints();
+		gbc_rdbtnSubte.insets = new Insets(0, 0, 5, 5);
+		gbc_rdbtnSubte.gridx = 2;
+		gbc_rdbtnSubte.gridy = 6;
+		add(rdbtnSubte, gbc_rdbtnSubte);
+		
+		rdbtnColectivo = new JRadioButton("Colectivo");
+		rdbtnColectivo.setFont(new Font("Arial", Font.BOLD, 13));
+		GridBagConstraints gbc_rdbtnColectivo = new GridBagConstraints();
+		gbc_rdbtnColectivo.insets = new Insets(0, 0, 5, 5);
+		gbc_rdbtnColectivo.gridx = 3;
+		gbc_rdbtnColectivo.gridy = 6;
+		add(rdbtnColectivo, gbc_rdbtnColectivo);
+		
+		rdbtnTren = new JRadioButton("Tren");
+		rdbtnTren.setFont(new Font("Arial", Font.BOLD, 13));
+		GridBagConstraints gbc_rdbtnTren = new GridBagConstraints();
+		gbc_rdbtnTren.insets = new Insets(0, 0, 5, 0);
+		gbc_rdbtnTren.gridx = 4;
+		gbc_rdbtnTren.gridy = 6;
+		add(rdbtnTren, gbc_rdbtnTren);
+		
+		medio = new ButtonGroup();
+		medio.add(rdbtnTren);
+		medio.add(rdbtnColectivo);
+		medio.add(rdbtnSubte);
+		
+		inserteMedio = new JLabel("Por favor, seleccione un medio de transporte.");
+		inserteMedio.setForeground(Color.RED);
+		inserteMedio.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
+		inserteMedio.setHorizontalAlignment(SwingConstants.LEFT);
+		GridBagConstraints gbc_i_medio = new GridBagConstraints();
+		gbc_i_medio.anchor = GridBagConstraints.EAST;
+		gbc_i_medio.insets = new Insets(0, 0, 5, 5);
+		gbc_i_medio.gridx = 1;
+		gbc_i_medio.gridy = 7;
+		gbc_i_medio.gridwidth=3;
+		gbc_i_medio.anchor=GridBagConstraints.WEST;
+		add(inserteMedio, gbc_i_medio);
+		inserteMedio.setVisible(false);
+
+		
 		JLabel lblNewLabel_5 = new JLabel("ESTADO:");
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
 		gbc_lblNewLabel_5.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_5.gridx = 1;
-		gbc_lblNewLabel_5.gridy = 6;
+		gbc_lblNewLabel_5.gridy = 8;
 		add(lblNewLabel_5, gbc_lblNewLabel_5);
 		
 		rdbtnNewRadioButton = new JRadioButton("Activa");
 		GridBagConstraints gbc_rdbtnNewRadioButton = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnNewRadioButton.gridx = 2;
-		gbc_rdbtnNewRadioButton.gridy = 6;
+		gbc_rdbtnNewRadioButton.gridy = 8;
 		add(rdbtnNewRadioButton, gbc_rdbtnNewRadioButton);
 		
 		rdbtnNewRadioButton1 = new JRadioButton("No activa");
 		GridBagConstraints gbc_rdbtnNewRadioButton1 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton1.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnNewRadioButton1.gridx = 3;
-		gbc_rdbtnNewRadioButton1.gridy = 6;
+		gbc_rdbtnNewRadioButton1.gridy = 8;
 		add(rdbtnNewRadioButton1, gbc_rdbtnNewRadioButton1);
 		
 		estado = new ButtonGroup();
@@ -158,7 +217,7 @@ public class PanelAgregarLinea extends JPanel {
 		gbc_i_est.anchor = GridBagConstraints.EAST;
 		gbc_i_est.insets = new Insets(0, 0, 5, 5);
 		gbc_i_est.gridx = 1;
-		gbc_i_est.gridy = 7;
+		gbc_i_est.gridy = 9;
 		gbc_i_est.gridwidth=3;
 		gbc_i_est.anchor=GridBagConstraints.WEST;
 		add(inserteEstado, gbc_i_est);
@@ -169,7 +228,7 @@ public class PanelAgregarLinea extends JPanel {
 		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 2;
-		gbc_btnNewButton.gridy = 8;
+		gbc_btnNewButton.gridy = 10;
 		add(btnGuardar, gbc_btnNewButton);
 		
 		btnCancelar = new JButton("CANCELAR");
@@ -177,7 +236,7 @@ public class PanelAgregarLinea extends JPanel {
 		gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_1.gridx = 3;
-		gbc_btnNewButton_1.gridy = 8;
+		gbc_btnNewButton_1.gridy = 10;
 		add(btnCancelar, gbc_btnNewButton_1);
 		
 		lineaAgregada = new JLabel("LA LINEA SE HA AGREGADO CORRECTAMENTE");
@@ -185,7 +244,7 @@ public class PanelAgregarLinea extends JPanel {
 		GridBagConstraints gbcLineaAgregada = new GridBagConstraints();
 		gbcLineaAgregada.insets = new Insets(0, 0, 5, 5);
 		gbcLineaAgregada.gridx = 1;
-		gbcLineaAgregada.gridy = 9;
+		gbcLineaAgregada.gridy = 11;
 		gbcLineaAgregada.gridwidth=3;
 		add(lineaAgregada, gbcLineaAgregada);
 		lineaAgregada.setVisible(false);
@@ -203,11 +262,13 @@ public class PanelAgregarLinea extends JPanel {
 		textField_1.setText(null);
 		estado.clearSelection();
 		this.lineaAgregada.setVisible(false);
+		this.medio.clearSelection();
 	}
 	public void limpiarWarnings() {
 		this.inserteNombre.setVisible(false);
 		this.inserteColor.setVisible(false);
 		this.inserteEstado.setVisible(false);
+		this.inserteMedio.setVisible(false);
 	}
 	public void inserteNombre() {
 		this.inserteNombre.setVisible(true);
@@ -218,6 +279,9 @@ public class PanelAgregarLinea extends JPanel {
 	public void inserteEstado() {
 		this.inserteEstado.setVisible(true);
 	}
+	public void inserteTransporte() {
+		this.inserteMedio.setVisible(true);
+	}
 	
 	public void habilitarGuardar() {
 		this.btnGuardar.setEnabled(true);
@@ -225,6 +289,7 @@ public class PanelAgregarLinea extends JPanel {
 	public void deshabilitarGuardar() {
 		this.btnGuardar.setEnabled(false);
 	}
+
 	
 	public Linea obtenerLineaCreada() {
 		//public Linea(String nombre, String color, EstadoLineaEnum estado, LineaTipoTransporteEnum tipoTransporte)
@@ -234,7 +299,16 @@ public class PanelAgregarLinea extends JPanel {
 		}else if(this.rdbtnNewRadioButton1.isSelected()) {
 			e=EstadoLineaEnum.NO_ACTIVA;
 		}
-		return new Linea(this.textField.getText(), this.textField_1.getText(), e, LineaTipoTransporteEnum.COLECTIVO);
+		
+		LineaTipoTransporteEnum t =null;
+		if(this.rdbtnColectivo.isSelected()) {
+			t= LineaTipoTransporteEnum.COLECTIVO;
+		}else if(this.rdbtnSubte.isSelected()) {
+			t=LineaTipoTransporteEnum.SUBTE;
+		}else if(this.rdbtnTren.isSelected()) {
+			t=LineaTipoTransporteEnum.TREN;
+		}
+		return new Linea(this.textField.getText(), this.textField_1.getText(), e, t);
 	}
 	
 	public void mensajeLineaCreada() {

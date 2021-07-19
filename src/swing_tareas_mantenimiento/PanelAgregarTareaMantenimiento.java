@@ -10,6 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -266,8 +267,9 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		//public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs)
 		EstacionesFiltro e= new EstacionesFiltro();
 		e.setNombre(this.comboBox.getSelectedItem().toString());
-		return new TareaMantenimiento(EstacionesRepo.ObtenerEstaciones(e).get(0),LocalDate.of(this.dateChooser.getDate().getYear(), this.dateChooser.getDate().getMonth(), this.dateChooser.getDate().getDay()),
-				LocalDate.of(this.dateChooser_1.getDate().getYear(), this.dateChooser_1.getDate().getMonth(), this.dateChooser_1.getDate().getDay()), this.textArea.getText());
+
+		return new TareaMantenimiento(EstacionesRepo.ObtenerEstaciones(e).get(0),this.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+				this.dateChooser_1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), this.textArea.getText());
 	}
 	
 	public void mensajeTareaCreada() {
