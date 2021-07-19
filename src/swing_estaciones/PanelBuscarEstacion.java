@@ -50,7 +50,8 @@ public class PanelBuscarEstacion extends JPanel {
 	private JButton modificar;
 	private JButton btnNewButton_2;
 	private JButton cancelar;
-
+	private int seguir;
+	
 	private JLabel lblNewLabel_1;
 	private Estacion actual;
 	private JButton btnNewButton_1;
@@ -104,7 +105,7 @@ public class PanelBuscarEstacion extends JPanel {
 		gbcFiltros.gridy=3;
 		gbcFiltros.gridheight=4;
 		add(filtros, gbcFiltros);
-			
+		
 		estacionesBDD = EstacionesRepo.ObtenerEstaciones();
 		table = new JTable();
 		table = renovarTabla(estacionesBDD);
@@ -115,17 +116,16 @@ public class PanelBuscarEstacion extends JPanel {
 				int fila = table.getSelectedRow();
 				Integer id = (Integer) table.getValueAt(fila, 0);
 				String nombre = (String) table.getValueAt(fila, 1);
-				int seguir = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar la estacion: " + nombre + "?", 
+				seguir = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar la estacion: " + nombre + "?", 
 				null, 2);
+				System.out.println(seguir);
 				if(seguir==0) {
 				LocalTime hi = (LocalTime) table.getValueAt(fila, 2);
 				LocalTime hf = (LocalTime) table.getValueAt(fila, 3);
 				EstadoEstacionEnum estado = (EstadoEstacionEnum) table.getValueAt(fila, 4);
-				Estacion actual = null;
-				actual = new Estacion(id,nombre, hi, hf, estado); 
+				Estacion actual = new Estacion(id,nombre, hi, hf, estado); 
 				EstacionesRepo.EliminarEstacion(actual);
-				estacionesBDD = EstacionesRepo.ObtenerEstaciones();
-					table = renovarTabla(estacionesBDD);
+				//	table = renovarTabla(EstacionesRepo.ObtenerEstaciones());
 				}
 		}});
 		
@@ -200,7 +200,7 @@ public class PanelBuscarEstacion extends JPanel {
 		cancelar.setBackground(new Color(204, 204, 51));
 		
 		btnNewButton_1 = new JButton("Aplicar filtros");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		/*btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				estacionesBDD = new ArrayList<Estacion>();
 				estacionesBDD = EstacionesRepo.ObtenerEstaciones();
@@ -237,7 +237,7 @@ public class PanelBuscarEstacion extends JPanel {
 				System.out.println(estacionesBDD.size());
 
 			}
-		});
+		});*/
 		
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
@@ -288,29 +288,29 @@ public class PanelBuscarEstacion extends JPanel {
 
 	public JTable renovarTabla(List<Estacion> nuevosDatos) {
 
-		nombresEstaciones = new ArrayList<String>();
+		/*nombresEstaciones = new ArrayList<String>();
 		ids = new ArrayList<Integer>();
 		horariosApertura = new ArrayList<LocalTime>();
 		horariosCierre = new ArrayList<LocalTime>();
 		estado = new ArrayList<EstadoEstacionEnum>();
 		
-		for(Estacion e: estacionesBDD) {
+		for(Estacion e: nuevosDatos) {
 			nombresEstaciones.add(e.getNombre());
 			ids.add(e.getId());
 			horariosApertura.add(e.getHorarioApertura());
 			horariosCierre.add(e.getHorarioCierre());
 			estado.add(e.getEstado());
-		}
+		}*/
 		
 		String nombreColumnas[] = {"Id","Nombre estacion", "Horario apertura", "Horario cierre", "Estado"};
-		datosFila = new Object[nombresEstaciones.size()] [5];
+		datosFila = new Object[nuevosDatos.size()] [5];
 		
-		for(int i=0; i<nombresEstaciones.size();i++) {
-			datosFila[i][0] = ids.get(i);
-			datosFila[i][1] = nombresEstaciones.get(i);
-			datosFila[i][2] = horariosApertura.get(i);
-			datosFila[i][3] = horariosCierre.get(i);
-			datosFila[i][4] = estado.get(i);
+		for(int i=0; i<nuevosDatos.size();i++) {
+			datosFila[i][0] = nuevosDatos.get(i).getId();
+			datosFila[i][1] = nuevosDatos.get(i).getNombre();
+			datosFila[i][2] = nuevosDatos.get(i).getHorarioApertura();
+			datosFila[i][3] = nuevosDatos.get(i).getHorarioCierre();
+			datosFila[i][4] = nuevosDatos.get(i).getEstado();
 		}
 		
 		//Crear modelo de la tabla
@@ -339,6 +339,14 @@ public class PanelBuscarEstacion extends JPanel {
 		return table;
 		
 	}
+	public JButton getBtnNewButton_3() {
+		return btnNewButton_3;
+	}
+	public void setBtnNewButton_3(JButton btnNewButton_3) {
+		this.btnNewButton_3 = btnNewButton_3;
+	}
+	
+	
 
 	
 }
