@@ -29,6 +29,7 @@ import com.toedter.calendar.JDateChooser;
 
 import bdd.EstacionesRepo;
 import excepciones.FechaFinMenorFechaInicioException;
+import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 import modelo.TareaMantenimiento;
@@ -257,7 +258,12 @@ public class PanelModificarEstacion extends JPanel {
 				int i = 0;
 				while (! encontrado) {
 					if(estacionesBDD.get(i).getId().equals(actual.getId())) {
-						Estacion nueva = getEstacionCreada();
+						try {
+							Estacion nueva = getEstacionCreada();
+						} catch (HoraCierreMenorHoraAperturaException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						EstacionesRepo.EliminarEstacion(estacionesBDD.get(i));
 						EstacionesRepo.AgregarEstacion(actual);
 						//EstacionesRepo.ModificarEstacion(actual);
@@ -414,7 +420,7 @@ public class PanelModificarEstacion extends JPanel {
 	}
 */
 	//crea una estacion con los datos ingresados (si son null la creamos igual con null)
-	public Estacion getEstacionCreada() {
+	public Estacion getEstacionCreada() throws HoraCierreMenorHoraAperturaException {
 		EstadoEstacionEnum e = null;
 		if(rdbtnNewRadioButton.isSelected()) {
 			e= EstadoEstacionEnum.OPERATIVA;

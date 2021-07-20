@@ -10,6 +10,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import excepciones.HoraCierreMenorHoraAperturaException;
 import filtros.EstacionesFiltro;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
@@ -119,6 +120,9 @@ public class EstacionesRepo {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+			e.printStackTrace();
+		} catch (HoraCierreMenorHoraAperturaException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
@@ -291,6 +295,9 @@ public class EstacionesRepo {
 			// TODO Cargar el estado de la estacion en base a las tareas de mantenimiento.
 			estacion = new Estacion(id, nombre, hora_ape, hora_cie, estado);
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (HoraCierreMenorHoraAperturaException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return estacion;

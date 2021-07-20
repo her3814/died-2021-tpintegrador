@@ -30,6 +30,7 @@ import com.toedter.calendar.JDateChooser;
 import bdd.EstacionesRepo;
 import bdd.TareaMantenimientoRepo;
 import excepciones.FechaFinMenorFechaInicioException;
+import excepciones.HoraCierreMenorHoraAperturaException;
 //import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
@@ -267,17 +268,6 @@ public class PanelAgregarEstacion extends JPanel {
 		gbc_lblNewLabel_6.gridwidth=3;
 		add(lblNewLabel_6, gbc_lblNewLabel_6);
 		lblNewLabel_6.setVisible(false);
-		
-		/*tareaMant= new PanelAgregarEstacionConMantenimiento();
-		GridBagConstraints gbc_mant = new GridBagConstraints();
-		gbc_mant.insets= new Insets(5,5,5,5);
-		gbc_mant.gridx=1;
-		gbc_mant.gridy=12;
-		gbc_mant.gridheight=3;
-		gbc_mant.gridwidth=3;
-		add(tareaMant,gbc_mant);
-		
-		*/
 
 		agregarMant= new JLabel("AGREGAR TAREA DE MANTENIMIENTO");
 		agregarMant.setFont(new Font("Arial", Font.BOLD, 20));
@@ -360,7 +350,7 @@ public class PanelAgregarEstacion extends JPanel {
 		add(textArea,gbc_textArea);
 		textArea.setVisible(false);
 		
-		btnNewButton_3 = new JButton("CANCELAR");
+		btnNewButton_3 = new JButton("VOLVER");
 		btnNewButton_3.setBackground(new Color(204, 204, 51));
 		btnNewButton_3.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
@@ -395,16 +385,9 @@ public class PanelAgregarEstacion extends JPanel {
 		return btnNewButton_1;
 	}
 
-	/*
-	public String estacionIngresada() {
-		return "Nombre: "+this.textField_1.getText()
-		+ "Hora apertura: "+this.timePicker.getText()
-		+"Hora cierre: "+this.timePicker_1.getText()
-		+"Estado: "+this.estadoSeleccionado();
-	}
-*/
+	
 	//crea una estacion con los datos ingresados (si son null la creamos igual con null)
-	public Estacion getEstacionCreada() {
+	public Estacion getEstacionCreada() throws HoraCierreMenorHoraAperturaException {
 		EstadoEstacionEnum e = null;
 		if(rdbtnNewRadioButton.isSelected()) {
 			e= EstadoEstacionEnum.OPERATIVA;
@@ -418,9 +401,6 @@ public class PanelAgregarEstacion extends JPanel {
 		}
 		
 	}
-	
-	
-	
 	private String estadoSeleccionado() {
 		if(rdbtnNewRadioButton.isSelected()) {
 			return rdbtnNewRadioButton.getText();
@@ -452,24 +432,10 @@ public class PanelAgregarEstacion extends JPanel {
 		this.cierrePosteriorAp.setVisible(false);
 	}
 	
-	
-	public void nombreFaltante() {
-		lblNewLabel_1.setVisible(true);
+
+	public void horarioCierrePostAp() {
+		this.cierrePosteriorAp.setVisible(true);
 	}
-	
-	public void horaAperturaFaltante() {
-		inserteHoraApertura.setVisible(true);
-	}
-	public void horaCierreFaltante() {
-		inserteHoraCierre.setVisible(true);
-	}
-	public void mensajeEstacionCreada() {
-		lblNewLabel_6.setVisible(true);
-	}
-	public void estadoFaltante() {
-		seleccioneEstado.setVisible(true);
-	}
-	
 	public void mostrarDatosMantenimiento() {
 		//tareaMant.setVisible(true);
 		btnNewButton_1.setEnabled(false);
@@ -500,10 +466,6 @@ public class PanelAgregarEstacion extends JPanel {
 	public JButton getBtnNewButton4() {
 		return btnNewButton4;
 	}
-	
-	public void mensajeFechaErronea() {
-		reingFecha.setVisible(true);
-	}
 
 	public TareaMantenimiento getTareaMantenimiento(Estacion nueva) throws FechaFinMenorFechaInicioException {
 		//public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs)
@@ -515,12 +477,6 @@ public class PanelAgregarEstacion extends JPanel {
 			return new TareaMantenimiento(nueva,LocalDate.now(),fin.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), textArea.getText() );
 		}
 		
-	}
-	public void deshabilitarGuardado() {
-		btnNewButton.setEnabled(false);
-	}
-	public void deshabilitarGuardado1() {
-		btnNewButton4.setEnabled(false);
 	}
 	public void habilitarBotones() {
 		btnNewButton.setEnabled(true);
@@ -542,33 +498,28 @@ public class PanelAgregarEstacion extends JPanel {
 		this.rdbtnNewRadioButton.setEnabled(true);
 		this.rdbtnNewRadioButton1.setEnabled(true);
 	}
-	public void faltaFechaMant() {
-		fechaFin1.setVisible(true);
-	}
-	public void horaCierrePost() {
-		this.cierrePosteriorAp.setVisible(true);
-	}
-	public void agregarEstacion() {
-		Estacion nueva = this.getEstacionCreada();
+	
+	public void agregarEstacion() throws HoraCierreMenorHoraAperturaException {
+		Estacion nueva =  this.getEstacionCreada();
 		//Error en todo
 		if(nueva.getNombre().isEmpty()) {
-			this.nombreFaltante();			
+			btnNewButton.setEnabled(false);	
 		}
 		if(nueva.getHorarioCierre()==null) {
-			this.horaCierreFaltante();
+			inserteHoraCierre.setVisible(true);
 		}
 		if(nueva.getHorarioApertura()==null) {
-			this.horaAperturaFaltante();
+			inserteHoraApertura.setVisible(true);
 		}
 		if(nueva.getEstado()!=EstadoEstacionEnum.OPERATIVA && nueva.getEstado()!=EstadoEstacionEnum.MANTENIMIENTO) {
-			this.estadoFaltante();
+			seleccioneEstado.setVisible(true);
 		}
-		if(!nueva.getNombre().isEmpty() && nueva.getHorarioCierre()!=null && nueva.getHorarioApertura()!=null){
+		if(!nueva.getNombre().isEmpty() && nueva.getHorarioCierre()!=null && nueva.getHorarioApertura()!=null && nueva.getEstado()!=null){
 			
 		if(nueva.getEstado()==EstadoEstacionEnum.OPERATIVA) {
 			nueva= EstacionesRepo.AgregarEstacion(nueva);
-			this.mensajeEstacionCreada();
-			this.deshabilitarGuardado();
+			lblNewLabel_6.setVisible(true);
+			btnNewButton.setEnabled(false);
 			
 		}else {
 			this.deshabilitarCambios();
@@ -585,17 +536,17 @@ public class PanelAgregarEstacion extends JPanel {
 		try {
 			tarea = this.getTareaMantenimiento(nueva);
 			if(tarea.getFechaFin()==null) {
-				this.faltaFechaMant();
+				fechaFin1.setVisible(true);
 			}
 			else {
 				this.limpiarWarnings();
-				this.mensajeEstacionCreada();
-				this.deshabilitarGuardado1();  
+				lblNewLabel_6.setVisible(true);
+				btnNewButton4.setEnabled(false);
 				TareaMantenimientoRepo.AgregarTareaMantenimiento(tarea);
 		}
 			
 		} catch (FechaFinMenorFechaInicioException e) {
-			this.mensajeFechaErronea();
+			reingFecha.setVisible(true);
 		}
 		
 }

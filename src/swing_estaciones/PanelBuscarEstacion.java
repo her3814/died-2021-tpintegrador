@@ -27,6 +27,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import bdd.EstacionesRepo;
+import excepciones.HoraCierreMenorHoraAperturaException;
 //import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
@@ -123,7 +124,13 @@ public class PanelBuscarEstacion extends JPanel {
 				LocalTime hi = (LocalTime) table.getValueAt(fila, 2);
 				LocalTime hf = (LocalTime) table.getValueAt(fila, 3);
 				EstadoEstacionEnum estado = (EstadoEstacionEnum) table.getValueAt(fila, 4);
-				Estacion actual = new Estacion(id,nombre, hi, hf, estado); 
+				Estacion actual = null;
+				try {
+					actual = new Estacion(id,nombre, hi, hf, estado);
+				} catch (HoraCierreMenorHoraAperturaException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 
 				EstacionesRepo.EliminarEstacion(actual);
 					table = renovarTabla(EstacionesRepo.ObtenerEstaciones());
 				}
@@ -191,7 +198,12 @@ public class PanelBuscarEstacion extends JPanel {
 						LocalTime hi = (LocalTime) table.getValueAt(fila, 2);
 						LocalTime hf = (LocalTime) table.getValueAt(fila, 3);
 						EstadoEstacionEnum estadoEst = (EstadoEstacionEnum) table.getValueAt(fila, 4);
-						actual = new Estacion(id,nombreEstacion, hi, hf, estadoEst);
+						try {
+							actual = new Estacion(id,nombreEstacion, hi, hf, estadoEst);
+						} catch (HoraCierreMenorHoraAperturaException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 			        }
 			        
 			}});

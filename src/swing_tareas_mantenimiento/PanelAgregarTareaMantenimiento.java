@@ -42,7 +42,6 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 	private JTextField textField_1;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
-	private JLabel seleccioneEstacion;
 	private JLabel seleccioneFechaInicio;
 	private JLabel seleccioneFechaFin;
 	private JDateChooser dateChooser_1 ;
@@ -59,9 +58,9 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
 		gridBagLayout.columnWidths = new int[]{54, 90, 141, 211, 67, 0};
-		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 19, 0, 19, 0, 19, 21, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 26, 19, 19, 0, 19, 0, 19, 21, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		setPreferredSize(new Dimension(500,500));
 		setMinimumSize(new Dimension(300,300));
@@ -99,25 +98,13 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		gbc_comboBox.gridy = 2;
 		add(comboBox, gbc_comboBox);
 		
-		seleccioneEstacion = new JLabel("Por favor, seleccione una estación.");
-		seleccioneEstacion.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
-		seleccioneEstacion.setForeground(Color.RED);
-		GridBagConstraints estacionGbc = new GridBagConstraints();
-		estacionGbc.gridy = 3;
-		estacionGbc.insets = new Insets(0, 0, 5, 0);
-		estacionGbc.gridx = 1;
-		estacionGbc.gridwidth=4;
-		estacionGbc.anchor=GridBagConstraints.WEST;
-		add(seleccioneEstacion, estacionGbc);
-		seleccioneEstacion.setVisible(false);
-		
 		JLabel lblNewLabel_3 = new JLabel("FECHA INICIO:");
 		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_3.gridx = 1;
-		gbc_lblNewLabel_3.gridy = 4;
+		gbc_lblNewLabel_3.gridy = 3;
 		add(lblNewLabel_3, gbc_lblNewLabel_3);
 		
 		dateChooser = new JDateChooser();
@@ -126,14 +113,14 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		gbc_dateChooser.insets = new Insets(0, 0, 5, 5);
 		gbc_dateChooser.fill = GridBagConstraints.BOTH;
 		gbc_dateChooser.gridx = 2;
-		gbc_dateChooser.gridy = 4;
+		gbc_dateChooser.gridy = 3;
 		add(dateChooser, gbc_dateChooser);
 		
 		seleccioneFechaInicio = new JLabel("Por favor, seleccione una fecha de inicio.");
 		seleccioneFechaInicio.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
 		seleccioneFechaInicio.setForeground(Color.RED);
 		GridBagConstraints fehcaInicioGbc = new GridBagConstraints();
-		fehcaInicioGbc.gridy = 5;
+		fehcaInicioGbc.gridy = 4;
 		fehcaInicioGbc.insets = new Insets(0, 0, 5, 0);
 		fehcaInicioGbc.gridx = 1;
 		fehcaInicioGbc.gridwidth=4;
@@ -147,7 +134,7 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		gbc_lblNewLabel_4.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_4.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_4.gridx = 1;
-		gbc_lblNewLabel_4.gridy = 6;
+		gbc_lblNewLabel_4.gridy = 5;
 		add(lblNewLabel_4, gbc_lblNewLabel_4);
 		
 		dateChooser_1 = new JDateChooser();
@@ -156,14 +143,14 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		gbc_dateChooser_1.insets = new Insets(0, 0, 5, 5);
 		gbc_dateChooser_1.fill = GridBagConstraints.BOTH;
 		gbc_dateChooser_1.gridx = 2;
-		gbc_dateChooser_1.gridy = 6;
+		gbc_dateChooser_1.gridy = 5;
 		add(dateChooser_1, gbc_dateChooser_1);
 	
 		seleccioneFechaFin = new JLabel("Por favor, seleccione una fecha de fin.");
 		seleccioneFechaFin.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
 		seleccioneFechaFin.setForeground(Color.RED);
 		GridBagConstraints fechaFinGbc = new GridBagConstraints();
-		fechaFinGbc.gridy = 7;
+		fechaFinGbc.gridy = 6;
 		fechaFinGbc.insets = new Insets(0, 0, 5, 0);
 		fechaFinGbc.gridx = 1;
 		fechaFinGbc.gridwidth=4;
@@ -175,7 +162,7 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		fechaFinMayor.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
 		fechaFinMayor.setForeground(Color.RED);
 		GridBagConstraints fechaMayorGbc = new GridBagConstraints();
-		fechaMayorGbc.gridy = 7;
+		fechaMayorGbc.gridy = 6;
 		fechaMayorGbc.insets = new Insets(0, 0, 5, 0);
 		fechaMayorGbc.gridx = 1;
 		fechaMayorGbc.gridwidth=4;
@@ -189,7 +176,7 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		gbc_lblNewLabel_5.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_5.gridx = 1;
-		gbc_lblNewLabel_5.gridy = 8;
+		gbc_lblNewLabel_5.gridy = 7;
 		add(lblNewLabel_5, gbc_lblNewLabel_5);
 		
 		textArea = new JTextArea();
@@ -200,7 +187,7 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		gbc_textArea.insets = new Insets(0, 0, 5, 5);
 		gbc_textArea.fill = GridBagConstraints.BOTH;
 		gbc_textArea.gridx = 2;
-		gbc_textArea.gridy = 8;
+		gbc_textArea.gridy = 7;
 		add(textArea, gbc_textArea);
 		
 		btnNewButton = new JButton("GUARDAR");
@@ -210,7 +197,7 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 2;
-		gbc_btnNewButton.gridy = 10;
+		gbc_btnNewButton.gridy = 9;
 		add(btnNewButton, gbc_btnNewButton);
 		
 		btnNewButton_1 = new JButton("CANCELAR");
@@ -220,15 +207,15 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_1.gridx = 3;
-		gbc_btnNewButton_1.gridy = 10;
+		gbc_btnNewButton_1.gridy = 9;
 		add(btnNewButton_1, gbc_btnNewButton_1);
 		
 		tareaAgregada = new JLabel("LA TAREA DE MANTENIMIENTO SE HA AGREGADO CORRECTAMENTE");
 		tareaAgregada.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbcTareaAgregada = new GridBagConstraints();
-		gbcTareaAgregada.insets = new Insets(0, 0, 5, 5);
+		gbcTareaAgregada.insets = new Insets(0, 0, 0, 5);
 		gbcTareaAgregada.gridx = 1;
-		gbcTareaAgregada.gridy = 11;
+		gbcTareaAgregada.gridy = 10;
 		gbcTareaAgregada.gridwidth=3;
 		add(tareaAgregada, gbcTareaAgregada);
 		tareaAgregada.setVisible(false);
@@ -245,22 +232,14 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 	}
 	
 	public void limpiarWarnings() {
-		this.seleccioneEstacion.setVisible(false);
 		this.seleccioneFechaFin.setVisible(false);
 		this.seleccioneFechaInicio.setVisible(false);
 		fechaFinMayor.setVisible(false);
 		this.tareaAgregada.setVisible(false);
 	}
 	
-	public void seleccioneEstacion() {
-		this.seleccioneEstacion.setVisible(true);
-	}
-	public void seleccioneFechaFin() {
-		this.seleccioneFechaFin.setVisible(true);
-	}
-	public void seleccioneFechaInicio() {
-		this.seleccioneFechaInicio.setVisible(true);
-	}
+
+	
 	public TareaMantenimiento getTareaCreada() throws FechaFinMenorFechaInicioException {
 		//public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs)
 		//EstacionesFiltro e= new EstacionesFiltro();
@@ -284,12 +263,6 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 
 	}
 	
-	public void mensajeTareaCreada() {
-		this.tareaAgregada.setVisible(true);
-	}
-	public void deshabilitarGuardado() {
-		btnNewButton.setEnabled(false);
-	}
 	public void limpiarDatos() {
 		comboBox.setSelectedIndex(0);
 		dateChooser.setCalendar(null);
@@ -305,19 +278,16 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 	
 	public void agregarTareaMantenimiento() throws FechaFinMenorFechaInicioException {
 		TareaMantenimiento nueva = this.getTareaCreada();
-		if(nueva.getEstacion()==null) {
-			this.seleccioneEstacion();
-		}
 		if(nueva.getFechaInicio()==null) {
-			this.seleccioneFechaInicio();
+			this.seleccioneFechaInicio.setVisible(true);
 		}
 		if(nueva.getFechaFin()==null) {
-			this.seleccioneFechaFin();
+			this.seleccioneFechaFin.setVisible(true);
 		}
-		if(nueva.getEstacion()!=null && nueva.getFechaInicio()!=null && nueva.getFechaFin()!=null){
+		if(nueva.getFechaInicio()!=null && nueva.getFechaFin()!=null){
 			//AltaTareaMantenimiento.AltaTareaMantenimiento(nueva);
-			this.mensajeTareaCreada();
-			this.deshabilitarGuardado();
+			this.tareaAgregada.setVisible(true);
+			btnNewButton.setEnabled(false);
 			TareaMantenimientoRepo.AgregarTareaMantenimiento(nueva);
 		}
 		

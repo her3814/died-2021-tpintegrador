@@ -5,10 +5,14 @@ import java.awt.GridBagLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import bdd.EstacionesRepo;
 import excepciones.FechaFinMenorFechaInicioException;
+import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.*;
 import swing_lineas.PanelAgregarLinea;
 import swing_lineas.PanelBuscarLinea;
@@ -109,7 +113,11 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 				panelAgregarEstacion.getBtnNewButton().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						panelAgregarEstacion.limpiarWarnings();
-						panelAgregarEstacion.agregarEstacion();
+						try {
+							panelAgregarEstacion.agregarEstacion();
+						} catch (HoraCierreMenorHoraAperturaException e1) {
+							panelAgregarEstacion.horarioCierrePostAp();
+						}
 					}
 				});
 				
@@ -120,8 +128,8 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 						panelAgregarEstacion.sacarMantenimiento();
 						panelAgregarEstacion.habilitarBotones();
 						panelAgregarEstacion.habilitar();
-						ventana1.setTitle("AGREGAR ESTACION");
-						ventana1.setContentPane(panelAgregarEstacion);
+						ventana1.setTitle("GESTIONAR ESTACIONES");
+						ventana1.setContentPane(panelGestionarEstaciones);
 						ventana1.setVisible(true);
 						ventana1.pack();
 					}
@@ -130,7 +138,12 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 				panelAgregarEstacion.getBtnNewButton4().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						panelAgregarEstacion.limpiarWarnings();
-						Estacion nueva = panelAgregarEstacion.getEstacionCreada();
+						Estacion nueva = null;
+						try {
+							nueva = panelAgregarEstacion.getEstacionCreada();
+						} catch (HoraCierreMenorHoraAperturaException e1) {
+							panelAgregarEstacion.horarioCierrePostAp();
+						}
 						nueva= EstacionesRepo.AgregarEstacion(nueva);
 						panelAgregarEstacion.agregarTareaMantenimiento(nueva);
 					}
@@ -454,6 +467,12 @@ panelMenuPrincipal.getTramos().addActionListener(new ActionListener() {
 						ventana1.setVisible(true);
 						ventana1.pack();
 						
+						//no funciona del todo
+						panelAgregarTramo.getComboBox().addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								panelAgregarTramo.cambiarEstacionDestino();
+						}});
+
 						panelAgregarTramo.getBtnGuardar().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								panelAgregarTramo.limpiarWarnings();

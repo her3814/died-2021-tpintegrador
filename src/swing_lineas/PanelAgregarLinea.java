@@ -271,26 +271,10 @@ public class PanelAgregarLinea extends JPanel {
 		this.inserteEstado.setVisible(false);
 		this.inserteMedio.setVisible(false);
 	}
-	public void inserteNombre() {
-		this.inserteNombre.setVisible(true);
-	}
-	public void inserteColor() {
-		this.inserteColor.setVisible(true);
-	}
-	public void inserteEstado() {
-		this.inserteEstado.setVisible(true);
-	}
-	public void inserteTransporte() {
-		this.inserteMedio.setVisible(true);
-	}
 	
 	public void habilitarGuardar() {
 		this.btnGuardar.setEnabled(true);
 	}
-	public void deshabilitarGuardar() {
-		this.btnGuardar.setEnabled(false);
-	}
-
 	
 	public Linea obtenerLineaCreada() {
 		//public Linea(String nombre, String color, EstadoLineaEnum estado, LineaTipoTransporteEnum tipoTransporte)
@@ -320,21 +304,21 @@ public class PanelAgregarLinea extends JPanel {
 	public void agregarLinea() {
 		Linea nueva= this.obtenerLineaCreada();
 		if(nueva.get_nombre().isEmpty()) {
-			this.inserteNombre();
+			this.inserteNombre.setVisible(true);
 		}
 		if(nueva.get_color().isEmpty()) {
-			this.inserteColor();
+			this.inserteColor.setVisible(true);
 		}
 		if(nueva.get_estado()==null) {
-			this.inserteEstado();
+			this.inserteEstado.setVisible(true);
 		}
 		if(nueva.get_tipoTransporte()==null) {
-			this.inserteTransporte();
+			this.inserteMedio.setVisible(true);
 		}
 		
 		if(!nueva.get_nombre().isEmpty() && !nueva.get_color().isEmpty() && nueva.get_estado()!=null && nueva.get_tipoTransporte()!=null) {
 			this.mensajeLineaCreada();
-			this.deshabilitarGuardar();
+			this.btnGuardar.setEnabled(false);
 			LineasRepo.AgregarLinea(nueva);
 	
 		}
