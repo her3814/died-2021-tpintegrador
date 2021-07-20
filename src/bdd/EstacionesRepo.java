@@ -54,8 +54,9 @@ public class EstacionesRepo {
 	 * 
 	 * @param estacion Estacion a modificar
 	 */
+	
 	public static void ModificarEstacion(Estacion estacion) {
-		String sql = "UPDATE estaciones SET nombre = ?, hora_apertura = ?, hora_cierre = ?,  WHERE id = ?";
+		String sql = "UPDATE estaciones SET nombre = ?, hora_apertura = ?, hora_cierre = ?  WHERE id = ?";
 		Connection con = BddSingleton.GetConnection();
 		try {
 			con.beginRequest();

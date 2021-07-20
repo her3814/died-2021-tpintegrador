@@ -68,8 +68,6 @@ public class PanelAgregarEstacion extends JPanel {
 	
 	public PanelAgregarEstacion() {
 		setBackground(Color.WHITE);
-		
-		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
 		gridBagLayout.columnWidths = new int[]{30, 90, 141, 211, 67, 0};
@@ -339,13 +337,14 @@ public class PanelAgregarEstacion extends JPanel {
 		textArea = new JTextArea();
 		textArea.setLineWrap(true);
 		textArea.setRows(8);
-		textArea.setBackground(Color.WHITE);
+		textArea.setBackground(new Color(204, 204, 255));
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
-		gbc_textArea.anchor = GridBagConstraints.NORTHWEST;
+		gbc_textArea.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textArea.anchor = GridBagConstraints.NORTH;
 		gbc_textArea.insets = new Insets(10, 0, 5, 5);
 		gbc_textArea.gridx = 2;
 		gbc_textArea.gridy = 15;
-		gbc_textArea.gridwidth=2;
+		gbc_textArea.gridwidth=7;
 		gbc_textArea.gridheight=2;
 		add(textArea,gbc_textArea);
 		textArea.setVisible(false);
