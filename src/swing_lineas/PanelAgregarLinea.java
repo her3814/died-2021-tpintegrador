@@ -14,6 +14,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import bdd.LineasRepo;
 import modelo.EstadoLineaEnum;
 import modelo.Linea;
 import modelo.LineaTipoTransporteEnum;
@@ -315,4 +316,27 @@ public class PanelAgregarLinea extends JPanel {
 		this.lineaAgregada.setVisible(true);
 	}
 
+	
+	public void agregarLinea() {
+		Linea nueva= this.obtenerLineaCreada();
+		if(nueva.get_nombre().isEmpty()) {
+			this.inserteNombre();
+		}
+		if(nueva.get_color().isEmpty()) {
+			this.inserteColor();
+		}
+		if(nueva.get_estado()==null) {
+			this.inserteEstado();
+		}
+		if(nueva.get_tipoTransporte()==null) {
+			this.inserteTransporte();
+		}
+		
+		if(!nueva.get_nombre().isEmpty() && !nueva.get_color().isEmpty() && nueva.get_estado()!=null && nueva.get_tipoTransporte()!=null) {
+			this.mensajeLineaCreada();
+			this.deshabilitarGuardar();
+			LineasRepo.AgregarLinea(nueva);
+	
+		}
+	}
 }

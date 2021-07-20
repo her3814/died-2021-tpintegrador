@@ -30,6 +30,7 @@ import java.awt.Color;
 import com.toedter.calendar.JDateChooser;
 
 import bdd.EstacionesRepo;
+import bdd.TareaMantenimientoRepo;
 import excepciones.FechaFinMenorFechaInicioException;
 import filtros.EstacionesFiltro;
 
@@ -301,5 +302,24 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		fechaFinMayor.setVisible(true);
 	}
 	
-
+	public void agregarTareaMantenimiento() throws FechaFinMenorFechaInicioException {
+		TareaMantenimiento nueva = this.getTareaCreada();
+		if(nueva.getEstacion()==null) {
+			this.seleccioneEstacion();
+		}
+		if(nueva.getFechaInicio()==null) {
+			this.seleccioneFechaInicio();
+		}
+		if(nueva.getFechaFin()==null) {
+			this.seleccioneFechaFin();
+		}
+		if(nueva.getEstacion()!=null && nueva.getFechaInicio()!=null && nueva.getFechaFin()!=null){
+			//AltaTareaMantenimiento.AltaTareaMantenimiento(nueva);
+			this.mensajeTareaCreada();
+			this.deshabilitarGuardado();
+			TareaMantenimientoRepo.AgregarTareaMantenimiento(nueva);
+		}
+		
+	}
+	
 }

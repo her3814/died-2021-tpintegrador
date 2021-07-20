@@ -277,9 +277,11 @@ public class PanelAgregarBoleto extends JPanel {
 		EstacionesFiltro filtroDestino = new EstacionesFiltro();
 		filtroDestino.setNombre(this.comboBox_1.getSelectedItem().toString());
 		
-		//public Boleto(String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, LinkedHashSet<Tramo> recorrido)
+	//public Boleto(String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, LinkedHashSet<Tramo> recorrido)
 	//	return new Boleto(textField.getText(), textField_1.getText(), LocalDate.now(),0.0,EstacionesRepo.ObtenerEstaciones(filtroOrigen).get(0),EstacionesRepo.ObtenerEstaciones(filtroDestino).get(0), );
 		
 	}
-
+public void agregarBoleto() {
+		//Boleto nuevo= panelAgregarBoleto.obtenerBoletoCreado();
+	}
 }
