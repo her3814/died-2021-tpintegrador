@@ -699,7 +699,7 @@ public class VentanaPrincipal {
 		if(nueva.getEstado()!=EstadoEstacionEnum.OPERATIVA && nueva.getEstado()!=EstadoEstacionEnum.MANTENIMIENTO) {
 			panelAgregarEstacion.estadoFaltante();
 		}
-		if(!nueva.getNombre().isEmpty() && nueva.getHorarioCierre()!=null && nueva.getHorarioApertura()!=null){
+		if(!nueva.getNombre().isEmpty() && nueva.getHorarioCierre()!=null && nueva.getHorarioApertura()!=null ){
 			
 		if(nueva.getEstado()==EstadoEstacionEnum.OPERATIVA) {
 			nueva= EstacionesRepo.AgregarEstacion(nueva);
