@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 
 import bdd.EstacionesRepo;
 import bdd.LineasRepo;
+import bdd.TramosRepo;
 import filtros.EstacionesFiltro;
 import modelo.Estacion;
 import modelo.EstadoTramoEnum;
@@ -513,4 +514,37 @@ public class PanelAgregarTramo extends JPanel {
 		this.btnGuardar.setEnabled(true);
 	}
 
+	public void agregarTramo() {
+		Tramo nuevo = this.obtenerTramoCreado();
+		if(nuevo.get_cantPasajeros()==null) {
+			this.mostrarCantPasajeros();
+		}
+		if(nuevo.get_estadoTramo()==null) {
+			this.mostratEstado();
+		}
+		if(nuevo.getCosto()==null) {
+			this.mostrarCosto();
+		}
+		/*if(nuevo.getDestino()==null) {
+			panelAgregarTramo.mostrarDestino();
+		}*/
+		if(nuevo.getDistancia()==null) {
+			this.mostrarDistancia();
+		}
+		if(nuevo.getDuracion()==null) {
+			this.mostrarDuracion();
+		}
+		/*if(nuevo.getLinea()==null) {
+			panelAgregarTramo.mostrarLinea();
+		}
+		if(nuevo.getOrigen()==null) {
+			panelAgregarTramo.mostrarOrigen();
+		}*/
+		if(nuevo.get_cantPasajeros()!=null && nuevo.get_estadoTramo()!=null && nuevo.getCosto()!=null && nuevo.getDistancia()!=null && nuevo.getDuracion()!=null) {
+			TramosRepo.GuardarTramo(nuevo);
+			this.mensajeTramoCreado();
+			this.deshabilitarGuardar();
+		}
+		
+}
 }

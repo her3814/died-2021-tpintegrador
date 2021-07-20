@@ -28,6 +28,7 @@ import com.github.lgooddatepicker.components.TimePicker;
 import com.toedter.calendar.JDateChooser;
 
 import bdd.EstacionesRepo;
+import bdd.TareaMantenimientoRepo;
 import excepciones.FechaFinMenorFechaInicioException;
 //import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.Estacion;
@@ -53,7 +54,6 @@ public class PanelAgregarEstacion extends JPanel {
 	private JLabel inserteHoraCierre;
 	private JLabel seleccioneEstado;
 	private JLabel lblNewLabel_6;
-	private PanelAgregarEstacionConMantenimiento tareaMant;
 	private JLabel agregarMant;
 	private JLabel fechaFin;
 	private JDateChooser dateChooser_1;
@@ -548,4 +548,55 @@ public class PanelAgregarEstacion extends JPanel {
 	public void horaCierrePost() {
 		this.cierrePosteriorAp.setVisible(true);
 	}
+	public void agregarEstacion() {
+		Estacion nueva = this.getEstacionCreada();
+		//Error en todo
+		if(nueva.getNombre().isEmpty()) {
+			this.nombreFaltante();			
+		}
+		if(nueva.getHorarioCierre()==null) {
+			this.horaCierreFaltante();
+		}
+		if(nueva.getHorarioApertura()==null) {
+			this.horaAperturaFaltante();
+		}
+		if(nueva.getEstado()!=EstadoEstacionEnum.OPERATIVA && nueva.getEstado()!=EstadoEstacionEnum.MANTENIMIENTO) {
+			this.estadoFaltante();
+		}
+		if(!nueva.getNombre().isEmpty() && nueva.getHorarioCierre()!=null && nueva.getHorarioApertura()!=null){
+			
+		if(nueva.getEstado()==EstadoEstacionEnum.OPERATIVA) {
+			nueva= EstacionesRepo.AgregarEstacion(nueva);
+			this.mensajeEstacionCreada();
+			this.deshabilitarGuardado();
+			
+		}else {
+			this.deshabilitarCambios();
+			this.mostrarDatosMantenimiento();
+		}
+		
+		}
+	}
+	
+	public void agregarTareaMantenimiento(Estacion nueva) {
+		//public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs)
+		TareaMantenimiento tarea = null;
+		
+		try {
+			tarea = this.getTareaMantenimiento(nueva);
+			if(tarea.getFechaFin()==null) {
+				this.faltaFechaMant();
+			}
+			else {
+				this.limpiarWarnings();
+				this.mensajeEstacionCreada();
+				this.deshabilitarGuardado1();  
+				TareaMantenimientoRepo.AgregarTareaMantenimiento(tarea);
+		}
+			
+		} catch (FechaFinMenorFechaInicioException e) {
+			this.mensajeFechaErronea();
+		}
+		
+}
 }
