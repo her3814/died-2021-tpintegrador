@@ -236,7 +236,11 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 						}
 						EstacionesRepo.ModificarEstacion(nueva);
 						panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
-						panelModificarEstacion.agregarTareaMantenimiento(nueva);
+						try {
+							panelModificarEstacion.agregarTareaMantenimiento(nueva);
+						} catch (FechaFinMenorFechaInicioException e1) {
+							panelModificarEstacion.mensajeFechaErronea();
+						}
 					}
 				});
 			}

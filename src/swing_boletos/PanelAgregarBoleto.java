@@ -187,7 +187,7 @@ public class PanelAgregarBoleto extends JPanel {
 		
 		comboBox_2 = new JComboBox();
 		comboBox_2.setFont(new Font("Arial", Font.BOLD, 13));
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"M\u00C1S BARATO", "MENOR DISTANCIA", "M\u00C1S R\u00C1PIDO"}));
+		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"MÁS BARATO", "MENOR DISTANCIA", "MÁS RÁPIDO"}));
 		GridBagConstraints gbc_comboBox_2 = new GridBagConstraints();
 		gbc_comboBox_2.gridwidth = 2;
 		gbc_comboBox_2.insets = new Insets(0, 0, 5, 5);
@@ -263,10 +263,9 @@ public class PanelAgregarBoleto extends JPanel {
 	}
 	
 	public Boleto obtenerBoletoCreado() {
-
 		List<Tramo> recorrido=null;
 		Double costo=0.0;
-	if(this.comboBox_2.getSelectedItem().toString().equalsIgnoreCase("MAS BARATO")) {
+	if(this.comboBox_2.getSelectedItem().toString().equalsIgnoreCase("MÁS BARATO")) {
 		recorrido= VenderBoletoServicio.CalcularCaminoMasBarato((Estacion)this.comboBox.getSelectedItem(), (Estacion)this.comboBox_1.getSelectedItem());
 	}else if (this.comboBox_2.getSelectedItem().toString().equalsIgnoreCase("MENOR DISTANCIA")) {
 		recorrido=VenderBoletoServicio.CalcularCaminoMenorDistancia((Estacion)this.comboBox.getSelectedItem(), (Estacion)this.comboBox_1.getSelectedItem());

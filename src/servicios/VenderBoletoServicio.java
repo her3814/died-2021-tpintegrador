@@ -47,6 +47,7 @@ public class VenderBoletoServicio {
 
 	public static List<Tramo> CalcularCaminoMasBarato(Estacion origen, Estacion destino) {
 
+
 		if (origen.equals(destino))
 			return null;
 
@@ -54,6 +55,7 @@ public class VenderBoletoServicio {
 
 		if (destinos == null)
 			return null;
+	
 
 		List<List<Tramo>> caminos = new ArrayList<List<Tramo>>();
 
@@ -70,9 +72,10 @@ public class VenderBoletoServicio {
 					caminos.add(camino);
 				}
 			}
+		
 		});
 
-		System.out.println()
+		
 		if (caminos.size() == 0) {
 			return null;
 		}else if (caminos.size() == 1) {

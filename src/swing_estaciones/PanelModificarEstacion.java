@@ -12,7 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -101,9 +103,9 @@ public class PanelModificarEstacion extends JPanel {
 			}
 	}
 	
-	public void agregarTareaMantenimiento(Estacion nueva) {
+	public void agregarTareaMantenimiento(Estacion nueva) throws FechaFinMenorFechaInicioException {
 			TareaMantenimiento tarea = null;			
-			try {
+	
 				tarea = this.getTareaMantenimiento(nueva);
 				if(tarea.getFechaFin()==null) {
 					fechaFin1.setVisible(true);
@@ -115,9 +117,6 @@ public class PanelModificarEstacion extends JPanel {
 					TareaMantenimientoRepo.AgregarTareaMantenimiento(tarea);
 			}
 				
-			} catch (FechaFinMenorFechaInicioException e) {
-				reingFecha.setVisible(true);
-			}
 			
 	}		
 	public PanelModificarEstacion (Estacion actual) {		
@@ -541,9 +540,16 @@ public class PanelModificarEstacion extends JPanel {
 	public void mensajeFechaErronea() {
 		reingFecha.setVisible(true);
 	}
+	
 	public TareaMantenimiento getTareaMantenimiento(Estacion nueva) throws FechaFinMenorFechaInicioException {
 		//public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs)
-		return new TareaMantenimiento(nueva, LocalDate.now(),LocalDate.of(this.dateChooser_1.getDate().getYear(), this.dateChooser_1.getDate().getMonth(), this.dateChooser_1.getDate().getDay()), textArea.getText() );
+		//fechaAntigua.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+		Date fin= dateChooser_1.getDate();
+		if(fin==null) {
+			return new TareaMantenimiento(nueva,LocalDate.now(),null, textArea.getText() );
+		}else {
+			return new TareaMantenimiento(nueva,LocalDate.now(),fin.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), textArea.getText() );
+		}
 		
 	}
 	
