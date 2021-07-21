@@ -14,36 +14,37 @@ import modelo.Estacion;
 import modelo.TareaMantenimiento;
 
 public class TareaMantenimientoRepo {
-	
-public static void EliminarTareaMantenimiento(TareaMantenimiento tarea) {
-	String sql = "DELETE FROM estaciones_tareas_mantenimiento WHERE id = ?;";
-	Connection con = BddSingleton.GetConnection();
 
-	try {
-		PreparedStatement pstm = con.prepareStatement(sql);
-		pstm.setInt(1, tarea.getId());
+	public static void EliminarTareaMantenimiento(TareaMantenimiento tarea) {
+		String sql = "DELETE FROM estaciones_tareas_mantenimiento WHERE id = ?;";
+		Connection con = BddSingleton.GetConnection();
 
-		con.beginRequest();
-
-		pstm.executeUpdate();
-
-		con.commit();
-		pstm.close();
-	} catch (SQLException e) {
 		try {
-			con.rollback();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		e.printStackTrace();
-	} finally {
-		try {
-			con.close();
+			PreparedStatement pstm = con.prepareStatement(sql);
+			pstm.setInt(1, tarea.getId());
+
+			con.beginRequest();
+
+			pstm.executeUpdate();
+
+			con.commit();
+			pstm.close();
 		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
-}
+
 	public static void ModificarTareaMantenimiento(TareaMantenimiento tarea) {
 		String sql = "UPDATE estaciones_tareas_mantenimiento SET id_estacion = ?, fecha_inicio = ? , fecha_fin = ?, observaciones = ? WHERE id = ?";
 		Connection con = BddSingleton.GetConnection();
@@ -213,6 +214,42 @@ public static void EliminarTareaMantenimiento(TareaMantenimiento tarea) {
 		}
 
 		return tareas;
+	}
+
+	/**
+	 * Devuelve la tarea de mantenimiento activa de una estación
+	 * @param estacion Estación de la cual se desea conocer la tarea de mantenimiento activa
+	 * @return Tarea de mantenimiento activa. null si no existe una tarea de mantenimiento activa
+	 */
+	public static TareaMantenimiento ObtenerActiva(Estacion estacion) {
+		String sql = "SELECT * FROM estaciones_tareas_mantenimiento\r\n" + " WHERE \r\n"
+				+ " fecha_inicio IS NOT NULL \r\n" + " AND fecha_inicio <= current_date()\r\n"
+				+ " && (fecha_fin IS NULL OR (fecha_fin > current_date()))" + " AND id_estacion = ?";
+
+		var con = BddSingleton.GetConnection();
+		TareaMantenimiento tarea = null;
+		try {
+			var pstm = con.prepareStatement(sql);
+			pstm.setInt(1, estacion.getId());
+
+			var res = pstm.executeQuery();
+			if (res.next()) {
+				tarea = ToEntity(res);
+			}
+			res.close();
+			pstm.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return tarea;
 	}
 
 	private static TareaMantenimiento ToEntity(ResultSet res) {
