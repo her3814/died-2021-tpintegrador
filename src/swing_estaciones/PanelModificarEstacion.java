@@ -47,7 +47,6 @@ public class PanelModificarEstacion extends JPanel {
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private TimePicker timePicker;
-
 	private TimePicker timePicker_1; 
 	private JRadioButton rdbtnNewRadioButton;
 	private JRadioButton rdbtnNewRadioButton1;
@@ -57,6 +56,7 @@ public class PanelModificarEstacion extends JPanel {
 	private JLabel seleccioneEstado;
 	private JLabel lblNewLabel_6;
 	private JLabel agregarMant;
+	private JLabel finalizarMant;
 	private JLabel fechaFin;
 	private JDateChooser dateChooser_1;
 	public JLabel obs;  
@@ -93,9 +93,12 @@ public class PanelModificarEstacion extends JPanel {
 			if(nueva.getEstado().equals(EstadoEstacionEnum.MANTENIMIENTO) && a_modificar.getEstado().equals(EstadoEstacionEnum.OPERATIVA)){
 				this.deshabilitarCambios();
 				this.mostrarDatosMantenimiento();
-			}	
+			}
+			else if(nueva.getEstado().equals(EstadoEstacionEnum.OPERATIVA) && a_modificar.getEstado().equals(EstadoEstacionEnum.MANTENIMIENTO)) {
+				this.deshabilitarCambios();
+				this.mostrarDatosMantenimientoParaFin(TareaMantenimientoRepo.ObtenerActiva(a_modificar));
+			}
 			else { 
-				//if(nueva.getEstado()==EstadoEstacionEnum.OPERATIVA) {
 				EstacionesRepo.ModificarEstacion(nueva);
 				lblNewLabel_6.setVisible(true);
 				btnNewButton.setEnabled(false);
@@ -105,7 +108,6 @@ public class PanelModificarEstacion extends JPanel {
 	
 	public void agregarTareaMantenimiento(Estacion nueva) throws FechaFinMenorFechaInicioException {
 			TareaMantenimiento tarea = null;			
-	
 				tarea = this.getTareaMantenimiento(nueva);
 				if(tarea.getFechaFin()==null) {
 					fechaFin1.setVisible(true);
@@ -115,10 +117,13 @@ public class PanelModificarEstacion extends JPanel {
 					lblNewLabel_6.setVisible(true);
 					btnNewButton4.setEnabled(false);
 					TareaMantenimientoRepo.AgregarTareaMantenimiento(tarea);
-			}
-				
-			
+			}		
 	}		
+	
+	public void finalizarTareaMantenimiento (Estacion nueva) {
+		TareaMantenimiento tarea = null;
+		
+	}
 	public PanelModificarEstacion (Estacion actual) {		
 		setBackground(Color.WHITE);
 		this.a_modificar=actual;
@@ -329,6 +334,17 @@ public class PanelModificarEstacion extends JPanel {
 		gbc_agregarMant.gridwidth=4;
 		add(agregarMant,gbc_agregarMant);
 		agregarMant.setVisible(false);
+		
+		finalizarMant = new JLabel("FINALIZAR TAREA DE MANTENIMIENTO");
+		finalizarMant.setFont(new Font("Arial", Font.BOLD, 20));
+		GridBagConstraints gbc_finalizarMant = new GridBagConstraints();
+		gbc_finalizarMant.anchor = GridBagConstraints.CENTER;
+		gbc_finalizarMant.insets = new Insets(0, 0, 5, 5);
+		gbc_finalizarMant.gridx = 1;
+		gbc_finalizarMant.gridy = 12;
+		gbc_finalizarMant.gridwidth=4;
+		add(finalizarMant,gbc_agregarMant);
+		finalizarMant.setVisible(false);
 	
 		fechaFin = new JLabel("FECHA FIN:");
 		fechaFin.setFont(new Font("Arial", Font.BOLD, 14));
@@ -456,17 +472,6 @@ public class PanelModificarEstacion extends JPanel {
 		}
 		return new Estacion(a_modificar.getId(),this.textField_1.getText(), this.timePicker.getTime(), this.timePicker_1.getTime(),e);
 	}
-		
-	private String estadoSeleccionado() {
-		if(rdbtnNewRadioButton.isSelected()) {
-			return rdbtnNewRadioButton.getText();
-		}
-		else if(rdbtnNewRadioButton1.isSelected()) {
-			return rdbtnNewRadioButton1.getText();
-		}else {
-			return new String("no se ha seleccionado estado");
-	}
-	}
 	
 	public void limpiarDatos() {
 		this.textField_1.setText(null);
@@ -516,6 +521,30 @@ public class PanelModificarEstacion extends JPanel {
 		textArea .setVisible(true);
 		btnNewButton_3.setVisible(true);
 		btnNewButton4.setVisible(true);	
+	}
+	public void mostrarDatosMantenimientoParaFin(TareaMantenimiento actual) {
+		//tareaMant.setVisible(true);		
+		if(actual.equals(null)) {
+		} else {
+		btnNewButton_1.setEnabled(false);
+		btnNewButton.setEnabled(false);
+		finalizarMant.setVisible(true);
+		fechaFin.setVisible(true);
+		dateChooser_1.setVisible(true);
+		dateChooser_1.setDate(convertToDate(LocalDate.now()));
+		dateChooser_1.setEnabled(false);
+		obs.setVisible(true);
+		textArea .setVisible(true);
+		textArea.setText(actual.getObservaciones());
+		btnNewButton_3.setVisible(true);
+		btnNewButton4.setVisible(true);
+		try {
+			actual.setFechaFin(LocalDate.now());
+		} catch (FechaFinMenorFechaInicioException e) {
+			e.printStackTrace();
+		}
+		TareaMantenimientoRepo.ModificarTareaMantenimiento(actual);
+		}
 	}
 	
 	public void sacarMantenimiento() {
@@ -589,6 +618,9 @@ public class PanelModificarEstacion extends JPanel {
 	}
 	public void faltaFechaMant() {
 		fechaFin1.setVisible(true);
+	}
+	public static Date convertToDate(LocalDate dateToConvert) {
+	    return java.sql.Date.valueOf(dateToConvert);
 	}
 
 

@@ -56,17 +56,16 @@ public class PanelBuscarEstacion extends JPanel {
 	private Estacion actual;
 	private JButton aplicarFiltros;
 	private String estadoFiltrado;
-	private String horaCierreFiltrada;
-	private String horaAperturaFiltrada;
 	private DefaultTableModel model;
 	private JButton btnLimpiarFiltros;
+	private JButton historial;
 	
 	public PanelBuscarEstacion() {
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 154, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 154, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, -16, 298, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		setPreferredSize(new Dimension(500,500));
@@ -78,7 +77,7 @@ public class PanelBuscarEstacion extends JPanel {
 		gbc_lblNewLabel.insets = new Insets(10, 5, 5, 5);
 		gbc_lblNewLabel.gridx = 2;
 		gbc_lblNewLabel.gridy = 0;
-		gbc_lblNewLabel.gridwidth=8;
+		gbc_lblNewLabel.gridwidth=9;
 		add(lblNewLabel, gbc_lblNewLabel);
 		
 		lblNewLabel_1 = new JLabel("NOMBRE:");
@@ -92,7 +91,7 @@ public class PanelBuscarEstacion extends JPanel {
 		
 		textField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.gridwidth = 4;
+		gbc_textField.gridwidth = 5;
 		gbc_textField.insets = new Insets(5, 5, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 2;
@@ -117,7 +116,7 @@ public class PanelBuscarEstacion extends JPanel {
 		autoajustarAnchoColumnas(table);
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_table = new GridBagConstraints();
-		gbc_table.gridwidth = 8;
+		gbc_table.gridwidth = 9;
 		
 		JScrollPane scrollPane= new JScrollPane(table);
 		gbc_table.insets = new Insets(5, 5, 5, 5);
@@ -131,7 +130,8 @@ public class PanelBuscarEstacion extends JPanel {
 		        int cuentaFilasSeleccionadas = table.getSelectedRowCount(); 
 		        if (cuentaFilasSeleccionadas == 1) { 
 		        	modificar.setEnabled(true);
-		        	eliminar .setEnabled(true);
+		        	eliminar.setEnabled(true);
+		        	historial.setEnabled(true);
 		        	row_selected = table.getSelectedRow();
 					Integer id = (Integer) table.getValueAt(row_selected, 0);
 					String nombreEstacion = (String) table.getValueAt(row_selected, 1);
@@ -187,7 +187,7 @@ public class PanelBuscarEstacion extends JPanel {
 		buscar.setBackground(new Color(204, 204, 204));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(5, 5, 5, 5);
-		gbc_btnNewButton.gridx = 4;
+		gbc_btnNewButton.gridx = 5;
 		gbc_btnNewButton.gridy = 3;
 		add(buscar, gbc_btnNewButton);
 		
@@ -209,7 +209,6 @@ public class PanelBuscarEstacion extends JPanel {
 		gbc_btnNewButton_4.gridx = 3;
 		gbc_btnNewButton_4.gridy = 5;
 		add(modificar, gbc_btnNewButton_4);  
-	
 	
 		cancelar = new JButton("CANCELAR");
 		cancelar.setBackground(new Color(204, 204, 51));
@@ -303,6 +302,17 @@ public class PanelBuscarEstacion extends JPanel {
 			}
 		});
 		
+		historial = new JButton("HISTORIAL MANTENIMIENTOS");
+		historial.setEnabled(false);
+		historial.setBackground(new Color(204, 204, 153));
+		GridBagConstraints gbc_modificar_1 = new GridBagConstraints();
+		gbc_modificar_1.anchor = GridBagConstraints.EAST;
+		gbc_modificar_1.gridwidth = 2;
+		gbc_modificar_1.insets = new Insets(0, 0, 5, 5);
+		gbc_modificar_1.gridx = 2;
+		gbc_modificar_1.gridy = 6;
+		add(historial, gbc_modificar_1);
+		
 		btnLimpiarFiltros = new JButton("Limpiar filtros");
 		btnLimpiarFiltros.setBackground(new Color(204, 204, 102));
 		btnLimpiarFiltros.setForeground(new Color(0, 0, 0));
@@ -332,7 +342,7 @@ public class PanelBuscarEstacion extends JPanel {
 		GridBagConstraints gbc_btnNewButton_11 = new GridBagConstraints();
 		gbc_btnNewButton_11.anchor = GridBagConstraints.SOUTHEAST;
 		gbc_btnNewButton_11.insets = new Insets(10, 0, 5, 5);
-		gbc_btnNewButton_11.gridx = 5;
+		gbc_btnNewButton_11.gridx = 6;
 		gbc_btnNewButton_11.gridy = 8;
 		add(cancelar, gbc_btnNewButton_11);
 		
@@ -431,5 +441,12 @@ public class PanelBuscarEstacion extends JPanel {
 	        columnModel.getColumn(column).setPreferredWidth(width);
 	    }
 	}
+	public JButton getHistorial() {
+		return historial;
+	}
+	public void setHistorial(JButton historial) {
+		this.historial = historial;
+	}
+	
 	
 }

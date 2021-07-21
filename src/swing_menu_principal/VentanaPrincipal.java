@@ -39,6 +39,7 @@ import swing_tareas_mantenimiento.PanelBuscarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelGestionarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelModificarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelVerHistorialTareaMantenimiento;
+import swing_estaciones.PanelVerHistorialTareaMantenimientoDesdeBuscar;
 import swing_tramos.PanelAgregarTramo;
 import swing_tramos.PanelGestionarTramos;
 
@@ -175,7 +176,26 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 						ventana1.pack();
 					}
 				});
-								
+				
+				panelBuscarEstacion.getHistorial().addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						ventana1.setTitle("VER HISTORIAL TAREAS DE MANTENIMIENTO");
+						PanelVerHistorialTareaMantenimientoDesdeBuscar panelVerHistorialTareaMantenimientoDesdeBuscar = new PanelVerHistorialTareaMantenimientoDesdeBuscar(panelBuscarEstacion.getActual());
+						panelVerHistorialTareaMantenimientoDesdeBuscar.setBackground(Color.WHITE);
+						ventana1.setContentPane(panelVerHistorialTareaMantenimientoDesdeBuscar);
+						ventana1.setVisible(true);
+						ventana1.pack();
+						
+						panelVerHistorialTareaMantenimientoDesdeBuscar.getCancelar().addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								ventana1.setTitle("BUSCAR ESTACION");
+								ventana1.setContentPane(panelBuscarEstacion);
+								ventana1.setVisible(true);
+								ventana1.pack();
+							}});
+					
+					}});
+				
 				panelBuscarEstacion.getModificar().addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					ventana1.setTitle("MODIFICAR ESTACION");

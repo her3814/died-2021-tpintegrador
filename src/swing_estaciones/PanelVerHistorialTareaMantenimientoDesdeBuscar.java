@@ -1,4 +1,4 @@
-package swing_tareas_mantenimiento;
+package swing_estaciones;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -37,11 +37,9 @@ import excepciones.FechaFinMenorFechaInicioException;
 import modelo.Estacion;
 import modelo.TareaMantenimiento;
 
-public class PanelVerHistorialTareaMantenimiento extends JPanel {
+public class PanelVerHistorialTareaMantenimientoDesdeBuscar extends JPanel {
 	private JButton btnNewButton_2; 
 	private JTable table;
-	private SubPanelFiltrosTareaMantenimiento filtros;
-	private JButton buscar;
 	private Object datosFila [][];
 	private JButton eliminar;
 	private JButton modificar;
@@ -50,12 +48,12 @@ public class PanelVerHistorialTareaMantenimiento extends JPanel {
 	private TareaMantenimiento actual;
 	private JButton aplicarFiltros;
 	private DefaultTableModel model;	
-	private JComboBox comboBox;
+	private JTextField textField;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelVerHistorialTareaMantenimiento() {
+	public PanelVerHistorialTareaMantenimientoDesdeBuscar(Estacion estacion) {
 		
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -85,41 +83,25 @@ public class PanelVerHistorialTareaMantenimiento extends JPanel {
 		gbc_lblNewLabel_1.gridy = 2;
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 		model = renovarTabla(TareaMantenimientoRepo.Obtener());
-	
-		buscar = new JButton("BUSCAR");	
-		buscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				table.setModel(renovarTabla(TareaMantenimientoRepo.Obtener()
-					    .stream()
-						.filter(t -> t.getEstacion().getNombre().toString().equals(((Estacion) comboBox.getSelectedItem()).getNombre()))
-						.collect(Collectors.toList())));
-				autoajustarAnchoColumnas(table);
-			}
-		});
 		
-		comboBox = new JComboBox();
-		ArrayList<Estacion> estaciones = (ArrayList<Estacion>) EstacionesRepo.ObtenerEstaciones();
-		comboBox = new JComboBox(estaciones.toArray());
-		comboBox.setSelectedIndex(-1);
+		textField = new JTextField();
+		textField.setEditable(false);
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.gridwidth = 4;
+		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.gridx = 5;
+		gbc_textField.gridy = 2;
+		add(textField, gbc_textField);
+		textField.setColumns(10);
+		textField.setText(estacion.getNombre());
 		
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.gridwidth = 4;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 5;
-		gbc_comboBox.gridy = 2;
-		add(comboBox, gbc_comboBox);
-		
-		buscar.setBackground(new Color(204, 204, 204));
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(5, 5, 5, 5);
-		gbc_btnNewButton.gridx = 7;
-		gbc_btnNewButton.gridy = 3;
-		add(buscar, gbc_btnNewButton);
-		
-		table = new JTable();
-		table.setModel(model);
-		
+		table = new JTable();	
+		table.setModel(renovarTabla(TareaMantenimientoRepo.Obtener()
+			    .stream()
+				.filter(t -> t.getEstacion().getNombre().toString().equals(textField.getText()))
+				.collect(Collectors.toList())));
+		autoajustarAnchoColumnas(table);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  
 		table.setFillsViewportHeight(true);
 		autoajustarAnchoColumnas(table);
@@ -133,32 +115,26 @@ public class PanelVerHistorialTareaMantenimiento extends JPanel {
 		gbc_table.gridx = 3;
 		gbc_table.gridy = 4;
 		add(scrollPane, gbc_table);
-			
+		
 		cancelar = new JButton("VOLVER");
 		cancelar.setBackground(new Color(204, 204, 51));
-				
-		GridBagConstraints gbc_btnNewButton_11 = new GridBagConstraints();
-		gbc_btnNewButton_11.anchor = GridBagConstraints.SOUTHEAST;
-		gbc_btnNewButton_11.insets = new Insets(10, 0, 5, 5);
-		gbc_btnNewButton_11.gridx = 8;
-		gbc_btnNewButton_11.gridy = 8;
-		add(cancelar, gbc_btnNewButton_11);
 		
-
+		GridBagConstraints gbc_btnNewButton_11 = new GridBagConstraints();
+		gbc_btnNewButton_11.anchor = GridBagConstraints.NORTHEAST;
+		gbc_btnNewButton_11.insets = new Insets(0, 0, 15, 5);
+		gbc_btnNewButton_11.gridx = 8;
+		gbc_btnNewButton_11.gridy = 6;
+		add(cancelar, gbc_btnNewButton_11);
 	}
 	
-	public JButton getBuscar() {
-		return buscar;
-	}
+	
 	public JButton getCancelar() {
 		return cancelar;
 	}
 	public JButton getModificar() {
 		return modificar;
 	}
-	public void setBuscar(JButton btnNewButton) {
-		this.buscar = btnNewButton;
-	}
+
 
 	public JTable getTable() {
 		return table;
