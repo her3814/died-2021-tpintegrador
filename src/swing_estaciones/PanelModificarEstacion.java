@@ -484,7 +484,7 @@ public class PanelModificarEstacion extends JPanel {
 		}
 		return new Estacion(a_modificar.getId(),this.textField_1.getText(), this.timePicker.getTime(), this.timePicker_1.getTime(),e);
 	}
-	
+
 	public void limpiarDatos() {
 		this.textField_1.setText(null);
 		this.timePicker.setText(null);

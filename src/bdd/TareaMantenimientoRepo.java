@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,41 @@ import modelo.Estacion;
 import modelo.TareaMantenimiento;
 
 public class TareaMantenimientoRepo {
+	
+	public static TareaMantenimiento FinalizarTareaDeMantenimiento(TareaMantenimiento tarea)
+			throws FechaFinMenorFechaInicioException {
+		var sql = "UPDATE estaciones_tareas_mantenimiento SET fecha_fin = CURRENT_DATE() WHERE id = ?";
+		Connection con = BddSingleton.GetConnection();
+
+		tarea.setFechaFin(LocalDate.now());
+
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql);
+			pstm.setInt(1, tarea.getId());
+
+			con.beginRequest();
+
+			pstm.executeUpdate();
+
+			con.commit();
+			pstm.close();
+		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return tarea;
+	}
 
 	public static void EliminarTareaMantenimiento(TareaMantenimiento tarea) {
 		String sql = "DELETE FROM estaciones_tareas_mantenimiento WHERE id = ?;";
@@ -218,8 +254,11 @@ public class TareaMantenimientoRepo {
 
 	/**
 	 * Devuelve la tarea de mantenimiento activa de una estación
-	 * @param estacion Estación de la cual se desea conocer la tarea de mantenimiento activa
-	 * @return Tarea de mantenimiento activa. null si no existe una tarea de mantenimiento activa
+	 * 
+	 * @param estacion Estación de la cual se desea conocer la tarea de
+	 *                 mantenimiento activa
+	 * @return Tarea de mantenimiento activa. null si no existe una tarea de
+	 *         mantenimiento activa
 	 */
 	public static TareaMantenimiento ObtenerActiva(Estacion estacion) {
 		String sql = "SELECT * FROM estaciones_tareas_mantenimiento\r\n" + " WHERE \r\n"

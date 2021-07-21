@@ -399,16 +399,7 @@ public class PanelAgregarEstacion extends JPanel {
 		}
 	}
 	
-	private String estadoSeleccionado() {
-		if(rdbtnNewRadioButton.isSelected()) {
-			return rdbtnNewRadioButton.getText();
-		}
-		else if(rdbtnNewRadioButton1.isSelected()) {
-			return rdbtnNewRadioButton1.getText();
-		}else {
-			return new String("no se ha seleccionado estado");
-	}
-	}
+
 	
 	public void limpiarDatos() {
 		this.textField_1.setText(null);
