@@ -49,7 +49,6 @@ public class PanelAgregarEstacion extends JPanel {
 	private TimePicker timePicker_1; 
 	private JRadioButton rdbtnNewRadioButton;
 	private JRadioButton rdbtnNewRadioButton1;
-	private final JLabel label = new JLabel("New label");
 	private JLabel lblNewLabel_1;
 	private JLabel inserteHoraApertura;
 	private JLabel inserteHoraCierre;
@@ -237,7 +236,7 @@ public class PanelAgregarEstacion extends JPanel {
 		estado.add(rdbtnNewRadioButton);
 		estado.add(rdbtnNewRadioButton1);
 		
-		btnNewButton_1 = new JButton("CANCELAR");
+		btnNewButton_1 = new JButton("VOLVER");
 		btnNewButton_1.setBackground(new Color(204, 204, 51));
 		btnNewButton_1.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
@@ -398,8 +397,8 @@ public class PanelAgregarEstacion extends JPanel {
 		}else {
 			return new Estacion(this.textField_1.getText(), this.timePicker.getTime(), this.timePicker_1.getTime(),e);
 		}
-		
 	}
+	
 	private String estadoSeleccionado() {
 		if(rdbtnNewRadioButton.isSelected()) {
 			return rdbtnNewRadioButton.getText();
@@ -519,8 +518,7 @@ public class PanelAgregarEstacion extends JPanel {
 			nueva= EstacionesRepo.AgregarEstacion(nueva);
 			lblNewLabel_6.setVisible(true);
 			btnNewButton.setEnabled(false);
-			
-		}else {
+		} else {
 			this.deshabilitarCambios();
 			this.mostrarDatosMantenimiento();
 		}

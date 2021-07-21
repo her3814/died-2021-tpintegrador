@@ -7,8 +7,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import bdd.EstacionesRepo;
 import excepciones.FechaFinMenorFechaInicioException;
@@ -159,7 +164,7 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 				ventana1.setContentPane(panelBuscarEstacion);
 				ventana1.setVisible(true);
 				ventana1.pack();
-				
+		
 				panelBuscarEstacion.getCancelar().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						ventana1.setTitle("GESTIONAR ESTACIONES");
@@ -168,7 +173,7 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 						ventana1.pack();
 					}
 				});
-				
+								
 				panelBuscarEstacion.getModificar().addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					ventana1.setTitle("MODIFICAR ESTACION");
@@ -178,15 +183,15 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 					ventana1.setVisible(true);
 					ventana1.pack();
 				
-				//volver desde modificar a gestionar
+				//volver desde modificar a buscar
 				panelModificarEstacion.getBtnNewButton_1().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						panelModificarEstacion.limpiarDatos();
 						panelModificarEstacion.limpiarWarnings();
 						panelModificarEstacion.habilitarBotones();
 						panelModificarEstacion.habilitar();
-						ventana1.setTitle("GESTIONAR ESTACIONES");
-						ventana1.setContentPane(panelGestionarEstaciones);
+						ventana1.setTitle("BUSCAR ESTACIONES");
+						ventana1.setContentPane(panelBuscarEstacion);
 						ventana1.setVisible(true);
 						ventana1.pack();
 					}
@@ -232,17 +237,7 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 				});
 			}
 			});			
-				
-				panelBuscarEstacion.getBtnNewButton_3().addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						ventana1.setTitle("BUSCAR ESTACION");
-						ventana1.setContentPane(panelBuscarEstacion);
-						ventana1.setVisible(true);
-						ventana1.pack();
-					}
-				});
-				
-				panelBuscarEstacion.getCancelar().addActionListener(new ActionListener() {
+			panelBuscarEstacion.getCancelar().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						ventana1.setTitle("GESTIONAR ESTACIONES");
 							ventana1.setContentPane(panelGestionarEstaciones);
