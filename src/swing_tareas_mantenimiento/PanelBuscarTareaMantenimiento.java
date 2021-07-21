@@ -202,6 +202,7 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 	
 		cancelar = new JButton("CANCELAR");
 		cancelar.setBackground(new Color(204, 204, 51));
+		 
 		
 		aplicarFiltros = new JButton("Aplicar filtros");
 		aplicarFiltros.setBackground(new Color(204, 204, 102));
