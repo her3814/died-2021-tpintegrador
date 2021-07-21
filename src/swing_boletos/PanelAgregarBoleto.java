@@ -26,6 +26,7 @@ import filtros.EstacionesFiltro;
 import modelo.Boleto;
 import modelo.Estacion;
 import modelo.Tramo;
+import servicios.VenderBoletoServicio;
 
 import java.awt.Color;
 import javax.swing.DefaultComboBoxModel;
@@ -44,16 +45,16 @@ public class PanelAgregarBoleto extends JPanel {
 	private JComboBox comboBox_2;
 	private JLabel inserteCliente;
 	private JLabel inserteEmail;
-	private JLabel inserteEstOrigen;
-	private JLabel inserteEstDestino;
+	private List<Estacion> estaciones;
+	private JLabel boletoAgregado;
 	
 	public PanelAgregarBoleto() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
 		gridBagLayout.columnWidths = new int[]{54, 90, 141, 211, 67, 0};
-		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 19, 0, 19, 0, 19, 0, 21, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 19, 0, 19, 19, 21, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		setPreferredSize(new Dimension(500,500));
 		setMinimumSize(new Dimension(300,300));
@@ -143,14 +144,10 @@ public class PanelAgregarBoleto extends JPanel {
 		gbc_lblNewLabel_1.gridy = 6;
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
-		List<Estacion> estaciones = EstacionesRepo.ObtenerEstaciones();
+		estaciones = EstacionesRepo.ObtenerEstaciones();
 		
-		comboBox = new JComboBox();
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(		
-				 estaciones.stream().map(e -> e.getNombre())
-				.collect(Collectors.toList())
-				.toArray()));
+		comboBox = new JComboBox(estaciones.toArray());
+		
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridwidth = 2;
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
@@ -159,55 +156,25 @@ public class PanelAgregarBoleto extends JPanel {
 		gbc_comboBox.gridy = 6;
 		add(comboBox, gbc_comboBox);
 		
-		inserteEstOrigen = new JLabel("Por favor, seleccione una estación de origen.");
-		inserteEstOrigen.setForeground(Color.RED);
-		inserteEstOrigen.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
-		inserteEstOrigen.setHorizontalAlignment(SwingConstants.LEFT);
-		GridBagConstraints gbc_i_origen = new GridBagConstraints();
-		gbc_i_origen.anchor = GridBagConstraints.EAST;
-		gbc_i_origen.insets = new Insets(0, 0, 5, 5);
-		gbc_i_origen.gridx = 1;
-		gbc_i_origen.gridy = 7;
-		gbc_i_origen.gridwidth=3;
-		gbc_i_origen.anchor=GridBagConstraints.WEST;
-		add(inserteEstOrigen, gbc_i_origen);
-		inserteEstOrigen.setVisible(false);
-		
 		lblNewLabel_4 = new JLabel("ESTACION DESTINO:");
 		lblNewLabel_4.setFont(new Font("Arial", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
 		gbc_lblNewLabel_4.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_4.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_4.gridx = 1;
-		gbc_lblNewLabel_4.gridy = 8;
+		gbc_lblNewLabel_4.gridy = 7;
 		add(lblNewLabel_4, gbc_lblNewLabel_4);
 
 		comboBox_1 = new JComboBox();	
-		comboBox_1.setModel(new DefaultComboBoxModel(		
-				 estaciones.stream().map(e -> e.getNombre())
-				.collect(Collectors.toList())
-				.toArray()));
+		comboBox_1.setModel(new javax.swing.DefaultComboBoxModel<>(estaciones.stream().filter(e-> e.getId()!= ((Estacion) comboBox.getSelectedItem()).getId()).collect(Collectors.toList()).toArray()));
+		
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
 		gbc_comboBox_1.gridwidth = 2;
 		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_1.gridx = 2;
-		gbc_comboBox_1.gridy = 8;
+		gbc_comboBox_1.gridy = 7;
 		add(comboBox_1, gbc_comboBox_1);
-		
-		inserteEstDestino = new JLabel("Por favor, seleccione una estación de origen.");
-		inserteEstDestino.setForeground(Color.RED);
-		inserteEstDestino.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
-		inserteEstDestino.setHorizontalAlignment(SwingConstants.LEFT);
-		GridBagConstraints gbc_i_destino = new GridBagConstraints();
-		gbc_i_destino.anchor = GridBagConstraints.EAST;
-		gbc_i_destino.insets = new Insets(0, 0, 5, 5);
-		gbc_i_destino.gridx = 1;
-		gbc_i_destino.gridy = 9;
-		gbc_i_destino.gridwidth=3;
-		gbc_i_destino.anchor=GridBagConstraints.WEST;
-		add(inserteEstDestino, gbc_i_destino);
-		inserteEstDestino.setVisible(false);
 		
 		lblNewLabel_5 = new JLabel("MEJOR CAMINO:");
 		lblNewLabel_5.setFont(new Font("Arial", Font.BOLD, 14));
@@ -215,7 +182,7 @@ public class PanelAgregarBoleto extends JPanel {
 		gbc_lblNewLabel_5.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_5.gridx = 1;
-		gbc_lblNewLabel_5.gridy = 10;
+		gbc_lblNewLabel_5.gridy = 8;
 		add(lblNewLabel_5, gbc_lblNewLabel_5);
 		
 		comboBox_2 = new JComboBox();
@@ -226,8 +193,18 @@ public class PanelAgregarBoleto extends JPanel {
 		gbc_comboBox_2.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_2.gridx = 2;
-		gbc_comboBox_2.gridy = 10;
+		gbc_comboBox_2.gridy = 8;
 		add(comboBox_2, gbc_comboBox_2);
+		
+		boletoAgregado = new JLabel("EL BOLETO SE HA AGREGADO CORRECTAMENTE");
+		boletoAgregado.setFont(new Font("Arial", Font.BOLD, 12));
+		GridBagConstraints gbcBoletoAgregado = new GridBagConstraints();
+		gbcBoletoAgregado.insets = new Insets(0, 0, 0, 5);
+		gbcBoletoAgregado.gridx = 1;
+		gbcBoletoAgregado.gridy = 9;
+		gbcBoletoAgregado.gridwidth=3;
+		add(boletoAgregado, gbcBoletoAgregado);
+		boletoAgregado.setVisible(false);
 
 		guardar = new JButton("GUARDAR");
 		guardar.setBackground(new Color(204, 204, 51));
@@ -236,7 +213,7 @@ public class PanelAgregarBoleto extends JPanel {
 		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton.insets = new Insets(10, 0, 0, 5);
 		gbc_btnNewButton.gridx = 2;
-		gbc_btnNewButton.gridy = 11;
+		gbc_btnNewButton.gridy = 10;
 		add(guardar, gbc_btnNewButton);
 		
 		cancelar = new JButton("CANCELAR");
@@ -246,11 +223,23 @@ public class PanelAgregarBoleto extends JPanel {
 		gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton_1.insets = new Insets(10, 0, 0, 5);
 		gbc_btnNewButton_1.gridx = 3;
-		gbc_btnNewButton_1.gridy = 11;
+		gbc_btnNewButton_1.gridy = 10;
 		add(cancelar, gbc_btnNewButton_1);
 		
 	}
 	
+	public List<Estacion> getEstaciones() {
+		return estaciones;
+	}
+
+	public void setEstaciones(List<Estacion> estaciones) {
+		this.estaciones = estaciones;
+	}
+
+	public JComboBox getComboBox() {
+		return comboBox;
+	}
+
 	public JButton getCancelar() {
 		return cancelar;
 	}
@@ -260,8 +249,6 @@ public class PanelAgregarBoleto extends JPanel {
 	public void limpiarWarnings() {
 		this.inserteCliente.setVisible(false);
 		this.inserteEmail.setVisible(false);
-		this.inserteEstOrigen.setVisible(false);
-		this.inserteEstDestino.setVisible(false);
 	}
 	public void limpiarDatos() {
 		this.textField_1.setText(null);
@@ -269,19 +256,46 @@ public class PanelAgregarBoleto extends JPanel {
 		this.comboBox.setSelectedIndex(0);
 		this.comboBox_1.setSelectedIndex(0);
 		this.comboBox_2.setSelectedIndex(0);
+		this.boletoAgregado.setVisible(false);
+	}
+	public void habilitarGuardar() {
+		this.guardar.setEnabled(true);
 	}
 	
-	public void obtenerBoletoCreado() {
-		EstacionesFiltro filtroOrigen= new EstacionesFiltro();
-		filtroOrigen.setNombre(this.comboBox.getSelectedItem().toString());
-		EstacionesFiltro filtroDestino = new EstacionesFiltro();
-		filtroDestino.setNombre(this.comboBox_1.getSelectedItem().toString());
-		
+	public Boleto obtenerBoletoCreado() {
+
+		LinkedHashSet<Tramo> recorrido=null;
+		Double costo=0.0;
+	if(this.comboBox_2.getSelectedItem().toString().equalsIgnoreCase("MAS BARATO")) {
+		recorrido= (LinkedHashSet)VenderBoletoServicio.CalcularCaminoMasBarato((Estacion)this.comboBox.getSelectedItem(), (Estacion)this.comboBox_1.getSelectedItem());
+	}else if (this.comboBox_2.getSelectedItem().toString().equalsIgnoreCase("MENOR DISTANCIA")) {
+		recorrido=(LinkedHashSet)VenderBoletoServicio.CalcularCaminoMenorDistancia((Estacion)this.comboBox.getSelectedItem(), (Estacion)this.comboBox_1.getSelectedItem());
+	}else if (this.comboBox_2.getSelectedItem().toString().equalsIgnoreCase("MÁS RÁPIDO")) {
+		recorrido=(LinkedHashSet)VenderBoletoServicio.CalcularCaminoMasRapido((Estacion)this.comboBox.getSelectedItem(), (Estacion)this.comboBox_1.getSelectedItem());
+	}
+	 for(Tramo t: recorrido){
+		 costo+=t.getCosto();
+	 }
 	//public Boleto(String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, LinkedHashSet<Tramo> recorrido)
-	//	return new Boleto(textField.getText(), textField_1.getText(), LocalDate.now(),0.0,EstacionesRepo.ObtenerEstaciones(filtroOrigen).get(0),EstacionesRepo.ObtenerEstaciones(filtroDestino).get(0), );
+		return new Boleto(textField.getText(), textField_1.getText(), LocalDate.now(),costo,(Estacion)this.comboBox.getSelectedItem(),(Estacion) this.comboBox_1.getSelectedItem(), recorrido  );
 		
 	}
 public void agregarBoleto() {
-		//Boleto nuevo= panelAgregarBoleto.obtenerBoletoCreado();
+		Boleto nuevo= this.obtenerBoletoCreado();
+		if(nuevo.get_nombreCliente().isEmpty()) {
+			this.inserteCliente.setVisible(true);
+		}
+		if(nuevo.get_correoCliente().isEmpty()) {
+			this.inserteEmail.setVisible(true);
+		}
+		if(!nuevo.get_correoCliente().isEmpty() && !nuevo.get_nombreCliente().isEmpty()) {
+			// TODO AGREGAR BOLETO
+			this.boletoAgregado.setVisible(true);
+			guardar.setEnabled(false);
+		}
 	}
+public void cambiarEstacionDestino() {
+	 Estacion origen= (Estacion) comboBox.getSelectedItem();
+	comboBox_1.setModel(new javax.swing.DefaultComboBoxModel<>(estaciones.stream().filter(e-> e.getId()!= origen.getId()).collect(Collectors.toList()).toArray()));
+}
 }

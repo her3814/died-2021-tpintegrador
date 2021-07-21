@@ -429,10 +429,17 @@ panelMenuPrincipal.getBoletos().addActionListener(new ActionListener() {
 						ventana1.setVisible(true);
 						ventana1.pack();
 						
+						panelAgregarBoleto.getComboBox().addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								panelAgregarBoleto.cambiarEstacionDestino();
+						}});
+
+						
 						panelAgregarBoleto.getCancelar().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								panelAgregarBoleto.limpiarWarnings();
 								panelAgregarBoleto.limpiarDatos();
+								panelAgregarBoleto.habilitarGuardar();
 								ventana1.setTitle("GESTIONAR BOLETOS");
 								ventana1.setContentPane(panelGestionarBoletos);
 								ventana1.setVisible(true);
@@ -502,7 +509,6 @@ panelMenuPrincipal.getTramos().addActionListener(new ActionListener() {
 						ventana1.setVisible(true);
 						ventana1.pack();
 						
-						//no funciona del todo
 						panelAgregarTramo.getComboBox().addItemListener(new ItemListener() {
 							public void itemStateChanged(ItemEvent e) {
 								panelAgregarTramo.cambiarEstacionDestino();
