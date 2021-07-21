@@ -146,57 +146,6 @@ public class TramosRepo {
 				e.printStackTrace();
 			}
 		}
-
-	/*	String sql = "INSERT INTO lineas_trayecto (trayecto_orden, id_estacion_origen, id_estacion_destino, cant_pasajeros, duracion_min, costo, distancia, estado) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-		Connection con = BddSingleton.GetConnection();
-
-		try {
-			con.beginRequest();
-
-			PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			stm.setInt(1, tramo.getOrden());
-			stm.setInt(2, tramo.getOrigen().getId());
-			stm.setInt(3, tramo.getDestino().getId());
-			stm.setInt(4, tramo.get_cantPasajeros());
-			stm.setDouble(5, tramo.getDuracion());
-			stm.setDouble(6, tramo.getCosto());
-			stm.setDouble(7, tramo.getDistancia());
-			String estado=null;
-			if(tramo.get_estadoTramo()==EstadoTramoEnum.ACTIVO){
-				estado="ACT";
-			}else {
-				estado="INA";
-			}
-			
-			stm.setString(8, estado);
-
-			stm.executeUpdate();
-			con.commit();
-
-			ResultSet rs = stm.getGeneratedKeys();
-			rs.next();
-
-			rs.close();
-			stm.close();
-		} catch (SQLException e) {
-			try {
-				con.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-
-	}*/
 	}
 
 	public static List<Tramo> ObtenerRecorrido(Linea linea) {
@@ -288,5 +237,95 @@ public class TramosRepo {
 
 		return tramo;
 	}
+	
 
+	public static List<Tramo> obtenerTramos() {
+		List<Tramo> tramos = new ArrayList<Tramo>();
+
+		String sql = "select * FROM lineas_trayecto";
+
+		Connection con = BddSingleton.GetConnection();
+
+		try {
+			Statement stm;
+			stm = con.createStatement();
+			ResultSet result = stm.executeQuery(sql);
+
+			// MIENTRAS QUEDEN COLUMNAS, SE PROCESAN Y AGREGAN A LA LISTA DE ESTACIONES
+			while (result.next())
+				tramos.add(ToEntity(result));
+
+			result.close();
+			stm.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return tramos;
+
+	}
+	
+	public static Tramo obtenerTramo(Integer orden, Integer linea) {
+
+		Tramo tramo = null;
+		String sql = "select * FROM lineas_trayecto est WHERE id_linea_transporte = ? AND trayecto_orden =? ;";
+
+		Connection con = BddSingleton.GetConnection();
+		try {
+			PreparedStatement pstm;
+
+			pstm = con.prepareStatement(sql);
+			pstm.setInt(1, linea);
+			pstm.setInt(2, orden);
+
+			ResultSet result = pstm.executeQuery();
+
+			// SE ESPERA UN SOLO RESULTADO, POR LO QUE SOLO SE HACE UN NEXT, SI NO HAY UN
+			// NEXT NO SE ASIGNA NADA, ES DECIR, NO EXISTE UNA ESTACION CON EL ID INDICADO
+			if (result.next())
+				tramo = ToEntity(result);
+
+			result.close();
+			pstm.close();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return tramo;
+	}
+	
+	public static void eliminarTramo(Tramo tramo) {
+		String sql = "DELETE FROM lineas_trayecto WHERE id_linea_transporte = ? AND trayecto_orden = ?;";
+		Connection con = BddSingleton.GetConnection();
+		try {
+			con.beginRequest();
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setInt(1, tramo.getLinea().get_id());
+			stm.setInt(2, tramo.getOrden());
+			stm.executeUpdate();
+			con.commit();
+			stm.close();
+		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

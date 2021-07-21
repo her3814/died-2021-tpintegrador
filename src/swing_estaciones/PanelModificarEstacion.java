@@ -456,17 +456,7 @@ public class PanelModificarEstacion extends JPanel {
 		}
 		return new Estacion(a_modificar.getId(),this.textField_1.getText(), this.timePicker.getTime(), this.timePicker_1.getTime(),e);
 	}
-		
-	private String estadoSeleccionado() {
-		if(rdbtnNewRadioButton.isSelected()) {
-			return rdbtnNewRadioButton.getText();
-		}
-		else if(rdbtnNewRadioButton1.isSelected()) {
-			return rdbtnNewRadioButton1.getText();
-		}else {
-			return new String("no se ha seleccionado estado");
-	}
-	}
+	
 	
 	public void limpiarDatos() {
 		this.textField_1.setText(null);
