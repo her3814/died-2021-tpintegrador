@@ -25,6 +25,7 @@ public class SubPanelFiltrosTareaMantenimiento extends JPanel{
 	
 	private ButtonGroup mes;
 	private ButtonGroup estacion;
+	private JComboBox comboBox;
 	
 	public SubPanelFiltrosTareaMantenimiento() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -107,11 +108,12 @@ public class SubPanelFiltrosTareaMantenimiento extends JPanel{
 
 		List<Estacion> estaciones = EstacionesRepo.ObtenerEstaciones();
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(		
 				 estaciones.stream().map(e -> e.getNombre())
 				.collect(Collectors.toList())
 				.toArray()));
+		//comboBox.setSelectedItem(null);
 		
 		comboBox.setFont(new Font("Arial", Font.BOLD, 11));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
@@ -120,21 +122,10 @@ public class SubPanelFiltrosTareaMantenimiento extends JPanel{
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 10;
 		add(comboBox, gbc_comboBox);
-		
-		JButton btnNewButton = new JButton("Limpiar filtros");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 10, 5, 5);
-		gbc_btnNewButton.gridx = 1;
-		gbc_btnNewButton.gridy = 12;
-		add(btnNewButton, gbc_btnNewButton);
-		
-		
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//estacion.clearSelection();
-				mes.clearSelection();
-				// TODO tendria que mostrar todos los datos de la BDD
-			}
-		});
+	}
+
+	public void limpiarFiltros() {
+		comboBox.setSelectedIndex(0);
+		mes.clearSelection();	
 	}
 }

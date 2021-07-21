@@ -49,7 +49,6 @@ public class PanelAgregarEstacion extends JPanel {
 	private TimePicker timePicker_1; 
 	private JRadioButton rdbtnNewRadioButton;
 	private JRadioButton rdbtnNewRadioButton1;
-	private final JLabel label = new JLabel("New label");
 	private JLabel lblNewLabel_1;
 	private JLabel inserteHoraApertura;
 	private JLabel inserteHoraCierre;
@@ -68,8 +67,6 @@ public class PanelAgregarEstacion extends JPanel {
 	
 	public PanelAgregarEstacion() {
 		setBackground(Color.WHITE);
-		
-		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
 		gridBagLayout.columnWidths = new int[]{30, 90, 141, 211, 67, 0};
@@ -239,7 +236,7 @@ public class PanelAgregarEstacion extends JPanel {
 		estado.add(rdbtnNewRadioButton);
 		estado.add(rdbtnNewRadioButton1);
 		
-		btnNewButton_1 = new JButton("CANCELAR");
+		btnNewButton_1 = new JButton("VOLVER");
 		btnNewButton_1.setBackground(new Color(204, 204, 51));
 		btnNewButton_1.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
@@ -339,13 +336,14 @@ public class PanelAgregarEstacion extends JPanel {
 		textArea = new JTextArea();
 		textArea.setLineWrap(true);
 		textArea.setRows(8);
-		textArea.setBackground(Color.WHITE);
+		textArea.setBackground(new Color(204, 204, 255));
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
-		gbc_textArea.anchor = GridBagConstraints.NORTHWEST;
+		gbc_textArea.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textArea.anchor = GridBagConstraints.NORTH;
 		gbc_textArea.insets = new Insets(10, 0, 5, 5);
 		gbc_textArea.gridx = 2;
 		gbc_textArea.gridy = 15;
-		gbc_textArea.gridwidth=2;
+		gbc_textArea.gridwidth=7;
 		gbc_textArea.gridheight=2;
 		add(textArea,gbc_textArea);
 		textArea.setVisible(false);
@@ -399,8 +397,8 @@ public class PanelAgregarEstacion extends JPanel {
 		}else {
 			return new Estacion(this.textField_1.getText(), this.timePicker.getTime(), this.timePicker_1.getTime(),e);
 		}
-		
 	}
+	
 	private String estadoSeleccionado() {
 		if(rdbtnNewRadioButton.isSelected()) {
 			return rdbtnNewRadioButton.getText();
@@ -520,8 +518,7 @@ public class PanelAgregarEstacion extends JPanel {
 			nueva= EstacionesRepo.AgregarEstacion(nueva);
 			lblNewLabel_6.setVisible(true);
 			btnNewButton.setEnabled(false);
-			
-		}else {
+		} else {
 			this.deshabilitarCambios();
 			this.mostrarDatosMantenimiento();
 		}
