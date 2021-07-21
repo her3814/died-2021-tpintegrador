@@ -225,7 +225,7 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 					tareasMant = tareasMant.stream()
 							.filter(t -> t.getFechaInicio().getMonth().toString().equals("APRIL")
 									|| t.getFechaInicio().getMonth().toString().equals("JUNE")
-									|| t.getFechaInicio().getMonth().toString().equals("JULY"))
+									|| t.getFechaInicio().getMonth().toString().equals("MAY"))
 							.collect(Collectors.toList());
 				}	
 				else if(filtros.getSelectedButtonText(filtros.getMesInicio()).equals("JULIO-SEPTIEMBRE")){
@@ -253,7 +253,7 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 						tareasMant = tareasMant.stream()
 								.filter(t -> t.getFechaFin().getMonth().toString().equals("APRIL")
 										|| t.getFechaFin().getMonth().toString().equals("JUNE")
-										|| t.getFechaFin().getMonth().toString().equals("JULY"))
+										|| t.getFechaFin().getMonth().toString().equals("MAY"))
 								.collect(Collectors.toList());
 					}	
 					else if(filtros.getSelectedButtonText(filtros.getMesFin()).equals("JULIO-SEPTIEMBRE")){
@@ -271,7 +271,7 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 								.collect(Collectors.toList());
 					}
 				if(! (filtros.getNombreEstacion().equals("no seleccionado"))) {
-					tareasMant = tareasMant.stream()
+						tareasMant = tareasMant.stream()
 											.filter(t -> t.getEstacion().getNombre().equals(filtros.getNombreEstacion()))
 											.collect(Collectors.toList());
 				};
