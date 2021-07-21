@@ -20,10 +20,7 @@ import servicios.VenderBoletoServicio;
 public class app {
 
 	public static void main(String[] args) {
-
-		Estacion est = EstacionesRepo.ObtenerEstacion(3);
-		var tdm = TareaMantenimientoRepo.ObtenerActiva(est);
-		System.out.print(tdm);
+		
 	}
 
 }
