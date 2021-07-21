@@ -2,6 +2,7 @@ package modelo;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 public class Boleto {
 	private final Integer _nroBoleto;
@@ -11,9 +12,9 @@ public class Boleto {
 	private Double _costo;
 	private Estacion _origen;
 	private Estacion _destino;
-	private LinkedHashSet<Tramo> _tramos;
+	private List<Tramo> _tramos;
 	
-	public Boleto(Integer numero, String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, LinkedHashSet<Tramo> recorrido) {
+	public Boleto(Integer numero, String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, List<Tramo> recorrido) {
 		_nroBoleto = numero;
 		_correoCliente=correo;
 		_nombreCliente = nombre;
@@ -24,7 +25,7 @@ public class Boleto {
 		_tramos = recorrido;
 	}
 	
-	public Boleto(String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, LinkedHashSet<Tramo> recorrido) {
+	public Boleto(String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, List<Tramo> recorrido) {
 		_nroBoleto = null;
 		_correoCliente=correo;
 		_nombreCliente = nombre;
@@ -53,10 +54,10 @@ public class Boleto {
 	public void set_destino(Estacion _destino) {
 		this._destino = _destino;
 	}
-	public LinkedHashSet<Tramo> get_tramos() {
+	public List<Tramo> get_tramos() {
 		return _tramos;
 	}
-	public void set_tramos(LinkedHashSet<Tramo> _tramos) {
+	public void set_tramos(List<Tramo> _tramos) {
 		this._tramos = _tramos;
 	}
 	public Integer get_nroBoleto() {

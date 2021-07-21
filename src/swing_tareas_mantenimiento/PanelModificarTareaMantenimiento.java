@@ -12,6 +12,8 @@ import java.awt.Insets;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 import javax.swing.SwingConstants;
@@ -37,7 +39,7 @@ import filtros.EstacionesFiltro;
 import javax.swing.JTextArea;
 
 
-public class PanelAgregarTareaMantenimiento extends JPanel {
+public class PanelModificarTareaMantenimiento extends JPanel {
 	
 	private JTextField textField_1;
 	private JButton btnNewButton;
@@ -50,11 +52,10 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 	private JComboBox comboBox ;
 	private JTextArea textArea;
 	private JLabel fechaFinMayor;
-	
-	public PanelAgregarTareaMantenimiento() {
+	private TareaMantenimiento actual;
+	public PanelModificarTareaMantenimiento(TareaMantenimiento tarea) {
 		setBackground(Color.WHITE);
-		
-		
+		actual = tarea;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
 		gridBagLayout.columnWidths = new int[]{54, 90, 141, 211, 67, 0};
@@ -65,7 +66,7 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		setPreferredSize(new Dimension(500,500));
 		setMinimumSize(new Dimension(300,300));
 		
-		JLabel lblNewLabel = new JLabel("AGREGAR TAREA DE MANTENIMIENTO");
+		JLabel lblNewLabel = new JLabel("MODIFICAR TAREA DE MANTENIMIENTO");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.insets = new Insets(10, 0, 5, 0);
@@ -87,7 +88,7 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		ArrayList<Estacion> estaciones = (ArrayList<Estacion>) EstacionesRepo.ObtenerEstaciones();
 		
 		comboBox = new JComboBox(estaciones.toArray());
-
+		comboBox.setSelectedItem(tarea.getEstacion());
 		comboBox.setBackground(new Color(204, 204, 204));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 
@@ -108,6 +109,7 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		add(lblNewLabel_3, gbc_lblNewLabel_3);
 		
 		dateChooser = new JDateChooser();
+		dateChooser.setDate(convertToDate(tarea.getFechaInicio()));
 		GridBagConstraints gbc_dateChooser = new GridBagConstraints();
 		gbc_dateChooser.gridwidth = 2;
 		gbc_dateChooser.insets = new Insets(0, 0, 5, 5);
@@ -138,6 +140,7 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		add(lblNewLabel_4, gbc_lblNewLabel_4);
 		
 		dateChooser_1 = new JDateChooser();
+		dateChooser_1.setDate(convertToDate(tarea.getFechaFin()));
 		GridBagConstraints gbc_dateChooser_1 = new GridBagConstraints();
 		gbc_dateChooser_1.gridwidth = 2;
 		gbc_dateChooser_1.insets = new Insets(0, 0, 5, 5);
@@ -180,6 +183,7 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		add(lblNewLabel_5, gbc_lblNewLabel_5);
 		
 		textArea = new JTextArea();
+		textArea.setText(actual.getObservaciones());
 		textArea.setBackground(Color.LIGHT_GRAY);
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
 		gbc_textArea.gridheight = 2;
@@ -210,7 +214,7 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 		gbc_btnNewButton_1.gridy = 9;
 		add(btnNewButton_1, gbc_btnNewButton_1);
 		
-		tareaAgregada = new JLabel("LA TAREA DE MANTENIMIENTO SE HA AGREGADO CORRECTAMENTE");
+		tareaAgregada = new JLabel("LA TAREA DE MANTENIMIENTO SE HA MODIFICADO CORRECTAMENTE");
 		tareaAgregada.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbcTareaAgregada = new GridBagConstraints();
 		gbcTareaAgregada.insets = new Insets(0, 0, 0, 5);
@@ -240,24 +244,18 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 	
 
 	
-	public TareaMantenimiento getTareaCreada() throws FechaFinMenorFechaInicioException {
-		//public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs)
-		//EstacionesFiltro e= new EstacionesFiltro();
-		//e.setNombre(this.comboBox.getSelectedItem().toString());
-		
+	public TareaMantenimiento getTareaModificada() throws FechaFinMenorFechaInicioException {
 		Estacion e = (Estacion)this.comboBox.getSelectedItem();
-		
-		
 		if(this.dateChooser.getDate()==null && this.dateChooser_1.getDate()==null) {
-			return new TareaMantenimiento(e,null,null, this.textArea.getText());
+			return new TareaMantenimiento(actual.getId(),e,null,null, this.textArea.getText());
 		}else if(this.dateChooser.getDate()==null) {
 			return new TareaMantenimiento(e,null,
 					this.dateChooser_1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), this.textArea.getText());
 		}else if(this.dateChooser_1.getDate()==null) {
-			return new TareaMantenimiento(e,this.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+			return new TareaMantenimiento(actual.getId(),e,this.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
 					null, this.textArea.getText());
 		}else {
-			return new TareaMantenimiento(e,this.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+			return new TareaMantenimiento(actual.getId(),e,this.dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
 					this.dateChooser_1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), this.textArea.getText());
 		}
 
@@ -275,9 +273,12 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 	public void mensajeFechaErronea() {
 		fechaFinMayor.setVisible(true);
 	}
+	public static Date convertToDate(LocalDate dateToConvert) {
+	    return java.sql.Date.valueOf(dateToConvert);
+	}
 	
-	public void agregarTareaMantenimiento() throws FechaFinMenorFechaInicioException {
-		TareaMantenimiento nueva = this.getTareaCreada();
+	public void modificarTareaMantenimiento() throws FechaFinMenorFechaInicioException {
+		TareaMantenimiento nueva = this.getTareaModificada();
 		if(nueva.getFechaInicio()==null) {
 			this.seleccioneFechaInicio.setVisible(true);
 		}
@@ -288,7 +289,7 @@ public class PanelAgregarTareaMantenimiento extends JPanel {
 			//AltaTareaMantenimiento.AltaTareaMantenimiento(nueva);
 			this.tareaAgregada.setVisible(true);
 			btnNewButton.setEnabled(false);
-			TareaMantenimientoRepo.AgregarTareaMantenimiento(nueva);
+			TareaMantenimientoRepo.ModificarTareaMantenimiento(nueva);
 		}
 		
 	}

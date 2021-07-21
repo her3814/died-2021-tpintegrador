@@ -5,10 +5,20 @@ import java.awt.GridBagLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import bdd.EstacionesRepo;
+import bdd.TareaMantenimientoRepo;
 import excepciones.FechaFinMenorFechaInicioException;
+import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.*;
 import swing_lineas.PanelAgregarLinea;
 import swing_lineas.PanelBuscarLinea;
@@ -27,6 +37,7 @@ import swing_lineas.PanelGestionarLineas;
 import swing_tareas_mantenimiento.PanelAgregarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelBuscarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelGestionarTareaMantenimiento;
+import swing_tareas_mantenimiento.PanelModificarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelVerHistorialTareaMantenimiento;
 import swing_tramos.PanelAgregarTramo;
 import swing_tramos.PanelGestionarTramos;
@@ -109,7 +120,11 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 				panelAgregarEstacion.getBtnNewButton().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						panelAgregarEstacion.limpiarWarnings();
-						panelAgregarEstacion.agregarEstacion();
+						try {
+							panelAgregarEstacion.agregarEstacion();
+						} catch (HoraCierreMenorHoraAperturaException e1) {
+							panelAgregarEstacion.horarioCierrePostAp();
+						}
 					}
 				});
 				
@@ -120,8 +135,8 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 						panelAgregarEstacion.sacarMantenimiento();
 						panelAgregarEstacion.habilitarBotones();
 						panelAgregarEstacion.habilitar();
-						ventana1.setTitle("AGREGAR ESTACION");
-						ventana1.setContentPane(panelAgregarEstacion);
+						ventana1.setTitle("GESTIONAR ESTACIONES");
+						ventana1.setContentPane(panelGestionarEstaciones);
 						ventana1.setVisible(true);
 						ventana1.pack();
 					}
@@ -130,12 +145,16 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 				panelAgregarEstacion.getBtnNewButton4().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						panelAgregarEstacion.limpiarWarnings();
-						Estacion nueva = panelAgregarEstacion.getEstacionCreada();
-						nueva= EstacionesRepo.AgregarEstacion(nueva);
+						Estacion nueva = null;
+						try {
+							nueva = panelAgregarEstacion.getEstacionCreada();
+						} catch (HoraCierreMenorHoraAperturaException e1) {
+							panelAgregarEstacion.horarioCierrePostAp();
+						}
+						nueva = EstacionesRepo.AgregarEstacion(nueva);
 						panelAgregarEstacion.agregarTareaMantenimiento(nueva);
 					}
 				});
-				
 			}
 			});
 				
@@ -147,7 +166,7 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 				ventana1.setContentPane(panelBuscarEstacion);
 				ventana1.setVisible(true);
 				ventana1.pack();
-				
+		
 				panelBuscarEstacion.getCancelar().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						ventana1.setTitle("GESTIONAR ESTACIONES");
@@ -156,40 +175,77 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 						ventana1.pack();
 					}
 				});
-				
+								
 				panelBuscarEstacion.getModificar().addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					ventana1.setTitle("MODIFICAR ESTACION");
-					PanelModificarEstacion panelModificarEstacion = new PanelModificarEstacion();
+					PanelModificarEstacion panelModificarEstacion = new PanelModificarEstacion(panelBuscarEstacion.getActual());
 					panelModificarEstacion.setBackground(Color.WHITE);
-					panelModificarEstacion.setearPanel(panelBuscarEstacion.getActual());
 					ventana1.setContentPane(panelModificarEstacion);
 					ventana1.setVisible(true);
 					ventana1.pack();
-						
-				//boton de volver desde modificar a buscar
+				
+				//volver desde modificar a buscar
 				panelModificarEstacion.getBtnNewButton_1().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						ventana1.setTitle("BUSCAR ESTACION");
-						ventana1.setContentPane(panelBuscarEstacion);
-						ventana1.setVisible(true);
-						ventana1.pack();
-					}
-				});		
-				}  
-				}); 
-				
-				panelBuscarEstacion.getBtnNewButton_3().addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						ventana1.setTitle("BUSCAR ESTACION");
-						//panelBuscarEstacion = new PanelBuscarEstacion();
+						panelModificarEstacion.limpiarDatos();
+						panelModificarEstacion.limpiarWarnings();
+						panelModificarEstacion.habilitarBotones();
+						panelModificarEstacion.habilitar();
+						ventana1.setTitle("BUSCAR ESTACIONES");
 						ventana1.setContentPane(panelBuscarEstacion);
 						ventana1.setVisible(true);
 						ventana1.pack();
 					}
 				});
 				
-				panelBuscarEstacion.getCancelar().addActionListener(new ActionListener() {
+				panelModificarEstacion.getBtnNewButton().addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						panelModificarEstacion.limpiarWarnings();
+						try {
+							panelModificarEstacion.modificarEstacion();
+							panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
+						} catch (HoraCierreMenorHoraAperturaException e1) {
+							panelModificarEstacion.horarioCierrePostAp();
+						}
+					}
+				});
+				
+				panelModificarEstacion.getBtnNewButton_3().addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						panelModificarEstacion.limpiarDatos();
+						panelModificarEstacion.limpiarWarnings();
+						panelModificarEstacion.sacarMantenimiento();
+						panelModificarEstacion.habilitarBotones();
+						panelModificarEstacion.habilitar();
+						ventana1.setTitle("BUSCAR ESTACION");
+						ventana1.setContentPane(panelBuscarEstacion);
+						ventana1.setVisible(true);
+						ventana1.pack();
+					}
+				});
+				
+				panelModificarEstacion.getBtnNewButton4().addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						panelModificarEstacion.limpiarWarnings();
+						Estacion nueva = null;
+						try {
+							nueva = panelModificarEstacion.getEstacionModificada();
+						} catch (HoraCierreMenorHoraAperturaException e1) {
+							panelModificarEstacion.horarioCierrePostAp();
+						}
+						EstacionesRepo.ModificarEstacion(nueva);
+						panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
+						try {
+							panelModificarEstacion.agregarTareaMantenimiento(nueva);
+						} catch (FechaFinMenorFechaInicioException e1) {
+							panelModificarEstacion.mensajeFechaErronea();
+						}
+					}
+				});
+			}
+			});			
+			panelBuscarEstacion.getCancelar().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						ventana1.setTitle("GESTIONAR ESTACIONES");
 							ventana1.setContentPane(panelGestionarEstaciones);
@@ -381,10 +437,17 @@ panelMenuPrincipal.getBoletos().addActionListener(new ActionListener() {
 						ventana1.setVisible(true);
 						ventana1.pack();
 						
+						panelAgregarBoleto.getComboBox().addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								panelAgregarBoleto.cambiarEstacionDestino();
+						}});
+
+						
 						panelAgregarBoleto.getCancelar().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								panelAgregarBoleto.limpiarWarnings();
 								panelAgregarBoleto.limpiarDatos();
+								panelAgregarBoleto.habilitarGuardar();
 								ventana1.setTitle("GESTIONAR BOLETOS");
 								ventana1.setContentPane(panelGestionarBoletos);
 								ventana1.setVisible(true);
@@ -396,7 +459,7 @@ panelMenuPrincipal.getBoletos().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								panelAgregarBoleto.limpiarWarnings();
 								panelAgregarBoleto.agregarBoleto();
-								//TERMINAR
+							
 							}
 						});
 						
@@ -454,6 +517,11 @@ panelMenuPrincipal.getTramos().addActionListener(new ActionListener() {
 						ventana1.setVisible(true);
 						ventana1.pack();
 						
+						panelAgregarTramo.getComboBox().addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								panelAgregarTramo.cambiarEstacionDestino();
+						}});
+
 						panelAgregarTramo.getBtnGuardar().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								panelAgregarTramo.limpiarWarnings();
@@ -556,6 +624,40 @@ panelMenuPrincipal.getTareas_mantenimiento().addActionListener(new ActionListene
 								ventana1.pack();
 							}
 						});
+						panelBuscarTareaMantenimiento.getModificar().addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								ventana1.setTitle("MODIFICAR TAREA DE MANTENIMIENTO");
+								PanelModificarTareaMantenimiento panelModificarTareaMantenimiento = new PanelModificarTareaMantenimiento(panelBuscarTareaMantenimiento.getActual());
+								panelModificarTareaMantenimiento.setBackground(Color.WHITE);
+								ventana1.setContentPane(panelModificarTareaMantenimiento);
+								ventana1.setVisible(true);
+								ventana1.pack();
+								
+							panelModificarTareaMantenimiento.getBtnNewButton_1().addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									panelModificarTareaMantenimiento.limpiarWarnings();
+									panelModificarTareaMantenimiento.limpiarDatos();
+									panelModificarTareaMantenimiento.habilitarBotones();
+									ventana1.setTitle("BUSCAR TAREA DE MANTENIMIENTO");
+									ventana1.setContentPane(panelBuscarTareaMantenimiento);
+									ventana1.setVisible(true);
+									ventana1.pack();
+								}
+							});	
+							panelModificarTareaMantenimiento.getBtnNewButton().addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									panelModificarTareaMantenimiento.limpiarWarnings();
+										try {
+											panelModificarTareaMantenimiento.modificarTareaMantenimiento();
+											panelBuscarTareaMantenimiento.setModel(panelBuscarTareaMantenimiento.renovarTabla(TareaMantenimientoRepo.Obtener()));
+										} catch (FechaFinMenorFechaInicioException e1) {
+											e1.printStackTrace();
+										}
+								
+								}
+							});
+							}
+						});	
 					}
 				});
 				
@@ -568,7 +670,7 @@ panelMenuPrincipal.getTareas_mantenimiento().addActionListener(new ActionListene
 						ventana1.setVisible(true);
 						ventana1.pack();
 
-						panelVerHistorialTareaMantenimiento.getBtnNewButton_2().addActionListener(new ActionListener() {
+						panelVerHistorialTareaMantenimiento.getCancelar().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								ventana1.setTitle("GESTIONAR TAREAS DE MANTENIMIENTO");
 								ventana1.setContentPane(panelGestionarTareaMantenimiento);
@@ -596,6 +698,8 @@ panelMenuPrincipal.getTareas_mantenimiento().addActionListener(new ActionListene
 				
 				//aplicar filtro segun el texto ingresado
 			} 
+
 		});*/
+
 	}
 }

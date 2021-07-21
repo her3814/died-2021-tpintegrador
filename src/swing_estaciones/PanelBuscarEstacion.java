@@ -25,47 +25,49 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 import bdd.EstacionesRepo;
+import excepciones.HoraCierreMenorHoraAperturaException;
 //import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 public class PanelBuscarEstacion extends JPanel {
 	private JTextField textField;
 	private JTable table;
 	private SubPanelFiltros filtros;
-	private JButton btnNewButton;
+	private JButton buscar;
 	private List<Estacion> estacionesBDD;
-	private List<String> nombresEstaciones;
-	private List<LocalTime> horariosApertura;
-	private List<LocalTime> horariosCierre ;
-	private List<EstadoEstacionEnum> estado ;
-	private List<Integer> ids;
 	private Object datosFila [][];
-	private JButton btnNewButton_3;
+	private JButton eliminar;
 	private JButton modificar;
 	private JButton btnNewButton_2;
 	private JButton cancelar;
 	private int seguir;
+	private int row_selected;
 	
 	private JLabel lblNewLabel_1;
 	private Estacion actual;
-	private JButton btnNewButton_1;
+	private JButton aplicarFiltros;
 	private String estadoFiltrado;
 	private String horaCierreFiltrada;
 	private String horaAperturaFiltrada;
-	  
+	private DefaultTableModel model;
+	private JButton btnLimpiarFiltros;
+	
 	public PanelBuscarEstacion() {
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 154, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, -16, 298, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, -16, 298, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		setPreferredSize(new Dimension(500,500));
 		setMinimumSize(new Dimension(300,300));
@@ -106,225 +108,13 @@ public class PanelBuscarEstacion extends JPanel {
 		gbcFiltros.gridheight=4;
 		add(filtros, gbcFiltros);
 		
-		estacionesBDD = EstacionesRepo.ObtenerEstaciones();
 		table = new JTable();
-		table = renovarTabla(estacionesBDD);
-		
-		btnNewButton_3 = new JButton("ELIMINAR");
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int fila = table.getSelectedRow();
-				Integer id = (Integer) table.getValueAt(fila, 0);
-				String nombre = (String) table.getValueAt(fila, 1);
-				seguir = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar la estacion: " + nombre + "?", 
-				null, 2);
-				System.out.println(seguir);
-				if(seguir==0) {
-				LocalTime hi = (LocalTime) table.getValueAt(fila, 2);
-				LocalTime hf = (LocalTime) table.getValueAt(fila, 3);
-				EstadoEstacionEnum estado = (EstadoEstacionEnum) table.getValueAt(fila, 4);
-				Estacion actual = new Estacion(id,nombre, hi, hf, estado); 
-				EstacionesRepo.EliminarEstacion(actual);
-					table = renovarTabla(EstacionesRepo.ObtenerEstaciones());
-				}
-		}});
-		
-		btnNewButton = new JButton("BUSCAR");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				estacionesBDD = EstacionesRepo.ObtenerEstaciones();
-				System.out.println(table.getRowCount());
-				table = renovarTabla(estacionesBDD.stream().filter(est->est.getNombre().equals(textField.getText()))
-						.collect(Collectors.toList()));
-				System.out.println(table.getRowCount());
-			}
-		});
-		
-		btnNewButton.setBackground(new Color(204, 204, 204));
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(5, 5, 5, 5);
-		gbc_btnNewButton.gridx = 4;
-		gbc_btnNewButton.gridy = 3;
-		add(btnNewButton, gbc_btnNewButton);
-		
-		
-		btnNewButton_3.setBackground(new Color(204, 204, 153));
-		btnNewButton_3.setEnabled(false);
-		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
-		gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
-		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_3.gridx = 2;
-		gbc_btnNewButton_3.gridy = 5;
-		add(btnNewButton_3, gbc_btnNewButton_3);
-		
-		modificar = new JButton("MODIFICAR");
-		/*modificar.addActionListener(new ActionListener() {
-			 	public void actionPerformed(ActionEvent e) {
-				int fila = table.getSelectedRow();
-				Integer id = (Integer) table.getValueAt(fila, 0);
-				String nombreEstacion = (String) table.getValueAt(fila, 1);
-				LocalTime hi = (LocalTime) table.getValueAt(fila, 2);
-				LocalTime hf = (LocalTime) table.getValueAt(fila, 3);
-				EstadoEstacionEnum estadoEst = (EstadoEstacionEnum) table.getValueAt(fila, 4);
-				actual = new Estacion(id,nombreEstacion, hi, hf, estadoEst);
-			}}); 
-			*/		
-	
-		modificar.setBackground(new Color(204, 204, 153));
-		modificar.setEnabled(false);
-		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
-		gbc_btnNewButton_4.anchor = GridBagConstraints.WEST;
-		gbc_btnNewButton_4.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_4.gridx = 3;
-		gbc_btnNewButton_4.gridy = 5;
-		add(modificar, gbc_btnNewButton_4);  
-		
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() { 
-			    public void valueChanged(ListSelectionEvent e) { 
-			        int cuentaFilasSeleccionadas = table.getSelectedRowCount(); 
-			        if (cuentaFilasSeleccionadas == 1) { 
-			        	modificar.setEnabled(true);
-			        	btnNewButton_3.setEnabled(true);
-			        	int fila = table.getSelectedRow();
-						Integer id = (Integer) table.getValueAt(fila, 0);
-						String nombreEstacion = (String) table.getValueAt(fila, 1);
-						LocalTime hi = (LocalTime) table.getValueAt(fila, 2);
-						LocalTime hf = (LocalTime) table.getValueAt(fila, 3);
-						EstadoEstacionEnum estadoEst = (EstadoEstacionEnum) table.getValueAt(fila, 4);
-						actual = new Estacion(id,nombreEstacion, hi, hf, estadoEst);
-			        }
-			        
-			}});
-	
-		cancelar = new JButton("CANCELAR");
-		cancelar.setBackground(new Color(204, 204, 51));
-		
-		btnNewButton_1 = new JButton("Aplicar filtros");
-		/*btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				estacionesBDD = new ArrayList<Estacion>();
-				estacionesBDD = EstacionesRepo.ObtenerEstaciones();
-				System.out.println(estacionesBDD.size());
-
-				if( ! (filtros.getEstado().equals("no seleccionado"))) {
-				estadoFiltrado = filtros.getEstado();
-				
-				if(estadoFiltrado.equals("En mantenimiento")) {
-					estacionesBDD.stream().filter(est -> est.getEstado().equals(EstadoEstacionEnum.MANTENIMIENTO))
-					.collect(Collectors.toList());
-				}
-				else if (estadoFiltrado.equals("Operativa")){
-					estacionesBDD.stream().filter(est -> est.getEstado().equals(EstadoEstacionEnum.OPERATIVA))
-					.collect(Collectors.toList());
-				}}
-
-				if( ! (filtros.getHoraCierre().equals("no seleccionado"))) {
-				horaCierreFiltrada = filtros.getHoraCierre();
-				estacionesBDD.stream().filter(est -> est.getHorarioCierre().equals(horaCierreFiltrada))
-				.collect(Collectors.toList());
-				}
-				if( ! (filtros.getHoraApertura().equals("no seleccionado"))){
-				horaAperturaFiltrada = filtros.getHoraApertura();	
-				estacionesBDD.stream().filter(est -> est.getHorarioApertura().equals(horaAperturaFiltrada))
-				.collect(Collectors.toList());				
-				}
-				
-				System.out.println(horaAperturaFiltrada);
-				System.out.println(estadoFiltrado);
-				System.out.println(horaCierreFiltrada);
-				
-				table = renovarTabla(estacionesBDD);
-				System.out.println(estacionesBDD.size());
-
-			}
-		});*/
-		
-		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_1.gridx = 1;
-		gbc_btnNewButton_1.gridy = 7;
-		add(btnNewButton_1, gbc_btnNewButton_1);
-		
-		btnNewButton_2 = new JButton("GUARDAR");
-		btnNewButton_2.setBackground(new Color(204, 204, 51));
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.anchor = GridBagConstraints.SOUTHEAST;
-		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_2.gridx = 4;
-		gbc_btnNewButton_2.gridy = 7;
-		add(btnNewButton_2, gbc_btnNewButton_2);
-		
-		GridBagConstraints gbc_btnNewButton_11 = new GridBagConstraints();
-		gbc_btnNewButton_11.anchor = GridBagConstraints.SOUTHEAST;
-		gbc_btnNewButton_11.insets = new Insets(10, 0, 5, 5);
-		gbc_btnNewButton_11.gridx = 5;
-		gbc_btnNewButton_11.gridy = 7;
-		add(cancelar, gbc_btnNewButton_11);
-		
-	}
-	public JButton getBtnNewButton_2() {
-		return btnNewButton_2;
-	}
-	public JButton getBtnNewButton() {
-		return btnNewButton;
-	}
-	public JButton getCancelar() {
-		return cancelar;
-	}
-	public JButton getModificar() {
-		return modificar;
-	}
-	public void setBtnNewButton(JButton btnNewButton) {
-		this.btnNewButton = btnNewButton;
-	}
-
-	public String getTextoEscrito() {
-		return this.textField.getText();
-	} 
-	public Estacion getActual() {
-		return actual;
-	}
-
-	public JTable renovarTabla(List<Estacion> nuevosDatos) {
-
-		/*nombresEstaciones = new ArrayList<String>();
-		ids = new ArrayList<Integer>();
-		horariosApertura = new ArrayList<LocalTime>();
-		horariosCierre = new ArrayList<LocalTime>();
-		estado = new ArrayList<EstadoEstacionEnum>();
-		
-		for(Estacion e: nuevosDatos) {
-			nombresEstaciones.add(e.getNombre());
-			ids.add(e.getId());
-			horariosApertura.add(e.getHorarioApertura());
-			horariosCierre.add(e.getHorarioCierre());
-			estado.add(e.getEstado());
-		}*/
-		
-		String nombreColumnas[] = {"Id","Nombre estacion", "Horario apertura", "Horario cierre", "Estado"};
-		datosFila = new Object[nuevosDatos.size()] [5];
-		
-		for(int i=0; i<nuevosDatos.size();i++) {
-			datosFila[i][0] = nuevosDatos.get(i).getId();
-			datosFila[i][1] = nuevosDatos.get(i).getNombre();
-			datosFila[i][2] = nuevosDatos.get(i).getHorarioApertura();
-			datosFila[i][3] = nuevosDatos.get(i).getHorarioCierre();
-			datosFila[i][4] = nuevosDatos.get(i).getEstado();
-		}
-		
-		//Crear modelo de la tabla
-				DefaultTableModel model = new DefaultTableModel(datosFila,nombreColumnas){
-				    public boolean isCellEditable(int rowIndex,int columnIndex){
-				    	return false;
-				    	}
-				};
-				
-		table = new JTable();
+		model = renovarTabla(EstacionesRepo.ObtenerEstaciones());
 		table.setModel(model);
+		
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  
 		table.setFillsViewportHeight(true);
-		
+		autoajustarAnchoColumnas(table);
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_table = new GridBagConstraints();
 		gbc_table.gridwidth = 8;
@@ -336,17 +126,310 @@ public class PanelBuscarEstacion extends JPanel {
 		gbc_table.gridy = 4;
 		add(scrollPane, gbc_table);
 		
-		return table;
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() { 
+		    public void valueChanged(ListSelectionEvent e) { 
+		        int cuentaFilasSeleccionadas = table.getSelectedRowCount(); 
+		        if (cuentaFilasSeleccionadas == 1) { 
+		        	modificar.setEnabled(true);
+		        	eliminar .setEnabled(true);
+		        	row_selected = table.getSelectedRow();
+					Integer id = (Integer) table.getValueAt(row_selected, 0);
+					String nombreEstacion = (String) table.getValueAt(row_selected, 1);
+					LocalTime hi = (LocalTime) table.getValueAt(row_selected, 2);
+					LocalTime hf = (LocalTime) table.getValueAt(row_selected, 3);
+					EstadoEstacionEnum estadoEst = (EstadoEstacionEnum) table.getValueAt(row_selected, 4);
+					try {
+						actual = new Estacion(id,nombreEstacion, hi, hf, estadoEst);
+					} catch (HoraCierreMenorHoraAperturaException e1) {
+						e1.printStackTrace();
+					}	
+		        }	        
+		}});
+		
+		
+		eliminar = new JButton("ELIMINAR");
+		eliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int fila = table.getSelectedRow();
+				Integer id = (Integer) table.getValueAt(fila, 0);
+				String nombre = (String) table.getValueAt(fila, 1);
+				seguir = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar la estacion: " + nombre + "?", 
+				null, 2);
+				System.out.println(seguir);
+				if(seguir==0) {
+				LocalTime hi = (LocalTime) table.getValueAt(fila, 2);
+				LocalTime hf = (LocalTime) table.getValueAt(fila, 3);
+				EstadoEstacionEnum estado = (EstadoEstacionEnum) table.getValueAt(fila, 4);
+				Estacion actual = null;
+				try {
+					actual = new Estacion(id,nombre, hi, hf, estado);
+				} catch (HoraCierreMenorHoraAperturaException e1) {
+					e1.printStackTrace();
+				} 
+				EstacionesRepo.EliminarEstacion(actual);
+				model.removeRow(fila);
+				table.setModel(model);
+				autoajustarAnchoColumnas(table);
+				}
+		}});
+		
+		buscar = new JButton("BUSCAR");	
+		buscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				table.setModel(renovarTabla(EstacionesRepo.ObtenerEstaciones()
+					    .stream()
+						.filter(est -> est.getNombre().equals(textField.getText()))
+						.collect(Collectors.toList())));
+				autoajustarAnchoColumnas(table);
+			}
+		});
+		
+		buscar.setBackground(new Color(204, 204, 204));
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.insets = new Insets(5, 5, 5, 5);
+		gbc_btnNewButton.gridx = 4;
+		gbc_btnNewButton.gridy = 3;
+		add(buscar, gbc_btnNewButton);
+		
+		eliminar .setBackground(new Color(204, 204, 153));
+		eliminar .setEnabled(false);
+		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
+		gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
+		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_3.gridx = 2;
+		gbc_btnNewButton_3.gridy = 5;
+		add(eliminar , gbc_btnNewButton_3);
+		
+		modificar = new JButton("MODIFICAR");	
+		modificar.setBackground(new Color(204, 204, 153));
+		modificar.setEnabled(false);
+		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
+		gbc_btnNewButton_4.anchor = GridBagConstraints.WEST;
+		gbc_btnNewButton_4.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_4.gridx = 3;
+		gbc_btnNewButton_4.gridy = 5;
+		add(modificar, gbc_btnNewButton_4);  
+	
+	
+		cancelar = new JButton("CANCELAR");
+		cancelar.setBackground(new Color(204, 204, 51));
+		
+		aplicarFiltros = new JButton("Aplicar filtros");
+		aplicarFiltros.setBackground(new Color(204, 204, 102));
+		aplicarFiltros.setForeground(new Color(0, 0, 0));
+		aplicarFiltros.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				estacionesBDD = new ArrayList<Estacion>();
+				estacionesBDD = EstacionesRepo.ObtenerEstaciones();
+				List<Estacion> estacionesBDDFiltradas = new ArrayList<Estacion>();
+				estacionesBDDFiltradas = estacionesBDD;
+				
+				if( ! (filtros.getEstado().equals("no seleccionado"))) {
+					estadoFiltrado = filtros.getEstado();
+					System.out.println(estadoFiltrado.toString());
+				if(estadoFiltrado.equals("En mantenimiento")) {
+					estacionesBDDFiltradas = estacionesBDD.stream().filter(est -> est.getEstado().equals(EstadoEstacionEnum.MANTENIMIENTO))
+					.collect(Collectors.toList());
+				}
+				else if (estadoFiltrado.equals("Operativa")){
+					estacionesBDDFiltradas = estacionesBDD.stream().filter(est -> est.getEstado().equals(EstadoEstacionEnum.OPERATIVA))
+					.collect(Collectors.toList());
+				}
+				}
+				if( ! (filtros.getHoraCierre().equals("no seleccionado"))) {
+					if(filtros.getHoraCierre().equals("00:01 a 06:00")) {	
+						estacionesBDDFiltradas = estacionesBDDFiltradas
+						.stream()
+						.filter(est -> (est.getHorarioCierre().isBefore(LocalTime.of(06,00))) 
+								&& (est.getHorarioCierre().isAfter(LocalTime.of(00, 01))))
+						.collect(Collectors.toList());
+					}
+					else if(filtros.getHoraCierre().equals("06:01 a 12:00")) {
+						estacionesBDDFiltradas = estacionesBDDFiltradas
+								.stream()
+								.filter(est -> (est.getHorarioCierre().isBefore(LocalTime.of(12,00))) 
+										&& (est.getHorarioCierre().isAfter(LocalTime.of(06, 01))))
+								.collect(Collectors.toList());
+					}
+					else if(filtros.getHoraCierre().equals("12:01 a 18:00")) {
+						estacionesBDDFiltradas = estacionesBDDFiltradas
+								.stream()
+								.filter(est -> (est.getHorarioCierre().isBefore(LocalTime.of(18,00))) 
+										&& (est.getHorarioCierre().isAfter(LocalTime.of(12, 01))))
+								.collect(Collectors.toList());
+					}
+					else if(filtros.getHoraCierre().equals("18:01 a 00:00")) {
+						estacionesBDDFiltradas = estacionesBDDFiltradas
+								.stream()
+								.filter(est -> (est.getHorarioCierre().isBefore(LocalTime.of(00,00))) 
+										&& (est.getHorarioCierre().isAfter(LocalTime.of(18, 01))))
+								.collect(Collectors.toList());
+					}
+				}
+				
+				if( ! (filtros.getHoraApertura().equals("no seleccionado"))){
+			
+					if(filtros.getHoraApertura().equals("00:01 a 06:00")) {	
+						estacionesBDDFiltradas = estacionesBDDFiltradas
+						.stream()
+						.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(06,00))) 
+								&& (est.getHorarioApertura().isAfter(LocalTime.of(00, 01))))
+						.collect(Collectors.toList());
+					}
+					else if(filtros.getHoraApertura().equals("06:01 a 12:00")) {
+						estacionesBDDFiltradas = estacionesBDDFiltradas
+								.stream()
+								.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(12,00))) 
+										&& (est.getHorarioApertura().isAfter(LocalTime.of(06, 01))))
+								.collect(Collectors.toList());
+					}
+					else if(filtros.getHoraApertura().equals("12:01 a 18:00")) {
+						estacionesBDDFiltradas = estacionesBDDFiltradas
+								.stream()
+								.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(18,00))) 
+										&& (est.getHorarioApertura().isAfter(LocalTime.of(12, 01))))
+								.collect(Collectors.toList());
+					}
+					else if(filtros.getHoraApertura().equals("18:01 a 00:00")) {
+						estacionesBDDFiltradas = estacionesBDDFiltradas
+								.stream()
+								.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(00,00))) 
+										&& (est.getHorarioApertura().isAfter(LocalTime.of(18, 01))))
+								.collect(Collectors.toList());
+					}
+				}
+				table.setModel(renovarTabla(estacionesBDDFiltradas));
+				autoajustarAnchoColumnas(table);
+			}
+		});
+		
+		btnLimpiarFiltros = new JButton("Limpiar filtros");
+		btnLimpiarFiltros.setBackground(new Color(204, 204, 102));
+		btnLimpiarFiltros.setForeground(new Color(0, 0, 0));
+		btnLimpiarFiltros.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		GridBagConstraints gbc_btnLimpiarFiltros = new GridBagConstraints();
+		gbc_btnLimpiarFiltros.insets = new Insets(0, 0, 5, 5);
+		gbc_btnLimpiarFiltros.gridx = 1;
+		gbc_btnLimpiarFiltros.gridy = 7;
+		add(btnLimpiarFiltros, gbc_btnLimpiarFiltros);
+		
+
+		btnLimpiarFiltros.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				filtros.limpiarFiltros();
+				table.setModel(renovarTabla(EstacionesRepo.ObtenerEstaciones()));
+				autoajustarAnchoColumnas(table);
+			}
+		});
+		
+		aplicarFiltros.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_1.gridx = 1;
+		gbc_btnNewButton_1.gridy = 8;
+		add(aplicarFiltros, gbc_btnNewButton_1);
+		
+		GridBagConstraints gbc_btnNewButton_11 = new GridBagConstraints();
+		gbc_btnNewButton_11.anchor = GridBagConstraints.SOUTHEAST;
+		gbc_btnNewButton_11.insets = new Insets(10, 0, 5, 5);
+		gbc_btnNewButton_11.gridx = 5;
+		gbc_btnNewButton_11.gridy = 8;
+		add(cancelar, gbc_btnNewButton_11);
 		
 	}
-	public JButton getBtnNewButton_3() {
-		return btnNewButton_3;
+	public JButton getBtnNewButton_2() {
+		return btnNewButton_2;
 	}
-	public void setBtnNewButton_3(JButton btnNewButton_3) {
-		this.btnNewButton_3 = btnNewButton_3;
+	public JButton getBuscar() {
+		return buscar;
 	}
-	
-	
+	public JButton getCancelar() {
+		return cancelar;
+	}
+	public JButton getModificar() {
+		return modificar;
+	}
+	public void setBuscar(JButton btnNewButton) {
+		this.buscar = btnNewButton;
+	}
 
+	public String getTextoEscrito() {
+		return this.textField.getText();
+	} 
+	public Estacion getActual() {
+		return actual;
+	}
+	public JTable getTable() {
+		return table;
+	}
+	public void setTable(JTable table) {
+		this.table = table;
+	}
+	
+	public DefaultTableModel renovarTabla(List<Estacion> nuevosDatos) {
+		String nombreColumnas[] = {"Id","Nombre estacion", "Horario apertura", "Horario cierre", "Estado"};
+		datosFila = new Object[nuevosDatos.size()] [5];
+		JTable new_table = new JTable();
+		for(int i=0; i<nuevosDatos.size();i++) {
+			datosFila[i][0] = nuevosDatos.get(i).getId();
+			datosFila[i][1] = nuevosDatos.get(i).getNombre();
+			datosFila[i][2] = nuevosDatos.get(i).getHorarioApertura();
+			datosFila[i][3] = nuevosDatos.get(i).getHorarioCierre();
+			datosFila[i][4] = nuevosDatos.get(i).getEstado();
+		}
+		//Crear modelo de la tabla
+		model = new DefaultTableModel(datosFila,nombreColumnas){
+		public boolean isCellEditable(int rowIndex,int columnIndex){
+				return false;
+				}
+		};
+		return model;
+	}	
+	
+	public JButton getAplicarFiltros() {
+		return aplicarFiltros;
+	}
+	public void setBtnNewButton_1(JButton btnNewButton_1) {
+		this.aplicarFiltros = btnNewButton_1;
+	}
+	public JButton getEliminar() {
+		return eliminar ;
+	}
+	public void setEliminar(JButton btnNewButton_3) {
+		this.eliminar  = btnNewButton_3;
+	}
+	public JTextField getTextField() {
+		return textField;
+	}
+	public void setTextField(JTextField textField) {
+		this.textField = textField;
+	}
+	public List<Estacion> getEstacionesBDD() {
+		return estacionesBDD;
+	}
+	public void setEstacionesBDD(List<Estacion> estacionesBDD) {
+		this.estacionesBDD = estacionesBDD;
+	}
+	public DefaultTableModel getModel() {
+		return model;		
+	}
+	public void setModel(DefaultTableModel model) {
+		this.model = model;
+		table.setModel(model);
+	}
+	public void autoajustarAnchoColumnas(JTable table) {
+	    final TableColumnModel columnModel = table.getColumnModel();
+	    for (int column = 0; column < table.getColumnCount(); column++) {
+	        int width = 15; // Min width
+	        for (int row = 0; row < table.getRowCount(); row++) {
+	            TableCellRenderer renderer = table.getCellRenderer(row, column);
+	            Component comp = table.prepareRenderer(renderer, row, column);
+	            width = Math.max(comp.getPreferredSize().width +1 , width);
+	        }
+	        if(width > 300)
+	            width=300;
+	        columnModel.getColumn(column).setPreferredWidth(width);
+	    }
+	}
 	
 }

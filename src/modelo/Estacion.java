@@ -2,6 +2,8 @@ package modelo;
 
 import java.time.LocalTime;
 
+import excepciones.HoraCierreMenorHoraAperturaException;
+
 
 
 public class Estacion {
@@ -11,8 +13,10 @@ public class Estacion {
 	private LocalTime _horarioCierre;
 	private EstadoEstacionEnum _estado;
 
-	public Estacion(int Id, String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado) {
-	
+	public Estacion(int Id, String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado) throws HoraCierreMenorHoraAperturaException {
+		if(horaApertura!=null && horaCierre!=null && horaCierre.isBefore(horaApertura)) {
+			throw new HoraCierreMenorHoraAperturaException();
+		}
 		_id = Id;
 		_nombre = nombre;
 		_estado = estado;  
@@ -20,15 +24,20 @@ public class Estacion {
 		_horarioCierre = horaCierre;
 	}
 
-	public Estacion(String nombre, LocalTime horaApertura, LocalTime horaCierre)  {
-		
+	public Estacion(String nombre, LocalTime horaApertura, LocalTime horaCierre) throws HoraCierreMenorHoraAperturaException  {
+		if(horaApertura!=null && horaCierre!=null && horaCierre.isBefore(horaApertura)) {
+			throw new HoraCierreMenorHoraAperturaException();
+		}
 		_id = null;
 		_nombre = nombre;
 		_horarioApertura = horaApertura;
 		_horarioCierre = horaCierre;
 	}
 	 
-	public Estacion( String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado)  {
+	public Estacion( String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado) throws HoraCierreMenorHoraAperturaException  {
+		if(horaApertura!=null && horaCierre!=null && horaCierre.isBefore(horaApertura)) {
+			throw new HoraCierreMenorHoraAperturaException();
+		}
 		_id = null;
 		_nombre = nombre;
 		_estado = estado;
@@ -57,7 +66,10 @@ public class Estacion {
 		return _horarioApertura;
 	}
 
-	public void setHorarioApertura(LocalTime _horarioApertura){
+	public void setHorarioApertura(LocalTime _horarioApertura) throws HoraCierreMenorHoraAperturaException{
+		if(_horarioApertura!=null && _horarioCierre!=null &&_horarioCierre.isBefore(_horarioApertura)) {
+			throw new HoraCierreMenorHoraAperturaException();
+		}
 		this._horarioApertura = _horarioApertura;
 	}
 
@@ -65,7 +77,10 @@ public class Estacion {
 		return _horarioCierre;
 	}
 
-	public void setHorarioCierre(LocalTime _horarioCierre){
+	public void setHorarioCierre(LocalTime _horarioCierre) throws HoraCierreMenorHoraAperturaException{
+		if(_horarioApertura!=null && _horarioCierre!=null && _horarioCierre.isBefore(_horarioApertura)) {
+			throw new HoraCierreMenorHoraAperturaException();
+		}
 		this._horarioCierre = _horarioCierre;
 	}
 
