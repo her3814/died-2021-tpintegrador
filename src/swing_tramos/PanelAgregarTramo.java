@@ -73,6 +73,7 @@ public class PanelAgregarTramo extends JPanel {
 		add(lblNewLabel, gbc_lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("ESTACION ORIGEN:");
+		lblNewLabel_1.setBackground(new Color(240, 240, 240));
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 13));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();

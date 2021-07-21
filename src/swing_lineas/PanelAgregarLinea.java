@@ -66,6 +66,8 @@ public class PanelAgregarLinea extends JPanel {
 		add(lblNewLabel, gbc_lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("NOMBRE:");
+		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 13));
+		lblNewLabel_1.setBackground(new Color(240, 240, 240));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
@@ -99,6 +101,7 @@ public class PanelAgregarLinea extends JPanel {
 		inserteNombre.setVisible(false);
 		
 		JLabel lblNewLabel_2 = new JLabel("COLOR:");
+		lblNewLabel_2.setFont(new Font("Arial", Font.BOLD, 13));
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
@@ -185,6 +188,7 @@ public class PanelAgregarLinea extends JPanel {
 
 		
 		JLabel lblNewLabel_5 = new JLabel("ESTADO:");
+		lblNewLabel_5.setFont(new Font("Arial", Font.BOLD, 13));
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
 		gbc_lblNewLabel_5.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 5);
@@ -193,6 +197,7 @@ public class PanelAgregarLinea extends JPanel {
 		add(lblNewLabel_5, gbc_lblNewLabel_5);
 		
 		rdbtnNewRadioButton = new JRadioButton("Activa");
+		rdbtnNewRadioButton.setFont(new Font("Arial", Font.BOLD, 13));
 		GridBagConstraints gbc_rdbtnNewRadioButton = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnNewRadioButton.gridx = 2;
@@ -200,6 +205,7 @@ public class PanelAgregarLinea extends JPanel {
 		add(rdbtnNewRadioButton, gbc_rdbtnNewRadioButton);
 		
 		rdbtnNewRadioButton1 = new JRadioButton("No activa");
+		rdbtnNewRadioButton1.setFont(new Font("Arial", Font.BOLD, 13));
 		GridBagConstraints gbc_rdbtnNewRadioButton1 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton1.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnNewRadioButton1.gridx = 3;
@@ -225,6 +231,8 @@ public class PanelAgregarLinea extends JPanel {
 		inserteEstado.setVisible(false);
 		
 		btnGuardar = new JButton("GUARDAR");
+		btnGuardar.setBackground(new Color(204, 204, 51));
+		btnGuardar.setFont(new Font("Arial", Font.BOLD, 13));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
@@ -233,6 +241,8 @@ public class PanelAgregarLinea extends JPanel {
 		add(btnGuardar, gbc_btnNewButton);
 		
 		btnCancelar = new JButton("CANCELAR");
+		btnCancelar.setBackground(new Color(204, 204, 51));
+		btnCancelar.setFont(new Font("Arial", Font.BOLD, 13));
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
