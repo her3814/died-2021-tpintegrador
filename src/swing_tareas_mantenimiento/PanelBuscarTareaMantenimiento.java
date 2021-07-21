@@ -26,12 +26,16 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
+
 import bdd.TareaMantenimientoRepo;
 import excepciones.FechaFinMenorFechaInicioException;
 import modelo.Estacion;
 import modelo.TareaMantenimiento;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 public class PanelBuscarTareaMantenimiento extends JPanel {
@@ -98,11 +102,12 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 		gbcFiltros.gridy=3;
 		gbcFiltros.gridheight=4;
 		add(filtros, gbcFiltros);
-		
+		 
 		table = new JTable();
 		model = renovarTabla(TareaMantenimientoRepo.Obtener());
 		table.setModel(model);
-		
+		autoajustarAnchoColumnas(table);
+
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  
 		table.setFillsViewportHeight(true);
 		
@@ -170,6 +175,8 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 					    .stream()
 						.filter(t -> t.getId().toString().equals(textField.getText()))
 						.collect(Collectors.toList())));
+				autoajustarAnchoColumnas(table);
+
 			}
 		});
 		
@@ -199,96 +206,85 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 		gbc_btnNewButton_4.gridy = 5;
 		add(modificar, gbc_btnNewButton_4);  
 	
-	
-		cancelar = new JButton("CANCELAR");
+		cancelar = new JButton("VOLVER");
 		cancelar.setBackground(new Color(204, 204, 51));
-		
+		 
 		aplicarFiltros = new JButton("Aplicar filtros");
 		aplicarFiltros.setBackground(new Color(204, 204, 102));
 		aplicarFiltros.setForeground(new Color(0, 0, 0));
-		/*aplicarFiltros.addActionListener(new ActionListener() {
+		aplicarFiltros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				estacionesBDD = new ArrayList<Estacion>();
-				estacionesBDD = EstacionesRepo.ObtenerEstaciones();
-				List<Estacion> estacionesBDDFiltradas = new ArrayList<Estacion>();
+				List<TareaMantenimiento> tareasMant = new ArrayList<TareaMantenimiento>();
+				tareasMant = TareaMantenimientoRepo.Obtener();
+				//System.out.println(filtros.getSelectedButtonText(filtros.getMesInicio()));
+				//System.out.println(filtros.getSelectedButtonText(filtros.getMesFin()));
+				//System.out.println(tareasMant.get(0).getFechaInicio().getMonth());
+				if(filtros.getSelectedButtonText(filtros.getMesInicio()).equals("ENERO-MARZO")){
+				tareasMant = tareasMant.stream()
+											.filter(t -> t.getFechaInicio().getMonth().toString().equals("JANUARY")
+													|| t.getFechaInicio().getMonth().toString().equals("FEBRUARY")
+													|| t.getFechaInicio().getMonth().toString().equals("MARCH"))
+											.collect(Collectors.toList());
+				}
+				else if(filtros.getSelectedButtonText(filtros.getMesInicio()).equals("ABRIL-JUNIO")){
+					tareasMant = tareasMant.stream()
+							.filter(t -> t.getFechaInicio().getMonth().toString().equals("APRIL")
+									|| t.getFechaInicio().getMonth().toString().equals("JUNE")
+									|| t.getFechaInicio().getMonth().toString().equals("MAY"))
+							.collect(Collectors.toList());
+				}	
+				else if(filtros.getSelectedButtonText(filtros.getMesInicio()).equals("JULIO-SEPTIEMBRE")){
+					tareasMant = tareasMant.stream()
+							.filter(t -> t.getFechaInicio().getMonth().toString().equals("JULY")
+									|| t.getFechaInicio().getMonth().toString().equals("AUGUST")
+									|| t.getFechaInicio().getMonth().toString().equals("SEPTEMBER"))
+							.collect(Collectors.toList());
+				}	
+				else if(filtros.getSelectedButtonText(filtros.getMesInicio()).equals("OCTUBRE-DICIEMBRE")){
+					tareasMant = tareasMant.stream()
+							.filter(t -> t.getFechaInicio().getMonth().toString().equals("OCTOBER")
+									|| t.getFechaInicio().getMonth().toString().equals("NOVEMBER")
+									|| t.getFechaInicio().getMonth().toString().equals("DECEMBER"))
+							.collect(Collectors.toList());
+				}
+				if(filtros.getSelectedButtonText(filtros.getMesFin()).equals("ENERO-MARZO")){
+					tareasMant = tareasMant.stream()
+												.filter(t -> t.getFechaFin().getMonth().toString().equals("JANUARY")
+														|| t.getFechaFin().getMonth().toString().equals("FEBRUARY")
+														|| t.getFechaFin().getMonth().toString().equals("MARCH"))
+												.collect(Collectors.toList());
+					}
+					else if(filtros.getSelectedButtonText(filtros.getMesFin()).equals("ABRIL-JUNIO")){
+						tareasMant = tareasMant.stream()
+								.filter(t -> t.getFechaFin().getMonth().toString().equals("APRIL")
+										|| t.getFechaFin().getMonth().toString().equals("JUNE")
+										|| t.getFechaFin().getMonth().toString().equals("MAY"))
+								.collect(Collectors.toList());
+					}	
+					else if(filtros.getSelectedButtonText(filtros.getMesFin()).equals("JULIO-SEPTIEMBRE")){
+						tareasMant = tareasMant.stream()
+								.filter(t -> t.getFechaFin().getMonth().toString().equals("JULY")
+										|| t.getFechaFin().getMonth().toString().equals("AUGUST")
+										|| t.getFechaFin().getMonth().toString().equals("SEPTEMBER"))
+								.collect(Collectors.toList());
+					}	
+					else if(filtros.getSelectedButtonText(filtros.getMesFin()).equals("OCTUBRE-DICIEMBRE")){
+						tareasMant = tareasMant.stream()
+								.filter(t -> t.getFechaInicio().getMonth().toString().equals("OCTOBER")
+										|| t.getFechaInicio().getMonth().toString().equals("NOVEMBER")
+										|| t.getFechaInicio().getMonth().toString().equals("DECEMBER"))
+								.collect(Collectors.toList());
+					}
+				if(! (filtros.getNombreEstacion().equals("no seleccionado"))) {
+						tareasMant = tareasMant.stream()
+											.filter(t -> t.getEstacion().getNombre().equals(filtros.getNombreEstacion()))
+											.collect(Collectors.toList());
+				};
+				table.setModel(renovarTabla(tareasMant));
+				autoajustarAnchoColumnas(table);
 
-				if( ! (filtros.getEstado().equals("no seleccionado"))) {
-					estadoFiltrado = filtros.getEstado();
-					System.out.println(estadoFiltrado.toString());
-				if(estadoFiltrado.equals("En mantenimiento")) {
-					estacionesBDDFiltradas = estacionesBDD.stream().filter(est -> est.getEstado().equals(EstadoEstacionEnum.MANTENIMIENTO))
-					.collect(Collectors.toList());
-				}
-				else if (estadoFiltrado.equals("Operativa")){
-					estacionesBDDFiltradas = estacionesBDD.stream().filter(est -> est.getEstado().equals(EstadoEstacionEnum.OPERATIVA))
-					.collect(Collectors.toList());
-				}
-				}
-				if( ! (filtros.getHoraCierre().equals("no seleccionado"))) {
-					if(filtros.getHoraCierre().equals("00:01 a 06:00")) {	
-						estacionesBDDFiltradas = estacionesBDD
-						.stream()
-						.filter(est -> (est.getHorarioCierre().isBefore(LocalTime.of(06,00))) 
-								&& (est.getHorarioCierre().isAfter(LocalTime.of(00, 01))))
-						.collect(Collectors.toList());
-					}
-					else if(filtros.getHoraCierre().equals("06:01 a 12:00")) {
-						estacionesBDDFiltradas = estacionesBDD
-								.stream()
-								.filter(est -> (est.getHorarioCierre().isBefore(LocalTime.of(12,00))) 
-										&& (est.getHorarioCierre().isAfter(LocalTime.of(06, 01))))
-								.collect(Collectors.toList());
-					}
-					else if(filtros.getHoraCierre().equals("12:01 a 18:00")) {
-						estacionesBDDFiltradas = estacionesBDD
-								.stream()
-								.filter(est -> (est.getHorarioCierre().isBefore(LocalTime.of(18,00))) 
-										&& (est.getHorarioCierre().isAfter(LocalTime.of(12, 01))))
-								.collect(Collectors.toList());
-					}
-					else if(filtros.getHoraCierre().equals("18:01 a 00:00")) {
-						estacionesBDDFiltradas = estacionesBDD
-								.stream()
-								.filter(est -> (est.getHorarioCierre().isBefore(LocalTime.of(00,00))) 
-										&& (est.getHorarioCierre().isAfter(LocalTime.of(18, 01))))
-								.collect(Collectors.toList());
-					}
-				}
-				
-				if( ! (filtros.getHoraApertura().equals("no seleccionado"))){
-			
-					if(filtros.getHoraApertura().equals("00:01 a 06:00")) {	
-						estacionesBDDFiltradas = estacionesBDD
-						.stream()
-						.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(06,00))) 
-								&& (est.getHorarioApertura().isAfter(LocalTime.of(00, 01))))
-						.collect(Collectors.toList());
-					}
-					else if(filtros.getHoraApertura().equals("06:01 a 12:00")) {
-						estacionesBDDFiltradas = estacionesBDD
-								.stream()
-								.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(12,00))) 
-										&& (est.getHorarioApertura().isAfter(LocalTime.of(06, 01))))
-								.collect(Collectors.toList());
-					}
-					else if(filtros.getHoraApertura().equals("12:01 a 18:00")) {
-						estacionesBDDFiltradas = estacionesBDD
-								.stream()
-								.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(18,00))) 
-										&& (est.getHorarioApertura().isAfter(LocalTime.of(12, 01))))
-								.collect(Collectors.toList());
-					}
-					else if(filtros.getHoraApertura().equals("18:01 a 00:00")) {
-						estacionesBDDFiltradas = estacionesBDD
-								.stream()
-								.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(00,00))) 
-										&& (est.getHorarioApertura().isAfter(LocalTime.of(18, 01))))
-								.collect(Collectors.toList());
-					}
-				}
-				table.setModel(renovarTabla(estacionesBDDFiltradas));
 			}
-		});*/
+		});
 		
 		btnLimpiarFiltros = new JButton("Limpiar filtros");
 		btnLimpiarFiltros.setBackground(new Color(204, 204, 102));
@@ -304,6 +300,8 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				filtros.limpiarFiltros();
 				table.setModel(renovarTabla(TareaMantenimientoRepo.Obtener()));
+				autoajustarAnchoColumnas(table);
+
 			}
 		});
 		
@@ -392,7 +390,27 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 	}
 	public void setModel(DefaultTableModel model) {
 		this.model = model;
+		table.setModel(model);
 	}
-	
+	public TareaMantenimiento getActual() {
+		return actual;
+	}
+	public void setActual(TareaMantenimiento actual) {
+		this.actual = actual;
+	}
+	public void autoajustarAnchoColumnas(JTable table) {
+	    final TableColumnModel columnModel = table.getColumnModel();
+	    for (int column = 0; column < table.getColumnCount(); column++) {
+	        int width = 15; // Min width
+	        for (int row = 0; row < table.getRowCount(); row++) {
+	            TableCellRenderer renderer = table.getCellRenderer(row, column);
+	            Component comp = table.prepareRenderer(renderer, row, column);
+	            width = Math.max(comp.getPreferredSize().width +1 , width);
+	        }
+	        if(width > 300)
+	            width=300;
+	        columnModel.getColumn(column).setPreferredWidth(width);
+	    }
+	}
 	
 }

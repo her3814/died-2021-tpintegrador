@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import bdd.EstacionesRepo;
+import bdd.TareaMantenimientoRepo;
 import excepciones.FechaFinMenorFechaInicioException;
 import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.*;
@@ -36,6 +37,7 @@ import swing_lineas.PanelGestionarLineas;
 import swing_tareas_mantenimiento.PanelAgregarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelBuscarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelGestionarTareaMantenimiento;
+import swing_tareas_mantenimiento.PanelModificarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelVerHistorialTareaMantenimiento;
 import swing_tramos.PanelAgregarTramo;
 import swing_tramos.PanelGestionarTramos;
@@ -202,6 +204,7 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 						panelModificarEstacion.limpiarWarnings();
 						try {
 							panelModificarEstacion.modificarEstacion();
+							panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
 						} catch (HoraCierreMenorHoraAperturaException e1) {
 							panelModificarEstacion.horarioCierrePostAp();
 						}
@@ -215,8 +218,8 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 						panelModificarEstacion.sacarMantenimiento();
 						panelModificarEstacion.habilitarBotones();
 						panelModificarEstacion.habilitar();
-						ventana1.setTitle("GESTIONAR ESTACIONES");
-						ventana1.setContentPane(panelGestionarEstaciones);
+						ventana1.setTitle("BUSCAR ESTACION");
+						ventana1.setContentPane(panelBuscarEstacion);
 						ventana1.setVisible(true);
 						ventana1.pack();
 					}
@@ -232,6 +235,7 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 							panelModificarEstacion.horarioCierrePostAp();
 						}
 						EstacionesRepo.ModificarEstacion(nueva);
+						panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
 						panelModificarEstacion.agregarTareaMantenimiento(nueva);
 					}
 				});
@@ -616,6 +620,40 @@ panelMenuPrincipal.getTareas_mantenimiento().addActionListener(new ActionListene
 								ventana1.pack();
 							}
 						});
+						panelBuscarTareaMantenimiento.getModificar().addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								ventana1.setTitle("MODIFICAR TAREA DE MANTENIMIENTO");
+								PanelModificarTareaMantenimiento panelModificarTareaMantenimiento = new PanelModificarTareaMantenimiento(panelBuscarTareaMantenimiento.getActual());
+								panelModificarTareaMantenimiento.setBackground(Color.WHITE);
+								ventana1.setContentPane(panelModificarTareaMantenimiento);
+								ventana1.setVisible(true);
+								ventana1.pack();
+								
+							panelModificarTareaMantenimiento.getBtnNewButton_1().addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									panelModificarTareaMantenimiento.limpiarWarnings();
+									panelModificarTareaMantenimiento.limpiarDatos();
+									panelModificarTareaMantenimiento.habilitarBotones();
+									ventana1.setTitle("BUSCAR TAREA DE MANTENIMIENTO");
+									ventana1.setContentPane(panelBuscarTareaMantenimiento);
+									ventana1.setVisible(true);
+									ventana1.pack();
+								}
+							});	
+							panelModificarTareaMantenimiento.getBtnNewButton().addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									panelModificarTareaMantenimiento.limpiarWarnings();
+										try {
+											panelModificarTareaMantenimiento.modificarTareaMantenimiento();
+											panelBuscarTareaMantenimiento.setModel(panelBuscarTareaMantenimiento.renovarTabla(TareaMantenimientoRepo.Obtener()));
+										} catch (FechaFinMenorFechaInicioException e1) {
+											e1.printStackTrace();
+										}
+								
+								}
+							});
+							}
+						});	
 					}
 				});
 				
@@ -628,7 +666,7 @@ panelMenuPrincipal.getTareas_mantenimiento().addActionListener(new ActionListene
 						ventana1.setVisible(true);
 						ventana1.pack();
 
-						panelVerHistorialTareaMantenimiento.getBtnNewButton_2().addActionListener(new ActionListener() {
+						panelVerHistorialTareaMantenimiento.getCancelar().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								ventana1.setTitle("GESTIONAR TAREAS DE MANTENIMIENTO");
 								ventana1.setContentPane(panelGestionarTareaMantenimiento);

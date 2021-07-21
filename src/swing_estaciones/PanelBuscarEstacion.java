@@ -25,6 +25,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 import bdd.EstacionesRepo;
 import excepciones.HoraCierreMenorHoraAperturaException;
@@ -33,6 +35,7 @@ import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 public class PanelBuscarEstacion extends JPanel {
@@ -111,7 +114,7 @@ public class PanelBuscarEstacion extends JPanel {
 		
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  
 		table.setFillsViewportHeight(true);
-		
+		autoajustarAnchoColumnas(table);
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_table = new GridBagConstraints();
 		gbc_table.gridwidth = 8;
@@ -166,6 +169,7 @@ public class PanelBuscarEstacion extends JPanel {
 				EstacionesRepo.EliminarEstacion(actual);
 				model.removeRow(fila);
 				table.setModel(model);
+				autoajustarAnchoColumnas(table);
 				}
 		}});
 		
@@ -176,6 +180,7 @@ public class PanelBuscarEstacion extends JPanel {
 					    .stream()
 						.filter(est -> est.getNombre().equals(textField.getText()))
 						.collect(Collectors.toList())));
+				autoajustarAnchoColumnas(table);
 			}
 		});
 		
@@ -217,7 +222,8 @@ public class PanelBuscarEstacion extends JPanel {
 				estacionesBDD = new ArrayList<Estacion>();
 				estacionesBDD = EstacionesRepo.ObtenerEstaciones();
 				List<Estacion> estacionesBDDFiltradas = new ArrayList<Estacion>();
-
+				estacionesBDDFiltradas = estacionesBDD;
+				
 				if( ! (filtros.getEstado().equals("no seleccionado"))) {
 					estadoFiltrado = filtros.getEstado();
 					System.out.println(estadoFiltrado.toString());
@@ -232,28 +238,28 @@ public class PanelBuscarEstacion extends JPanel {
 				}
 				if( ! (filtros.getHoraCierre().equals("no seleccionado"))) {
 					if(filtros.getHoraCierre().equals("00:01 a 06:00")) {	
-						estacionesBDDFiltradas = estacionesBDD
+						estacionesBDDFiltradas = estacionesBDDFiltradas
 						.stream()
 						.filter(est -> (est.getHorarioCierre().isBefore(LocalTime.of(06,00))) 
 								&& (est.getHorarioCierre().isAfter(LocalTime.of(00, 01))))
 						.collect(Collectors.toList());
 					}
 					else if(filtros.getHoraCierre().equals("06:01 a 12:00")) {
-						estacionesBDDFiltradas = estacionesBDD
+						estacionesBDDFiltradas = estacionesBDDFiltradas
 								.stream()
 								.filter(est -> (est.getHorarioCierre().isBefore(LocalTime.of(12,00))) 
 										&& (est.getHorarioCierre().isAfter(LocalTime.of(06, 01))))
 								.collect(Collectors.toList());
 					}
 					else if(filtros.getHoraCierre().equals("12:01 a 18:00")) {
-						estacionesBDDFiltradas = estacionesBDD
+						estacionesBDDFiltradas = estacionesBDDFiltradas
 								.stream()
 								.filter(est -> (est.getHorarioCierre().isBefore(LocalTime.of(18,00))) 
 										&& (est.getHorarioCierre().isAfter(LocalTime.of(12, 01))))
 								.collect(Collectors.toList());
 					}
 					else if(filtros.getHoraCierre().equals("18:01 a 00:00")) {
-						estacionesBDDFiltradas = estacionesBDD
+						estacionesBDDFiltradas = estacionesBDDFiltradas
 								.stream()
 								.filter(est -> (est.getHorarioCierre().isBefore(LocalTime.of(00,00))) 
 										&& (est.getHorarioCierre().isAfter(LocalTime.of(18, 01))))
@@ -264,28 +270,28 @@ public class PanelBuscarEstacion extends JPanel {
 				if( ! (filtros.getHoraApertura().equals("no seleccionado"))){
 			
 					if(filtros.getHoraApertura().equals("00:01 a 06:00")) {	
-						estacionesBDDFiltradas = estacionesBDD
+						estacionesBDDFiltradas = estacionesBDDFiltradas
 						.stream()
 						.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(06,00))) 
 								&& (est.getHorarioApertura().isAfter(LocalTime.of(00, 01))))
 						.collect(Collectors.toList());
 					}
 					else if(filtros.getHoraApertura().equals("06:01 a 12:00")) {
-						estacionesBDDFiltradas = estacionesBDD
+						estacionesBDDFiltradas = estacionesBDDFiltradas
 								.stream()
 								.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(12,00))) 
 										&& (est.getHorarioApertura().isAfter(LocalTime.of(06, 01))))
 								.collect(Collectors.toList());
 					}
 					else if(filtros.getHoraApertura().equals("12:01 a 18:00")) {
-						estacionesBDDFiltradas = estacionesBDD
+						estacionesBDDFiltradas = estacionesBDDFiltradas
 								.stream()
 								.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(18,00))) 
 										&& (est.getHorarioApertura().isAfter(LocalTime.of(12, 01))))
 								.collect(Collectors.toList());
 					}
 					else if(filtros.getHoraApertura().equals("18:01 a 00:00")) {
-						estacionesBDDFiltradas = estacionesBDD
+						estacionesBDDFiltradas = estacionesBDDFiltradas
 								.stream()
 								.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(00,00))) 
 										&& (est.getHorarioApertura().isAfter(LocalTime.of(18, 01))))
@@ -293,6 +299,7 @@ public class PanelBuscarEstacion extends JPanel {
 					}
 				}
 				table.setModel(renovarTabla(estacionesBDDFiltradas));
+				autoajustarAnchoColumnas(table);
 			}
 		});
 		
@@ -311,6 +318,7 @@ public class PanelBuscarEstacion extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				filtros.limpiarFiltros();
 				table.setModel(renovarTabla(EstacionesRepo.ObtenerEstaciones()));
+				autoajustarAnchoColumnas(table);
 			}
 		});
 		
@@ -403,11 +411,25 @@ public class PanelBuscarEstacion extends JPanel {
 		this.estacionesBDD = estacionesBDD;
 	}
 	public DefaultTableModel getModel() {
-		return model;
+		return model;		
 	}
 	public void setModel(DefaultTableModel model) {
 		this.model = model;
+		table.setModel(model);
 	}
-	
+	public void autoajustarAnchoColumnas(JTable table) {
+	    final TableColumnModel columnModel = table.getColumnModel();
+	    for (int column = 0; column < table.getColumnCount(); column++) {
+	        int width = 15; // Min width
+	        for (int row = 0; row < table.getRowCount(); row++) {
+	            TableCellRenderer renderer = table.getCellRenderer(row, column);
+	            Component comp = table.prepareRenderer(renderer, row, column);
+	            width = Math.max(comp.getPreferredSize().width +1 , width);
+	        }
+	        if(width > 300)
+	            width=300;
+	        columnModel.getColumn(column).setPreferredWidth(width);
+	    }
+	}
 	
 }
