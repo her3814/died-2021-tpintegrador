@@ -98,7 +98,7 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 		gbcFiltros.gridy=3;
 		gbcFiltros.gridheight=4;
 		add(filtros, gbcFiltros);
-		
+		 
 		table = new JTable();
 		model = renovarTabla(TareaMantenimientoRepo.Obtener());
 		table.setModel(model);
@@ -199,11 +199,9 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 		gbc_btnNewButton_4.gridy = 5;
 		add(modificar, gbc_btnNewButton_4);  
 	
-	
-		cancelar = new JButton("CANCELAR");
+		cancelar = new JButton("VOLVER");
 		cancelar.setBackground(new Color(204, 204, 51));
 		 
-		
 		aplicarFiltros = new JButton("Aplicar filtros");
 		aplicarFiltros.setBackground(new Color(204, 204, 102));
 		aplicarFiltros.setForeground(new Color(0, 0, 0));
@@ -381,6 +379,13 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 	}
 	public void setModel(DefaultTableModel model) {
 		this.model = model;
+		table.setModel(model);
+	}
+	public TareaMantenimiento getActual() {
+		return actual;
+	}
+	public void setActual(TareaMantenimiento actual) {
+		this.actual = actual;
 	}
 	
 	

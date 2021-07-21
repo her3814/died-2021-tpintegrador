@@ -98,7 +98,6 @@ public class PanelModificarEstacion extends JPanel {
 				lblNewLabel_6.setVisible(true);
 				btnNewButton.setEnabled(false);
 			}
-			
 			}
 	}
 	

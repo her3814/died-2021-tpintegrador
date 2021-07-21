@@ -404,10 +404,11 @@ public class PanelBuscarEstacion extends JPanel {
 		this.estacionesBDD = estacionesBDD;
 	}
 	public DefaultTableModel getModel() {
-		return model;
+		return model;		
 	}
 	public void setModel(DefaultTableModel model) {
 		this.model = model;
+		table.setModel(model);
 	}
 	
 	
