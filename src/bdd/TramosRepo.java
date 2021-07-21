@@ -21,6 +21,76 @@ public class TramosRepo {
 	 * 
 	 * @param tramo Tramo a agregar o actualizar
 	 */
+	public static void GuardarRecorrido(Linea linea, Tramo[] recorrido) {
+
+		LimpiarRecorrido(linea);
+
+		for (var t : recorrido) {
+			GuardarTramo(t);
+		}
+
+	}
+
+	/**
+	 * Elimina todo el recorrido que realiza una linea
+	 * 
+	 * @param estacion
+	 */
+	public static void LimpiarRecorrido(Linea linea) {
+		String sql = "DELETE FROM lineas_trayecto WHERE id_linea_transporte = ?";
+		Connection con = BddSingleton.GetConnection();
+		try {
+			con.beginRequest();
+			PreparedStatement pstm = con.prepareStatement(sql);
+			pstm.setInt(1, linea.get_id());
+			pstm.executeUpdate();
+			con.commit();
+			pstm.close();
+		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static void EliminarTramo(Tramo tramo) {
+		String sql = "DELETE FROM lineas_trayecto WHERE id_linea_transporte = ? AND trayecto_orden = ?";
+		Connection con = BddSingleton.GetConnection();
+		try {
+			con.beginRequest();
+			PreparedStatement pstm = con.prepareStatement(sql);
+			pstm.setInt(1, tramo.getLinea().get_id());
+			pstm.setInt(2, tramo.getOrden());
+			pstm.executeUpdate();
+			con.commit();
+			pstm.close();
+		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public static void GuardarTramo(Tramo tramo) {
 		String sql = "INSERT INTO tabla (id_linea_transporte, trayecto_orden, "
 				+ "id_estacion_origen, id_estacion_destino, cant_pasajeros, duracion_min, costo, "
@@ -108,6 +178,12 @@ public class TramosRepo {
 		return res;
 	}
 
+	/**
+	 * Devuelve 
+	 * 
+	 * @param origen
+	 * @return
+	 */
 	public static List<Tramo> ObtenerDestinosDesde(Estacion origen) {
 		List<Tramo> res = new ArrayList<Tramo>();
 		String sql = "SELECT * FROM lineas_trayecto WHERE id_estacion_origen = ?";
