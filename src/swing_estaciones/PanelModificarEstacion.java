@@ -63,6 +63,7 @@ public class PanelModificarEstacion extends JPanel {
 	private JTextArea textArea ;
 	private JButton btnNewButton_3 ;
 	private JButton btnNewButton4;
+	private JButton btnNewButton5;
 	private JLabel fechaFin1;
 	private JLabel reingFecha;
 	private JLabel cierrePosteriorAp;
@@ -438,6 +439,17 @@ public class PanelModificarEstacion extends JPanel {
 		gbc_btnNewButton4.gridy = 17;
 		add(btnNewButton4, gbc_btnNewButton4);
 		btnNewButton4.setVisible(false);
+			
+		btnNewButton5 = new JButton("GUARDAR");
+		btnNewButton5.setBackground(new Color(204, 204, 51));
+		btnNewButton5.setFont(new Font("Arial", Font.BOLD, 12));
+		GridBagConstraints gbc_btnNewButton5 = new GridBagConstraints();
+		gbc_btnNewButton5.fill = GridBagConstraints.VERTICAL;
+		gbc_btnNewButton5.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton5.gridx = 2;
+		gbc_btnNewButton5.gridy = 17;
+		add(btnNewButton5, gbc_btnNewButton5);
+		btnNewButton5.setVisible(false);
 		
 		textField_1.setText(actual.getNombre());
 		timePicker.setText(actual.getHorarioApertura().toString());
@@ -518,12 +530,11 @@ public class PanelModificarEstacion extends JPanel {
 		fechaFin.setVisible(true);
 		dateChooser_1.setVisible(true);
 		obs.setVisible(true);
-		textArea .setVisible(true);
+		textArea.setVisible(true);
 		btnNewButton_3.setVisible(true);
 		btnNewButton4.setVisible(true);	
 	}
 	public void mostrarDatosMantenimientoParaFin(TareaMantenimiento actual) {
-		//tareaMant.setVisible(true);		
 		if(actual.equals(null)) {
 		} else {
 		btnNewButton_1.setEnabled(false);
@@ -531,13 +542,13 @@ public class PanelModificarEstacion extends JPanel {
 		finalizarMant.setVisible(true);
 		fechaFin.setVisible(true);
 		dateChooser_1.setVisible(true);
-		dateChooser_1.setDate(convertToDate(LocalDate.now()));
+		dateChooser_1.setDate(convertToDate(LocalDate.now().minusDays(1)));
 		dateChooser_1.setEnabled(false);
 		obs.setVisible(true);
 		textArea .setVisible(true);
 		textArea.setText(actual.getObservaciones());
 		btnNewButton_3.setVisible(true);
-		btnNewButton4.setVisible(true);
+		btnNewButton5.setVisible(true);
 		try {
 			actual.setFechaFin(LocalDate.now());
 		} catch (FechaFinMenorFechaInicioException e) {
@@ -546,7 +557,6 @@ public class PanelModificarEstacion extends JPanel {
 		TareaMantenimientoRepo.ModificarTareaMantenimiento(actual);
 		}
 	}
-	
 	public void sacarMantenimiento() {
 		btnNewButton_1.setEnabled(true);
 		btnNewButton.setEnabled(true);
@@ -565,7 +575,6 @@ public class PanelModificarEstacion extends JPanel {
 	public JButton getBtnNewButton4() {
 		return btnNewButton4;
 	}
-	
 	public void mensajeFechaErronea() {
 		reingFecha.setVisible(true);
 	}
@@ -579,7 +588,6 @@ public class PanelModificarEstacion extends JPanel {
 		}else {
 			return new TareaMantenimiento(nueva,LocalDate.now(),fin.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), textArea.getText() );
 		}
-		
 	}
 	
 	public Estacion getA_modificar() {
@@ -609,6 +617,14 @@ public class PanelModificarEstacion extends JPanel {
 		this.rdbtnNewRadioButton1.setEnabled(false);
 	}
 	
+	public JButton getBtnNewButton5() {
+		return btnNewButton5;
+	}
+
+	public void setBtnNewButton5(JButton btnNewButton5) {
+		this.btnNewButton5 = btnNewButton5;
+	}
+
 	public void habilitar() {
 		textField_1.setEditable(true);
 		timePicker.setEnabled(true);

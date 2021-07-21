@@ -244,6 +244,19 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 						ventana1.pack();
 					}
 				});
+				panelModificarEstacion.getBtnNewButton5().addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						panelModificarEstacion.limpiarWarnings();
+						Estacion nueva = null;
+						try {
+							nueva = panelModificarEstacion.getEstacionModificada();
+						} catch (HoraCierreMenorHoraAperturaException e1) {
+							panelModificarEstacion.horarioCierrePostAp();
+						}
+						EstacionesRepo.ModificarEstacion(nueva);
+						panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
+					}	
+				});
 				
 				panelModificarEstacion.getBtnNewButton4().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
