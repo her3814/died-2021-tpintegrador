@@ -217,7 +217,8 @@ public class PanelBuscarEstacion extends JPanel {
 				estacionesBDD = new ArrayList<Estacion>();
 				estacionesBDD = EstacionesRepo.ObtenerEstaciones();
 				List<Estacion> estacionesBDDFiltradas = new ArrayList<Estacion>();
-
+				estacionesBDDFiltradas = estacionesBDD;
+				
 				if( ! (filtros.getEstado().equals("no seleccionado"))) {
 					estadoFiltrado = filtros.getEstado();
 					System.out.println(estadoFiltrado.toString());
@@ -232,28 +233,28 @@ public class PanelBuscarEstacion extends JPanel {
 				}
 				if( ! (filtros.getHoraCierre().equals("no seleccionado"))) {
 					if(filtros.getHoraCierre().equals("00:01 a 06:00")) {	
-						estacionesBDDFiltradas = estacionesBDD
+						estacionesBDDFiltradas = estacionesBDDFiltradas
 						.stream()
 						.filter(est -> (est.getHorarioCierre().isBefore(LocalTime.of(06,00))) 
 								&& (est.getHorarioCierre().isAfter(LocalTime.of(00, 01))))
 						.collect(Collectors.toList());
 					}
 					else if(filtros.getHoraCierre().equals("06:01 a 12:00")) {
-						estacionesBDDFiltradas = estacionesBDD
+						estacionesBDDFiltradas = estacionesBDDFiltradas
 								.stream()
 								.filter(est -> (est.getHorarioCierre().isBefore(LocalTime.of(12,00))) 
 										&& (est.getHorarioCierre().isAfter(LocalTime.of(06, 01))))
 								.collect(Collectors.toList());
 					}
 					else if(filtros.getHoraCierre().equals("12:01 a 18:00")) {
-						estacionesBDDFiltradas = estacionesBDD
+						estacionesBDDFiltradas = estacionesBDDFiltradas
 								.stream()
 								.filter(est -> (est.getHorarioCierre().isBefore(LocalTime.of(18,00))) 
 										&& (est.getHorarioCierre().isAfter(LocalTime.of(12, 01))))
 								.collect(Collectors.toList());
 					}
 					else if(filtros.getHoraCierre().equals("18:01 a 00:00")) {
-						estacionesBDDFiltradas = estacionesBDD
+						estacionesBDDFiltradas = estacionesBDDFiltradas
 								.stream()
 								.filter(est -> (est.getHorarioCierre().isBefore(LocalTime.of(00,00))) 
 										&& (est.getHorarioCierre().isAfter(LocalTime.of(18, 01))))
@@ -264,28 +265,28 @@ public class PanelBuscarEstacion extends JPanel {
 				if( ! (filtros.getHoraApertura().equals("no seleccionado"))){
 			
 					if(filtros.getHoraApertura().equals("00:01 a 06:00")) {	
-						estacionesBDDFiltradas = estacionesBDD
+						estacionesBDDFiltradas = estacionesBDDFiltradas
 						.stream()
 						.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(06,00))) 
 								&& (est.getHorarioApertura().isAfter(LocalTime.of(00, 01))))
 						.collect(Collectors.toList());
 					}
 					else if(filtros.getHoraApertura().equals("06:01 a 12:00")) {
-						estacionesBDDFiltradas = estacionesBDD
+						estacionesBDDFiltradas = estacionesBDDFiltradas
 								.stream()
 								.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(12,00))) 
 										&& (est.getHorarioApertura().isAfter(LocalTime.of(06, 01))))
 								.collect(Collectors.toList());
 					}
 					else if(filtros.getHoraApertura().equals("12:01 a 18:00")) {
-						estacionesBDDFiltradas = estacionesBDD
+						estacionesBDDFiltradas = estacionesBDDFiltradas
 								.stream()
 								.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(18,00))) 
 										&& (est.getHorarioApertura().isAfter(LocalTime.of(12, 01))))
 								.collect(Collectors.toList());
 					}
 					else if(filtros.getHoraApertura().equals("18:01 a 00:00")) {
-						estacionesBDDFiltradas = estacionesBDD
+						estacionesBDDFiltradas = estacionesBDDFiltradas
 								.stream()
 								.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(00,00))) 
 										&& (est.getHorarioApertura().isAfter(LocalTime.of(18, 01))))
