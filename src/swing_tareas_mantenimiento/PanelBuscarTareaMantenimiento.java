@@ -26,12 +26,16 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
+
 import bdd.TareaMantenimientoRepo;
 import excepciones.FechaFinMenorFechaInicioException;
 import modelo.Estacion;
 import modelo.TareaMantenimiento;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 public class PanelBuscarTareaMantenimiento extends JPanel {
@@ -102,7 +106,8 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 		table = new JTable();
 		model = renovarTabla(TareaMantenimientoRepo.Obtener());
 		table.setModel(model);
-		
+		autoajustarAnchoColumnas(table);
+
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  
 		table.setFillsViewportHeight(true);
 		
@@ -170,6 +175,8 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 					    .stream()
 						.filter(t -> t.getId().toString().equals(textField.getText()))
 						.collect(Collectors.toList())));
+				autoajustarAnchoColumnas(table);
+
 			}
 		});
 		
@@ -274,6 +281,8 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 											.collect(Collectors.toList());
 				};
 				table.setModel(renovarTabla(tareasMant));
+				autoajustarAnchoColumnas(table);
+
 			}
 		});
 		
@@ -291,6 +300,8 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				filtros.limpiarFiltros();
 				table.setModel(renovarTabla(TareaMantenimientoRepo.Obtener()));
+				autoajustarAnchoColumnas(table);
+
 			}
 		});
 		
@@ -387,6 +398,19 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 	public void setActual(TareaMantenimiento actual) {
 		this.actual = actual;
 	}
-	
+	public void autoajustarAnchoColumnas(JTable table) {
+	    final TableColumnModel columnModel = table.getColumnModel();
+	    for (int column = 0; column < table.getColumnCount(); column++) {
+	        int width = 15; // Min width
+	        for (int row = 0; row < table.getRowCount(); row++) {
+	            TableCellRenderer renderer = table.getCellRenderer(row, column);
+	            Component comp = table.prepareRenderer(renderer, row, column);
+	            width = Math.max(comp.getPreferredSize().width +1 , width);
+	        }
+	        if(width > 300)
+	            width=300;
+	        columnModel.getColumn(column).setPreferredWidth(width);
+	    }
+	}
 	
 }

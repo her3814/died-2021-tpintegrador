@@ -25,6 +25,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 import bdd.EstacionesRepo;
 import excepciones.HoraCierreMenorHoraAperturaException;
@@ -33,6 +35,7 @@ import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 public class PanelBuscarEstacion extends JPanel {
@@ -111,7 +114,7 @@ public class PanelBuscarEstacion extends JPanel {
 		
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  
 		table.setFillsViewportHeight(true);
-		
+		autoajustarAnchoColumnas(table);
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_table = new GridBagConstraints();
 		gbc_table.gridwidth = 8;
@@ -166,6 +169,7 @@ public class PanelBuscarEstacion extends JPanel {
 				EstacionesRepo.EliminarEstacion(actual);
 				model.removeRow(fila);
 				table.setModel(model);
+				autoajustarAnchoColumnas(table);
 				}
 		}});
 		
@@ -176,6 +180,7 @@ public class PanelBuscarEstacion extends JPanel {
 					    .stream()
 						.filter(est -> est.getNombre().equals(textField.getText()))
 						.collect(Collectors.toList())));
+				autoajustarAnchoColumnas(table);
 			}
 		});
 		
@@ -294,6 +299,7 @@ public class PanelBuscarEstacion extends JPanel {
 					}
 				}
 				table.setModel(renovarTabla(estacionesBDDFiltradas));
+				autoajustarAnchoColumnas(table);
 			}
 		});
 		
@@ -312,6 +318,7 @@ public class PanelBuscarEstacion extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				filtros.limpiarFiltros();
 				table.setModel(renovarTabla(EstacionesRepo.ObtenerEstaciones()));
+				autoajustarAnchoColumnas(table);
 			}
 		});
 		
@@ -410,6 +417,19 @@ public class PanelBuscarEstacion extends JPanel {
 		this.model = model;
 		table.setModel(model);
 	}
-	
+	public void autoajustarAnchoColumnas(JTable table) {
+	    final TableColumnModel columnModel = table.getColumnModel();
+	    for (int column = 0; column < table.getColumnCount(); column++) {
+	        int width = 15; // Min width
+	        for (int row = 0; row < table.getRowCount(); row++) {
+	            TableCellRenderer renderer = table.getCellRenderer(row, column);
+	            Component comp = table.prepareRenderer(renderer, row, column);
+	            width = Math.max(comp.getPreferredSize().width +1 , width);
+	        }
+	        if(width > 300)
+	            width=300;
+	        columnModel.getColumn(column).setPreferredWidth(width);
+	    }
+	}
 	
 }

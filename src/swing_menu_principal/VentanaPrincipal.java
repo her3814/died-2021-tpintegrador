@@ -666,7 +666,7 @@ panelMenuPrincipal.getTareas_mantenimiento().addActionListener(new ActionListene
 						ventana1.setVisible(true);
 						ventana1.pack();
 
-						panelVerHistorialTareaMantenimiento.getBtnNewButton_2().addActionListener(new ActionListener() {
+						panelVerHistorialTareaMantenimiento.getCancelar().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								ventana1.setTitle("GESTIONAR TAREAS DE MANTENIMIENTO");
 								ventana1.setContentPane(panelGestionarTareaMantenimiento);
