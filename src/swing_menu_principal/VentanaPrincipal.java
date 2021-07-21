@@ -451,7 +451,7 @@ panelMenuPrincipal.getBoletos().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								panelAgregarBoleto.limpiarWarnings();
 								panelAgregarBoleto.agregarBoleto();
-								//TERMINAR
+							
 							}
 						});
 						

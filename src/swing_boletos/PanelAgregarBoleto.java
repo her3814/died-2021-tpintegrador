@@ -264,20 +264,23 @@ public class PanelAgregarBoleto extends JPanel {
 	
 	public Boleto obtenerBoletoCreado() {
 
-		LinkedHashSet<Tramo> recorrido=null;
+		List<Tramo> recorrido=null;
 		Double costo=0.0;
 	if(this.comboBox_2.getSelectedItem().toString().equalsIgnoreCase("MAS BARATO")) {
-		recorrido= (LinkedHashSet)VenderBoletoServicio.CalcularCaminoMasBarato((Estacion)this.comboBox.getSelectedItem(), (Estacion)this.comboBox_1.getSelectedItem());
+		recorrido= VenderBoletoServicio.CalcularCaminoMasBarato((Estacion)this.comboBox.getSelectedItem(), (Estacion)this.comboBox_1.getSelectedItem());
 	}else if (this.comboBox_2.getSelectedItem().toString().equalsIgnoreCase("MENOR DISTANCIA")) {
-		recorrido=(LinkedHashSet)VenderBoletoServicio.CalcularCaminoMenorDistancia((Estacion)this.comboBox.getSelectedItem(), (Estacion)this.comboBox_1.getSelectedItem());
+		recorrido=VenderBoletoServicio.CalcularCaminoMenorDistancia((Estacion)this.comboBox.getSelectedItem(), (Estacion)this.comboBox_1.getSelectedItem());
 	}else if (this.comboBox_2.getSelectedItem().toString().equalsIgnoreCase("MÁS RÁPIDO")) {
-		recorrido=(LinkedHashSet)VenderBoletoServicio.CalcularCaminoMasRapido((Estacion)this.comboBox.getSelectedItem(), (Estacion)this.comboBox_1.getSelectedItem());
+		recorrido=VenderBoletoServicio.CalcularCaminoMasRapido((Estacion)this.comboBox.getSelectedItem(), (Estacion)this.comboBox_1.getSelectedItem());
 	}
-	 for(Tramo t: recorrido){
-		 costo+=t.getCosto();
-	 }
+	if(recorrido!=null) {
+		for(Tramo t: recorrido){
+			 costo+=t.getCosto();
+		 }
+	}
+	 
 	//public Boleto(String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, LinkedHashSet<Tramo> recorrido)
-		return new Boleto(textField.getText(), textField_1.getText(), LocalDate.now(),costo,(Estacion)this.comboBox.getSelectedItem(),(Estacion) this.comboBox_1.getSelectedItem(), recorrido  );
+		return new Boleto(textField.getText(), textField_1.getText(), LocalDate.now(),costo,(Estacion)this.comboBox.getSelectedItem(),(Estacion) this.comboBox_1.getSelectedItem(), recorrido);
 		
 	}
 public void agregarBoleto() {
@@ -289,7 +292,8 @@ public void agregarBoleto() {
 			this.inserteEmail.setVisible(true);
 		}
 		if(!nuevo.get_correoCliente().isEmpty() && !nuevo.get_nombreCliente().isEmpty()) {
-			// TODO AGREGAR BOLETO
+			//BoletosRepo.agregarBoleto(nuevo);
+			System.out.println("Cliente: "+ nuevo.get_nombreCliente()+", costo: "+ nuevo.getCosto()+", recorrido"+ nuevo.get_tramos());
 			this.boletoAgregado.setVisible(true);
 			guardar.setEnabled(false);
 		}

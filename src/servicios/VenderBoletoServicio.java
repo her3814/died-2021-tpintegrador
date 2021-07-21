@@ -72,13 +72,17 @@ public class VenderBoletoServicio {
 			}
 		});
 
-		if (caminos.size() == 0)
+		System.out.println()
+		if (caminos.size() == 0) {
 			return null;
-		
-		if (caminos.size() == 1)
+		}else if (caminos.size() == 1) {
 			return caminos.get(0);
 
-		return TramosFunciones.obtenerRecorridoMasBarato.apply(caminos);
+		}else {
+			return TramosFunciones.obtenerRecorridoMasBarato.apply(caminos);
+		}
+			
+		
 
 	}
 

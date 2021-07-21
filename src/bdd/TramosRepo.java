@@ -5,9 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.Estacion;
 import modelo.EstadoTramoEnum;
 import modelo.Linea;
@@ -22,7 +24,7 @@ public class TramosRepo {
 	 * @param tramo Tramo a agregar o actualizar
 	 */
 	public static void GuardarTramo(Tramo tramo) {
-		String sql = "INSERT INTO tabla (id_linea_transporte, trayecto_orden, "
+		String sql = "INSERT INTO lineas_trayecto (id_linea_transporte, trayecto_orden, "
 				+ "id_estacion_origen, id_estacion_destino, cant_pasajeros, duracion_min, costo, "
 				+ "distancia, estado) " + "VALUES (? , ?, ?, ?, ?, ?, ?, ?, ?) " + "ON DUPLICATE KEY UPDATE "
 				+ "id_linea_transporte = ?, trayecto_orden = ?, "
@@ -75,6 +77,56 @@ public class TramosRepo {
 			}
 		}
 
+	/*	String sql = "INSERT INTO lineas_trayecto (trayecto_orden, id_estacion_origen, id_estacion_destino, cant_pasajeros, duracion_min, costo, distancia, estado) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+		Connection con = BddSingleton.GetConnection();
+
+		try {
+			con.beginRequest();
+
+			PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stm.setInt(1, tramo.getOrden());
+			stm.setInt(2, tramo.getOrigen().getId());
+			stm.setInt(3, tramo.getDestino().getId());
+			stm.setInt(4, tramo.get_cantPasajeros());
+			stm.setDouble(5, tramo.getDuracion());
+			stm.setDouble(6, tramo.getCosto());
+			stm.setDouble(7, tramo.getDistancia());
+			String estado=null;
+			if(tramo.get_estadoTramo()==EstadoTramoEnum.ACTIVO){
+				estado="ACT";
+			}else {
+				estado="INA";
+			}
+			
+			stm.setString(8, estado);
+
+			stm.executeUpdate();
+			con.commit();
+
+			ResultSet rs = stm.getGeneratedKeys();
+			rs.next();
+
+			rs.close();
+			stm.close();
+		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
+	}*/
 	}
 
 	public static List<Tramo> ObtenerRecorrido(Linea linea) {
