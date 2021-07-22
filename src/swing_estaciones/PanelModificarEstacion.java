@@ -535,8 +535,7 @@ public class PanelModificarEstacion extends JPanel {
 		btnNewButton4.setVisible(true);	
 	}
 	public void mostrarDatosMantenimientoParaFin(TareaMantenimiento actual) {
-		if(actual.equals(null)) {
-		} else {
+		
 		btnNewButton_1.setEnabled(false);
 		btnNewButton.setEnabled(false);
 		finalizarMant.setVisible(true);
@@ -555,7 +554,7 @@ public class PanelModificarEstacion extends JPanel {
 			e.printStackTrace();
 		}
 		TareaMantenimientoRepo.ModificarTareaMantenimiento(actual);
-		}
+		
 	}
 	public void sacarMantenimiento() {
 		btnNewButton_1.setEnabled(true);

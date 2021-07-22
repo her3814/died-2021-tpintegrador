@@ -256,6 +256,8 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 						}
 						EstacionesRepo.ModificarEstacion(nueva);
 						panelModificarEstacion.getLblNewLabel_6().setVisible(true);
+						panelModificarEstacion.getBtnNewButton5().setEnabled(false);
+						panelModificarEstacion.getDateChooser_1().setEnabled(false);
 						panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
 					}	
 				});
@@ -434,7 +436,7 @@ panelMenuPrincipal.getLineas().addActionListener(new ActionListener() {
 						ventana1.setVisible(true);
 						ventana1.pack();
 
-						panelBuscarLinea.getBtncancelar().addActionListener(new ActionListener() {
+						panelBuscarLinea.getCancelar().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								ventana1.setTitle("GESTIONAR LINEAS");
 								ventana1.setContentPane(panelGestionarLineas);
