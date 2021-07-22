@@ -42,6 +42,7 @@ import swing_tareas_mantenimiento.PanelModificarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelVerHistorialTareaMantenimiento;
 //import swing_estaciones.PanelVerHistorialTareaMantenimientoDesdeBuscar;
 import swing_tramos.PanelAgregarTramo;
+import swing_tramos.PanelBuscarTramo;
 //import swing_tramos.PanelBuscarTramo;
 import swing_tramos.PanelGestionarTramos;
 
@@ -563,9 +564,9 @@ panelMenuPrincipal.getTramos().addActionListener(new ActionListener() {
 				panelGestionarTramos.getBuscar().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						ventana1.setTitle("BUSCAR TRAMO");
-						//PanelBuscarTramo panelBuscarTramo= new PanelBuscarTramo();
-						//panelBuscarTramo.setBackground(Color.WHITE);
-						//ventana1.setContentPane(panelBuscarTramo);
+						PanelBuscarTramo panelBuscarTramo= new PanelBuscarTramo();
+						panelBuscarTramo.setBackground(Color.WHITE);
+						ventana1.setContentPane(panelBuscarTramo);
 						ventana1.setVisible(true);
 						ventana1.pack();
 						

@@ -146,7 +146,7 @@ public class SubPanelFiltrosBoletos extends JPanel {
 				 estaciones.stream().map(e -> e.getNombre())
 				.collect(Collectors.toList())
 				.toArray()));
-		comboBox.setSelectedIndex(-1);
+		comboBox_1.setSelectedIndex(-1);
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
 		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
