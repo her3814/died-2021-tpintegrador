@@ -109,10 +109,7 @@ public class PanelBuscarTramo extends JPanel {
 		        	row_selected = table.getSelectedRow();
 					Integer id_linea = (Integer) table.getValueAt(row_selected, 2);
 					Integer orden = (Integer) table.getValueAt(row_selected, 3);
-					
-			
-						actual = TramosRepo.obtenerTramo(orden,id_linea);
-						
+					actual = TramosRepo.obtenerTramo(orden,id_linea);
 		        }	        
 		}});
 		
@@ -167,19 +164,19 @@ public class PanelBuscarTramo extends JPanel {
 				List<Tramo> tramosBDDFiltrados = new ArrayList<Tramo>();
 				tramosBDDFiltrados = tramosBDD;
 				
-				if(! (filtros.getNombreOrigen().equals("no seleccionado"))) {
+				if(! (filtros.getEstacionOrigen().equals("no seleccionado"))) {
 					tramosBDDFiltrados = tramosBDDFiltrados.stream()
-										.filter(t -> t.getOrigen().equals(filtros.getEstacionOrigen()))
+										.filter(t -> t.getOrigen().getNombre().equals(filtros.getEstacionOrigen()))
 										.collect(Collectors.toList());
 			};
-			if(! (filtros.getNombreDestino().equals("no seleccionado"))) {
+			if(! (filtros.getEstacionDestino().equals("no seleccionado"))) {
 				tramosBDDFiltrados = tramosBDDFiltrados.stream()
-									.filter(t -> t.getDestino().equals(filtros.getEstacionDestino()))
+									.filter(t -> t.getDestino().getNombre().equals(filtros.getEstacionDestino()))
 									.collect(Collectors.toList());
 		};
-		if(! (filtros.getNombreLinea().equals("no seleccionado"))) {
+		if(! (filtros.getLinea().equals("no seleccionado"))) {
 			tramosBDDFiltrados = tramosBDDFiltrados.stream()
-								.filter(t -> t.getLinea().equals(filtros.getLinea()))
+								.filter(t -> t.getLinea().get_nombre().equals(filtros.getLinea()))
 								.collect(Collectors.toList());
 	};
 				table.setModel(renovarTabla(tramosBDDFiltrados));
@@ -247,9 +244,9 @@ public class PanelBuscarTramo extends JPanel {
 		datosFila = new Object[nuevosDatos.size()] [6];
 		JTable new_table = new JTable();
 		for(int i=0; i<nuevosDatos.size();i++) {
-			datosFila[i][0] = nuevosDatos.get(i).getOrigen().getId();
-			datosFila[i][1] = nuevosDatos.get(i).getDestino().getId();
-			datosFila[i][2] = nuevosDatos.get(i).getLinea().get_id();
+			datosFila[i][0] = nuevosDatos.get(i).getOrigen().getNombre();
+			datosFila[i][1] = nuevosDatos.get(i).getDestino().getNombre();
+			//datosFila[i][2] = nuevosDatos.get(i).getLinea().get_nombre();
 			datosFila[i][3] = nuevosDatos.get(i).getOrden();
 			datosFila[i][4] = nuevosDatos.get(i).get_estadoTramo();
 			datosFila[i][5] = nuevosDatos.get(i).getCosto();

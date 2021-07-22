@@ -33,6 +33,7 @@ import swing_estaciones.PanelInformacionEstaciones;
 import swing_estaciones.PanelModificarEstacion;
 import swing_estaciones.PanelPageRank;
 import swing_estaciones.PanelProximoMantenimiento;
+import swing_estaciones.PanelVerHistorialTareaMantenimientoDesdeBuscar;
 import swing_lineas.PanelGestionarLineas;
 import swing_tareas_mantenimiento.PanelAgregarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelBuscarTareaMantenimiento;
@@ -41,6 +42,7 @@ import swing_tareas_mantenimiento.PanelModificarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelVerHistorialTareaMantenimiento;
 import swing_estaciones.PanelVerHistorialTareaMantenimientoDesdeBuscar;
 import swing_tramos.PanelAgregarTramo;
+import swing_tramos.PanelBuscarTramo;
 //import swing_tramos.PanelBuscarTramo;
 import swing_tramos.PanelGestionarTramos;
 
@@ -279,6 +281,7 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 							panelModificarEstacion.agregarTareaMantenimiento(nueva);
 							panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
 						
+
 					}
 				});
 			}
@@ -584,9 +587,9 @@ panelMenuPrincipal.getTramos().addActionListener(new ActionListener() {
 				panelGestionarTramos.getBuscar().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						ventana1.setTitle("BUSCAR TRAMO");
-						//PanelBuscarTramo panelBuscarTramo= new PanelBuscarTramo();
-						//panelBuscarTramo.setBackground(Color.WHITE);
-						//ventana1.setContentPane(panelBuscarTramo);
+						PanelBuscarTramo panelBuscarTramo= new PanelBuscarTramo();
+						panelBuscarTramo.setBackground(Color.WHITE);
+						ventana1.setContentPane(panelBuscarTramo);
 						ventana1.setVisible(true);
 						ventana1.pack();
 						
