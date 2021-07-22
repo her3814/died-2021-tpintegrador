@@ -64,7 +64,9 @@ public class TareaMantenimiento {
 	}
 
 	public String getObservaciones() {
-		return _observaciones;
+		if(_observaciones.isEmpty()) {
+			return "";
+		}else	return _observaciones;
 	}
 
 	public void setObservaciones(String observaciones) {

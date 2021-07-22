@@ -460,6 +460,7 @@ public class PanelAgregarEstacion extends JPanel {
 		//public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs)
 		//fechaAntigua.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
 		Date fin= dateChooser_1.getDate();
+		
 		if(fin==null) {
 			return new TareaMantenimiento(nueva,LocalDate.now(),null, textArea.getText() );
 		}else {

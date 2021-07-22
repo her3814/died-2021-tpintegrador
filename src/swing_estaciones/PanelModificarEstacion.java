@@ -120,7 +120,7 @@ public class PanelModificarEstacion extends JPanel {
 				this.limpiarWarnings();
 				lblNewLabel_6.setVisible(true);
 				btnNewButton4.setEnabled(false);
-				TareaMantenimientoRepo.AgregarTareaMantenimiento(tarea);
+				EstacionesRepo.ModificarEstacion(nueva);
 		}
 			
 		} catch (FechaFinMenorFechaInicioException e) {
@@ -447,6 +447,17 @@ public class PanelModificarEstacion extends JPanel {
 		gbc_btnNewButton4.gridy = 17;
 		add(btnNewButton4, gbc_btnNewButton4);
 		btnNewButton4.setVisible(false);
+			
+		btnNewButton5 = new JButton("GUARDAR");
+		btnNewButton5.setBackground(new Color(204, 204, 51));
+		btnNewButton5.setFont(new Font("Arial", Font.BOLD, 12));
+		GridBagConstraints gbc_btnNewButton5 = new GridBagConstraints();
+		gbc_btnNewButton5.fill = GridBagConstraints.VERTICAL;
+		gbc_btnNewButton5.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton5.gridx = 2;
+		gbc_btnNewButton5.gridy = 17;
+		add(btnNewButton5, gbc_btnNewButton5);
+		btnNewButton5.setVisible(false);
 		
 		textField_1.setText(actual.getNombre());
 		timePicker.setText(actual.getHorarioApertura().toString());
@@ -542,7 +553,13 @@ public class PanelModificarEstacion extends JPanel {
 		dateChooser_1.setEnabled(true);
 		obs.setVisible(true);
 		textArea .setVisible(true);
-		textArea.setText(actual.getObservaciones());
+	
+		if(actual.getObservaciones().isEmpty()) {
+			textArea.setText(null);
+		}else {
+			textArea.setText(actual.getObservaciones());
+		}
+		
 		btnNewButton_3.setVisible(true);
 		btnNewButton5.setVisible(true);
 		try {
