@@ -8,22 +8,12 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -128,11 +118,11 @@ public class PanelModificarEstacion extends JPanel {
 		}
 	}
 		
-	
 	public void finalizarTareaMantenimiento (Estacion nueva) {
 		TareaMantenimiento tarea = null;
 		
 	}
+	
 	public PanelModificarEstacion (Estacion actual) {		
 		setBackground(Color.WHITE);
 		this.a_modificar=actual;

@@ -33,6 +33,7 @@ import swing_estaciones.PanelInformacionEstaciones;
 import swing_estaciones.PanelModificarEstacion;
 import swing_estaciones.PanelPageRank;
 import swing_estaciones.PanelProximoMantenimiento;
+import swing_estaciones.PanelVerHistorialTareaMantenimientoDesdeBuscar;
 import swing_lineas.PanelGestionarLineas;
 import swing_tareas_mantenimiento.PanelAgregarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelBuscarTareaMantenimiento;
@@ -178,7 +179,7 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 					}
 				});
 				
-		/*		panelBuscarEstacion.getHistorial().addActionListener(new ActionListener() {
+				panelBuscarEstacion.getHistorial().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						ventana1.setTitle("VER HISTORIAL TAREAS DE MANTENIMIENTO");
 						PanelVerHistorialTareaMantenimientoDesdeBuscar panelVerHistorialTareaMantenimientoDesdeBuscar = new PanelVerHistorialTareaMantenimientoDesdeBuscar(panelBuscarEstacion.getActual());
@@ -196,7 +197,7 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 							}});
 					
 					}});
-				*/
+				
 				panelBuscarEstacion.getModificar().addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					ventana1.setTitle("MODIFICAR ESTACION");
@@ -257,8 +258,6 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 						}
 						panelModificarEstacion.agregarTareaMantenimiento(nueva);
 						panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
-				
-						
 					}
 				});
 			}
