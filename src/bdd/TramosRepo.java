@@ -302,30 +302,5 @@ public class TramosRepo {
 		return tramo;
 	}
 	
-	public static void eliminarTramo(Tramo tramo) {
-		String sql = "DELETE FROM lineas_trayecto WHERE id_linea_transporte = ? AND trayecto_orden = ?;";
-		Connection con = BddSingleton.GetConnection();
-		try {
-			con.beginRequest();
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setInt(1, tramo.getLinea().get_id());
-			stm.setInt(2, tramo.getOrden());
-			stm.executeUpdate();
-			con.commit();
-			stm.close();
-		} catch (SQLException e) {
-			try {
-				con.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	
 }

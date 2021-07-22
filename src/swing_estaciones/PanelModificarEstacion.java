@@ -107,19 +107,27 @@ public class PanelModificarEstacion extends JPanel {
 			}
 	
 	
-	public void agregarTareaMantenimiento(Estacion nueva) throws FechaFinMenorFechaInicioException {
-			TareaMantenimiento tarea = null;			
-				tarea = this.getTareaMantenimiento(nueva);
-				if(tarea.getFechaFin()==null) {
-					fechaFin1.setVisible(true);
-				}
-				else {
-					this.limpiarWarnings();
-					lblNewLabel_6.setVisible(true);
-					btnNewButton4.setEnabled(false);
-					TareaMantenimientoRepo.AgregarTareaMantenimiento(tarea);
-			}		
-	}		
+	public void agregarTareaMantenimiento(Estacion nueva) {
+		//public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs)
+		TareaMantenimiento tarea = null;
+		
+		try {
+			tarea = this.getTareaMantenimiento(nueva);
+			if(tarea.getFechaFin()==null) {
+				fechaFin1.setVisible(true);
+			}
+			else {
+				this.limpiarWarnings();
+				lblNewLabel_6.setVisible(true);
+				btnNewButton4.setEnabled(false);
+				TareaMantenimientoRepo.AgregarTareaMantenimiento(tarea);
+		}
+			
+		} catch (FechaFinMenorFechaInicioException e) {
+			reingFecha.setVisible(true);
+		}
+	}
+		
 	
 	public void finalizarTareaMantenimiento (Estacion nueva) {
 		TareaMantenimiento tarea = null;
@@ -439,17 +447,6 @@ public class PanelModificarEstacion extends JPanel {
 		gbc_btnNewButton4.gridy = 17;
 		add(btnNewButton4, gbc_btnNewButton4);
 		btnNewButton4.setVisible(false);
-			
-		btnNewButton5 = new JButton("GUARDAR");
-		btnNewButton5.setBackground(new Color(204, 204, 51));
-		btnNewButton5.setFont(new Font("Arial", Font.BOLD, 12));
-		GridBagConstraints gbc_btnNewButton5 = new GridBagConstraints();
-		gbc_btnNewButton5.fill = GridBagConstraints.VERTICAL;
-		gbc_btnNewButton5.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton5.gridx = 2;
-		gbc_btnNewButton5.gridy = 17;
-		add(btnNewButton5, gbc_btnNewButton5);
-		btnNewButton5.setVisible(false);
 		
 		textField_1.setText(actual.getNombre());
 		timePicker.setText(actual.getHorarioApertura().toString());

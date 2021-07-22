@@ -45,7 +45,7 @@ import java.awt.Dimension;
 public class PanelBuscarLinea extends JPanel {
 	private JTextField textField;
 	private JTable table;
-	private SubPanelFiltrosLineas filtros;
+	private SubPanelFiltrosLinea filtros;
 	private JButton buscar;
 	private Object datosFila [][];
 	private JButton eliminar;

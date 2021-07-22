@@ -127,7 +127,7 @@ public class PanelBuscarTramo extends JPanel {
 				null, 2);
 				System.out.println(seguir);
 				if(seguir==0) {
-				TramosRepo.eliminarTramo(actual);
+				TramosRepo.EliminarTramo(actual);
 				model.removeRow(fila);
 				table.setModel(model);
 				autoajustarAnchoColumnas(table);
