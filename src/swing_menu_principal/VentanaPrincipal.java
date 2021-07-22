@@ -255,6 +255,7 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 							panelModificarEstacion.horarioCierrePostAp();
 						}
 						EstacionesRepo.ModificarEstacion(nueva);
+						panelModificarEstacion.getLblNewLabel_6().setVisible(true);
 						panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
 					}	
 				});
@@ -269,11 +270,13 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 							panelModificarEstacion.horarioCierrePostAp();
 						}
 						EstacionesRepo.ModificarEstacion(nueva);
-						panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
 						try {
 							panelModificarEstacion.agregarTareaMantenimiento(nueva);
 						} catch (FechaFinMenorFechaInicioException e1) {
 							panelModificarEstacion.mensajeFechaErronea();
+						}
+						finally {
+							panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
 						}
 					}
 				});

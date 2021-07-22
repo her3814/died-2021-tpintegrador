@@ -10,6 +10,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -89,8 +90,6 @@ public class PanelModificarEstacion extends JPanel {
 				seleccioneEstado.setVisible(true);
 			}
 			if(!nueva.getNombre().isEmpty() && nueva.getHorarioCierre()!=null && nueva.getHorarioApertura()!=null && nueva.getEstado()!=null){
-				
-		
 			if(nueva.getEstado().equals(EstadoEstacionEnum.MANTENIMIENTO) && a_modificar.getEstado().equals(EstadoEstacionEnum.OPERATIVA)){
 				this.deshabilitarCambios();
 				this.mostrarDatosMantenimiento();
@@ -99,13 +98,14 @@ public class PanelModificarEstacion extends JPanel {
 				this.deshabilitarCambios();
 				this.mostrarDatosMantenimientoParaFin(TareaMantenimientoRepo.ObtenerActiva(a_modificar));
 			}
+			}
 			else { 
 				EstacionesRepo.ModificarEstacion(nueva);
 				lblNewLabel_6.setVisible(true);
 				btnNewButton.setEnabled(false);
 			}
 			}
-	}
+	
 	
 	public void agregarTareaMantenimiento(Estacion nueva) throws FechaFinMenorFechaInicioException {
 			TareaMantenimiento tarea = null;			
@@ -542,15 +542,15 @@ public class PanelModificarEstacion extends JPanel {
 		finalizarMant.setVisible(true);
 		fechaFin.setVisible(true);
 		dateChooser_1.setVisible(true);
-		dateChooser_1.setDate(convertToDate(LocalDate.now().minusDays(1)));
-		dateChooser_1.setEnabled(false);
+		dateChooser_1.setDate(convertToDate(LocalDate.now()));
+		dateChooser_1.setEnabled(true);
 		obs.setVisible(true);
 		textArea .setVisible(true);
 		textArea.setText(actual.getObservaciones());
 		btnNewButton_3.setVisible(true);
 		btnNewButton5.setVisible(true);
 		try {
-			actual.setFechaFin(LocalDate.now());
+			actual.setFechaFin(convertToLocalDate(dateChooser_1.getDate()));
 		} catch (FechaFinMenorFechaInicioException e) {
 			e.printStackTrace();
 		}
@@ -638,6 +638,18 @@ public class PanelModificarEstacion extends JPanel {
 	public static Date convertToDate(LocalDate dateToConvert) {
 	    return java.sql.Date.valueOf(dateToConvert);
 	}
+	public static LocalDate convertToLocalDate(Date dateToConvert) {
+	    return Instant.ofEpochMilli(dateToConvert.getTime())
+	      .atZone(ZoneId.systemDefault())
+	      .toLocalDate();
+	}
 
+	public JLabel getLblNewLabel_6() {
+		return lblNewLabel_6;
+	}
 
+	public void setLblNewLabel_6(JLabel lblNewLabel_6) {
+		this.lblNewLabel_6 = lblNewLabel_6;
+	}
+	
 }
