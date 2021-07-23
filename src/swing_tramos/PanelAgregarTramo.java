@@ -476,7 +476,7 @@ public class PanelAgregarTramo extends JPanel {
 		this.fallaOrden.setVisible(false);
 		this.fallaDestino.setVisible(false);
 		this.fallaInicio.setVisible(false);
-		label.setVisible(false);
+	//	label.setVisible(false);
 	}
 	public void limpiarDatos() {
 		comboBox.setSelectedIndex(0);

@@ -223,11 +223,12 @@ public class LineasRepo {
 		List<Estacion> finales= TramosRepo.ObtenerRecorrido(l).stream()
 							.map(t -> t.getDestino())
 							.collect(Collectors.toList());
-		return finales.get(finales.size()-1);
+		return finales.get(finales.size());
 	}
 	
 	public static Boolean pertenece(Estacion est, Linea l) {
 		List<Tramo> tramos= TramosRepo.ObtenerRecorrido(l);
+		if(tramos==null || tramos.size()==0) return false;
 		if(est.equals(LineasRepo.ultimaEstacion(l))) {
 			return false;
 		}else {
