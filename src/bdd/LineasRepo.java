@@ -7,10 +7,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import modelo.Estacion;
 import modelo.EstadoLineaEnum;
 import modelo.Linea;
 import modelo.LineaTipoTransporteEnum;
+import modelo.Tramo;
 
 public class LineasRepo {
 
@@ -210,5 +213,35 @@ public class LineasRepo {
 			e.printStackTrace();
 		}
 		return linea;
+	}
+	
+	public static Integer siguienteOrden(Linea l) {
+		 return TramosRepo.ObtenerRecorrido(l).size()+1;
+	}
+	
+	public static Estacion ultimaEstacion(Linea l) {
+		List<Estacion> finales= TramosRepo.ObtenerRecorrido(l).stream()
+							.map(t -> t.getDestino())
+							.collect(Collectors.toList());
+		return finales.get(finales.size()-1);
+	}
+	
+	public static Boolean pertenece(Estacion est, Linea l) {
+		List<Tramo> tramos= TramosRepo.ObtenerRecorrido(l);
+		if(est.equals(LineasRepo.ultimaEstacion(l))) {
+			return false;
+		}else {
+			return 	tramos.stream()
+					.map(t -> t.getOrigen())
+					.filter(e -> e.equals(est))
+					.collect(Collectors.toList()).size()>0
+					||
+					tramos.stream()
+					.map(t -> t.getDestino())
+					.filter(e -> e.equals(est))
+					.collect(Collectors.toList()).size()>0;
+		}
+		
+		
 	}
 }

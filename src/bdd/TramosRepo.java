@@ -219,7 +219,7 @@ public class TramosRepo {
 		Tramo tramo = null;
 
 		try {
-			Linea linea = null; // LineasRepo.ObtenerLinea(result.getInt("id_linea_transporte"));
+			Linea linea = LineasRepo.ObtenerLinea(result.getInt("id_linea_transporte"));
 			Integer orden = result.getInt("trayecto_orden");
 			Estacion origen = EstacionesRepo.ObtenerEstacion(result.getInt("id_estacion_origen"));
 			Estacion destino = EstacionesRepo.ObtenerEstacion(result.getInt("id_estacion_destino"));

@@ -70,16 +70,9 @@ public class PanelModificarEstacion extends JPanel {
 			if(nueva.getNombre().isEmpty()) {
 				btnNewButton.setEnabled(false);	
 			}
-			if(nueva.getHorarioCierre()==null) {
-				inserteHoraCierre.setVisible(true);
-			}
-			if(nueva.getHorarioApertura()==null) {
-				inserteHoraApertura.setVisible(true);
-			}
-			if(nueva.getEstado()!=EstadoEstacionEnum.OPERATIVA && nueva.getEstado()!=EstadoEstacionEnum.MANTENIMIENTO) {
-				seleccioneEstado.setVisible(true);
-			}
-			if(!nueva.getNombre().isEmpty() && nueva.getHorarioCierre()!=null && nueva.getHorarioApertura()!=null && nueva.getEstado()!=null){
+			
+			
+			if(!nueva.getNombre().isEmpty()){
 			if(nueva.getEstado().equals(EstadoEstacionEnum.MANTENIMIENTO) && a_modificar.getEstado().equals(EstadoEstacionEnum.OPERATIVA)){
 				this.deshabilitarCambios();
 				this.mostrarDatosMantenimiento();
@@ -87,20 +80,21 @@ public class PanelModificarEstacion extends JPanel {
 			else if(nueva.getEstado().equals(EstadoEstacionEnum.OPERATIVA) && a_modificar.getEstado().equals(EstadoEstacionEnum.MANTENIMIENTO)) {
 				this.deshabilitarCambios();
 				this.mostrarDatosMantenimientoParaFin(TareaMantenimientoRepo.ObtenerActiva(a_modificar));
-			}
-			}
-			else { 
+			}else { 
 				EstacionesRepo.ModificarEstacion(nueva);
 				lblNewLabel_6.setVisible(true);
 				btnNewButton.setEnabled(false);
 			}
+			
 			}
-	
+			
+			
+			}
+
 	
 	public void agregarTareaMantenimiento(Estacion nueva) {
 		//public TareaMantenimiento(Estacion estacion, LocalDate fi, LocalDate ff, String obs)
 		TareaMantenimiento tarea = null;
-		
 		try {
 			tarea = this.getTareaMantenimiento(nueva);
 			if(tarea.getFechaFin()==null) {
@@ -110,7 +104,7 @@ public class PanelModificarEstacion extends JPanel {
 				this.limpiarWarnings();
 				lblNewLabel_6.setVisible(true);
 				btnNewButton4.setEnabled(false);
-				EstacionesRepo.ModificarEstacion(nueva);
+				TareaMantenimientoRepo.AgregarTareaMantenimiento(tarea);
 		}
 			
 		} catch (FechaFinMenorFechaInicioException e) {
@@ -118,10 +112,15 @@ public class PanelModificarEstacion extends JPanel {
 		}
 	}
 		
-	public void finalizarTareaMantenimiento (Estacion nueva) {
-		TareaMantenimiento tarea = null;
-		
+	public void finalizarTareaMantenimiento (TareaMantenimiento t) {
+		try {
+			TareaMantenimientoRepo.FinalizarTareaDeMantenimiento(t);
+		} catch (FechaFinMenorFechaInicioException e) {
+			
+			e.printStackTrace();
+		}
 	}
+	
 	
 	public PanelModificarEstacion (Estacion actual) {		
 		setBackground(Color.WHITE);
@@ -539,25 +538,43 @@ public class PanelModificarEstacion extends JPanel {
 		finalizarMant.setVisible(true);
 		fechaFin.setVisible(true);
 		dateChooser_1.setVisible(true);
+<<<<<<< HEAD
 		dateChooser_1.setDate(convertToDate(LocalDate.now()));
+=======
+		dateChooser_1.setDate(convertToDate(LocalDate.now().minusDays(1)));
+>>>>>>> 84ed77d9cdd8d888ed3627b7acf7374dd92836ea
 		dateChooser_1.setEnabled(false);
 		obs.setVisible(true);
 		textArea .setVisible(true);
 	
+<<<<<<< HEAD
 		 try {
 			textArea.setText(actual.getObservaciones()); 
 		 }
 		 catch (java.lang.NullPointerException e){
 			 textArea.setText(null);
 		 }
+=======
+		try{
+			textArea.setText(actual.getObservaciones());
+		}catch(java.lang.NullPointerException e) {
+			textArea.setText(null);
+		}
+		
+		
+>>>>>>> 84ed77d9cdd8d888ed3627b7acf7374dd92836ea
 		btnNewButton_3.setVisible(true);
 		btnNewButton5.setVisible(true);
-		try {
+/*		try {
 			actual.setFechaFin(convertToLocalDate(dateChooser_1.getDate()));
 		} catch (FechaFinMenorFechaInicioException e) {
 			e.printStackTrace();
 		}
 		TareaMantenimientoRepo.ModificarTareaMantenimiento(actual);
+<<<<<<< HEAD
+=======
+	*/
+>>>>>>> 84ed77d9cdd8d888ed3627b7acf7374dd92836ea
 	}
 	public void sacarMantenimiento() {
 		btnNewButton_1.setEnabled(true);
@@ -654,4 +671,11 @@ public class PanelModificarEstacion extends JPanel {
 		this.lblNewLabel_6 = lblNewLabel_6;
 	}
 	
+	public String estadoSeleccionado() {
+		if(rdbtnNewRadioButton.isSelected()) {
+			return "operativa";
+		}else if(this.rdbtnNewRadioButton1.isSelected()) {
+			return "en mantenimiento";
+		}else return "no seleccionado";
+	}
 }

@@ -34,6 +34,7 @@ import bdd.TramosRepo;
 import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
+import modelo.Linea;
 import modelo.Tramo;
 import swing_estaciones.SubPanelFiltros;
 
@@ -107,9 +108,9 @@ public class PanelBuscarTramo extends JPanel {
 		        	modificar.setEnabled(true);
 		        	eliminar .setEnabled(true);
 		        	row_selected = table.getSelectedRow();
-					Integer id_linea = (Integer) table.getValueAt(row_selected, 2);
+					Linea linea = (Linea) table.getValueAt(row_selected, 2);
 					Integer orden = (Integer) table.getValueAt(row_selected, 3);
-					actual = TramosRepo.obtenerTramo(orden,id_linea);
+					actual = TramosRepo.obtenerTramo(orden,linea.get_id());
 		        }	        
 		}});
 		
@@ -245,7 +246,11 @@ public class PanelBuscarTramo extends JPanel {
 		for(int i=0; i<nuevosDatos.size();i++) {
 			datosFila[i][0] = nuevosDatos.get(i).getOrigen().getNombre();
 			datosFila[i][1] = nuevosDatos.get(i).getDestino().getNombre();
+<<<<<<< HEAD
 			datosFila[i][2] = nuevosDatos.get(i).getLinea();
+=======
+			datosFila[i][2] = nuevosDatos.get(i).getLinea();//.get_nombre();
+>>>>>>> 84ed77d9cdd8d888ed3627b7acf7374dd92836ea
 			datosFila[i][3] = nuevosDatos.get(i).getOrden();
 			datosFila[i][4] = nuevosDatos.get(i).get_estadoTramo();
 			datosFila[i][5] = nuevosDatos.get(i).getCosto();
