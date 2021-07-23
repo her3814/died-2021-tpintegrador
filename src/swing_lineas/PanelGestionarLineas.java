@@ -21,11 +21,13 @@ public class PanelGestionarLineas extends JPanel{
 	private JButton agregar;
 	private JButton buscar;
 	private JButton volver;
-	
+	private JButton trayecto;
+
 	private GridBagConstraints gbcTitulo;
 	private GridBagConstraints gbcAgregar;
 	private GridBagConstraints gbcBuscar;
-	
+	private GridBagConstraints gbcTrayecto;
+
 	
 	public JButton getVolver() {
 		return volver;
@@ -77,6 +79,19 @@ public class PanelGestionarLineas extends JPanel{
 		buscar.setPreferredSize(new Dimension(500,20));
 		this.add(buscar, gbcBuscar);
 		
+		gbcTrayecto= new GridBagConstraints();
+		trayecto = new JButton("DEFINIR TRAYECTO");
+		trayecto.setBackground(new Color(204,204,51));
+		trayecto.setFont(new Font("Arial", Font.BOLD,18));
+		this.gbcTrayecto.gridx=0;
+		this.gbcTrayecto.gridy=3;
+		this.gbcTrayecto.ipadx=0;
+		this.gbcTrayecto.ipady=20;
+		this.gbcTrayecto.anchor=GridBagConstraints.CENTER;
+		this.gbcTrayecto.insets= new Insets(5,0,5,0); // espaciado
+		trayecto.setPreferredSize(new Dimension(500,20));
+		this.add(trayecto, gbcTrayecto);
+		
 		volver = new JButton("VOLVER");
 		volver.setFont(new Font("Arial", Font.BOLD, 15));
 		volver.setBackground(new Color(204, 204, 51));
@@ -98,5 +113,12 @@ public class PanelGestionarLineas extends JPanel{
 		return buscar;
 	}
 
+	public JButton getTrayecto() {
+		return trayecto;
+	}
+
+	public void setTrayecto(JButton trayecto) {
+		this.trayecto = trayecto;
+	}
 	
 }

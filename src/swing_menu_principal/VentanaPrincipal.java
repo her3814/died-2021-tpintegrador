@@ -22,6 +22,7 @@ import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.*;
 import swing_lineas.PanelAgregarLinea;
 import swing_lineas.PanelBuscarLinea;
+import swing_lineas.PanelDefinirTrayectos;
 import swing_boletos.PanelAgregarBoleto;
 import swing_boletos.PanelBuscarBoleto;
 import swing_boletos.PanelGestionarBoletos;
@@ -399,6 +400,18 @@ panelMenuPrincipal.getLineas().addActionListener(new ActionListener() {
 					}
 				});
 				
+				panelGestionarLineas.getTrayecto().addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						ventana1.setTitle("DEFINIR TRAYECTOS DE LA LINEA");
+						PanelDefinirTrayectos panelDefinirTrayectos = new PanelDefinirTrayectos();
+						panelDefinirTrayectos.setBackground(Color.WHITE);
+						ventana1.setContentPane(panelDefinirTrayectos);
+						ventana1.setVisible(true);
+						ventana1.pack();				
+						
+					}
+				});
+					
 				panelGestionarLineas.getAgregar().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						ventana1.setTitle("AGREGAR LINEA");
@@ -593,6 +606,14 @@ panelMenuPrincipal.getTramos().addActionListener(new ActionListener() {
 						ventana1.setVisible(true);
 						ventana1.pack();
 						
+						panelBuscarTramo.getCancelar().addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								ventana1.setTitle("GESTIONAR TRAMOS");
+								ventana1.setContentPane(panelGestionarTramos);
+								ventana1.setVisible(true);
+								ventana1.pack();
+							}
+						});
 						
 					}
 				});

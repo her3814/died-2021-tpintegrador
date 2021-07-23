@@ -118,8 +118,8 @@ public class PanelBuscarTramo extends JPanel {
 		eliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int fila = table.getSelectedRow();
-				//Integer id = (Integer) table.getValueAt(fila, 0);
-				//String nombre = (String) table.getValueAt(fila, 1);
+				Integer id = (Integer) table.getValueAt(fila, 0);
+				String nombre = (String) table.getValueAt(fila, 1);
 				seguir = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el tramo con origen: " + actual.getOrigen().getNombre() + "?", 
 				null, 2);
 				System.out.println(seguir);
@@ -149,8 +149,7 @@ public class PanelBuscarTramo extends JPanel {
 		gbc_btnNewButton_4.gridx = 3;
 		gbc_btnNewButton_4.gridy = 4;
 		add(modificar, gbc_btnNewButton_4);  
-	
-	
+
 		cancelar = new JButton("CANCELAR");
 		cancelar.setBackground(new Color(204, 204, 51));
 		
@@ -212,7 +211,7 @@ public class PanelBuscarTramo extends JPanel {
 		
 		GridBagConstraints gbc_btnNewButton_11 = new GridBagConstraints();
 		gbc_btnNewButton_11.anchor = GridBagConstraints.SOUTHEAST;
-		gbc_btnNewButton_11.insets = new Insets(10, 0, 5, 5);
+		gbc_btnNewButton_11.insets = new Insets(10, 0, 15, 5);
 		gbc_btnNewButton_11.gridx = 5;
 		gbc_btnNewButton_11.gridy = 7;
 		add(cancelar, gbc_btnNewButton_11);
@@ -246,10 +245,11 @@ public class PanelBuscarTramo extends JPanel {
 		for(int i=0; i<nuevosDatos.size();i++) {
 			datosFila[i][0] = nuevosDatos.get(i).getOrigen().getNombre();
 			datosFila[i][1] = nuevosDatos.get(i).getDestino().getNombre();
-			//datosFila[i][2] = nuevosDatos.get(i).getLinea().get_nombre();
+			datosFila[i][2] = nuevosDatos.get(i).getLinea();
 			datosFila[i][3] = nuevosDatos.get(i).getOrden();
 			datosFila[i][4] = nuevosDatos.get(i).get_estadoTramo();
 			datosFila[i][5] = nuevosDatos.get(i).getCosto();
+			System.out.println(nuevosDatos.size());
 		}
 		//Crear modelo de la tabla
 		model = new DefaultTableModel(datosFila,nombreColumnas){
