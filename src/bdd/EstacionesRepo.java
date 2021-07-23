@@ -142,7 +142,7 @@ public class EstacionesRepo {
 
 		String sql = "select *, NOT EXISTS (SELECT * " + "FROM estaciones_tareas_mantenimiento etm "
 				+ "WHERE etm.id_estacion = est.id " + "AND "
-				+ "((fecha_fin is not null and CURRENT_DATE() BETWEEN fecha_inicio and fecha_fin) OR "
+				+ "((fecha_fin is not null and  CURRENT_DATE() >= fecha_inicio and fecha_fin > CURRENT_DATE()) OR "
 				+ "(fecha_fin is null and CURRENT_DATE() >= fecha_inicio))) AS estado " + "FROM estaciones est;";
 
 		Connection con = BddSingleton.GetConnection();
@@ -178,7 +178,7 @@ public class EstacionesRepo {
 		Estacion estacion = null;
 		String sql = "select *, NOT EXISTS (SELECT * " + "FROM estaciones_tareas_mantenimiento etm "
 				+ "WHERE etm.id_estacion = est.id " + "AND "
-				+ "((fecha_fin is not null and CURRENT_DATE() BETWEEN fecha_inicio and fecha_fin) OR "
+				+ "((fecha_fin is not null and  CURRENT_DATE() >= fecha_inicio and fecha_fin > CURRENT_DATE()) OR "
 				+ "(fecha_fin is null and CURRENT_DATE() >= fecha_inicio))) AS estado "
 				+ "FROM estaciones est WHERE id = ?;";
 
@@ -214,8 +214,8 @@ public class EstacionesRepo {
 
 		String sql = "SELECT *, NOT EXISTS (SELECT * " + "FROM estaciones_tareas_mantenimiento etm "
 				+ "WHERE etm.id_estacion = est.id " + "AND "
-				+ "((fecha_fin is not null and CURRENT_DATE() BETWEEN fecha_inicio and fecha_fin) OR "
-				+ "(fecha_fin is null and CURRENT_DATE() >= fecha_inicio))) AS estado " + "from estaciones est ";
+				+ "((fecha_fin is not null and  CURRENT_DATE() >= fecha_inicio and fecha_fin > CURRENT_DATE()) OR "
+				+ "(fecha_fin is null and CURRENT_DATE() >= fecha_inicio))) AS estado " + "FROM estaciones est ";
 
 		List<String> sqlWhere = new ArrayList<String>();
 
@@ -236,7 +236,7 @@ public class EstacionesRepo {
 		if (filtro.estado != null) {
 			String sqlEstado = " EXISTS (SELECT * " + "FROM estaciones_tareas_mantenimiento etm "
 					+ "WHERE etm.id_estacion = est.id " + "AND "
-					+ "((fecha_fin is not null and CURRENT_DATE() BETWEEN fecha_inicio and fecha_fin) OR "
+					+ "((fecha_fin is not null and  CURRENT_DATE() >= fecha_inicio and fecha_fin > CURRENT_DATE()) OR "
 					+ "(fecha_fin is null and CURRENT_DATE() >= fecha_inicio))) ";
 			if (filtro.estado == EstadoEstacionEnum.OPERATIVA)
 				sqlEstado = "NOT" + sqlEstado;
