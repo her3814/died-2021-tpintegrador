@@ -104,7 +104,7 @@ public class PanelModificarEstacion extends JPanel {
 				this.limpiarWarnings();
 				lblNewLabel_6.setVisible(true);
 				btnNewButton4.setEnabled(false);
-				EstacionesRepo.ModificarEstacion(nueva);
+				TareaMantenimientoRepo.AgregarTareaMantenimiento(tarea);
 		}
 			
 		} catch (FechaFinMenorFechaInicioException e) {
