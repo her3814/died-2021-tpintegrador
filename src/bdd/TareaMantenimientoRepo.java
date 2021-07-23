@@ -21,7 +21,11 @@ public class TareaMantenimientoRepo {
 		var sql = "UPDATE estaciones_tareas_mantenimiento SET fecha_fin = CURRENT_DATE() WHERE id = ?";
 		Connection con = BddSingleton.GetConnection();
 
-		tarea.setFechaFin(LocalDate.now());
+		try{
+			tarea.setFechaFin(LocalDate.now());
+		}catch(java.lang.NullPointerException e) {
+			
+		}
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql);
@@ -54,7 +58,7 @@ public class TareaMantenimientoRepo {
 	public static void EliminarTareaMantenimiento(TareaMantenimiento tarea) {
 		String sql = "DELETE FROM estaciones_tareas_mantenimiento WHERE id = ?;";
 		Connection con = BddSingleton.GetConnection();
-
+		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql);
 			pstm.setInt(1, tarea.getId());
@@ -84,7 +88,7 @@ public class TareaMantenimientoRepo {
 	public static void ModificarTareaMantenimiento(TareaMantenimiento tarea) {
 		String sql = "UPDATE estaciones_tareas_mantenimiento SET id_estacion = ?, fecha_inicio = ? , fecha_fin = ?, observaciones = ? WHERE id = ?";
 		Connection con = BddSingleton.GetConnection();
-
+		TareaMantenimiento tm = null;
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql);
 			pstm.setInt(1, tarea.getEstacion().getId());
@@ -101,7 +105,7 @@ public class TareaMantenimientoRepo {
 			con.beginRequest();
 
 			pstm.executeUpdate();
-
+			
 			con.commit();
 			pstm.close();
 		} catch (SQLException e) {
@@ -295,6 +299,7 @@ public class TareaMantenimientoRepo {
 		TareaMantenimiento tarea = null;
 
 		try {
+
 			tarea = new TareaMantenimiento(res.getInt("id"), EstacionesRepo.ObtenerEstacion(res.getInt("id_estacion")),
 					res.getDate("fecha_inicio").toLocalDate(),
 					res.getDate("fecha_fin") != null ? res.getDate("fecha_fin").toLocalDate() : null,
@@ -308,4 +313,6 @@ public class TareaMantenimientoRepo {
 		}
 		return tarea;
 	}
+	
+	
 }

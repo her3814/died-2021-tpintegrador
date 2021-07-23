@@ -58,6 +58,7 @@ public class EstacionesRepo {
 	public static void ModificarEstacion(Estacion estacion) {
 		String sql = "UPDATE estaciones SET nombre = ?, hora_apertura = ?, hora_cierre = ?  WHERE id = ?";
 		Connection con = BddSingleton.GetConnection();
+	
 		try {
 			con.beginRequest();
 			PreparedStatement pstm = con.prepareStatement(sql);
@@ -67,7 +68,7 @@ public class EstacionesRepo {
 			pstm.setInt(4, estacion.getId());
 
 			pstm.executeUpdate();
-
+			
 			con.commit();
 			pstm.close();
 		} catch (SQLException e) {

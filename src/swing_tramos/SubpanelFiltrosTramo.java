@@ -22,7 +22,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
 import bdd.EstacionesRepo;
+import bdd.LineasRepo;
 import modelo.Estacion;
+import modelo.Linea;
 
 import javax.swing.JComboBox;
 
@@ -99,6 +101,8 @@ public class SubpanelFiltrosTramo extends JPanel {
 		gbc_comboBox_11.gridy =6;
 		add(comboBox_1, gbc_comboBox_11);
 		
+		List<Linea> lineas = LineasRepo.ObtenerLineas();
+		
 		lblNewLabel_33 = new JLabel("Linea");
 		lblNewLabel_33.setFont(new Font("Arial", Font.BOLD, 10));
 		GridBagConstraints gbc_lblNewLabel_31 = new GridBagConstraints();
@@ -107,9 +111,12 @@ public class SubpanelFiltrosTramo extends JPanel {
 		gbc_lblNewLabel_31.gridy = 7;
 		add(lblNewLabel_33, gbc_lblNewLabel_31);
 		comboBox_2 = new JComboBox();
+		
+		
+		
 		comboBox_2.setModel(new DefaultComboBoxModel(		
-				 estaciones.stream().map(e -> e.getNombre())
-				.collect(Collectors.toList())
+				 lineas.stream().map(l -> l.get_nombre())
+				 .collect(Collectors.toList())
 				.toArray()));
 		comboBox_2.setSelectedIndex(-1);
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();

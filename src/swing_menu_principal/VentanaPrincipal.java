@@ -82,6 +82,7 @@ public static void main(String[] args) {
 		
 //MENU PRINCIPAL
 panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
+	
 	public void actionPerformed(ActionEvent e) {
 		ventana1.setTitle("GESTIONAR ESTACIONES");
 		PanelGestionarEstaciones panelGestionarEstaciones = new PanelGestionarEstaciones();
@@ -198,94 +199,102 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 							}});
 					
 					}});
-				
 				panelBuscarEstacion.getModificar().addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					ventana1.setTitle("MODIFICAR ESTACION");
-					PanelModificarEstacion panelModificarEstacion = new PanelModificarEstacion(panelBuscarEstacion.getActual());
-					panelModificarEstacion.setBackground(Color.WHITE);
-					ventana1.setContentPane(panelModificarEstacion);
-					ventana1.setVisible(true);
-					ventana1.pack();
-				
-				//volver desde modificar a buscar
-				panelModificarEstacion.getBtnNewButton_1().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						panelModificarEstacion.limpiarDatos();
-						panelModificarEstacion.limpiarWarnings();
-						panelModificarEstacion.habilitarBotones();
-						panelModificarEstacion.habilitar();
-						ventana1.setTitle("BUSCAR ESTACIONES");
-						ventana1.setContentPane(panelBuscarEstacion);
+						ventana1.setTitle("MODIFICAR ESTACION");
+						PanelModificarEstacion panelModificarEstacion = new PanelModificarEstacion(panelBuscarEstacion.getActual());
+						panelModificarEstacion.setBackground(Color.WHITE);
+						ventana1.setContentPane(panelModificarEstacion);
 						ventana1.setVisible(true);
 						ventana1.pack();
-					}
-				});
+						
+						
+					//volver desde modificar a buscar
+					panelModificarEstacion.getBtnNewButton_1().addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							panelModificarEstacion.limpiarDatos();
+							panelModificarEstacion.limpiarWarnings();
+							panelModificarEstacion.habilitarBotones();
+							panelModificarEstacion.habilitar();
+							ventana1.setTitle("BUSCAR ESTACIONES");
+							ventana1.setContentPane(panelBuscarEstacion);
+							ventana1.setVisible(true);
+							ventana1.pack();
+						}
+					});
+	
+			
+					panelModificarEstacion.getBtnNewButton().addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							panelModificarEstacion.limpiarWarnings();
+							try {
+								panelModificarEstacion.modificarEstacion();
+								panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
+							} catch (HoraCierreMenorHoraAperturaException e1) {
+								panelModificarEstacion.horarioCierrePostAp();
+							}
+						}
+					});
+		
 				
-				//modificar sinn cambiar estado
-				panelModificarEstacion.getBtnNewButton().addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						panelModificarEstacion.limpiarWarnings();
-						try {
-							panelModificarEstacion.modificarEstacion();
+					panelModificarEstacion.getBtnNewButton_3().addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							panelModificarEstacion.limpiarDatos();
+							panelModificarEstacion.limpiarWarnings();
+							panelModificarEstacion.sacarMantenimiento();
+							panelModificarEstacion.habilitarBotones();
+							panelModificarEstacion.habilitar();
+							ventana1.setTitle("BUSCAR ESTACION");
+							ventana1.setContentPane(panelBuscarEstacion);
+							ventana1.setVisible(true);
+							ventana1.pack();
+						}
+					});
+					//fin
+				panelModificarEstacion.getBtnNewButton5().addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							panelModificarEstacion.limpiarWarnings();
+							Estacion nueva = null;
+							try {
+								nueva = panelModificarEstacion.getEstacionModificada();
+							} catch (HoraCierreMenorHoraAperturaException e1) {
+								panelModificarEstacion.horarioCierrePostAp();
+							}
+							EstacionesRepo.ModificarEstacion(nueva);
+							TareaMantenimiento t=TareaMantenimientoRepo.ObtenerActiva(nueva);
+							try {
+								TareaMantenimientoRepo.FinalizarTareaDeMantenimiento(TareaMantenimientoRepo.ObtenerActiva(nueva));
+							} catch (FechaFinMenorFechaInicioException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							panelModificarEstacion.getLblNewLabel_6().setVisible(true);
+							panelModificarEstacion.getBtnNewButton5().setEnabled(false);
+							panelModificarEstacion.getDateChooser_1().setEnabled(false);
 							panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
-						} catch (HoraCierreMenorHoraAperturaException e1) {
-							panelModificarEstacion.horarioCierrePostAp();
-						}
-					}
-				});
-				
-				panelModificarEstacion.getBtnNewButton_3().addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						panelModificarEstacion.limpiarDatos();
-						panelModificarEstacion.limpiarWarnings();
-						panelModificarEstacion.sacarMantenimiento();
-						panelModificarEstacion.habilitarBotones();
-						panelModificarEstacion.habilitar();
-						ventana1.setTitle("BUSCAR ESTACION");
-						ventana1.setContentPane(panelBuscarEstacion);
-						ventana1.setVisible(true);
-						ventana1.pack();
-					}
-				});
-				//fin
-			panelModificarEstacion.getBtnNewButton5().addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						panelModificarEstacion.limpiarWarnings();
-						Estacion nueva = null;
-						try {
-							nueva = panelModificarEstacion.getEstacionModificada();
-						} catch (HoraCierreMenorHoraAperturaException e1) {
-							panelModificarEstacion.horarioCierrePostAp();
-						}
+						}	
+					});
 					
-						EstacionesRepo.ModificarEstacion(nueva);
-						panelModificarEstacion.getLblNewLabel_6().setVisible(true);
-						panelModificarEstacion.getBtnNewButton5().setEnabled(false);
-						panelModificarEstacion.getDateChooser_1().setEnabled(false);
-						panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
-					}	
-				});
-				
-				
-				//inicio
-				panelModificarEstacion.getBtnNewButton4().addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						panelModificarEstacion.limpiarWarnings();
-						Estacion nueva = null;
-						try {
-							nueva = panelModificarEstacion.getEstacionModificada();
-						} catch (HoraCierreMenorHoraAperturaException e1) {
-							panelModificarEstacion.horarioCierrePostAp(); 
-						}
+					
+					//inicio
+					panelModificarEstacion.getBtnNewButton4().addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							panelModificarEstacion.limpiarWarnings();
+							Estacion nueva = null;
+							try {
+								nueva = panelModificarEstacion.getEstacionModificada();
+							} catch (HoraCierreMenorHoraAperturaException e1) {
+								panelModificarEstacion.horarioCierrePostAp(); 
+							}
+							EstacionesRepo.ModificarEstacion(nueva);
 							panelModificarEstacion.agregarTareaMantenimiento(nueva);
 							panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
-						
+							
 
-					}
-				});
-			}
-			});			
+						}
+					});
+				}
+				});			
 			panelBuscarEstacion.getCancelar().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						ventana1.setTitle("GESTIONAR ESTACIONES");
@@ -592,6 +601,15 @@ panelMenuPrincipal.getTramos().addActionListener(new ActionListener() {
 						ventana1.setContentPane(panelBuscarTramo);
 						ventana1.setVisible(true);
 						ventana1.pack();
+						
+						panelBuscarTramo.getCancelar().addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								ventana1.setTitle("GESTIONAR TRAMOS");
+								ventana1.setContentPane(panelGestionarTramos);
+								ventana1.setVisible(true);
+								ventana1.pack();
+							}
+						});
 						
 						
 					}
