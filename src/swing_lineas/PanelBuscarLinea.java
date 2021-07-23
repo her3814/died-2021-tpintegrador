@@ -170,7 +170,7 @@ public class PanelBuscarLinea extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				table.setModel(renovarTabla(LineasRepo.ObtenerLineas()
 					    .stream()
-						.filter(est -> est.get_nombre().equals(textField.getText()))
+						.filter(est -> est.get_nombre().toLowerCase().contains(textField.getText().toLowerCase()))
 						.collect(Collectors.toList())));
 				autoajustarAnchoColumnas(table);
 			}
