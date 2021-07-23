@@ -62,9 +62,9 @@ public class PanelAgregarTramo extends JPanel {
 	public PanelAgregarTramo() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
-		gridBagLayout.columnWidths = new int[]{54, 135, 13, 85, 67, 0, 0, 67, 0};
+		gridBagLayout.columnWidths = new int[]{54, 135, 13, 85, 67, 0, 0, 0, 0, 67, 0};
 		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 19, 21, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		setPreferredSize(new Dimension(500,500));
@@ -76,7 +76,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_lblNewLabel.insets = new Insets(10, 0, 5, 0);
 		gbc_lblNewLabel.gridx = 1;
 		gbc_lblNewLabel.gridy = 1;
-		gbc_lblNewLabel.gridwidth=7;
+		gbc_lblNewLabel.gridwidth=9;
 		add(lblNewLabel, gbc_lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("ESTACION ORIGEN:");
@@ -112,7 +112,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_i_inicio.insets = new Insets(0, 0, 5, 5);
 		gbc_i_inicio.gridx = 1;
 		gbc_i_inicio.gridy = 3;
-		gbc_i_inicio.gridwidth=5;
+		gbc_i_inicio.gridwidth=7;
 		gbc_i_inicio.anchor=GridBagConstraints.WEST;
 		add(fallaInicio, gbc_i_inicio);
 		fallaInicio.setVisible(false);
@@ -151,7 +151,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_i_destino.insets = new Insets(0, 0, 5, 5);
 		gbc_i_destino.gridx = 1;
 		gbc_i_destino.gridy = 5;
-		gbc_i_destino.gridwidth=5;
+		gbc_i_destino.gridwidth=7;
 		gbc_i_destino.anchor=GridBagConstraints.WEST;
 		add(fallaDestino, gbc_i_destino);
 		fallaDestino.setVisible(false);
@@ -181,10 +181,12 @@ public class PanelAgregarTramo extends JPanel {
 		add(comboBox_1_1, gbc_comboBox_1_1);
 		
 		btnRecorrido = new JButton("VER RECORRIDO");
+		btnRecorrido.setHorizontalAlignment(SwingConstants.LEFT);
 		btnRecorrido.setBackground(new Color(204, 204, 51));
 		btnRecorrido.setFont(new Font("Arial", Font.BOLD, 13));
 		GridBagConstraints gbc_btnRecorrido= new GridBagConstraints();
-		gbc_btnRecorrido.fill = GridBagConstraints.VERTICAL;
+		gbc_btnRecorrido.gridwidth = 2;
+		gbc_btnRecorrido.fill = GridBagConstraints.BOTH;
 		gbc_btnRecorrido.insets = new Insets(0, 0, 5, 5);
 		gbc_btnRecorrido.gridx = 5;
 		gbc_btnRecorrido.gridy = 6;
@@ -224,7 +226,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_i_orden.insets = new Insets(0, 0, 5, 5);
 		gbc_i_orden.gridx = 1;
 		gbc_i_orden.gridy = 7;
-		gbc_i_orden.gridwidth=5;
+		gbc_i_orden.gridwidth=7;
 		gbc_i_orden.anchor=GridBagConstraints.WEST;
 		add(fallaOrden, gbc_i_orden);
 		fallaOrden.setVisible(false);
@@ -253,7 +255,7 @@ public class PanelAgregarTramo extends JPanel {
 		lblNewLabel_2_1.setFont(new Font("Arial", Font.BOLD, 10));
 		GridBagConstraints gbc_lblNewLabel_2_1 = new GridBagConstraints();
 		gbc_lblNewLabel_2_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_2_1.gridx = 5;
+		gbc_lblNewLabel_2_1.gridx = 6;
 		gbc_lblNewLabel_2_1.gridy = 9;
 		gbc_lblNewLabel_2_1.anchor=GridBagConstraints.WEST;
 		add(lblNewLabel_2_1, gbc_lblNewLabel_2_1);
@@ -292,6 +294,15 @@ public class PanelAgregarTramo extends JPanel {
 		add(textField_1, gbc_textField_1);
 		textField_1.setColumns(10);
 		
+		JLabel lblNewLabel_2 = new JLabel("(km)");
+		lblNewLabel_2.setFont(new Font("Arial", Font.BOLD, 10));
+		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_2.gridx = 6;
+		gbc_lblNewLabel_2.gridy = 11;
+		gbc_lblNewLabel_2.anchor=GridBagConstraints.WEST;
+		add(lblNewLabel_2, gbc_lblNewLabel_2);
+		
 		inserteDistancia = new JLabel("Por favor, inserte una distancia.");
 		inserteDistancia.setForeground(Color.RED);
 		inserteDistancia.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
@@ -305,15 +316,6 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_i_distancia.anchor=GridBagConstraints.WEST;
 		add(inserteDistancia, gbc_i_distancia);
 		inserteDistancia.setVisible(false);
-		
-		JLabel lblNewLabel_2 = new JLabel("(km)");
-		lblNewLabel_2.setFont(new Font("Arial", Font.BOLD, 10));
-		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_2.gridx = 5;
-		gbc_lblNewLabel_2.gridy = 11;
-		gbc_lblNewLabel_2.anchor=GridBagConstraints.WEST;
-		add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
 		
 		JLabel lblNewLabel_1_1_2_2 = new JLabel("CANTIDAD DE PASAJEROS:");
@@ -433,9 +435,11 @@ public class PanelAgregarTramo extends JPanel {
 		btnGuardar.setBackground(new Color(204, 204, 51));
 		btnGuardar.setFont(new Font("Arial", Font.BOLD, 13));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.anchor = GridBagConstraints.EAST;
+		gbc_btnNewButton.gridwidth = 3;
 		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 3;
+		gbc_btnNewButton.gridx = 1;
 		gbc_btnNewButton.gridy = 19;
 		add(btnGuardar, gbc_btnNewButton);
 		
@@ -443,6 +447,8 @@ public class PanelAgregarTramo extends JPanel {
 		btnCancelar.setBackground(new Color(204, 204, 51));
 		btnCancelar.setFont(new Font("Arial", Font.BOLD, 13));
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.anchor = GridBagConstraints.WEST;
+		gbc_btnNewButton_1.gridwidth = 4;
 		gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_1.gridx = 4;

@@ -622,12 +622,7 @@ panelMenuPrincipal.getTramos().addActionListener(new ActionListener() {
 								ventana1.setVisible(true);
 								ventana1.pack();
 							}
-						});
-<<<<<<< HEAD
-=======
-						
->>>>>>> 84ed77d9cdd8d888ed3627b7acf7374dd92836ea
-						
+						});  						
 					}
 				});
 			}

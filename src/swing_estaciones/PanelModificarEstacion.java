@@ -538,43 +538,34 @@ public class PanelModificarEstacion extends JPanel {
 		finalizarMant.setVisible(true);
 		fechaFin.setVisible(true);
 		dateChooser_1.setVisible(true);
-<<<<<<< HEAD
 		dateChooser_1.setDate(convertToDate(LocalDate.now()));
-=======
 		dateChooser_1.setDate(convertToDate(LocalDate.now().minusDays(1)));
->>>>>>> 84ed77d9cdd8d888ed3627b7acf7374dd92836ea
 		dateChooser_1.setEnabled(false);
 		obs.setVisible(true);
 		textArea .setVisible(true);
-	
-<<<<<<< HEAD
-		 try {
+
+		 try { 
 			textArea.setText(actual.getObservaciones()); 
 		 }
 		 catch (java.lang.NullPointerException e){
 			 textArea.setText(null);
 		 }
-=======
 		try{
 			textArea.setText(actual.getObservaciones());
 		}catch(java.lang.NullPointerException e) {
 			textArea.setText(null);
 		}
 		
-		
->>>>>>> 84ed77d9cdd8d888ed3627b7acf7374dd92836ea
 		btnNewButton_3.setVisible(true);
-		btnNewButton5.setVisible(true);
+		btnNewButton5.setVisible(true); 
 /*		try {
 			actual.setFechaFin(convertToLocalDate(dateChooser_1.getDate()));
 		} catch (FechaFinMenorFechaInicioException e) {
 			e.printStackTrace();
 		}
 		TareaMantenimientoRepo.ModificarTareaMantenimiento(actual);
-<<<<<<< HEAD
 =======
 	*/
->>>>>>> 84ed77d9cdd8d888ed3627b7acf7374dd92836ea
 	}
 	public void sacarMantenimiento() {
 		btnNewButton_1.setEnabled(true);
