@@ -124,9 +124,7 @@ public class SubpanelFiltrosTramo extends JPanel {
 		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_1.gridx = 1;
 		gbc_comboBox_1.gridy = 8;
-		add(comboBox_2, gbc_comboBox_1);
-		
-		
+		add(comboBox_2, gbc_comboBox_1);		
 	}
 	public String getEstacionOrigen () {
 		if(comboBox.getSelectedIndex() == -1) {

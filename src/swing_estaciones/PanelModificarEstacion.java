@@ -364,7 +364,7 @@ public class PanelModificarEstacion extends JPanel {
 		gbc_dateChooser_1.gridy = 13;
 		add(dateChooser_1,gbc_dateChooser_1);
 		dateChooser_1.setVisible(false);
-		
+			
 		fechaFin1 = new JLabel("Por favor, inserte una fecha de fin de mantenimiento.");
 		fechaFin1.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 10));
 		fechaFin1.setForeground(Color.RED);
@@ -538,11 +538,23 @@ public class PanelModificarEstacion extends JPanel {
 		finalizarMant.setVisible(true);
 		fechaFin.setVisible(true);
 		dateChooser_1.setVisible(true);
+<<<<<<< HEAD
+		dateChooser_1.setDate(convertToDate(LocalDate.now()));
+=======
 		dateChooser_1.setDate(convertToDate(LocalDate.now().minusDays(1)));
+>>>>>>> 84ed77d9cdd8d888ed3627b7acf7374dd92836ea
 		dateChooser_1.setEnabled(false);
 		obs.setVisible(true);
 		textArea .setVisible(true);
 	
+<<<<<<< HEAD
+		 try {
+			textArea.setText(actual.getObservaciones()); 
+		 }
+		 catch (java.lang.NullPointerException e){
+			 textArea.setText(null);
+		 }
+=======
 		try{
 			textArea.setText(actual.getObservaciones());
 		}catch(java.lang.NullPointerException e) {
@@ -550,6 +562,7 @@ public class PanelModificarEstacion extends JPanel {
 		}
 		
 		
+>>>>>>> 84ed77d9cdd8d888ed3627b7acf7374dd92836ea
 		btnNewButton_3.setVisible(true);
 		btnNewButton5.setVisible(true);
 /*		try {
@@ -558,7 +571,10 @@ public class PanelModificarEstacion extends JPanel {
 			e.printStackTrace();
 		}
 		TareaMantenimientoRepo.ModificarTareaMantenimiento(actual);
+<<<<<<< HEAD
+=======
 	*/
+>>>>>>> 84ed77d9cdd8d888ed3627b7acf7374dd92836ea
 	}
 	public void sacarMantenimiento() {
 		btnNewButton_1.setEnabled(true);
