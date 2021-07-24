@@ -2,20 +2,18 @@ package swing_menu_principal;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PanelMenuPrincipal extends JPanel{
 
+	private static final long serialVersionUID = -2737296536348984651L;
+	
 	private JLabel tituloPag;
 	private JButton tareas_mantenimiento;
 	private JButton lineas;

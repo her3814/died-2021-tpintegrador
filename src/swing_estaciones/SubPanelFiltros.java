@@ -1,8 +1,6 @@
 package swing_estaciones;
 
 import javax.swing.JPanel;
-import java.awt.GridLayout;
-
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
@@ -11,16 +9,13 @@ import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Insets;
 import javax.swing.JRadioButton;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.time.LocalTime;
 import java.util.Enumeration;
-import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
-import modelo.EstadoEstacionEnum;
-
 public class SubPanelFiltros extends JPanel {
+
+	private static final long serialVersionUID = 6905915187633690667L;
+	
 	private ButtonGroup horaApertura;
 	private ButtonGroup horaCierre;
 	private ButtonGroup estado;

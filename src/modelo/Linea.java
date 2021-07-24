@@ -3,7 +3,7 @@ package modelo;
 public class Linea {
 	private final Integer _id;
 	private String _nombre;
-	private String _color;
+	private ColoresLineasEnum _color;
 	private EstadoLineaEnum _estado;
 	private LineaTipoTransporteEnum _tipoTransporte;
 
@@ -15,7 +15,7 @@ public class Linea {
 			LineaTipoTransporteEnum tipoTransporte) {
 		_id = id;
 		_nombre = nombre;
-		_color = color;
+		_color = ColoresLineasEnum.valueOf(color);
 		_estado = estado;		
 		_tipoTransporte=tipoTransporte;
 	}
@@ -24,7 +24,7 @@ public class Linea {
 			LineaTipoTransporteEnum tipoTransporte) {
 		_id=null;
 		_nombre = nombre;
-		_color = color;
+		_color = ColoresLineasEnum.valueOf(color);
 		_estado = estado;		
 		_tipoTransporte=tipoTransporte;
 	}
@@ -42,11 +42,11 @@ public class Linea {
 	}
 
 	public String get_color() {
-		return _color;
+		return _color.toString();
 	}
 
 	public void set_color(String _color) {
-		this._color = _color;
+		this._color = ColoresLineasEnum.valueOf(_color);
 	}
 
 	public EstadoLineaEnum get_estado() {

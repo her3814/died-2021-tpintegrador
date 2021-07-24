@@ -4,89 +4,136 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import bdd.EstacionesRepo;
 import bdd.TramosRepo;
 import modelo.Estacion;
+import modelo.Linea;
+import modelo.Tramo;
 
 public class grafo {
-	private HashMap<String, HashMap<String, Double>> Grafo;
+	private HashMap<Estacion, HashMap<Estacion, Recorrido[]>> _grafo;
 
 	public grafo() {
-		Grafo = new HashMap<String, HashMap<String, Double>>();
+		_grafo = new HashMap<Estacion, HashMap<Estacion, Recorrido[]>>();
 	}
 
-	public HashMap<String, Double> getVertice(String vertice) {
-		return Grafo.get(vertice);
+	public HashMap<Estacion, Recorrido[]> getVertice(Estacion estacion) {
+		return _grafo.get(estacion);
 	}
 
-	public void crearVertice(String vertice, HashMap<String, Double> relacion) {
-		Grafo.put(vertice, relacion);
+	public void crearVertice(Estacion vertice, HashMap<Estacion, Recorrido[]> relacion) {
+		_grafo.put(vertice, relacion);
 	}
 
-	public List<String> getKeys() {
-		List<String> keys = new ArrayList<String>();
-		keys.addAll(Grafo.keySet());
+	public List<Estacion> getKeys() {
+		List<Estacion> keys = new ArrayList<Estacion>();
+		keys.addAll(_grafo.keySet());
 		return keys;
 	}
 
-	public static void main(String[] a) {
-
-		System.out.println("GRAFO CON PESO POR PASAJEROS");
-		var g = ObtenerGrafoEstacionesPorPasajeros();
-		var keys = g.getKeys();
-
-		for (int i = 0; i < keys.size(); i++) {
-			System.out.println(keys.toArray()[i] + " -> " + g.getVertice((String) keys.toArray()[i]));
-		}
-
-		System.out.println("GRAFO CON PESO POR COSTO");
-		g = ObtenerGrafoEstacionesPorCosto();
-		keys = g.getKeys();
-
-		for (int i = 0; i < keys.size(); i++) {
-			System.out.println(keys.toArray()[i] + " -> " + g.getVertice((String) keys.toArray()[i]));
-		}
-
-	}
-
-	public static grafo ObtenerGrafoEstacionesPorPasajeros() {
+	/**
+	 * Genera un grafo con todas las estaciones y tramos existentes
+	 * 
+	 * @return
+	 */
+	public static grafo ObtenerGrafoCompleto() {
 		grafo g = new grafo();
 
-		List<Estacion> est = EstacionesRepo.ObtenerEstaciones();
+		List<Estacion> estaciones = EstacionesRepo.ObtenerEstaciones();
 
-		for (int i = 0; i < est.size(); i++) {
+		for (Estacion e : estaciones) {
+			var tramosDesde = TramosRepo.ObtenerDestinosDesde(e);
+			Set<Estacion> estacionesDestino = tramosDesde.stream().map(t -> t.getDestino()).collect(Collectors.toSet());
 
-			var con = TramosRepo.ObtenerDestinosDesde(est.get(i));
-			var aux = new HashMap<String, Double>();
-			for (int j = 0; j < con.size(); j++) {
-				aux.put(con.get(j).getDestino().getNombre(), con.get(j).get_cantPasajeros().doubleValue());
+			var recorridos = new HashMap<Estacion, Recorrido[]>();
+
+			for (Estacion eD : estacionesDestino) {
+				var aux = tramosDesde.stream().filter(t -> t.getDestino().equals(eD)).map(t -> new Recorrido(t))
+						.toArray(Recorrido[]::new);
+
+				recorridos.put(eD, aux);
 			}
 
-			g.crearVertice(est.get(i).getNombre(), aux);
-
+			g.crearVertice(e, recorridos);
 		}
 		return g;
-
 	}
 
-	public static grafo ObtenerGrafoEstacionesPorCosto() {
+	public static grafo ObtenerGrafoDeLinea(Linea linea) {
+		return null;
+	}
+
+	public static grafo ObtenerGrafoDesdeRecorrido(List<Tramo> recorrido) {
 		grafo g = new grafo();
 
-		List<Estacion> est = EstacionesRepo.ObtenerEstaciones();
+		Set<Estacion> estacionesOrigen = recorrido.stream().map(t -> t.getOrigen()).collect(Collectors.toSet());
 
-		for (int i = 0; i < est.size(); i++) {
+		for (Estacion eO : estacionesOrigen) {
 
-			var con = TramosRepo.ObtenerDestinosDesde(est.get(i));
-			var aux = new HashMap<String, Double>();
-			for (int j = 0; j < con.size(); j++) {
-				aux.put(con.get(j).getDestino().getNombre(), con.get(j).getCosto());
+			Set<Estacion> estacionesDestino = recorrido.stream().filter(t -> t.getOrigen().equals(eO))
+					.map(t -> t.getDestino()).collect(Collectors.toSet());
+
+			var recorridos = new HashMap<Estacion, Recorrido[]>();
+
+			for (Estacion eD : estacionesDestino) {
+				var aux = recorrido.stream().filter(t -> t.getDestino().equals(eD) && t.getOrigen().equals(eO))
+						.map(t -> new Recorrido(t)).toArray(Recorrido[]::new);
+
+				recorridos.put(eD, aux);
 			}
 
-			g.crearVertice(est.get(i).getNombre(), aux);
+			g.crearVertice(eO, recorridos);
 		}
-
 		return g;
-
 	}
+
+	public static void main(String[] args) {
+		var g = grafo.ObtenerGrafoCompleto();
+		System.out.println(grafo.ObtenerGrafoCompleto());
+	}
+//	
+//	
+//	
+//	public static grafo ObtenerGrafoEstacionesPorPasajeros() {
+//		grafo g = new grafo();
+//
+//		List<Estacion> est = EstacionesRepo.ObtenerEstaciones();
+//
+//		for (int i = 0; i < est.size(); i++) {
+//
+//			var con = TramosRepo.ObtenerDestinosDesde(est.get(i));
+//			var aux = new HashMap<String, Double>();
+//			for (int j = 0; j < con.size(); j++) {
+//				aux.put(con.get(j).getDestino().getNombre(), con.get(j).get_cantPasajeros().doubleValue());
+//			}
+//
+//			g.crearVertice(est.get(i).getNombre(), aux);
+//
+//		}
+//		return g;
+//
+//	}
+//
+//	public static grafo ObtenerGrafoEstacionesPorCosto() {
+//		grafo g = new grafo();
+//
+//		List<Estacion> est = EstacionesRepo.ObtenerEstaciones();
+//
+//		for (int i = 0; i < est.size(); i++) {
+//
+//			var con = TramosRepo.ObtenerDestinosDesde(est.get(i));
+//
+//			var aux = new HashMap<String, Double>();
+//			for (int j = 0; j < con.size(); j++) {
+//				aux.put(con.get(j).getDestino().getNombre(), con.get(j).getCosto());
+//			}
+//
+//			g.crearVertice(est.get(i).getNombre(), aux);
+//		}
+//
+//		return g;
+//	}
+
 }

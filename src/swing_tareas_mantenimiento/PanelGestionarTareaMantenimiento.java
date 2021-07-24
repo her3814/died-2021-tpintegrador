@@ -12,6 +12,10 @@ import javax.swing.JPanel;
 
 public class PanelGestionarTareaMantenimiento extends JPanel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6193848186920675040L;
 	private JLabel tituloPag;
 	private JButton crear;
 	private JButton buscar;

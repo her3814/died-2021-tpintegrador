@@ -5,11 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-import excepciones.HoraCierreMenorHoraAperturaException;
+import modelo.Boleto;
 import modelo.Estacion;
 import modelo.EstadoTramoEnum;
 import modelo.Linea;
@@ -33,6 +32,46 @@ public class TramosRepo {
 
 	}
 
+
+	public static List<Tramo> ObtenerDeBoleto(Boleto boleto){
+		String sql = "SELECT t.* FROM boleto_recorrido AS b INNER JOIN lineas_trayecto AS t " +
+					 "ON (trayecto_linea_id = id_linea_transporte AND b.trayecto_orden = t.trayecto_orden) "
+					 + " WHERE b.boleto_numero = ? ORDER BY b.boleto_recorrido_orden";
+		
+		List<Tramo> res = new ArrayList<Tramo>();
+		
+		Connection con = BddSingleton.GetConnection();
+		
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql);
+			pstm.setInt(1, boleto.get_nroBoleto());
+			
+			var r = pstm.executeQuery();
+			
+			while(r.next())
+			{
+				res.add(ToEntity(r));
+			}
+			
+			r.close();
+			pstm.close();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return res;		
+	}
+	
+	
+	
 	/**
 	 * Elimina todo el recorrido que realiza una linea
 	 * 

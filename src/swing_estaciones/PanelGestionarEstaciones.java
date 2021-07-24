@@ -2,20 +2,17 @@ package swing_estaciones;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PanelGestionarEstaciones extends JPanel{
 
+	private static final long serialVersionUID = 4068017602875661814L;
 	private JLabel tituloPag;
 	private JButton crear;
 	private JButton buscar;

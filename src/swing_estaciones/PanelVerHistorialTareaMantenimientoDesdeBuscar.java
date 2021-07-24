@@ -6,38 +6,30 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.AbstractButton;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-import bdd.EstacionesRepo;
 import bdd.TareaMantenimientoRepo;
-import excepciones.FechaFinMenorFechaInicioException;
 import modelo.Estacion;
 import modelo.TareaMantenimiento;
 
 public class PanelVerHistorialTareaMantenimientoDesdeBuscar extends JPanel {
+
+	private static final long serialVersionUID = 985351493959923443L;
+	
 	private JButton btnNewButton_2; 
 	private JTable table;
 	private Object datosFila [][];
@@ -155,6 +147,11 @@ public class PanelVerHistorialTareaMantenimientoDesdeBuscar extends JPanel {
 		}
 		//Crear modelo de la tabla
 		model = new DefaultTableModel(datosFila,nombreColumnas){
+		/**
+			 * 
+			 */
+			private static final long serialVersionUID = -5604199082004900822L;
+
 		public boolean isCellEditable(int rowIndex,int columnIndex){
 				return false;
 		}

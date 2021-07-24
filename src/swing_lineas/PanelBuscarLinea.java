@@ -14,7 +14,6 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import java.awt.event.ActionListener;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,12 +27,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-import bdd.EstacionesRepo;
 import bdd.LineasRepo;
-import excepciones.HoraCierreMenorHoraAperturaException;
-//import excepciones.HoraCierreMenorHoraAperturaException;
-import modelo.Estacion;
-import modelo.EstadoEstacionEnum;
 import modelo.EstadoLineaEnum;
 import modelo.Linea;
 import modelo.LineaTipoTransporteEnum;
@@ -316,7 +310,6 @@ public class PanelBuscarLinea extends JPanel {
 	public DefaultTableModel renovarTabla(List<Linea> nuevosDatos) {
 		String nombreColumnas[] = {"Id","Nombre", "Color", "Estado", "Tipo de Transporte"};
 		datosFila = new Object[nuevosDatos.size()] [5];
-		JTable new_table = new JTable();
 		for(int i=0; i<nuevosDatos.size();i++) {
 			datosFila[i][0] = nuevosDatos.get(i).get_id();
 			datosFila[i][1] = nuevosDatos.get(i).get_nombre();

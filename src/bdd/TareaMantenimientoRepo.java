@@ -88,7 +88,6 @@ public class TareaMantenimientoRepo {
 	public static void ModificarTareaMantenimiento(TareaMantenimiento tarea) {
 		String sql = "UPDATE estaciones_tareas_mantenimiento SET id_estacion = ?, fecha_inicio = ? , fecha_fin = ?, observaciones = ? WHERE id = ?";
 		Connection con = BddSingleton.GetConnection();
-		TareaMantenimiento tm = null;
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql);
 			pstm.setInt(1, tarea.getEstacion().getId());

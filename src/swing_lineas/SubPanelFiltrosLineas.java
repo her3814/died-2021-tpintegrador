@@ -4,23 +4,18 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
-import bdd.EstacionesRepo;
 import bdd.LineasRepo;
-import modelo.Estacion;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 

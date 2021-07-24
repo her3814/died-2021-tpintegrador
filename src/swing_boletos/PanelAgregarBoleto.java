@@ -9,20 +9,14 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
-import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
-import javax.swing.JRadioButton;
 import javax.swing.JButton;
-import com.github.lgooddatepicker.components.TimePicker;
-
 import bdd.EstacionesRepo;
-import filtros.EstacionesFiltro;
 import modelo.Boleto;
 import modelo.Estacion;
 import modelo.Tramo;
@@ -33,6 +27,8 @@ import javax.swing.DefaultComboBoxModel;
 
 public class PanelAgregarBoleto extends JPanel {
 
+	private static final long serialVersionUID = 5456988688369991566L;
+	
 	private JTextField textField_1;
 	private JButton guardar;
 	private JButton cancelar;

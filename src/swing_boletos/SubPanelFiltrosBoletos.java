@@ -1,8 +1,6 @@
 package swing_boletos;
 
 import javax.swing.JPanel;
-import java.awt.GridLayout;
-
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -12,13 +10,9 @@ import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Insets;
 import javax.swing.JRadioButton;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.time.LocalTime;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
 import bdd.EstacionesRepo;
