@@ -446,6 +446,5 @@ public class PanelBuscarEstacion extends JPanel {
 	public void setHistorial(JButton historial) {
 		this.historial = historial;
 	}
-	
-	
+
 }

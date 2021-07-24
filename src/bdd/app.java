@@ -20,7 +20,7 @@ public class app {
 			}
 
 			grafo g = grafo.ObtenerGrafoDesdeRecorrido(b.get_tramos());	
-			frame _f = new frame(g, TramoMostrarEnum.LINEA);
+			 frame.createFrame(g, TramoMostrarEnum.LINEA);
 		}
 		
 	}
