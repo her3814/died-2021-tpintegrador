@@ -9,7 +9,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +19,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -29,16 +27,15 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-import bdd.EstacionesRepo;
 import bdd.TramosRepo;
-import excepciones.HoraCierreMenorHoraAperturaException;
-import modelo.Estacion;
-import modelo.EstadoEstacionEnum;
 import modelo.Linea;
 import modelo.Tramo;
-import swing_estaciones.SubPanelFiltros;
 
 public class PanelBuscarTramo extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1188503520844969460L;
 	private JTable table;
 	private SubpanelFiltrosTramo filtros;
 	private List<Tramo> tramosBDD;
@@ -51,7 +48,6 @@ public class PanelBuscarTramo extends JPanel {
 	private int row_selected;
 	private Tramo actual;
 	private JButton aplicarFiltros;
-	private String estadoFiltrado;
 	private DefaultTableModel model;
 	private JButton btnLimpiarFiltros;
 	
@@ -119,8 +115,6 @@ public class PanelBuscarTramo extends JPanel {
 		eliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int fila = table.getSelectedRow();
-				Integer id = (Integer) table.getValueAt(fila, 0);
-				String nombre = (String) table.getValueAt(fila, 1);
 				seguir = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el tramo con origen: " + actual.getOrigen().getNombre() + "?", 
 				null, 2);
 				System.out.println(seguir);
@@ -242,7 +236,6 @@ public class PanelBuscarTramo extends JPanel {
 	public DefaultTableModel renovarTabla(List<Tramo> nuevosDatos) {
 		String nombreColumnas[] = {"Origen","Destino", "Linea","Orden", "Estado", "Costo"};
 		datosFila = new Object[nuevosDatos.size()] [6];
-		JTable new_table = new JTable();
 		for(int i=0; i<nuevosDatos.size();i++) {
 			datosFila[i][0] = nuevosDatos.get(i).getOrigen().getNombre();
 			datosFila[i][1] = nuevosDatos.get(i).getDestino().getNombre();
@@ -254,6 +247,11 @@ public class PanelBuscarTramo extends JPanel {
 		}
 		//Crear modelo de la tabla
 		model = new DefaultTableModel(datosFila,nombreColumnas){
+		/**
+			 * 
+			 */
+			private static final long serialVersionUID = -2476791951404920699L;
+
 		public boolean isCellEditable(int rowIndex,int columnIndex){
 				return false;
 				}

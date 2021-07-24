@@ -32,7 +32,8 @@ import java.awt.Color;
 
 public class PanelModificarEstacion extends JPanel {
 
-
+	private static final long serialVersionUID = -2672083217995305547L;
+	
 	private JTextField textField_1;
 	private ButtonGroup estado;
 	private JButton btnNewButton;

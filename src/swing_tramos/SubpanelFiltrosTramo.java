@@ -1,26 +1,14 @@
 package swing_tramos;
 
 import javax.swing.JPanel;
-import java.awt.GridLayout;
-
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Insets;
-import javax.swing.JRadioButton;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.time.LocalTime;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
-
 import bdd.EstacionesRepo;
 import bdd.LineasRepo;
 import modelo.Estacion;
@@ -30,6 +18,10 @@ import javax.swing.JComboBox;
 
 public class SubpanelFiltrosTramo extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9191998924515427156L;
 	private JLabel lblNewLabel_2;
 	private JComboBox comboBox;
 	private JLabel lblNewLabel_3;

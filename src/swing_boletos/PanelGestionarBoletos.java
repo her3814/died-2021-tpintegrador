@@ -13,11 +13,11 @@ import javax.swing.JPanel;
 
 public class PanelGestionarBoletos extends JPanel{
 
+	private static final long serialVersionUID = -6907894395878047714L;
+	
 	private JLabel tituloPag;
 	private JButton crear;
 	private JButton buscar;
-	private JButton eliminar;
-
 	private GridBagConstraints gbc;
 	private JButton volver; 
 

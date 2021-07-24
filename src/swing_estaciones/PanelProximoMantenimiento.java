@@ -13,7 +13,9 @@ import javax.swing.JButton;
 import java.awt.Color;
 
 public class PanelProximoMantenimiento extends JPanel {
-
+	
+	private static final long serialVersionUID = -2644494736548175597L;
+	
 	private JTextField textField_1;
 	private JButton btnNewButton;
 	private JButton cancelar;

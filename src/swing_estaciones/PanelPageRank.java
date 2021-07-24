@@ -13,7 +13,9 @@ import javax.swing.JButton;
 import java.awt.Color;
 
 public class PanelPageRank extends JPanel {
-
+	
+	private static final long serialVersionUID = -6452882961449723751L;
+	
 	private JTextField textField_1;
 	private JButton btnNewButton;
 	private JButton cancelar;

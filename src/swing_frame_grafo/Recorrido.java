@@ -1,6 +1,5 @@
 package swing_frame_grafo;
 
-import modelo.ColoresLineasEnum;
 import modelo.Tramo;
 
 public class Recorrido {

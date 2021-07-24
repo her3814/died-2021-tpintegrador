@@ -7,13 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import bdd.EstacionesRepo;
 import bdd.TareaMantenimientoRepo;
@@ -41,7 +35,6 @@ import swing_tareas_mantenimiento.PanelBuscarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelGestionarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelModificarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelVerHistorialTareaMantenimiento;
-import swing_estaciones.PanelVerHistorialTareaMantenimientoDesdeBuscar;
 import swing_tramos.PanelAgregarTramo;
 import swing_tramos.PanelBuscarTramo;
 //import swing_tramos.PanelBuscarTramo;
@@ -262,7 +255,6 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 								panelModificarEstacion.horarioCierrePostAp();
 							}
 							EstacionesRepo.ModificarEstacion(nueva);
-							TareaMantenimiento t=TareaMantenimientoRepo.ObtenerActiva(nueva);
 							try {
 								TareaMantenimientoRepo.FinalizarTareaDeMantenimiento(TareaMantenimientoRepo.ObtenerActiva(nueva));
 							} catch (FechaFinMenorFechaInicioException e1) {

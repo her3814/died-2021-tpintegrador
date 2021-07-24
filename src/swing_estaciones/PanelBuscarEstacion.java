@@ -379,7 +379,6 @@ public class PanelBuscarEstacion extends JPanel {
 	public DefaultTableModel renovarTabla(List<Estacion> nuevosDatos) {
 		String nombreColumnas[] = {"Id","Nombre estacion", "Horario apertura", "Horario cierre", "Estado"};
 		datosFila = new Object[nuevosDatos.size()] [5];
-		JTable new_table = new JTable();
 		for(int i=0; i<nuevosDatos.size();i++) {
 			datosFila[i][0] = nuevosDatos.get(i).getId();
 			datosFila[i][1] = nuevosDatos.get(i).getNombre();

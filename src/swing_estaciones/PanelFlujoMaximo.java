@@ -14,6 +14,8 @@ import java.awt.Color;
 
 public class PanelFlujoMaximo extends JPanel {
 
+	private static final long serialVersionUID = -1490698534951693261L;
+	
 	private JTextField textField_1;
 	private JButton btnNewButton;
 	private JButton cancelar;

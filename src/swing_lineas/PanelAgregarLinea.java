@@ -24,8 +24,6 @@ import java.awt.Color;
 public class PanelAgregarLinea extends JPanel {
 	private JTextField textField;
 	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
 	private ButtonGroup estado;
 	private JButton btnGuardar;
 	private JButton btnCancelar;
@@ -41,10 +39,6 @@ public class PanelAgregarLinea extends JPanel {
 	private JRadioButton rdbtnTren;
 	private JRadioButton rdbtnColectivo;
 	
-	/**
-	 * @wbp.nonvisual location=543,504
-	 */
-	private final JLabel label = new JLabel("New label");
 	public PanelAgregarLinea() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		

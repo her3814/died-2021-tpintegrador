@@ -6,15 +6,12 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
 import modelo.ColoresLineasEnum;
-import modelo.Tramo;
 
 public class arista {
 	Color color;

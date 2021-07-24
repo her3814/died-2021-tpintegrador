@@ -12,19 +12,10 @@ import java.awt.Insets;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.stream.Collectors;
-
-import javax.swing.SwingConstants;
 import javax.swing.JTextField;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.JRadioButton;
 import javax.swing.JButton;
-import com.github.lgooddatepicker.components.TimePicker;
-
 import modelo.Estacion;
 import modelo.TareaMantenimiento;
 
@@ -34,12 +25,12 @@ import com.toedter.calendar.JDateChooser;
 import bdd.EstacionesRepo;
 import bdd.TareaMantenimientoRepo;
 import excepciones.FechaFinMenorFechaInicioException;
-import filtros.EstacionesFiltro;
-
 import javax.swing.JTextArea;
 
 
 public class PanelModificarTareaMantenimiento extends JPanel {
+	
+	private static final long serialVersionUID = -5695359470723121683L;
 	
 	private JTextField textField_1;
 	private JButton btnNewButton;

@@ -22,10 +22,11 @@ import modelo.LineaTipoTransporteEnum;
 import java.awt.Color;
 
 public class PanelDefinirTrayectos extends JPanel {
+	
+	private static final long serialVersionUID = 4749119555075159210L;
+	
 	private JTextField textField;
 	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
 	private ButtonGroup estado;
 	private JButton btnGuardar;
 	private JButton btnCancelar;
@@ -41,10 +42,6 @@ public class PanelDefinirTrayectos extends JPanel {
 	private JRadioButton rdbtnTren;
 	private JRadioButton rdbtnColectivo;
 	
-	/**
-	 * @wbp.nonvisual location=543,504
-	 */
-	private final JLabel label = new JLabel("New label");
 	public PanelDefinirTrayectos() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
