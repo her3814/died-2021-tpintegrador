@@ -206,23 +206,26 @@ public class PanelAgregarTramo extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				System.out.println(((Linea) comboBox_1_1.getSelectedItem()).toString());
-				
-				var recorrido = TramosRepo.ObtenerRecorrido((Linea) comboBox_1_1.getSelectedItem());				
+
+				var recorrido = TramosRepo.ObtenerRecorrido((Linea) comboBox_1_1.getSelectedItem());
 				if (recorrido.size() > 0)
 					frame.createFrame(grafo.ObtenerGrafoDesdeRecorrido(recorrido), TramoMostrarEnum.TODO);
-				
-				label.setForeground(Color.RED);
-				label.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
-				label.setHorizontalAlignment(SwingConstants.LEFT);
-				GridBagConstraints gbc_i_label = new GridBagConstraints();
-				gbc_i_label.anchor = GridBagConstraints.EAST;
-				gbc_i_label.insets = new Insets(0, 0, 5, 5);
-				gbc_i_label.gridx = 1;
-				gbc_i_label.gridy = 8;
-				gbc_i_label.gridwidth = 3;
-				gbc_i_label.anchor = GridBagConstraints.WEST;
-				add(label, gbc_i_label);
-				label.setVisible(true);
+				else {
+
+					label = new JLabel("LA LINEA SELECCIONADA NO POSEE TRAMOS ASIGNADOS.");
+					label.setForeground(Color.RED);
+					label.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
+					label.setHorizontalAlignment(SwingConstants.LEFT);
+					GridBagConstraints gbc_i_label = new GridBagConstraints();
+					gbc_i_label.anchor = GridBagConstraints.EAST;
+					gbc_i_label.insets = new Insets(0, 0, 5, 5);
+					gbc_i_label.gridx = 1;
+					gbc_i_label.gridy = 8;
+					gbc_i_label.gridwidth = 3;
+					gbc_i_label.anchor = GridBagConstraints.WEST;
+					add(label, gbc_i_label);
+					label.setVisible(true);
+				}
 			}
 		});
 
