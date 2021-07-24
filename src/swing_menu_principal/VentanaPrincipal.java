@@ -10,6 +10,7 @@ import java.awt.event.ItemListener;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import bdd.EstacionesRepo;
+import bdd.LineasRepo;
 import bdd.TareaMantenimientoRepo;
 import excepciones.FechaFinMenorFechaInicioException;
 import excepciones.HoraCierreMenorHoraAperturaException;
@@ -30,6 +31,7 @@ import swing_estaciones.PanelPageRank;
 import swing_estaciones.PanelProximoMantenimiento;
 import swing_estaciones.PanelVerHistorialTareaMantenimientoDesdeBuscar;
 import swing_lineas.PanelGestionarLineas;
+import swing_lineas.PanelModificarLinea;
 import swing_tareas_mantenimiento.PanelAgregarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelBuscarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelGestionarTareaMantenimiento;
@@ -39,6 +41,7 @@ import swing_tramos.PanelAgregarTramo;
 import swing_tramos.PanelBuscarTramo;
 //import swing_tramos.PanelBuscarTramo;
 import swing_tramos.PanelGestionarTramos;
+import swing_tramos.PanelModificarTramo;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -452,6 +455,35 @@ panelMenuPrincipal.getLineas().addActionListener(new ActionListener() {
 						ventana1.setVisible(true);
 						ventana1.pack();
 
+						panelBuscarLinea.getModificar().addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								ventana1.setTitle("MODIFICAR LINEA");
+								PanelModificarLinea panelModificarLinea = new PanelModificarLinea(panelBuscarLinea.getActual());
+								panelModificarLinea.setBackground(Color.WHITE);
+								ventana1.setContentPane(panelModificarLinea);
+								ventana1.setVisible(true);
+								ventana1.pack();
+								
+								//TODO
+							panelModificarLinea.getGuardar().addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									panelModificarLinea.limpiarWarnings();
+									panelModificarLinea.modificarLinea();
+									panelBuscarLinea.setModel(panelBuscarLinea.renovarTabla(LineasRepo.ObtenerLineas()));
+								}
+							});	
+							
+							panelModificarLinea.getCancelar().addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								ventana1.setTitle("BUSCAR LINEA");
+								ventana1.setContentPane(panelBuscarLinea);
+								ventana1.setVisible(true);
+								ventana1.pack();
+							}
+						});
+							}
+						});
+						
 						panelBuscarLinea.getCancelar().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								ventana1.setTitle("GESTIONAR LINEAS");
@@ -613,6 +645,15 @@ panelMenuPrincipal.getTramos().addActionListener(new ActionListener() {
 								ventana1.setContentPane(panelGestionarTramos);
 								ventana1.setVisible(true);
 								ventana1.pack();
+						panelBuscarTramo.getModificar().addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								ventana1.setTitle("MODIFICAR TRAMO");
+								PanelModificarTramo panelModificarTramo= new PanelModificarTramo();
+								panelModificarTramo.setBackground(Color.WHITE);
+								ventana1.setContentPane(panelGestionarTramos);
+								ventana1.setVisible(true);
+								ventana1.pack();							}
+						});
 							}
 						});  						
 					}
