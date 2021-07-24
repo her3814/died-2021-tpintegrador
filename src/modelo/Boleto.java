@@ -3,25 +3,27 @@ package modelo;
 import java.time.LocalDate;
 import java.util.List;
 
+import bdd.TramosRepo;
+
 public class Boleto {
 	private final Integer _nroBoleto;
 	private String _correoCliente;
 	private String _nombreCliente;
 	private LocalDate _fechaVenta;
 	private Double _costo;
-	private Estacion _origen;
-	private Estacion _destino;
+	private String _origen;
+	private String _destino;
 	private List<Tramo> _tramos;
 	
-	public Boleto(Integer numeroBoleto, String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, List<Tramo> recorrido) {
+	public Boleto(Integer numeroBoleto, String correo, String nombre, LocalDate fechaVenta, Double costo, String nombreEstacionOrigen, String nombreEstacionDestino) {
 		_nroBoleto = numeroBoleto;
 		_correoCliente=correo;
 		_nombreCliente = nombre;
 		_fechaVenta=fechaVenta;
 		_costo = costo;
-		_origen = origen;
-		_destino = destino;
-		_tramos = recorrido;
+		_origen = nombreEstacionOrigen;
+		_destino = nombreEstacionDestino;
+		_tramos = TramosRepo.ObtenerDeBoleto(this);
 	}
 	
 	public Boleto(String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, List<Tramo> recorrido) {
@@ -30,8 +32,8 @@ public class Boleto {
 		_nombreCliente = nombre;
 		_fechaVenta=fechaVenta;
 		_costo = costo;
-		_origen = origen;
-		_destino = destino;
+		_origen = origen.getNombre();
+		_destino = destino.getNombre();
 		_tramos = recorrido;
 	}
 
@@ -41,18 +43,14 @@ public class Boleto {
 	public void set_costo(Double _costo) {
 		this._costo = _costo;
 	}
-	public Estacion get_origen() {
+	public String get_origen() {
 		return _origen;
 	}
-	public void set_origen(Estacion _origen) {
-		this._origen = _origen;
-	}
-	public Estacion get_destino() {
+
+	public String get_destino() {
 		return _destino;
 	}
-	public void set_destino(Estacion _destino) {
-		this._destino = _destino;
-	}
+
 	public List<Tramo> get_tramos() {
 		return _tramos;
 	}

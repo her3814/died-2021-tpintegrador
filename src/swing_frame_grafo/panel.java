@@ -25,7 +25,7 @@ public class panel extends JPanel {
 	public panel(grafo grafo, TramoMostrarEnum mostrar) {
 		this.grafo1 = grafo;
 		this.setSize(600, 320);
-		this.setBackground(Color.DARK_GRAY);
+		this.setBackground(Color.BLACK);
 		vertices = new ArrayList<vertice>();
 		aristas = new ArrayList<arista>();
 		_mostrar = mostrar;
