@@ -12,6 +12,7 @@ import javax.swing.WindowConstants;
 import bdd.EstacionesRepo;
 import bdd.LineasRepo;
 import bdd.TareaMantenimientoRepo;
+import bdd.TramosRepo;
 import excepciones.FechaFinMenorFechaInicioException;
 import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.*;
@@ -261,7 +262,6 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 							try {
 								TareaMantenimientoRepo.FinalizarTareaDeMantenimiento(TareaMantenimientoRepo.ObtenerActiva(nueva));
 							} catch (FechaFinMenorFechaInicioException e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
 							panelModificarEstacion.getLblNewLabel_6().setVisible(true);
@@ -463,15 +463,13 @@ panelMenuPrincipal.getLineas().addActionListener(new ActionListener() {
 								ventana1.setContentPane(panelModificarLinea);
 								ventana1.setVisible(true);
 								ventana1.pack();
-								
-								//TODO
-							panelModificarLinea.getGuardar().addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									panelModificarLinea.limpiarWarnings();
-									panelModificarLinea.modificarLinea();
-									panelBuscarLinea.setModel(panelBuscarLinea.renovarTabla(LineasRepo.ObtenerLineas()));
-								}
-							});	
+						panelModificarLinea.getGuardar().addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							panelModificarLinea.limpiarWarnings();
+							panelModificarLinea.modificarLinea();
+							panelBuscarLinea.setModel(panelBuscarLinea.renovarTabla(LineasRepo.ObtenerLineas()));
+						}
+					});	
 							
 							panelModificarLinea.getCancelar().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
@@ -645,21 +643,39 @@ panelMenuPrincipal.getTramos().addActionListener(new ActionListener() {
 								ventana1.setContentPane(panelGestionarTramos);
 								ventana1.setVisible(true);
 								ventana1.pack();
+							}
+						});	
 						panelBuscarTramo.getModificar().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								ventana1.setTitle("MODIFICAR TRAMO");
-								PanelModificarTramo panelModificarTramo= new PanelModificarTramo();
+								PanelModificarTramo panelModificarTramo = new PanelModificarTramo(panelBuscarTramo.getActual());
 								panelModificarTramo.setBackground(Color.WHITE);
-								ventana1.setContentPane(panelGestionarTramos);
+								ventana1.setContentPane(panelModificarTramo);
 								ventana1.setVisible(true);
-								ventana1.pack();							}
-						});
-							}
-						});  						
+								ventana1.pack();		
+								
+						panelModificarTramo.getCancelar().addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							ventana1.setTitle("BUSCAR TRAMO");
+							ventana1.setContentPane(panelBuscarTramo);
+							ventana1.setVisible(true);
+							ventana1.pack();
+							
+						panelModificarTramo.getGuardar().addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							panelModificarTramo.limpiarWarnings();
+							panelModificarTramo.modificarTramo();
+							panelBuscarTramo.setModel(panelBuscarTramo.renovarTabla(TramosRepo.obtenerTramos()));
+						}
+					});	
+						}
+						}); 
 					}
-				});
+				});  						
 			}
 		});
+	}
+});
 	
 	
 panelMenuPrincipal.getTareas_mantenimiento().addActionListener(new ActionListener() {
@@ -789,24 +805,5 @@ panelMenuPrincipal.getTareas_mantenimiento().addActionListener(new ActionListene
 				});
 			}
 });
-
-		
-		
-		
-		//------------------------------------------------------------------------------------
-		// 						ESTACIONES
-		//COMENTADO PORQUE NO SABEMOS QUE ES
-		/*panelBuscarEstacion.getBtnNewButton().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				EstacionesFiltro ef= new EstacionesFiltro();
-				ef.setNombre(panelBuscarEstacion.getTextoEscrito());
-				ef.setId(Integer.getInteger(panelBuscarEstacion.getTextoEscrito()));
-				JTable nuevaTabla= panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones(ef));
-				
-				//aplicar filtro segun el texto ingresado
-			} 
-
-		});*/
-
-	}
+}
 }

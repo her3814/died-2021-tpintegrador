@@ -107,7 +107,7 @@ public class SubpanelFiltrosTramo extends JPanel {
 		
 		
 		comboBox_2.setModel(new DefaultComboBoxModel(		
-				 lineas.stream().map(l -> l.get_nombre())
+				 lineas.stream().map(l -> l.get_id())
 				 .collect(Collectors.toList())
 				.toArray()));
 		comboBox_2.setSelectedIndex(-1);
@@ -130,11 +130,11 @@ public class SubpanelFiltrosTramo extends JPanel {
 		}
 		else return comboBox_1.getSelectedItem().toString();
 	}
-	public String getLinea () {
+	public Integer getLinea () {
 		if(comboBox_2.getSelectedIndex() == -1) {
-			return "no seleccionado";
+			return -1;
 		}
-		else return comboBox_2.getSelectedItem().toString();
+		else return (Integer) comboBox_2.getSelectedItem();
 	}
 	
 	public void limpiarFiltros() {

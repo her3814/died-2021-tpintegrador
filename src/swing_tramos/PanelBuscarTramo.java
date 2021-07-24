@@ -28,13 +28,10 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 import bdd.TramosRepo;
-import modelo.Linea;
 import modelo.Tramo;
 
 public class PanelBuscarTramo extends JPanel {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1188503520844969460L;
 	private JTable table;
 	private SubpanelFiltrosTramo filtros;
@@ -102,11 +99,11 @@ public class PanelBuscarTramo extends JPanel {
 		        int cuentaFilasSeleccionadas = table.getSelectedRowCount(); 
 		        if (cuentaFilasSeleccionadas == 1) { 
 		        	modificar.setEnabled(true);
-		        	eliminar .setEnabled(true);
+		        	eliminar.setEnabled(true);
 		        	row_selected = table.getSelectedRow();
-					Linea linea = (Linea) table.getValueAt(row_selected, 2);
+					Integer linea = (Integer) table.getValueAt(row_selected, 2);
 					Integer orden = (Integer) table.getValueAt(row_selected, 3);
-					actual = TramosRepo.obtenerTramo(orden,linea.get_id());
+					actual = TramosRepo.obtenerTramo(orden,linea);
 		        }	        
 		}});
 		
@@ -117,7 +114,6 @@ public class PanelBuscarTramo extends JPanel {
 				int fila = table.getSelectedRow();
 				seguir = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el tramo con origen: " + actual.getOrigen().getNombre() + "?", 
 				null, 2);
-				System.out.println(seguir);
 				if(seguir==0) {
 				TramosRepo.EliminarTramo(actual);
 				model.removeRow(fila);
@@ -126,8 +122,8 @@ public class PanelBuscarTramo extends JPanel {
 				}
 		}});
 		
-		eliminar .setBackground(new Color(204, 204, 153));
-		eliminar .setEnabled(false);
+		eliminar.setBackground(new Color(204, 204, 153));
+		eliminar.setEnabled(false);
 		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
 		gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
 		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
@@ -167,10 +163,10 @@ public class PanelBuscarTramo extends JPanel {
 				tramosBDDFiltrados = tramosBDDFiltrados.stream()
 									.filter(t -> t.getDestino().getNombre().equals(filtros.getEstacionDestino()))
 									.collect(Collectors.toList());
-		};
-		if(! (filtros.getLinea().equals("no seleccionado"))) {
+			};
+		if(! (filtros.getLinea() == -1)) {
 			tramosBDDFiltrados = tramosBDDFiltrados.stream()
-								.filter(t -> t.getLinea().get_nombre().equals(filtros.getLinea()))
+								.filter(t -> t.getLinea().get_id().equals(filtros.getLinea()))
 								.collect(Collectors.toList());
 	};
 				table.setModel(renovarTabla(tramosBDDFiltrados));
@@ -188,7 +184,6 @@ public class PanelBuscarTramo extends JPanel {
 		gbc_btnLimpiarFiltros.gridy = 6;
 		add(btnLimpiarFiltros, gbc_btnLimpiarFiltros);
 		
-
 		btnLimpiarFiltros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//filtros.limpiarFiltros();
@@ -239,22 +234,17 @@ public class PanelBuscarTramo extends JPanel {
 		for(int i=0; i<nuevosDatos.size();i++) {
 			datosFila[i][0] = nuevosDatos.get(i).getOrigen().getNombre();
 			datosFila[i][1] = nuevosDatos.get(i).getDestino().getNombre();
-			datosFila[i][2] = nuevosDatos.get(i).getLinea().get_nombre();
+			datosFila[i][2] = nuevosDatos.get(i).getLinea().get_id();
 			datosFila[i][3] = nuevosDatos.get(i).getOrden();
 			datosFila[i][4] = nuevosDatos.get(i).get_estadoTramo();
 			datosFila[i][5] = nuevosDatos.get(i).getCosto();
-			System.out.println(nuevosDatos.size());
 		}
 		//Crear modelo de la tabla
 		model = new DefaultTableModel(datosFila,nombreColumnas){
-		/**
-			 * 
-			 */
-			private static final long serialVersionUID = -2476791951404920699L;
-
+	
 		public boolean isCellEditable(int rowIndex,int columnIndex){
 				return false;
-				}
+			}
 		};
 		return model;
 	}	

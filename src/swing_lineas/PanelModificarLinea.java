@@ -53,7 +53,6 @@ public class PanelModificarLinea extends JPanel {
 	private JLabel inserteTipoTransporte;
 	private JLabel seleccioneEstado;
 	private JLabel lblNewLabel_6;
-	private JLabel reingFecha;
 	private Linea a_modificar;
 	private JComboBox comboBox;
 	private JLabel lblNewLabel_4;
@@ -360,15 +359,10 @@ public class PanelModificarLinea extends JPanel {
 	}
 	
 	public void mostrarDatosMantenimiento() {
-		//tareaMant.setVisible(true);
 		cancelar.setEnabled(false);
 		guardar.setEnabled(false);
 	}
 
-	public void mensajeFechaErronea() {
-		reingFecha.setVisible(true);
-	}
-		
 	public void deshabilitarGuardado() {
 		guardar.setEnabled(false);
 	}
@@ -377,11 +371,9 @@ public class PanelModificarLinea extends JPanel {
 		guardar.setEnabled(true);
 	}
 	
-	
 	public JButton getGuardar() {
 		return guardar;
 	}
-
 	public void setGuardar(JButton guardar) {
 		this.guardar = guardar;
 	}
