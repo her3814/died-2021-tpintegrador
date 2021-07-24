@@ -1,7 +1,6 @@
 package modelo;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 public class Boleto {
@@ -14,8 +13,8 @@ public class Boleto {
 	private Estacion _destino;
 	private List<Tramo> _tramos;
 	
-	public Boleto(Integer numero, String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, List<Tramo> recorrido) {
-		_nroBoleto = numero;
+	public Boleto(Integer numeroBoleto, String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, List<Tramo> recorrido) {
+		_nroBoleto = numeroBoleto;
 		_correoCliente=correo;
 		_nombreCliente = nombre;
 		_fechaVenta=fechaVenta;

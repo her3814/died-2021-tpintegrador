@@ -1,6 +1,13 @@
 package swing_frame_grafo;
 
+import java.util.List;
+
 import javax.swing.JFrame;
+
+import bdd.LineasRepo;
+import bdd.TramosRepo;
+import modelo.Linea;
+import modelo.Tramo;
 
 public class frame {
 	public frame(grafo g) {
@@ -10,14 +17,16 @@ public class frame {
 		frame.setSize(600,320);
 		frame.setUndecorated(true);
 				
-		panel p = new panel(g);
+		panel p = new panel(g, TramoMostrarEnum.COSTO);
 		frame.getContentPane().add(p);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 	
 	public static void main(String[] a) {
-		grafo g = grafo.ObtenerGrafoEstacionesPorCosto();
+		Linea l = LineasRepo.ObtenerLinea(1);
+		List<Tramo> t = TramosRepo.ObtenerRecorrido(l);
+		grafo g = grafo.ObtenerGrafoDesdeRecorrido(t);	
 		frame f = new frame(g);
 	}
 }

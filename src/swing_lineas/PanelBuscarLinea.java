@@ -14,7 +14,6 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import java.awt.event.ActionListener;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,12 +27,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-import bdd.EstacionesRepo;
 import bdd.LineasRepo;
-import excepciones.HoraCierreMenorHoraAperturaException;
-//import excepciones.HoraCierreMenorHoraAperturaException;
-import modelo.Estacion;
-import modelo.EstadoEstacionEnum;
 import modelo.EstadoLineaEnum;
 import modelo.Linea;
 import modelo.LineaTipoTransporteEnum;

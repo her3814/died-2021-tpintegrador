@@ -1,6 +1,8 @@
 package swing_frame_grafo;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.util.Random;
 
@@ -11,26 +13,27 @@ public class vertice {
 	Color color;
 	int x, y;
 	String nombre;
-	Random r = new Random();
 
-	public vertice(String nombre, int x, int y) {
-		color = Color.LIGHT_GRAY;
+	public vertice(Estacion estacion, int x, int y){
+		color = estacion.getEstado().equals(EstadoEstacionEnum.OPERATIVA) ? new Color(45,87,44) : new Color(76,0,19);
 		this.x = x-20;
 		this.y = y-20;
-		this.nombre = nombre;	
-		}
-	
-	public vertice(Estacion estacion, int x, int y) {
-		color = estacion.getEstado().equals(EstadoEstacionEnum.OPERATIVA) ? Color.GREEN : Color.RED;		
-		this.x = x ;
-		this.y = y ;
 		this.nombre = estacion.getNombre();
+		
 	}
 	
 	public void paint(Graphics g) {
 		g.setColor(color);
 		g.fillOval(x, y, 40, 40);
 		g.setColor(Color.BLACK);
-		g.drawString(nombre, x+20, y+20);
+		
+
+		FontMetrics fm = g.getFontMetrics();
+		Font fuente = new Font("Sans Serif", Font.BOLD, 10);
+		g.setFont(fuente);
+		g.setColor(Color.white);
+		g.drawString(nombre.toUpperCase(),20+x - fm.stringWidth(nombre) / 2, y +54);
+		
+		
 	}
 }

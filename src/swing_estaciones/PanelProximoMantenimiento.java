@@ -8,17 +8,8 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import javax.swing.SwingConstants;
 import javax.swing.JTextField;
-import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
-import javax.swing.JRadioButton;
 import javax.swing.JButton;
-import com.github.lgooddatepicker.components.TimePicker;
-
-import modelo.Estacion;
-import modelo.EstadoEstacionEnum;
-
 import java.awt.Color;
 
 public class PanelProximoMantenimiento extends JPanel {
