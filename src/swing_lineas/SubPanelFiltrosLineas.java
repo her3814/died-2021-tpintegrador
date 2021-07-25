@@ -16,6 +16,8 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
 import bdd.LineasRepo;
+import modelo.ColoresLineasEnum;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
@@ -59,8 +61,7 @@ public class SubPanelFiltrosLineas extends JPanel{
 		gbc_lblNewLabel_1.anchor=GridBagConstraints.WEST;
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
-		List<String> colores = LineasRepo.ObtenerLineas().stream().map(l -> l.get_color())
-				.collect(Collectors.toList());
+		List<String> colores = ColoresLineasEnum.valores();
 		
 		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(		

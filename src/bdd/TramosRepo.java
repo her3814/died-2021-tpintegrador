@@ -10,6 +10,7 @@ import java.util.List;
 
 import modelo.Boleto;
 import modelo.Estacion;
+import modelo.EstadoLineaEnum;
 import modelo.EstadoTramoEnum;
 import modelo.Linea;
 import modelo.Tramo;
@@ -32,7 +33,44 @@ public class TramosRepo {
 
 	}
 
+	public static void ModificarTramo(Tramo tramo) {
+		String sql = "UPDATE lineas_trayecto SET cant_pasajeros = ?, duracion_min = ?, costo = ?, distancia = ?, estado = ? "
+				+ "WHERE id_linea_transporte = ? AND trayecto_orden = ?";
 
+		Connection con = BddSingleton.GetConnection();
+
+		try {
+			con.beginRequest();
+			PreparedStatement pstm = con.prepareStatement(sql);
+			pstm.setInt(1, tramo.get_cantPasajeros());
+			pstm.setDouble(2, tramo.getDuracion());
+			pstm.setDouble(3, tramo.getCosto());
+			pstm.setDouble(4, tramo.getDuracion());
+			pstm.setString(5, tramo.get_estadoTramo().equals(EstadoTramoEnum.ACTIVO) ? "ACT" : "INA");
+			pstm.setInt(6, tramo.getLinea().get_id());
+			pstm.setInt(7, tramo.getOrden());
+
+			pstm.executeUpdate();
+
+			con.commit();
+			pstm.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				con.rollback();
+				con.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	public static List<Tramo> ObtenerDeBoleto(Boleto boleto){
 		String sql = "SELECT t.* FROM boleto_recorrido AS b INNER JOIN lineas_trayecto AS t " +
 					 "ON (trayecto_linea_id = id_linea_transporte AND b.trayecto_orden = t.trayecto_orden) "

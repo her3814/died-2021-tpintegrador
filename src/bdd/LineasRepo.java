@@ -59,6 +59,7 @@ public class LineasRepo {
 		try {
 			con.beginRequest();
 			PreparedStatement pstm = con.prepareStatement(sql);
+			pstm.setInt(5,linea.get_id());
 			pstm.setString(1, linea.get_nombre());
 			pstm.setString(2, linea.get_color());
 			pstm.setString(3, linea.get_estado().equals(EstadoLineaEnum.ACTIVA) ? "ACT" : "INA");
