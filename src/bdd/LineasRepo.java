@@ -16,6 +16,8 @@ import modelo.LineaTipoTransporteEnum;
 import modelo.Tramo;
 
 public class LineasRepo {
+	private static String sql ;
+	private static Connection con;
 
 	public static void EliminarLinea(Linea linea) {
 		String sql = "DELETE FROM lineas_transporte WHERE id = ?";
@@ -167,12 +169,22 @@ public class LineasRepo {
 	}
 
 	public static List<Linea> ObtenerLineas() {
-		String sql = "SELECT * FROM lineas_transporte;";
-
-		Connection con = BddSingleton.GetConnection();
-
 		List<Linea> lineas = new ArrayList<Linea>();
-
+		/*Runnable obtenerLineas =()->{
+			sql = "SELECT * FROM lineas_transporte;";
+			con = BddSingleton.GetConnection();
+		};
+		Thread t1= new Thread(obtenerLineas, "Obtener lineas");
+		t1.start();
+		try {
+			t1.join();
+		} catch (InterruptedException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+*/
+		sql = "SELECT * FROM lineas_transporte;";
+		con = BddSingleton.GetConnection();
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql);
 
@@ -223,7 +235,7 @@ public class LineasRepo {
 		List<Estacion> finales= TramosRepo.ObtenerRecorrido(l).stream()
 							.map(t -> t.getDestino())
 							.collect(Collectors.toList());
-		return finales.get(finales.size());
+		return finales.get(finales.size()-1);
 	}
 	
 	public static Boolean pertenece(Estacion est, Linea l) {

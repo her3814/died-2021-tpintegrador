@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,25 +59,49 @@ public class PanelAgregarTramo extends JPanel {
 	private JRadioButton rdbtnNewRadioButton1;
 	private JLabel tramoAgregado;
 	private List<Estacion> estaciones;
-	private JLabel fallaOrden;
-	private JLabel fallaInicio;
 	private JLabel fallaDestino;
 	private static JLabel label;
 	private JButton btnRecorrido;
+	private List<Linea> lineas ;
+	private List<Tramo> recorrido;
+	private Estacion [] e;
 
 	public PanelAgregarTramo() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 
 		gridBagLayout.columnWidths = new int[] { 54, 135, 13, 85, 67, 0, 0, 0, 0, 67, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 26, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 19, 21, 0, 0, 0,
+		gridBagLayout.rowHeights = new int[] { 0, 26, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 19, 21, 0, 0, 0,
 				0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0,
 				Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 				0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 		setPreferredSize(new Dimension(500, 500));
 
+		estaciones = EstacionesRepo.ObtenerEstaciones();
+		
+		//TODAS LAS LINEAS	
+		lineas = new ArrayList<Linea>();
+			Runnable obtenerLineas = ()->{
+				lineas = LineasRepo.ObtenerLineas();
+			};
+			Thread t1=new Thread(obtenerLineas, "Obtener lineas");
+					t1.start();
+			try {
+				t1.join();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			//TRAMOS DE LA LINEA 	 -  PARA GRAFICO		
+			recorrido= new ArrayList<Tramo>();
+			Runnable recorridoLinea = ()->{
+				recorrido = TramosRepo.ObtenerRecorrido((Linea) comboBox_1_1.getSelectedItem());
+			};
+			Thread thread_recorrido =new Thread(recorridoLinea, "Obtener recorrido");
+			thread_recorrido.start();
+		
 		JLabel lblNewLabel = new JLabel("AGREGAR TRAMO");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22));
@@ -87,43 +112,117 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_lblNewLabel.gridwidth = 9;
 		add(lblNewLabel, gbc_lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("ESTACION ORIGEN:");
-		lblNewLabel_1.setBackground(new Color(240, 240, 240));
-		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 13));
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 1;
-		gbc_lblNewLabel_1.gridy = 2;
-		add(lblNewLabel_1, gbc_lblNewLabel_1);
-
-		estaciones = EstacionesRepo.ObtenerEstaciones();
-
-		comboBox = new JComboBox(estaciones.toArray());
-
-		comboBox.setBackground(new Color(204, 204, 204));
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.gridwidth = 3;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 2;
-		gbc_comboBox.gridy = 2;
-		add(comboBox, gbc_comboBox);
-
-		fallaInicio = new JLabel("La estación seleccionada como orgien ya pertenecea esta linea");
-		fallaInicio.setForeground(Color.RED);
-		fallaInicio.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
-		fallaInicio.setHorizontalAlignment(SwingConstants.LEFT);
-		GridBagConstraints gbc_i_inicio = new GridBagConstraints();
-		gbc_i_inicio.anchor = GridBagConstraints.EAST;
-		gbc_i_inicio.insets = new Insets(0, 0, 5, 5);
-		gbc_i_inicio.gridx = 1;
-		gbc_i_inicio.gridy = 3;
-		gbc_i_inicio.gridwidth = 7;
-		gbc_i_inicio.anchor = GridBagConstraints.WEST;
-		add(fallaInicio, gbc_i_inicio);
-		fallaInicio.setVisible(false);
+				JLabel lblNewLabel_1_1_3 = new JLabel("LINEA:");
+				lblNewLabel_1_1_3.setHorizontalAlignment(SwingConstants.LEFT);
+				lblNewLabel_1_1_3.setFont(new Font("Arial", Font.BOLD, 13));
+				GridBagConstraints gbc_lblNewLabel_1_1_3 = new GridBagConstraints();
+				gbc_lblNewLabel_1_1_3.anchor = GridBagConstraints.EAST;
+				gbc_lblNewLabel_1_1_3.insets = new Insets(0, 0, 5, 5);
+				gbc_lblNewLabel_1_1_3.gridx = 1;
+				gbc_lblNewLabel_1_1_3.gridy = 2;
+				add(lblNewLabel_1_1_3, gbc_lblNewLabel_1_1_3);
+			
+				
+				
+				//lineas=LineasRepo.ObtenerLineas();
+				
+				comboBox_1_1 = new JComboBox(lineas.toArray());
+						comboBox_1_1.setBackground(new Color(204, 204, 204));
+						GridBagConstraints gbc_comboBox_1_1 = new GridBagConstraints();
+						gbc_comboBox_1_1.gridwidth = 2;
+						gbc_comboBox_1_1.insets = new Insets(0, 0, 5, 5);
+						gbc_comboBox_1_1.fill = GridBagConstraints.HORIZONTAL;
+						gbc_comboBox_1_1.gridx = 3;
+						gbc_comboBox_1_1.gridy = 2;
+						add(comboBox_1_1, gbc_comboBox_1_1);
+						
+						
+		
+				btnRecorrido = new JButton("VER RECORRIDO");
+				btnRecorrido.setHorizontalAlignment(SwingConstants.LEFT);
+				btnRecorrido.setBackground(new Color(204, 204, 51));
+				btnRecorrido.setFont(new Font("Arial", Font.BOLD, 13));
+				GridBagConstraints gbc_btnRecorrido = new GridBagConstraints();
+				gbc_btnRecorrido.gridwidth = 2;
+				gbc_btnRecorrido.fill = GridBagConstraints.BOTH;
+				gbc_btnRecorrido.insets = new Insets(0, 0, 5, 5);
+				gbc_btnRecorrido.gridx = 5;
+				gbc_btnRecorrido.gridy = 2;
+				add(btnRecorrido, gbc_btnRecorrido);
+				
+				
+				
+						btnRecorrido.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+				
+								System.out.println(((Linea) comboBox_1_1.getSelectedItem()).toString());
+				
+							//	var recorrido = TramosRepo.ObtenerRecorrido((Linea) comboBox_1_1.getSelectedItem());
+								try {
+									thread_recorrido.join();
+								} catch (InterruptedException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								if (recorrido.size() > 0)
+									frame.createFrame(grafo.ObtenerGrafoDesdeRecorrido(recorrido), TramoMostrarEnum.TODO);
+								else {
+				
+									label = new JLabel("LA LINEA SELECCIONADA NO POSEE TRAMOS ASIGNADOS.");
+									label.setForeground(Color.RED);
+									label.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
+									label.setHorizontalAlignment(SwingConstants.LEFT);
+									GridBagConstraints gbc_i_label = new GridBagConstraints();
+									gbc_i_label.anchor = GridBagConstraints.EAST;
+									gbc_i_label.insets = new Insets(0, 0, 5, 5);
+									gbc_i_label.gridx = 1;
+									gbc_i_label.gridy = 8;
+									gbc_i_label.gridwidth = 3;
+									gbc_i_label.anchor = GridBagConstraints.WEST;
+									add(label, gbc_i_label);
+									label.setVisible(true);
+								}
+							}
+						});
+		
+				JLabel lblNewLabel_1 = new JLabel("ESTACION ORIGEN:");
+				lblNewLabel_1.setBackground(new Color(240, 240, 240));
+				lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 13));
+				lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
+				GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+				gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
+				gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+				gbc_lblNewLabel_1.gridx = 1;
+				gbc_lblNewLabel_1.gridy = 3;
+				add(lblNewLabel_1, gbc_lblNewLabel_1);
+		
+				//List<Tramo> recorrido = TramosRepo.ObtenerRecorrido((Linea)comboBox_1_1.getSelectedItem());
+			
+				
+				comboBox = new JComboBox();
+				
+				comboBox.setBackground(new Color(204, 204, 204));
+				GridBagConstraints gbc_comboBox = new GridBagConstraints();
+				gbc_comboBox.gridwidth = 3;
+				gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+				gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+				gbc_comboBox.gridx = 3;
+				gbc_comboBox.gridy = 3;
+				add(comboBox, gbc_comboBox);
+				
+				Estacion [] estacion= {LineasRepo.ultimaEstacion((Linea)this.comboBox_1_1.getSelectedItem())};
+			
+				if(recorrido.size()==0 ||recorrido==null ){
+					comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(
+							 estaciones.toArray()
+							));
+				}else {
+				
+					comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(estacion));
+				}
+				
+				
+						
 
 		JLabel lblNewLabel_1_1 = new JLabel("ESTACION DESTINO:");
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -142,7 +241,10 @@ public class PanelAgregarTramo extends JPanel {
 		comboBox_1 = new JComboBox();
 		comboBox_1.setModel(new javax.swing.DefaultComboBoxModel<>(
 				estaciones.stream().filter(e -> e.getId() != ((Estacion) comboBox.getSelectedItem()).getId())
+				.filter(e -> !LineasRepo.pertenece(e, (Linea)this.comboBox_1_1.getSelectedItem()))
 						.collect(Collectors.toList()).toArray()));
+		
+		
 
 		comboBox_1.setBackground(new Color(204, 204, 204));
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
@@ -167,81 +269,7 @@ public class PanelAgregarTramo extends JPanel {
 		add(fallaDestino, gbc_i_destino);
 		fallaDestino.setVisible(false);
 
-		JLabel lblNewLabel_1_1_3 = new JLabel("LINEA:");
-		lblNewLabel_1_1_3.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_1_1_3.setFont(new Font("Arial", Font.BOLD, 13));
-		GridBagConstraints gbc_lblNewLabel_1_1_3 = new GridBagConstraints();
-		gbc_lblNewLabel_1_1_3.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_1_1_3.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1_1_3.gridx = 1;
-		gbc_lblNewLabel_1_1_3.gridy = 6;
-		add(lblNewLabel_1_1_3, gbc_lblNewLabel_1_1_3);
-
-		List<Linea> lineas = LineasRepo.ObtenerLineas();
-
-		comboBox_1_1 = new JComboBox(lineas.toArray());
-
-		comboBox_1_1.setBackground(new Color(204, 204, 204));
-		GridBagConstraints gbc_comboBox_1_1 = new GridBagConstraints();
-		gbc_comboBox_1_1.gridwidth = 2;
-		gbc_comboBox_1_1.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox_1_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox_1_1.gridx = 3;
-		gbc_comboBox_1_1.gridy = 6;
-		add(comboBox_1_1, gbc_comboBox_1_1);
-
-		btnRecorrido = new JButton("VER RECORRIDO");
-		btnRecorrido.setHorizontalAlignment(SwingConstants.LEFT);
-		btnRecorrido.setBackground(new Color(204, 204, 51));
-		btnRecorrido.setFont(new Font("Arial", Font.BOLD, 13));
-		GridBagConstraints gbc_btnRecorrido = new GridBagConstraints();
-		gbc_btnRecorrido.gridwidth = 2;
-		gbc_btnRecorrido.fill = GridBagConstraints.BOTH;
-		gbc_btnRecorrido.insets = new Insets(0, 0, 5, 5);
-		gbc_btnRecorrido.gridx = 5;
-		gbc_btnRecorrido.gridy = 6;
-		add(btnRecorrido, gbc_btnRecorrido);
-
-		btnRecorrido.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				System.out.println(((Linea) comboBox_1_1.getSelectedItem()).toString());
-
-				var recorrido = TramosRepo.ObtenerRecorrido((Linea) comboBox_1_1.getSelectedItem());
-				if (recorrido.size() > 0)
-					frame.createFrame(grafo.ObtenerGrafoDesdeRecorrido(recorrido), TramoMostrarEnum.TODO);
-				else {
-
-					label = new JLabel("LA LINEA SELECCIONADA NO POSEE TRAMOS ASIGNADOS.");
-					label.setForeground(Color.RED);
-					label.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
-					label.setHorizontalAlignment(SwingConstants.LEFT);
-					GridBagConstraints gbc_i_label = new GridBagConstraints();
-					gbc_i_label.anchor = GridBagConstraints.EAST;
-					gbc_i_label.insets = new Insets(0, 0, 5, 5);
-					gbc_i_label.gridx = 1;
-					gbc_i_label.gridy = 8;
-					gbc_i_label.gridwidth = 3;
-					gbc_i_label.anchor = GridBagConstraints.WEST;
-					add(label, gbc_i_label);
-					label.setVisible(true);
-				}
-			}
-		});
-
-		fallaOrden = new JLabel("La estación seleccionada como origen no coincide con el final de esta linea");
-		fallaOrden.setForeground(Color.RED);
-		fallaOrden.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
-		fallaOrden.setHorizontalAlignment(SwingConstants.LEFT);
-		GridBagConstraints gbc_i_orden = new GridBagConstraints();
-		gbc_i_orden.anchor = GridBagConstraints.EAST;
-		gbc_i_orden.insets = new Insets(0, 0, 5, 5);
-		gbc_i_orden.gridx = 1;
-		gbc_i_orden.gridy = 7;
-		gbc_i_orden.gridwidth = 7;
-		gbc_i_orden.anchor = GridBagConstraints.WEST;
-		add(fallaOrden, gbc_i_orden);
-		fallaOrden.setVisible(false);
+	
 
 		JLabel lblNewLabel_1_1_2 = new JLabel("DURACION:");
 		lblNewLabel_1_1_2.setHorizontalAlignment(SwingConstants.LEFT);
@@ -250,7 +278,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_lblNewLabel_1_1_2.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1_1_2.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1_1_2.gridx = 1;
-		gbc_lblNewLabel_1_1_2.gridy = 9;
+		gbc_lblNewLabel_1_1_2.gridy = 6;
 		add(lblNewLabel_1_1_2, gbc_lblNewLabel_1_1_2);
 
 		textField = new JTextField();
@@ -259,7 +287,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 2;
-		gbc_textField.gridy = 9;
+		gbc_textField.gridy = 6;
 		add(textField, gbc_textField);
 		textField.setColumns(10);
 
@@ -268,7 +296,7 @@ public class PanelAgregarTramo extends JPanel {
 		GridBagConstraints gbc_lblNewLabel_2_1 = new GridBagConstraints();
 		gbc_lblNewLabel_2_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2_1.gridx = 6;
-		gbc_lblNewLabel_2_1.gridy = 9;
+		gbc_lblNewLabel_2_1.gridy = 6;
 		gbc_lblNewLabel_2_1.anchor = GridBagConstraints.WEST;
 		add(lblNewLabel_2_1, gbc_lblNewLabel_2_1);
 
@@ -280,7 +308,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_i_duracion.anchor = GridBagConstraints.EAST;
 		gbc_i_duracion.insets = new Insets(0, 0, 5, 5);
 		gbc_i_duracion.gridx = 1;
-		gbc_i_duracion.gridy = 10;
+		gbc_i_duracion.gridy = 7;
 		gbc_i_duracion.gridwidth = 3;
 		gbc_i_duracion.anchor = GridBagConstraints.WEST;
 		add(inserteDuracion, gbc_i_duracion);
@@ -293,7 +321,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_lblNewLabel_1_1_2_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1_1_2_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1_1_2_1.gridx = 1;
-		gbc_lblNewLabel_1_1_2_1.gridy = 11;
+		gbc_lblNewLabel_1_1_2_1.gridy = 8;
 		add(lblNewLabel_1_1_2_1, gbc_lblNewLabel_1_1_2_1);
 
 		textField_1 = new JTextField();
@@ -302,7 +330,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_1.gridx = 2;
-		gbc_textField_1.gridy = 11;
+		gbc_textField_1.gridy = 8;
 		add(textField_1, gbc_textField_1);
 		textField_1.setColumns(10);
 
@@ -311,7 +339,7 @@ public class PanelAgregarTramo extends JPanel {
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2.gridx = 6;
-		gbc_lblNewLabel_2.gridy = 11;
+		gbc_lblNewLabel_2.gridy = 8;
 		gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
 		add(lblNewLabel_2, gbc_lblNewLabel_2);
 
@@ -323,7 +351,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_i_distancia.anchor = GridBagConstraints.EAST;
 		gbc_i_distancia.insets = new Insets(0, 0, 5, 5);
 		gbc_i_distancia.gridx = 1;
-		gbc_i_distancia.gridy = 12;
+		gbc_i_distancia.gridy = 9;
 		gbc_i_distancia.gridwidth = 3;
 		gbc_i_distancia.anchor = GridBagConstraints.WEST;
 		add(inserteDistancia, gbc_i_distancia);
@@ -336,7 +364,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_lblNewLabel_1_1_2_2.anchor = GridBagConstraints.ABOVE_BASELINE_TRAILING;
 		gbc_lblNewLabel_1_1_2_2.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1_1_2_2.gridx = 1;
-		gbc_lblNewLabel_1_1_2_2.gridy = 13;
+		gbc_lblNewLabel_1_1_2_2.gridy = 10;
 		add(lblNewLabel_1_1_2_2, gbc_lblNewLabel_1_1_2_2);
 
 		textField_4 = new JTextField();
@@ -345,7 +373,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_4.gridx = 2;
-		gbc_textField_4.gridy = 13;
+		gbc_textField_4.gridy = 10;
 		add(textField_4, gbc_textField_4);
 		textField_4.setColumns(10);
 
@@ -357,7 +385,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_i_cantP.anchor = GridBagConstraints.EAST;
 		gbc_i_cantP.insets = new Insets(0, 0, 5, 5);
 		gbc_i_cantP.gridx = 1;
-		gbc_i_cantP.gridy = 14;
+		gbc_i_cantP.gridy = 11;
 		gbc_i_cantP.gridwidth = 3;
 		gbc_i_cantP.anchor = GridBagConstraints.WEST;
 		add(inserteCP, gbc_i_cantP);
@@ -370,7 +398,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_lblNewLabel_1_1_2_3.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1_1_2_3.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1_1_2_3.gridx = 1;
-		gbc_lblNewLabel_1_1_2_3.gridy = 15;
+		gbc_lblNewLabel_1_1_2_3.gridy = 12;
 		add(lblNewLabel_1_1_2_3, gbc_lblNewLabel_1_1_2_3);
 
 		textField_5 = new JTextField();
@@ -379,7 +407,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_textField_5.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_5.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_5.gridx = 2;
-		gbc_textField_5.gridy = 15;
+		gbc_textField_5.gridy = 12;
 		add(textField_5, gbc_textField_5);
 		textField_5.setColumns(10);
 
@@ -391,7 +419,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_i_costo.anchor = GridBagConstraints.EAST;
 		gbc_i_costo.insets = new Insets(0, 0, 5, 5);
 		gbc_i_costo.gridx = 1;
-		gbc_i_costo.gridy = 16;
+		gbc_i_costo.gridy = 13;
 		gbc_i_costo.gridwidth = 3;
 		gbc_i_costo.anchor = GridBagConstraints.WEST;
 		add(inserteCosto, gbc_i_costo);
@@ -404,7 +432,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_lblNewLabel_1_1_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1_1_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1_1_1.gridx = 1;
-		gbc_lblNewLabel_1_1_1.gridy = 17;
+		gbc_lblNewLabel_1_1_1.gridy = 14;
 		add(lblNewLabel_1_1_1, gbc_lblNewLabel_1_1_1);
 
 		rdbtnNewRadioButton = new JRadioButton("Activo");
@@ -412,7 +440,7 @@ public class PanelAgregarTramo extends JPanel {
 		GridBagConstraints gbc_rdbtnNewRadioButton = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnNewRadioButton.gridx = 3;
-		gbc_rdbtnNewRadioButton.gridy = 17;
+		gbc_rdbtnNewRadioButton.gridy = 14;
 		add(rdbtnNewRadioButton, gbc_rdbtnNewRadioButton);
 
 		rdbtnNewRadioButton1 = new JRadioButton("No activo");
@@ -420,7 +448,7 @@ public class PanelAgregarTramo extends JPanel {
 		GridBagConstraints gbc_rdbtnNewRadioButton1 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton1.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnNewRadioButton1.gridx = 4;
-		gbc_rdbtnNewRadioButton1.gridy = 17;
+		gbc_rdbtnNewRadioButton1.gridy = 14;
 		add(rdbtnNewRadioButton1, gbc_rdbtnNewRadioButton1);
 
 		estado = new ButtonGroup();
@@ -435,7 +463,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_i_estado.anchor = GridBagConstraints.EAST;
 		gbc_i_estado.insets = new Insets(0, 0, 5, 5);
 		gbc_i_estado.gridx = 1;
-		gbc_i_estado.gridy = 18;
+		gbc_i_estado.gridy = 15;
 		gbc_i_estado.gridwidth = 3;
 		gbc_i_estado.anchor = GridBagConstraints.WEST;
 		add(inserteEstado, gbc_i_estado);
@@ -450,7 +478,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 1;
-		gbc_btnNewButton.gridy = 19;
+		gbc_btnNewButton.gridy = 16;
 		add(btnGuardar, gbc_btnNewButton);
 
 		btnCancelar = new JButton("CANCELAR");
@@ -462,7 +490,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_1.gridx = 4;
-		gbc_btnNewButton_1.gridy = 19;
+		gbc_btnNewButton_1.gridy = 16;
 		add(btnCancelar, gbc_btnNewButton_1);
 
 		tramoAgregado = new JLabel("EL TRAMO SE HA AGREGADO CORRECTAMENTE");
@@ -470,10 +498,14 @@ public class PanelAgregarTramo extends JPanel {
 		GridBagConstraints gbcTramoAgregado = new GridBagConstraints();
 		gbcTramoAgregado.insets = new Insets(0, 0, 5, 5);
 		gbcTramoAgregado.gridx = 1;
-		gbcTramoAgregado.gridy = 20;
+		gbcTramoAgregado.gridy = 17;
 		gbcTramoAgregado.gridwidth = 3;
 		add(tramoAgregado, gbcTramoAgregado);
 		tramoAgregado.setVisible(false);
+	}
+
+	public JComboBox getComboBox_1_1() {
+		return comboBox_1_1;
 	}
 
 	public JButton getBtnGuardar() {
@@ -491,9 +523,7 @@ public class PanelAgregarTramo extends JPanel {
 		this.inserteDuracion.setVisible(false);
 		this.inserteEstado.setVisible(false);
 		this.tramoAgregado.setVisible(false);
-		this.fallaOrden.setVisible(false);
 		this.fallaDestino.setVisible(false);
-		this.fallaInicio.setVisible(false);
 		// label.setVisible(false);
 	}
 
@@ -571,18 +601,12 @@ public class PanelAgregarTramo extends JPanel {
 		if (nuevo.getDuracion() == null) {
 			this.inserteDuracion.setVisible(true);
 		}
-		if (!this.ordenCorrecto(nuevo)) {
-			this.fallaOrden.setVisible(true);
-		}
-		if (LineasRepo.pertenece(nuevo.getOrigen(), nuevo.getLinea())) {
-			this.fallaInicio.setVisible(true);
-		}
+		
 		if (LineasRepo.pertenece(nuevo.getDestino(), nuevo.getLinea())) {
 			this.fallaDestino.setVisible(true);
 		}
 		if (nuevo.get_cantPasajeros() != null && nuevo.get_estadoTramo() != null && nuevo.getCosto() != null
-				&& nuevo.getDistancia() != null && nuevo.getDuracion() != null && this.ordenCorrecto(nuevo)
-				&& !LineasRepo.pertenece(nuevo.getOrigen(), nuevo.getLinea())
+				&& nuevo.getDistancia() != null && nuevo.getDuracion() != null 
 				&& !LineasRepo.pertenece(nuevo.getDestino(), nuevo.getLinea())) {
 			TramosRepo.GuardarTramo(nuevo);
 			this.mensajeTramoCreado();
@@ -598,15 +622,24 @@ public class PanelAgregarTramo extends JPanel {
 	public void cambiarEstacionDestino() {
 		Estacion origen = (Estacion) comboBox.getSelectedItem();
 		comboBox_1.setModel(new javax.swing.DefaultComboBoxModel<>(
-				estaciones.stream().filter(e -> e.getId() != origen.getId()).collect(Collectors.toList()).toArray()));
+				estaciones.stream().filter(e -> e.getId() != origen.getId())
+				.filter(e -> !LineasRepo.pertenece(e, (Linea)this.comboBox_1_1.getSelectedItem()))
+				.collect(Collectors.toList()).toArray()));
+	}
+	public void cambiarEstacionOrigen() {
+		List<Tramo> tramosLinea = TramosRepo.ObtenerRecorrido((Linea)comboBox_1_1.getSelectedItem());
+	
+		if(tramosLinea.size()==0 ||tramosLinea==null ){
+			comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(
+					 estaciones.toArray()
+					));
+		}else {
+		Estacion [] e= {LineasRepo.ultimaEstacion((Linea)this.comboBox_1_1.getSelectedItem())};
+			comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(e));
+		}
+		
 	}
 
-	public Boolean ordenCorrecto(Tramo nuevo) {
-		// Si es el primero de la linea no importa que estacion elige
-		if (nuevo.getOrden() == 1) {
-			return true;
-		}
-		return ((Estacion) this.comboBox.getSelectedItem()).equals(LineasRepo.ultimaEstacion(nuevo.getLinea()));
-	}
+
 
 }
