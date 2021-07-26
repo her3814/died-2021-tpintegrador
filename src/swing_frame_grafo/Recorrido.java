@@ -2,7 +2,7 @@ package swing_frame_grafo;
 
 import modelo.Tramo;
 
-public class Recorrido {
+class Recorrido {
 	private Double _costo;
 	private Double _distancia;
 	private Double _longitud;

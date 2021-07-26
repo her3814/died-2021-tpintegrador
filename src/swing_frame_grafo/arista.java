@@ -13,7 +13,11 @@ import java.util.Random;
 
 import modelo.ColoresLineasEnum;
 
-public class arista {
+/**
+ * Clase de paquete representando una arista de un grafo dibujable.
+ * No se debe utilizar esta clase para calculos o procesamiento logico/matematico de grafos *
+ */
+class arista {
 	Color color;
 	Random r = new Random();
 	int x1, y1, x2, y2;
