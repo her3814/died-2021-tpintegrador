@@ -14,6 +14,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.awt.event.ActionEvent;
@@ -26,7 +28,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
+import bdd.BoletosRepo;
 import bdd.LineasRepo;
+import modelo.Boleto;
 import modelo.EstadoLineaEnum;
 import modelo.Linea;
 import modelo.LineaTipoTransporteEnum;
@@ -42,18 +46,24 @@ public class PanelBuscarBoleto extends JPanel {
 	private JButton buscar;
 	private Object datosFila [][];
 	private JButton eliminar;
-	private JButton modificar;
 	private JButton btnNewButton_2;
 	private JButton cancelar;
 	private int seguir;
 	private int row_selected;
 	private JLabel lblNewLabel_1;
-	private Linea actual;
+	private Boleto actual;
 	private JButton aplicarFiltros;
 	private DefaultTableModel model;
 	private JButton btnLimpiarFiltros;
+	private List<Boleto> boletos ;
 	
 	public PanelBuscarBoleto() {
+		boletos = new ArrayList<Boleto>();
+		Runnable obtenerBoletos=()->{
+			boletos= BoletosRepo.ObtenerBoletos();
+		};
+		Thread thread_obtenerBoletos= new Thread(obtenerBoletos, "obtener boletos");
+		thread_obtenerBoletos.start();
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 154, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -100,8 +110,15 @@ public class PanelBuscarBoleto extends JPanel {
 		gbcFiltros.gridheight=4;
 		add(filtros, gbcFiltros);
 		
+		try {
+			thread_obtenerBoletos.join();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		table = new JTable();
-		model = renovarTabla(LineasRepo.ObtenerLineas());
+		model = renovarTabla(boletos);
 		table.setModel(model);
 		
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  
@@ -122,15 +139,16 @@ public class PanelBuscarBoleto extends JPanel {
 		    public void valueChanged(ListSelectionEvent e) { 
 		        int cuentaFilasSeleccionadas = table.getSelectedRowCount(); 
 		        if (cuentaFilasSeleccionadas == 1) { 
-		        	modificar.setEnabled(true);
 		        	eliminar.setEnabled(true);
 		        	row_selected = table.getSelectedRow();
-					Integer id = (Integer) table.getValueAt(row_selected, 0);
-					String nombre = (String) table.getValueAt(row_selected, 1);
-					String color = (String) table.getValueAt(row_selected, 2);
-					EstadoLineaEnum estado = (EstadoLineaEnum) table.getValueAt(row_selected, 3);
-					LineaTipoTransporteEnum transporte = (LineaTipoTransporteEnum) table.getValueAt(row_selected, 4);
-					actual = new Linea(id,nombre,color, estado, transporte);
+					Integer nroBoleto = (Integer) table.getValueAt(row_selected, 0);
+					String nombreCliente = (String) table.getValueAt(row_selected, 1);
+					String correoCliente = (String) table.getValueAt(row_selected, 2);
+					LocalDate fechaVenta = (LocalDate) table.getValueAt(row_selected, 3);
+					Double costo = (Double) table.getValueAt(row_selected, 4);
+					String estacionOrigen = (String) table.getValueAt(row_selected, 5);
+					String estacionDestino = (String) table.getValueAt(row_selected, 6);
+					actual = new Boleto(nroBoleto, correoCliente, nombreCliente,fechaVenta, costo, estacionOrigen, estacionDestino);
 		        }     
 		        }
 		});
@@ -140,18 +158,21 @@ public class PanelBuscarBoleto extends JPanel {
 		eliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int fila = table.getSelectedRow();
-				Integer id = (Integer) table.getValueAt(fila, 0);
-				String nombre = (String) table.getValueAt(fila, 1);
-				seguir = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar la linea: " + nombre + "?", 
+				Integer nroBoleto = (Integer) table.getValueAt(row_selected, 0);
+				seguir = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el boleto nro: " + nroBoleto + "?", 
 				null, 2);
-				System.out.println(seguir);
+				//System.out.println(seguir);
 				if(seguir==0) {
-				String color = (String) table.getValueAt(row_selected, 2);
-				EstadoLineaEnum estado = (EstadoLineaEnum) table.getValueAt(row_selected, 3);
-				LineaTipoTransporteEnum transporte = (LineaTipoTransporteEnum) table.getValueAt(row_selected, 4);
-				Linea actual = null;
-				actual = new Linea(id,nombre,color, estado, transporte);
-				LineasRepo.EliminarLinea(actual);
+				String nombreCliente = (String) table.getValueAt(row_selected, 1);
+				String correoCliente = (String) table.getValueAt(row_selected, 2);
+				LocalDate fechaVenta = (LocalDate) table.getValueAt(row_selected, 3);
+				Double costo = (Double) table.getValueAt(row_selected, 4);
+				String estacionOrigen = (String) table.getValueAt(row_selected, 5);
+				String estacionDestino = (String) table.getValueAt(row_selected, 6);
+				Boleto actual = null;
+				actual = new Boleto(nroBoleto, correoCliente, nombreCliente,fechaVenta, costo, estacionOrigen, estacionDestino);
+				BoletosRepo.EliminarRecorridoBoleto(actual);
+		
 				model.removeRow(fila);
 				table.setModel(model);
 				autoajustarAnchoColumnas(table);
@@ -161,9 +182,9 @@ public class PanelBuscarBoleto extends JPanel {
 		buscar = new JButton("BUSCAR");	
 		buscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				table.setModel(renovarTabla(LineasRepo.ObtenerLineas()
+				table.setModel(renovarTabla(boletos
 					    .stream()
-						.filter(est -> est.get_nombre().equals(textField.getText()))
+						.filter(boleto -> boleto.get_nombreCliente().equals(textField.getText())) 
 						.collect(Collectors.toList())));
 				autoajustarAnchoColumnas(table);
 			}
@@ -184,16 +205,6 @@ public class PanelBuscarBoleto extends JPanel {
 		gbc_btnNewButton_3.gridx = 2;
 		gbc_btnNewButton_3.gridy = 5;
 		add(eliminar , gbc_btnNewButton_3);
-		
-		modificar = new JButton("MODIFICAR");	
-		modificar.setBackground(new Color(204, 204, 153));
-		modificar.setEnabled(false);
-		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
-		gbc_btnNewButton_4.anchor = GridBagConstraints.WEST;
-		gbc_btnNewButton_4.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_4.gridx = 3;
-		gbc_btnNewButton_4.gridy = 5;
-		add(modificar, gbc_btnNewButton_4);  
 	
 		cancelar = new JButton("VOLVER");
 		cancelar.setBackground(new Color(204, 204, 51));
@@ -201,47 +212,58 @@ public class PanelBuscarBoleto extends JPanel {
 		aplicarFiltros = new JButton("Aplicar filtros");
 		aplicarFiltros.setBackground(new Color(204, 204, 102));
 		aplicarFiltros.setForeground(new Color(0, 0, 0));
-		/*aplicarFiltros.addActionListener(new ActionListener() {
+		
+		aplicarFiltros.addActionListener(new ActionListener() {
+			List<Boleto> boletosFiltrados = new ArrayList<Boleto>();
 			public void actionPerformed(ActionEvent e) {
-				List<Linea> lineas  = new ArrayList<Linea>();
-				lineas = LineasRepo.ObtenerLineas();
-				List<Linea> lineasFiltradas = new ArrayList<Linea>();
-				lineasFiltradas = lineas;
-				if(filtros.getSelectedButtonText(filtros.getEstado()).equals("No activa")) {
-					lineasFiltradas = lineasFiltradas.stream()
-										.filter(l -> l.get_estado().equals(EstadoLineaEnum.NO_ACTIVA))
-										.collect(Collectors.toList());
-				}
-				else if (filtros.getSelectedButtonText(filtros.getEstado()).equals("Activa")) {
-					lineasFiltradas = lineasFiltradas.stream()
-							.filter(l -> l.get_estado().equals(EstadoLineaEnum.ACTIVA))
-							.collect(Collectors.toList());
-				}
-				if(filtros.getSelectedButtonText(filtros.getTipotransporte()).equals("Tren")) {
-					lineasFiltradas = lineasFiltradas.stream()
-							.filter(l -> l.get_tipoTransporte().equals(LineaTipoTransporteEnum.TREN))
-							.collect(Collectors.toList());
-				}
-				else if(filtros.getSelectedButtonText(filtros.getTipotransporte()).equals("Colectivo")) {
-					lineasFiltradas = lineasFiltradas.stream()
-							.filter(l -> l.get_tipoTransporte().equals(LineaTipoTransporteEnum.COLECTIVO))
-							.collect(Collectors.toList());
-				}
-				else if(filtros.getSelectedButtonText(filtros.getTipotransporte()).equals("Subte")) {
-					lineasFiltradas = lineasFiltradas.stream()
-							.filter(l -> l.get_tipoTransporte().equals(LineaTipoTransporteEnum.SUBTE))
-							.collect(Collectors.toList());
-				}
-				if(! (filtros.getColorLinea().equals("no seleccionado"))) {
-					lineasFiltradas = lineasFiltradas.stream()
-							.filter(l -> l.get_color().equals(filtros.getColorLinea().toString()))
-							.collect(Collectors.toList());
-				}
 				
-				table.setModel(renovarTabla(lineasFiltradas));
+				boletosFiltrados=boletos;
+				//System.out.println(tareasMant.get(0).getFechaInicio().getMonth());
+				if(filtros.getSelectedButtonText(filtros.getMes()).equals("ENERO-MARZO")){
+				boletosFiltrados = boletosFiltrados.stream()
+											.filter(b -> b.get_fechaVenta().getMonth().toString().equals("JANUARY")
+													|| b.get_fechaVenta().getMonth().toString().equals("FEBRUARY")
+													|| b.get_fechaVenta().getMonth().toString().equals("MARCH"))
+											.collect(Collectors.toList());
+				}
+				else if(filtros.getSelectedButtonText(filtros.getMes()).equals("ABRIL-JUNIO")){
+					boletosFiltrados = boletosFiltrados.stream()
+							.filter(b -> b.get_fechaVenta().getMonth().toString().equals("APRIL")
+									|| b.get_fechaVenta().getMonth().toString().equals("JUNE")
+									|| b.get_fechaVenta().getMonth().toString().equals("MAY"))
+							.collect(Collectors.toList());
+				}	
+				else if(filtros.getSelectedButtonText(filtros.getMes()).equals("JULIO-SEPTIEMBRE")){
+					boletosFiltrados = boletosFiltrados.stream()
+							.filter(b -> b.get_fechaVenta().getMonth().toString().equals("JULY")
+									|| b.get_fechaVenta().getMonth().toString().equals("AUGUST")
+									|| b.get_fechaVenta().getMonth().toString().equals("SEPTEMBER"))
+							.collect(Collectors.toList());
+				}	
+				else if(filtros.getSelectedButtonText(filtros.getMes()).equals("OCTUBRE-DICIEMBRE")){
+					boletosFiltrados = boletosFiltrados.stream()
+							.filter(b -> b.get_fechaVenta().getMonth().toString().equals("OCTOBER")
+									|| b.get_fechaVenta().getMonth().toString().equals("NOVEMBER")
+									|| b.get_fechaVenta().getMonth().toString().equals("DECEMBER"))
+							.collect(Collectors.toList());
+				}
+				if(! (filtros.getNombreOrigen().equals("no seleccionado"))) {
+					boletosFiltrados = boletosFiltrados.stream()
+										.filter(b -> b.get_origen().equals(filtros.getNombreOrigen()))
+										.collect(Collectors.toList());
+			};
+			if(! (filtros.getNombreDestino().equals("no seleccionado"))) {
+				boletosFiltrados = boletosFiltrados.stream()
+									.filter(b -> b.get_destino().equals(filtros.getNombreDestino()))
+									.collect(Collectors.toList());
+		};
+				//TODO TERMINAR DE FILTRAR
+				table.setModel(renovarTabla(boletosFiltrados));
 				autoajustarAnchoColumnas(table);
 			}
-		});*/
+			
+		});
+	
 	
 		btnLimpiarFiltros = new JButton("Limpiar filtros");
 		btnLimpiarFiltros.setBackground(new Color(204, 204, 102));
@@ -257,7 +279,7 @@ public class PanelBuscarBoleto extends JPanel {
 		btnLimpiarFiltros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				filtros.limpiarFiltros();
-				table.setModel(renovarTabla(LineasRepo.ObtenerLineas()));
+				table.setModel(renovarTabla(boletos)); // vuelve a cargar todos los boletos
 				autoajustarAnchoColumnas(table);
 			}
 		});
@@ -286,9 +308,7 @@ public class PanelBuscarBoleto extends JPanel {
 	public JButton getCancelar() {
 		return cancelar;
 	}
-	public JButton getModificar() {
-		return modificar;
-	}
+	
 	public void setBuscar(JButton btnNewButton) {
 		this.buscar = btnNewButton;
 	}
@@ -296,7 +316,7 @@ public class PanelBuscarBoleto extends JPanel {
 	public String getTextoEscrito() {
 		return this.textField.getText();
 	} 
-	public Linea getActual() {
+	public Boleto getActual() {
 		return actual;
 	}
 	public JTable getTable() {
@@ -306,16 +326,18 @@ public class PanelBuscarBoleto extends JPanel {
 		this.table = table;
 	}
 	
-	public DefaultTableModel renovarTabla(List<Linea> nuevosDatos) {
-		String nombreColumnas[] = {"Id","Nombre", "Color", "Estado", "Tipo de Transporte"};
-		datosFila = new Object[nuevosDatos.size()] [5];
+	public DefaultTableModel renovarTabla(List<Boleto> nuevosDatos) {
+		String nombreColumnas[] = {"Id","Nombre cliente","Correo cliente","Fecha venta","Costo" ,"Estacion origen", "Estacion destino"};
+		datosFila = new Object[nuevosDatos.size()] [7];
 
 		for(int i=0; i<nuevosDatos.size();i++) {
-			datosFila[i][0] = nuevosDatos.get(i).get_id();
-			datosFila[i][1] = nuevosDatos.get(i).get_nombre();
-			datosFila[i][2] = nuevosDatos.get(i).get_color();
-			datosFila[i][3] = nuevosDatos.get(i).get_estado();
-			datosFila[i][4] = nuevosDatos.get(i).get_tipoTransporte();
+			datosFila[i][0] = nuevosDatos.get(i).get_nroBoleto();
+			datosFila[i][1] = nuevosDatos.get(i).get_nombreCliente();
+			datosFila[i][2] = nuevosDatos.get(i).get_correoCliente();
+			datosFila[i][3] = nuevosDatos.get(i).get_fechaVenta();
+			datosFila[i][4] = nuevosDatos.get(i).get_costo();
+			datosFila[i][5] = nuevosDatos.get(i).get_origen();
+			datosFila[i][6] = nuevosDatos.get(i).get_destino();
 		}
 		//Crear modelo de la tabla
 		model = new DefaultTableModel(datosFila,nombreColumnas){

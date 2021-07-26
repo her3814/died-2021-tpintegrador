@@ -94,13 +94,7 @@ public class PanelAgregarTramo extends JPanel {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			//TRAMOS DE LA LINEA 	 -  PARA GRAFICO		
-			recorrido= new ArrayList<Tramo>();
-			Runnable recorridoLinea = ()->{
-				recorrido = TramosRepo.ObtenerRecorrido((Linea) comboBox_1_1.getSelectedItem());
-			};
-			Thread thread_recorrido =new Thread(recorridoLinea, "Obtener recorrido");
-			thread_recorrido.start();
+			
 		
 		JLabel lblNewLabel = new JLabel("AGREGAR TRAMO");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -136,6 +130,13 @@ public class PanelAgregarTramo extends JPanel {
 						gbc_comboBox_1_1.gridy = 2;
 						add(comboBox_1_1, gbc_comboBox_1_1);
 						
+						//TRAMOS DE LA LINEA 	 -  PARA GRAFICO		
+						recorrido= new ArrayList<Tramo>();
+						Runnable recorridoLinea = ()->{
+							recorrido = TramosRepo.ObtenerRecorrido((Linea) comboBox_1_1.getSelectedItem());
+						};
+						Thread thread_recorrido =new Thread(recorridoLinea, "Obtener recorrido");
+						thread_recorrido.start();	
 						
 		
 				btnRecorrido = new JButton("VER RECORRIDO");

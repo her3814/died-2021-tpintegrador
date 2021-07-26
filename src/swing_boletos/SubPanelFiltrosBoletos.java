@@ -32,8 +32,14 @@ public class SubPanelFiltrosBoletos extends JPanel {
 	private JComboBox comboBox;
 	private JLabel lblNewLabel_3;
 	private JComboBox comboBox_1;
-
+	List<Estacion> estaciones ;
+	
 	public SubPanelFiltrosBoletos() {
+		Runnable obtenerEstaciones = () ->{
+		estaciones = EstacionesRepo.ObtenerEstaciones();
+		};
+		Thread thread_obtenerEstaciones = new Thread(obtenerEstaciones, "obtener estacions");
+		thread_obtenerEstaciones.start();
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
@@ -114,11 +120,17 @@ public class SubPanelFiltrosBoletos extends JPanel {
 		add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
 		comboBox = new JComboBox();
-		List<Estacion> estaciones = EstacionesRepo.ObtenerEstaciones();
-		comboBox.setModel(new DefaultComboBoxModel(		
-				 estaciones.stream().map(e -> e.getNombre())
+		try {
+			thread_obtenerEstaciones.join();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(
+				estaciones.stream().map(e -> e.getNombre())
 				.collect(Collectors.toList())
-				.toArray()));
+				.toArray()
+				));
 		comboBox.setSelectedIndex(-1);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
@@ -147,12 +159,21 @@ public class SubPanelFiltrosBoletos extends JPanel {
 		gbc_comboBox_1.gridx = 1;
 		gbc_comboBox_1.gridy = 10;
 		add(comboBox_1, gbc_comboBox_1);
-		
-		
-		
 	}
 
-
+	public String getNombreOrigen() {
+		if(comboBox.getSelectedIndex() == (-1)) {
+			return "no seleccionado";
+		}
+		else return comboBox.getSelectedItem().toString();
+	}
+	
+	public String getNombreDestino() {
+		if(comboBox.getSelectedIndex() == (-1)) {
+			return "no seleccionado";
+		}
+		else return comboBox_1.getSelectedItem().toString();
+	}
 	
 	public String getSelectedButtonText(ButtonGroup buttonGroup) {
         for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
@@ -162,11 +183,15 @@ public class SubPanelFiltrosBoletos extends JPanel {
                 return button.getText();
             }
         }
-
         return "no seleccionado";
     }
 
 	
+	public ButtonGroup getMes() {
+		return mes;
+	}
+
+
 	public void limpiarFiltros() {
 		mes.clearSelection();
 		this.comboBox.setSelectedIndex(-1);

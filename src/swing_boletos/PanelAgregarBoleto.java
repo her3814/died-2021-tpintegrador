@@ -16,6 +16,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+
+import bdd.BoletosRepo;
 import bdd.EstacionesRepo;
 import modelo.Boleto;
 import modelo.Estacion;
@@ -287,7 +289,7 @@ public void agregarBoleto() {
 			this.inserteEmail.setVisible(true);
 		}
 		if(!nuevo.get_correoCliente().isEmpty() && !nuevo.get_nombreCliente().isEmpty()) {
-			//BoletosRepo.agregarBoleto(nuevo);
+			BoletosRepo.GuardarBoleto(nuevo);
 			System.out.println("Cliente: "+ nuevo.get_nombreCliente()+", costo: "+ nuevo.getCosto()+", recorrido"+ nuevo.get_tramos());
 			this.boletoAgregado.setVisible(true);
 			guardar.setEnabled(false);

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modelo.Boleto;
+import modelo.Tramo;
 
 public class BoletosRepo {
 	public static void GuardarBoleto(Boleto boleto) {
@@ -40,8 +41,8 @@ public class BoletosRepo {
 				stm = con.prepareStatement(sqlInsertRecorridoBoleto);
 				stm.setInt(1, idBoleto);
 				stm.setInt(2, 1 + i);
-				stm.setInt(1, t.getLinea().get_id());
-				stm.setInt(2, t.getOrden());
+				stm.setInt(3, t.getLinea().get_id());
+				stm.setInt(4, t.getOrden());
 				stm.executeUpdate();
 				stm.close();
 			}
@@ -92,6 +93,63 @@ public class BoletosRepo {
 		return res;
 	}
 
+	public static void EliminarBoleto(Boleto boleto) {
+		String sql = "DELETE FROM boletos WHERE numero = ?";
+		Connection con = BddSingleton.GetConnection();
+		try {
+			con.beginRequest();
+			PreparedStatement pstm = con.prepareStatement(sql);
+			pstm.setInt(1, boleto.get_nroBoleto());
+			pstm.executeUpdate();
+			con.commit();
+			pstm.close();
+		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	public static void EliminarRecorridoBoleto(Boleto boleto) {
+		String sql = "DELETE FROM boleto_recorrido WHERE boleto_numero = ? ";
+		Connection con = BddSingleton.GetConnection();
+		try {
+			con.beginRequest();
+			PreparedStatement pstm = con.prepareStatement(sql);
+			pstm.setInt(1, boleto.get_nroBoleto());
+			pstm.executeUpdate();
+			con.commit();
+			pstm.close();
+		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		BoletosRepo.EliminarBoleto(boleto);
+	}
+	
+	
 	private static Boleto ToEntity(ResultSet r) {
 		Boleto boleto = null;
 		try {

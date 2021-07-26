@@ -568,6 +568,8 @@ panelMenuPrincipal.getBoletos().addActionListener(new ActionListener() {
 								ventana1.pack();
 							}
 						});		
+						
+						
 					}
 				});
 				
