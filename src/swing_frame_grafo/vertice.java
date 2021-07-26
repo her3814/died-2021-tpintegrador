@@ -6,8 +6,11 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
-
-public class vertice {
+/**
+ * Clase de paquete representando un vertice de un grafo dibujable.
+ * No se debe utilizar esta clase para calculos o procesamiento logico/matematico de grafos *
+ */
+class vertice {
 	Color color;
 	int x, y;
 	String nombre;

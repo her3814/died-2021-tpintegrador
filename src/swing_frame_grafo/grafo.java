@@ -12,6 +12,10 @@ import modelo.Estacion;
 import modelo.Linea;
 import modelo.Tramo;
 
+/**
+ * Clase representando un grafo dibujable. No se debe utilizar esta clase para
+ * calculos o procesamiento logico/matematico de grafos *
+ */
 public class grafo {
 	private HashMap<Estacion, HashMap<Estacion, Recorrido[]>> _grafo;
 
@@ -62,7 +66,8 @@ public class grafo {
 	}
 
 	public static grafo ObtenerGrafoDeLinea(Linea linea) {
-		return null;
+		var recorrido = TramosRepo.ObtenerRecorrido(linea);
+		return ObtenerGrafoDesdeRecorrido(recorrido);
 	}
 
 	public static grafo ObtenerGrafoDesdeRecorrido(List<Tramo> recorrido) {
@@ -93,48 +98,5 @@ public class grafo {
 		var g = grafo.ObtenerGrafoCompleto();
 		System.out.println(grafo.ObtenerGrafoCompleto());
 	}
-//	
-//	
-//	
-//	public static grafo ObtenerGrafoEstacionesPorPasajeros() {
-//		grafo g = new grafo();
-//
-//		List<Estacion> est = EstacionesRepo.ObtenerEstaciones();
-//
-//		for (int i = 0; i < est.size(); i++) {
-//
-//			var con = TramosRepo.ObtenerDestinosDesde(est.get(i));
-//			var aux = new HashMap<String, Double>();
-//			for (int j = 0; j < con.size(); j++) {
-//				aux.put(con.get(j).getDestino().getNombre(), con.get(j).get_cantPasajeros().doubleValue());
-//			}
-//
-//			g.crearVertice(est.get(i).getNombre(), aux);
-//
-//		}
-//		return g;
-//
-//	}
-//
-//	public static grafo ObtenerGrafoEstacionesPorCosto() {
-//		grafo g = new grafo();
-//
-//		List<Estacion> est = EstacionesRepo.ObtenerEstaciones();
-//
-//		for (int i = 0; i < est.size(); i++) {
-//
-//			var con = TramosRepo.ObtenerDestinosDesde(est.get(i));
-//
-//			var aux = new HashMap<String, Double>();
-//			for (int j = 0; j < con.size(); j++) {
-//				aux.put(con.get(j).getDestino().getNombre(), con.get(j).getCosto());
-//			}
-//
-//			g.crearVertice(est.get(i).getNombre(), aux);
-//		}
-//
-//		return g;
-//	}
-
 
 }

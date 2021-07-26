@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import modelo.ColoresLineasEnum;
 
-public abstract class ColorToRgb {
+abstract class ColorToRgb {
 	public static Color GetRgb(ColoresLineasEnum color) {
 
 		switch (color) {
