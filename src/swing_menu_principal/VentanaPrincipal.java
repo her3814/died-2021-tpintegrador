@@ -258,7 +258,7 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 							} catch (HoraCierreMenorHoraAperturaException e1) {
 								panelModificarEstacion.horarioCierrePostAp();
 							}
-							EstacionesRepo.ModificarEstacion(nueva);
+						//	EstacionesRepo.ModificarEstacion(nueva);
 							try {
 								TareaMantenimientoRepo.FinalizarTareaDeMantenimiento(TareaMantenimientoRepo.ObtenerActiva(nueva));
 							} catch (FechaFinMenorFechaInicioException e1) {
@@ -282,7 +282,7 @@ panelMenuPrincipal.getEstaciones().addActionListener(new ActionListener() {
 							} catch (HoraCierreMenorHoraAperturaException e1) {
 								panelModificarEstacion.horarioCierrePostAp(); 
 							}
-							EstacionesRepo.ModificarEstacion(nueva);
+						//	EstacionesRepo.ModificarEstacion(nueva);
 							panelModificarEstacion.agregarTareaMantenimiento(nueva);
 							panelBuscarEstacion.setModel(panelBuscarEstacion.renovarTabla(EstacionesRepo.ObtenerEstaciones()));
 							
@@ -602,10 +602,25 @@ panelMenuPrincipal.getTramos().addActionListener(new ActionListener() {
 						ventana1.setVisible(true);
 						ventana1.pack();
 						
+					
 						panelAgregarTramo.getComboBox().addItemListener(new ItemListener() {
 							public void itemStateChanged(ItemEvent e) {
+								Runnable cambiarDestino= ()->{
 								panelAgregarTramo.cambiarEstacionDestino();
+								};
+								new Thread(cambiarDestino, "cambiar destino").start();
 						}});
+						
+						
+						panelAgregarTramo.getComboBox_1_1().addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								Runnable cambiarOrigen=()->{
+								panelAgregarTramo.cambiarEstacionOrigen();
+								panelAgregarTramo.cambiarEstacionDestino();
+								};
+								new Thread(cambiarOrigen, "cambiar origen").start();
+							}
+						});
 
 						panelAgregarTramo.getBtnGuardar().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
@@ -644,6 +659,7 @@ panelMenuPrincipal.getTramos().addActionListener(new ActionListener() {
 								ventana1.setVisible(true);
 								ventana1.pack();
 							}
+
 						});	
 						panelBuscarTramo.getModificar().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
@@ -670,6 +686,7 @@ panelMenuPrincipal.getTramos().addActionListener(new ActionListener() {
 					});	
 						}
 						}); 
+
 					}
 				});  						
 			}
