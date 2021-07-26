@@ -75,7 +75,7 @@ public class PanelAgregarTramo extends JPanel {
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0,
 				Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-				0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+				0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 		setPreferredSize(new Dimension(500, 500));
 
@@ -493,7 +493,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_btnNewButton_1.gridx = 4;
 		gbc_btnNewButton_1.gridy = 16;
 		add(btnCancelar, gbc_btnNewButton_1);
-
+	
 		tramoAgregado = new JLabel("EL TRAMO SE HA AGREGADO CORRECTAMENTE");
 		tramoAgregado.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbcTramoAgregado = new GridBagConstraints();

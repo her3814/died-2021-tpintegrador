@@ -45,7 +45,7 @@ public class PanelAgregarBoleto extends JPanel {
 	private JLabel inserteEmail;
 	private List<Estacion> estaciones;
 	private JLabel boletoAgregado;
-	
+	private JLabel noExisteRecorrido;
 	public PanelAgregarBoleto() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
@@ -194,6 +194,20 @@ public class PanelAgregarBoleto extends JPanel {
 		gbc_comboBox_2.gridy = 8;
 		add(comboBox_2, gbc_comboBox_2);
 		
+		noExisteRecorrido = new JLabel("No existe un recorrido para las estaciones seleccionadas.");
+		noExisteRecorrido.setForeground(Color.RED);
+		noExisteRecorrido.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
+		noExisteRecorrido.setHorizontalAlignment(SwingConstants.LEFT);
+		GridBagConstraints gbc_i_recorrido = new GridBagConstraints();
+		gbc_i_recorrido.anchor = GridBagConstraints.EAST;
+		gbc_i_recorrido.insets = new Insets(0, 0, 5, 5);
+		gbc_i_recorrido.gridx = 1;
+		gbc_i_recorrido.gridy = 9;
+		gbc_i_recorrido.gridwidth=3;
+		gbc_i_recorrido.anchor=GridBagConstraints.WEST;
+		add(noExisteRecorrido, gbc_i_recorrido);
+		noExisteRecorrido.setVisible(false);
+		
 		boletoAgregado = new JLabel("EL BOLETO SE HA AGREGADO CORRECTAMENTE");
 		boletoAgregado.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbcBoletoAgregado = new GridBagConstraints();
@@ -247,6 +261,7 @@ public class PanelAgregarBoleto extends JPanel {
 	public void limpiarWarnings() {
 		this.inserteCliente.setVisible(false);
 		this.inserteEmail.setVisible(false);
+		noExisteRecorrido.setVisible(false);
 	}
 	public void limpiarDatos() {
 		this.textField_1.setText(null);
@@ -288,7 +303,10 @@ public void agregarBoleto() {
 		if(nuevo.get_correoCliente().isEmpty()) {
 			this.inserteEmail.setVisible(true);
 		}
-		if(!nuevo.get_correoCliente().isEmpty() && !nuevo.get_nombreCliente().isEmpty()) {
+		if(nuevo.get_tramos()==null || nuevo.get_tramos().size()==0) {
+			noExisteRecorrido.setVisible(true);
+		}
+		if(!nuevo.get_correoCliente().isEmpty() && !nuevo.get_nombreCliente().isEmpty() && !(nuevo.get_tramos()==null || nuevo.get_tramos().size()==0)) {
 			BoletosRepo.GuardarBoleto(nuevo);
 			System.out.println("Cliente: "+ nuevo.get_nombreCliente()+", costo: "+ nuevo.getCosto()+", recorrido"+ nuevo.get_tramos());
 			this.boletoAgregado.setVisible(true);

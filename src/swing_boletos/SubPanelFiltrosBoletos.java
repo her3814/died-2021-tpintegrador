@@ -169,7 +169,7 @@ public class SubPanelFiltrosBoletos extends JPanel {
 	}
 	
 	public String getNombreDestino() {
-		if(comboBox.getSelectedIndex() == (-1)) {
+		if(comboBox_1.getSelectedIndex() == (-1)) {
 			return "no seleccionado";
 		}
 		else return comboBox_1.getSelectedItem().toString();

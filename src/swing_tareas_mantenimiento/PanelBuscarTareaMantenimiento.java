@@ -170,12 +170,15 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 		buscar = new JButton("BUSCAR");	
 		buscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(textField.getText().isBlank()) {
+					table.setModel(renovarTabla(TareaMantenimientoRepo.Obtener()));
+				}else {
 				table.setModel(renovarTabla(TareaMantenimientoRepo.Obtener()
 					    .stream()
-						.filter(t -> t.getId().toString().equals(textField.getText()))
+						.filter(t -> t.getId().toString().toLowerCase().contains(textField.getText().toLowerCase()))
 						.collect(Collectors.toList())));
+				}
 				autoajustarAnchoColumnas(table);
-
 			}
 		});
 		
@@ -214,10 +217,13 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 		aplicarFiltros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				List<TareaMantenimiento> tareasMant = new ArrayList<TareaMantenimiento>();
-				tareasMant = TareaMantenimientoRepo.Obtener();
-				//System.out.println(filtros.getSelectedButtonText(filtros.getMesInicio()));
-				//System.out.println(filtros.getSelectedButtonText(filtros.getMesFin()));
-				//System.out.println(tareasMant.get(0).getFechaInicio().getMonth());
+				if(textField.getText().isBlank()) {
+					tareasMant = TareaMantenimientoRepo.Obtener();
+				}else {
+				tareasMant = TareaMantenimientoRepo.Obtener().stream()
+						.filter(t -> t.getId().toString().toLowerCase().contains(textField.getText().toLowerCase()))
+						.collect(Collectors.toList());
+				}
 				if(filtros.getSelectedButtonText(filtros.getMesInicio()).equals("ENERO-MARZO")){
 				tareasMant = tareasMant.stream()
 											.filter(t -> t.getFechaInicio().getMonth().toString().equals("JANUARY")

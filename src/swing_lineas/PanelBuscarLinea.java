@@ -162,10 +162,14 @@ public class PanelBuscarLinea extends JPanel {
 		buscar = new JButton("BUSCAR");	
 		buscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(textField.getText().isBlank()) {
+					table.setModel(renovarTabla(LineasRepo.ObtenerLineas()));
+				}else {
 				table.setModel(renovarTabla(LineasRepo.ObtenerLineas()
 					    .stream()
 						.filter(est -> est.get_nombre().toLowerCase().contains(textField.getText().toLowerCase()))
 						.collect(Collectors.toList())));
+				}
 				autoajustarAnchoColumnas(table);
 			}
 		});
@@ -207,7 +211,16 @@ public class PanelBuscarLinea extends JPanel {
 				List<Linea> lineas  = new ArrayList<Linea>();
 				lineas = LineasRepo.ObtenerLineas();
 				List<Linea> lineasFiltradas = new ArrayList<Linea>();
-				lineasFiltradas = lineas;
+			
+				if(textField.getText().isBlank()) {
+					lineasFiltradas = lineas;
+				}else {
+				table.setModel(renovarTabla(lineasFiltradas= lineas
+					    .stream()
+						.filter(est -> est.get_nombre().toLowerCase().contains(textField.getText().toLowerCase()))
+						.collect(Collectors.toList())));
+				}
+				
 				if(filtros.getSelectedButtonText(filtros.getEstado()).equals("No activa")) {
 					lineasFiltradas = lineasFiltradas.stream()
 										.filter(l -> l.get_estado().equals(EstadoLineaEnum.NO_ACTIVA))
