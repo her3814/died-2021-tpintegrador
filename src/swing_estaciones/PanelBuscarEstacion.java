@@ -185,6 +185,7 @@ public class PanelBuscarEstacion extends JPanel {
 			}else {
 				table.setModel(renovarTabla(EstacionesRepo.ObtenerEstaciones()));
 			}
+				filtros.limpiarFiltros();
 				autoajustarAnchoColumnas(table);
 			}
 		});
@@ -231,7 +232,8 @@ public class PanelBuscarEstacion extends JPanel {
 							.filter(est -> est.getNombre().toLowerCase().contains(textField.getText().toLowerCase()))
 							.collect(Collectors.toList());
 				}else {
-				estacionesBDDFiltradas = estacionesBDD;}
+				estacionesBDDFiltradas = estacionesBDD;
+				}
 				
 				if( ! (filtros.getEstado().equals("no seleccionado"))) {
 					estadoFiltrado = filtros.getEstado();
@@ -336,8 +338,18 @@ public class PanelBuscarEstacion extends JPanel {
 
 		btnLimpiarFiltros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				filtros.limpiarFiltros();
-				table.setModel(renovarTabla(EstacionesRepo.ObtenerEstaciones()));
+				
+				if(!textField.getText().isBlank()) {
+					table.setModel(renovarTabla(EstacionesRepo.ObtenerEstaciones()
+						    .stream()
+							.filter(est -> est.getNombre().toLowerCase().contains(textField.getText().toLowerCase()))
+							.collect(Collectors.toList())));
+					autoajustarAnchoColumnas(table);
+				}else {
+					table.setModel(renovarTabla(EstacionesRepo.ObtenerEstaciones()));
+				}
+					filtros.limpiarFiltros();
+					autoajustarAnchoColumnas(table);
 				autoajustarAnchoColumnas(table);
 			}
 		});

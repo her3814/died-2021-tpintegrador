@@ -178,6 +178,7 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 						.filter(t -> t.getId().toString().toLowerCase().contains(textField.getText().toLowerCase()))
 						.collect(Collectors.toList())));
 				}
+				filtros.limpiarFiltros();
 				autoajustarAnchoColumnas(table);
 			}
 		});
@@ -303,8 +304,15 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 		
 		btnLimpiarFiltros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(textField.getText().isBlank()) {
+					table.setModel(renovarTabla(TareaMantenimientoRepo.Obtener()));
+				}else {
+				table.setModel(renovarTabla(TareaMantenimientoRepo.Obtener()
+					    .stream()
+						.filter(t -> t.getId().toString().toLowerCase().contains(textField.getText().toLowerCase()))
+						.collect(Collectors.toList())));
+				}
 				filtros.limpiarFiltros();
-				table.setModel(renovarTabla(TareaMantenimientoRepo.Obtener()));
 				autoajustarAnchoColumnas(table);
 
 			}

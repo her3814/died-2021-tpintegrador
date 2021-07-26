@@ -106,7 +106,6 @@ public class PanelBuscarBoleto extends JPanel {
 		add(filtros, gbcFiltros);
 		
 	
-		
 		table = new JTable();
 		model = renovarTabla(BoletosRepo.ObtenerBoletos());
 		table.setModel(model);
@@ -176,10 +175,11 @@ public class PanelBuscarBoleto extends JPanel {
 					    .stream()
 						.filter(boleto -> boleto.get_nombreCliente().toLowerCase().contains(textField.getText().toLowerCase()))
 						.collect(Collectors.toList())));
-				filtros.limpiarFiltros();
+				
 			}else {
 				table.setModel(renovarTabla(BoletosRepo.ObtenerBoletos()));
 			}
+				filtros.limpiarFiltros();
 				autoajustarAnchoColumnas(table);
 			}
 		});
@@ -280,7 +280,14 @@ public class PanelBuscarBoleto extends JPanel {
 		btnLimpiarFiltros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				filtros.limpiarFiltros();
-				table.setModel(renovarTabla(BoletosRepo.ObtenerBoletos())); // vuelve a cargar todos los boletos
+				if(textField.getText().isBlank()) {
+					table.setModel(renovarTabla(BoletosRepo.ObtenerBoletos()));
+				}else {
+					table.setModel(renovarTabla(BoletosRepo.ObtenerBoletos()
+						    .stream()
+							.filter(boleto -> boleto.get_nombreCliente().toLowerCase().contains(textField.getText().toLowerCase()))
+							.collect(Collectors.toList())));
+				}
 				autoajustarAnchoColumnas(table);
 			}
 		});

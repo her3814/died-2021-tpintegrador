@@ -170,6 +170,7 @@ public class PanelBuscarLinea extends JPanel {
 						.filter(est -> est.get_nombre().toLowerCase().contains(textField.getText().toLowerCase()))
 						.collect(Collectors.toList())));
 				}
+				filtros.limpiarFiltros();
 				autoajustarAnchoColumnas(table);
 			}
 		});
@@ -269,8 +270,15 @@ public class PanelBuscarLinea extends JPanel {
 
 		btnLimpiarFiltros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(textField.getText().isBlank()) {
+					table.setModel(renovarTabla(LineasRepo.ObtenerLineas()));
+				}else {
+				table.setModel(renovarTabla(LineasRepo.ObtenerLineas()
+					    .stream()
+						.filter(est -> est.get_nombre().toLowerCase().contains(textField.getText().toLowerCase()))
+						.collect(Collectors.toList())));
+				}
 				filtros.limpiarFiltros();
-				table.setModel(renovarTabla(LineasRepo.ObtenerLineas()));
 				autoajustarAnchoColumnas(table);
 			}
 		});

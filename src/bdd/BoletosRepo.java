@@ -153,7 +153,7 @@ public class BoletosRepo {
 	private static Boleto ToEntity(ResultSet r) {
 		Boleto boleto = null;
 		try {
-			boleto = new Boleto(r.getInt("numero"), r.getString("nombre_cliente"), r.getString("correo_cliente"),
+			boleto = new Boleto(r.getInt("numero"),  r.getString("correo_cliente"),r.getString("nombre_cliente"),
 					r.getDate("fecha_venta").toLocalDate(), r.getDouble("costo"), r.getString("nombre_estacion_origen"),
 					r.getString("nombre_estacion_fin"));
 		} catch (SQLException e) {
