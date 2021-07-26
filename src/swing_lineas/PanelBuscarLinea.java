@@ -253,7 +253,6 @@ public class PanelBuscarLinea extends JPanel {
 		gbc_btnLimpiarFiltros.gridx = 1;
 		gbc_btnLimpiarFiltros.gridy = 7;
 		add(btnLimpiarFiltros, gbc_btnLimpiarFiltros);
-		
 
 		btnLimpiarFiltros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
