@@ -36,15 +36,7 @@ import com.toedter.calendar.JDateChooser;
 
 public class PanelProximoMantenimiento extends JPanel {
 	
-	private static final long serialVersionUID = -2644494736548175597L;
-
-	private JTextField textField_1;
-	private JButton btnNewButton;
 	private JButton cancelar;
-	private JLabel lblNewLabel_1;
-	private JTextField textField;
-	private JLabel lblNewLabel_3;
-	private JDateChooser dateChooser;
 	private JTable table;
 	private Object datosFila [][];
 	private DefaultTableModel model;
@@ -52,26 +44,15 @@ public class PanelProximoMantenimiento extends JPanel {
 	public PanelProximoMantenimiento() {
 		
 		setBackground(Color.WHITE);
-		
-		
+
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		
-		gridBagLayout.columnWidths = new int[]{54, 90, 141, 211, 67, 0};
-		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 19, 0, 19, 0, 19, 21, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{0, 0, 154, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, -16, 298, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		setPreferredSize(new Dimension(500,500));
 		setMinimumSize(new Dimension(300,300));
-		
-		JLabel lblNewLabel = new JLabel("PROXIMO MANTENIMIENTO");
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(10, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 1;
-		gbc_lblNewLabel.gridy = 1;
-		gbc_lblNewLabel.gridwidth=4;
-		add(lblNewLabel, gbc_lblNewLabel);
 
 		List<Estacion> estaciones = new ArrayList<Estacion>();
 		estaciones=EstacionesRepo.ObtenerEstaciones();
@@ -84,55 +65,57 @@ public class PanelProximoMantenimiento extends JPanel {
 			nuevosDatos.add(cola.poll());
 		}
 		
+	
+		JLabel lblNewLabel = new JLabel("PROXIMO MANTENIMIENTO");
+		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22));
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.insets = new Insets(10, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 4;
+		gbc_lblNewLabel.gridy = 1;
+		gbc_lblNewLabel.gridwidth=4;
+		add(lblNewLabel, gbc_lblNewLabel);
+		
 		table = new JTable();
 		model = renovarTabla(nuevosDatos);
 		table.setModel(model);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  
+		table.setFillsViewportHeight(true);
 		autoajustarAnchoColumnas(table);
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setRowSelectionAllowed(false);
 		GridBagConstraints gbc_table = new GridBagConstraints();
-		gbc_table.gridheight = 12;
-		gbc_table.gridwidth = 10;
-		
+		gbc_table.gridwidth = 11;
+
 		JScrollPane scrollPane= new JScrollPane(table);
-		gbc_table.insets = new Insets(5, 5, 5, 0);
+		gbc_table.insets = new Insets(5, 5, 5, 5);
 		gbc_table.fill = GridBagConstraints.BOTH;
-		gbc_table.gridx = 0;
-		gbc_table.gridy = 5;
+		gbc_table.gridx = 2;
+		gbc_table.gridy = 4;
 		add(scrollPane, gbc_table);
+		
 		
 		cancelar = new JButton("VOLVER");
 		cancelar.setBackground(new Color(204, 204, 51));
-		cancelar.setFont(new Font("Arial", Font.BOLD, 12));
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton_1.gridx = 3;
-		gbc_btnNewButton_1.gridy = 12;
-		add(cancelar, gbc_btnNewButton_1);
+		GridBagConstraints gbc_btnNewButton_11 = new GridBagConstraints();
+		gbc_btnNewButton_11.anchor = GridBagConstraints.SOUTHEAST;
+		gbc_btnNewButton_11.insets = new Insets(0, 0, 20, 5);
+		gbc_btnNewButton_11.gridx = 8;
+		gbc_btnNewButton_11.gridy = 5;
+		add(cancelar, gbc_btnNewButton_11);
 			
 	}
-	public JTextField getTextField_1() {
-		return textField_1;
-	}
-	public JButton getBtnNewButton() {
-		return btnNewButton;
-	}
-	public JButton getCancelar() {
-		return cancelar;
-	}
+	
 	public static Date convertToDate(LocalDate dateToConvert) {
 	    return java.sql.Date.valueOf(dateToConvert);
 	}
 
 	public DefaultTableModel renovarTabla(List<Estacion> nuevosDatos) {
-		String nombreColumnas[] = {"Id","Nombre estacion", "Fecha FIN ultimo mantenimiento"};
-		datosFila = new Object[nuevosDatos.size()] [3];
-	
+		String nombreColumnas[] = {"Id","Id estacion" , "Nombre estacion", "Fecha"};
+		datosFila = new Object[nuevosDatos.size()] [4];
 		for(int i=0; i<nuevosDatos.size();i++) {
-			datosFila[i][0] = nuevosDatos.get(i).getId();
-			datosFila[i][1] = nuevosDatos.get(i).getNombre();
-			datosFila[i][2] = nuevosDatos.get(i).getFechaUltimoMantenimiento();
+			datosFila[i][0] = i+1;
+			datosFila[i][1] = nuevosDatos.get(i).getId();
+			datosFila[i][2] = nuevosDatos.get(i).getNombre();
+			datosFila[i][3] = nuevosDatos.get(i).getFechaUltimoMantenimiento();
 		}
 		//Crear modelo de la tabla
 		model = new DefaultTableModel(datosFila,nombreColumnas){
@@ -142,6 +125,15 @@ public class PanelProximoMantenimiento extends JPanel {
 		};
 		return model;
 	}	
+	
+	public JButton getCancelar() {
+		return cancelar;
+	}
+
+	public void setCancelar(JButton cancelar) {
+		this.cancelar = cancelar;
+	}
+
 	public void autoajustarAnchoColumnas(JTable table) {
 	    final TableColumnModel columnModel = table.getColumnModel();
 	    for (int column = 0; column < table.getColumnCount(); column++) {

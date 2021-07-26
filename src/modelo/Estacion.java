@@ -117,7 +117,7 @@ public class Estacion {
 		List<TareaMantenimiento> tareas = new ArrayList<TareaMantenimiento>();
 		Comparator<TareaMantenimiento> comparador = (TareaMantenimiento t1, TareaMantenimiento t2) -> t2.getFechaFin().compareTo(t1.getFechaFin());
 		tareas = TareaMantenimientoRepo.Obtener(this);
-		if(tareas.size()>1) {
+		if(tareas.size()>2) {
 		List<LocalDate> retorno = new ArrayList<LocalDate>();
 		retorno = TareaMantenimientoRepo.Obtener(this)
 				.stream()
@@ -126,6 +126,14 @@ public class Estacion {
 				.collect(Collectors.toList());
 		return retorno.get(0);
 		}
+		else if(tareas.size()==1) {
+			List<LocalDate> retorno = new ArrayList<LocalDate>();
+			retorno = TareaMantenimientoRepo.Obtener(this)
+					.stream()
+					.sorted(comparador)
+					.map(t1 -> t1.getFechaFin())
+					.collect(Collectors.toList());
+			return retorno.get(0);		}
 		else return LocalDate.now();
 	}
 }
