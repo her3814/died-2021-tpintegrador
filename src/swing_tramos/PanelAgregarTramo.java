@@ -217,8 +217,7 @@ public class PanelAgregarTramo extends JPanel {
 					comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(
 							 estaciones.toArray()
 							));
-				}else {
-				
+				}else {		
 					comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(estacion));
 				}
 		

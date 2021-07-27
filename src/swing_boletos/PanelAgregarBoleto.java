@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,10 +21,15 @@ import javax.swing.JButton;
 
 import bdd.BoletosRepo;
 import bdd.EstacionesRepo;
+import bdd.LineasRepo;
+import bdd.TramosRepo;
 import modelo.Boleto;
 import modelo.Estacion;
+import modelo.Linea;
 import modelo.Tramo;
 import servicios.VenderBoletoServicio;
+import swing_frame_grafo.TramoMostrarEnum;
+import swing_frame_grafo.grafo;
 
 import java.awt.Color;
 import javax.swing.DefaultComboBoxModel;
@@ -46,15 +53,16 @@ public class PanelAgregarBoleto extends JPanel {
 	private List<Estacion> estaciones;
 	private JLabel boletoAgregado;
 	private JLabel noExisteRecorrido;
+	private JPanel panel;
 	public PanelAgregarBoleto() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
 		gridBagLayout.columnWidths = new int[]{54, 90, 141, 211, 67, 0};
-		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 19, 0, 19, 19, 21, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 19, 0, 19, 19, 21, 0, 0, 0, 155, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		setPreferredSize(new Dimension(500,500));
+		setPreferredSize(new Dimension(1000,1000));
 		setMinimumSize(new Dimension(300,300));
 		setBackground(Color.WHITE);
 
@@ -164,7 +172,7 @@ public class PanelAgregarBoleto extends JPanel {
 		add(lblNewLabel_4, gbc_lblNewLabel_4);
 
 		comboBox_1 = new JComboBox();	
-		comboBox_1.setModel(new javax.swing.DefaultComboBoxModel<>(estaciones.stream().filter(e-> e.getId()!= ((Estacion) comboBox.getSelectedItem()).getId()).collect(Collectors.toList()).toArray()));
+		comboBox_1.setModel(new javax.swing.DefaultComboBoxModel<>(estaciones.stream().filter(e-> e.getId() != ((Estacion) comboBox.getSelectedItem()).getId()).collect(Collectors.toList()).toArray()));
 		
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
 		gbc_comboBox_1.gridwidth = 2;
@@ -211,7 +219,7 @@ public class PanelAgregarBoleto extends JPanel {
 		boletoAgregado = new JLabel("EL BOLETO SE HA AGREGADO CORRECTAMENTE");
 		boletoAgregado.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbcBoletoAgregado = new GridBagConstraints();
-		gbcBoletoAgregado.insets = new Insets(0, 0, 0, 5);
+		gbcBoletoAgregado.insets = new Insets(0, 0, 5, 5);
 		gbcBoletoAgregado.gridx = 1;
 		gbcBoletoAgregado.gridy = 9;
 		gbcBoletoAgregado.gridwidth=3;
@@ -223,7 +231,7 @@ public class PanelAgregarBoleto extends JPanel {
 		guardar.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
-		gbc_btnNewButton.insets = new Insets(10, 0, 0, 5);
+		gbc_btnNewButton.insets = new Insets(10, 0, 5, 5);
 		gbc_btnNewButton.gridx = 2;
 		gbc_btnNewButton.gridy = 10;
 		add(guardar, gbc_btnNewButton);
@@ -233,10 +241,45 @@ public class PanelAgregarBoleto extends JPanel {
 		cancelar.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
-		gbc_btnNewButton_1.insets = new Insets(10, 0, 0, 5);
+		gbc_btnNewButton_1.insets = new Insets(10, 0, 5, 5);
 		gbc_btnNewButton_1.gridx = 3;
 		gbc_btnNewButton_1.gridy = 10;
 		add(cancelar, gbc_btnNewButton_1);
+		
+		panel = new JPanel();
+		comboBox_2.setSelectedIndex(-1);
+		this.comboBox_2.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				Estacion origen = obtenerEstacionOrigen();
+				Estacion destino = obtenerEstacionDestino();
+				
+				if(comboBox_2.getSelectedItem().equals("MÁS BARATO")) {
+					List<Tramo> recorrido = VenderBoletoServicio.CalcularCaminoMasBarato(origen,destino);
+					grafo g = grafo.ObtenerGrafoDesdeRecorrido(recorrido);		
+					panel = new swing_frame_grafo.panel(g,TramoMostrarEnum.COSTO);
+				}
+				else if(comboBox_2.getSelectedItem().equals("MENOR DISTANCIA")) {
+			//TODO cambiar duracion por longitud
+					List<Tramo> recorrido = VenderBoletoServicio.CalcularCaminoMenorDistancia(origen,destino);
+					grafo g = grafo.ObtenerGrafoDesdeRecorrido(recorrido);		
+					panel = new swing_frame_grafo.panel(g,TramoMostrarEnum.DURACION);
+				}
+				else if(comboBox_2.getSelectedItem().equals("MÁS RÁPIDO")) {
+					List<Tramo> recorrido = VenderBoletoServicio.CalcularCaminoMasRapido(origen,destino);
+					grafo g = grafo.ObtenerGrafoDesdeRecorrido(recorrido);		
+					panel = new swing_frame_grafo.panel(g,TramoMostrarEnum.DURACION);
+				}
+		}});
+		
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.gridheight = 2;
+		gbc_panel.gridwidth = 3;
+		gbc_panel.insets = new Insets(0, 0, 5, 5);
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 1;
+		gbc_panel.gridy = 11;
+		add(panel, gbc_panel);
+		
 		
 	}
 	
@@ -290,7 +333,6 @@ public class PanelAgregarBoleto extends JPanel {
 			 costo+=t.getCosto();
 		 }
 	}
-	 
 	//public Boleto(String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, LinkedHashSet<Tramo> recorrido)
 		return new Boleto(textField.getText(), textField_1.getText(), LocalDate.now(),costo,(Estacion)this.comboBox.getSelectedItem(),(Estacion) this.comboBox_1.getSelectedItem(), recorrido);
 		
@@ -313,6 +355,24 @@ public void agregarBoleto() {
 			guardar.setEnabled(false);
 		}
 	}
+
+public JComboBox getComboBox_1() {
+	return comboBox_1;
+}
+
+public void setComboBox_1(JComboBox comboBox_1) {
+	this.comboBox_1 = comboBox_1;
+}
+
+public void setComboBox(JComboBox comboBox) {
+	this.comboBox = comboBox;
+}
+public Estacion obtenerEstacionOrigen() {
+	return (Estacion) comboBox.getSelectedItem();
+}
+public Estacion obtenerEstacionDestino() {
+	return (Estacion) comboBox_1.getSelectedItem();
+}
 public void cambiarEstacionDestino() {
 	 Estacion origen= (Estacion) comboBox.getSelectedItem();
 	comboBox_1.setModel(new javax.swing.DefaultComboBoxModel<>(estaciones.stream().filter(e-> e.getId()!= origen.getId()).collect(Collectors.toList()).toArray()));
