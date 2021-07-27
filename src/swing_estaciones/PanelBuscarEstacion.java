@@ -30,6 +30,7 @@ import javax.swing.table.TableColumnModel;
 
 import bdd.EstacionesRepo;
 import bdd.TareaMantenimientoRepo;
+import bdd.TramosRepo;
 import excepciones.HoraCierreMenorHoraAperturaException;
 //import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.Estacion;
@@ -167,8 +168,13 @@ public class PanelBuscarEstacion extends JPanel {
 				} catch (HoraCierreMenorHoraAperturaException e1) {
 					e1.printStackTrace();
 				} 
-				TareaMantenimientoRepo.EliminarTareasMantenimiento(actual);
-				model.removeRow(fila);
+				
+				if(TramosRepo.estacionEstaEnUnTramo(actual)) {
+					JOptionPane.showMessageDialog(null, "No puede eliminar la estacion "+ nombre + " ya que se encuentra asociada a un tramo.", "Eliminar estacion", JOptionPane.WARNING_MESSAGE);
+				}else {
+					model.removeRow(fila);
+					TareaMantenimientoRepo.EliminarTareasMantenimiento(actual);
+				}
 				table.setModel(model);
 				autoajustarAnchoColumnas(table);
 				}

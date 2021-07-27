@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import modelo.Boleto;
 import modelo.Estacion;
@@ -32,7 +33,16 @@ public class TramosRepo {
 		}
 
 	}
-
+	
+	public static Boolean estacionEstaEnUnTramo(Estacion est) {
+		List<Tramo> tramos = TramosRepo.obtenerTramos();
+		List<Estacion> origenes = new ArrayList<Estacion>();
+		origenes = tramos.stream().map(t -> t.getOrigen()).filter(e -> e.equals(est)).collect(Collectors.toList());
+		List<Estacion> destinos =  new ArrayList<Estacion>();
+		destinos = tramos.stream().map(t -> t.getDestino()).filter(e -> e.equals(est)).collect(Collectors.toList());
+		return (origenes.size()==0 ||destinos.size()==0);
+	}
+	
 	public static void ModificarTramo(Tramo tramo) {
 		String sql = "UPDATE lineas_trayecto SET cant_pasajeros = ?, duracion_min = ?, costo = ?, distancia = ?, estado = ? "
 				+ "WHERE id_linea_transporte = ? AND trayecto_orden = ?";
