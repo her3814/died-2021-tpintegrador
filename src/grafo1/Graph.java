@@ -57,8 +57,6 @@ public class Graph <T> {
 		this.vertexs = vertexs;
 	}
 	
-	
-	
 	public Map<Estacion,Double> pageRank1(Graph<T> grafo){
 		Double cantidadNodos = (double) grafo.getVertexs().size();
 		Double pr =   (1 / cantidadNodos);
@@ -79,7 +77,6 @@ public class Graph <T> {
 		for(int i=0; i<vertices.size();i++) {
 			pageRank.put(vertices.get(i), pr);
 		}
-		
 		
 		for(int j=0; j< vertices.size()-1; j++) { // cantidad de iteraciones
 		for(int i=0; i<vertices.size(); i++) { // cantidad de vértices
