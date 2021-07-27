@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -15,15 +17,16 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import bdd.LineasRepo;
+import modelo.ColoresLineasEnum;
 import modelo.EstadoLineaEnum;
 import modelo.Linea;
 import modelo.LineaTipoTransporteEnum;
 
 import java.awt.Color;
+import javax.swing.JComboBox;
 
 public class PanelAgregarLinea extends JPanel {
 	private JTextField textField;
-	private JTextField textField_1;
 	private ButtonGroup estado;
 	private JButton btnGuardar;
 	private JButton btnCancelar;
@@ -38,13 +41,14 @@ public class PanelAgregarLinea extends JPanel {
 	private JRadioButton rdbtnSubte;
 	private JRadioButton rdbtnTren;
 	private JRadioButton rdbtnColectivo;
+	private JComboBox comboBox;
 	
 	public PanelAgregarLinea() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
 		gridBagLayout.columnWidths = new int[]{40, 152, 111, 114, 67, 0};
 		gridBagLayout.rowHeights = new int[]{0, 26, 19, 0, 19, 0, 19, 0, 0, 21, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		setPreferredSize(new Dimension(500,500));
@@ -103,15 +107,19 @@ public class PanelAgregarLinea extends JPanel {
 		gbc_lblNewLabel_2.gridy = 4;
 		add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.gridwidth = 2;
-		gbc_textField_1.gridx = 2;
-		gbc_textField_1.gridy = 4;
-		add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		comboBox = new JComboBox();
+		List<String> colores = new ArrayList<String>();
+		colores = ColoresLineasEnum.valores();
+		comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(
+				 colores.toArray()));
+		
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.gridwidth = 2;
+		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 2;
+		gbc_comboBox.gridy = 4;
+		add(comboBox, gbc_comboBox);
 		
 		inserteColor = new JLabel("Por favor, inserte un color.");
 		inserteColor.setForeground(Color.RED);
@@ -180,7 +188,6 @@ public class PanelAgregarLinea extends JPanel {
 		add(inserteMedio, gbc_i_medio);
 		inserteMedio.setVisible(false);
 
-		
 		JLabel lblNewLabel_5 = new JLabel("ESTADO:");
 		lblNewLabel_5.setFont(new Font("Arial", Font.BOLD, 13));
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
@@ -264,7 +271,8 @@ public class PanelAgregarLinea extends JPanel {
 	
 	public void limpiarDatos() {
 		textField.setText(null);
-		textField_1.setText(null);
+		//textField_1.setText(null);
+		comboBox.setSelectedIndex(-1);
 		estado.clearSelection();
 		this.lineaAgregada.setVisible(false);
 		this.medio.clearSelection();
@@ -297,7 +305,7 @@ public class PanelAgregarLinea extends JPanel {
 		}else if(this.rdbtnTren.isSelected()) {
 			t=LineaTipoTransporteEnum.TREN;
 		}
-		return new Linea(this.textField.getText(), this.textField_1.getText(), e, t);
+		return new Linea(this.textField.getText(), this.comboBox.getSelectedItem().toString(), e, t);
 	}
 	
 	public void mensajeLineaCreada() {

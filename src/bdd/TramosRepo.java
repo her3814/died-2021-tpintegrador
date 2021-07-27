@@ -41,6 +41,7 @@ public class TramosRepo {
 		List<Estacion> destinos =  new ArrayList<Estacion>();
 		destinos = tramos.stream().map(t -> t.getDestino()).filter(e -> e.equals(est)).collect(Collectors.toList());
 		return (origenes.size()!=0 || destinos.size()!=0);
+
 	}
 	
 	public static void ModificarTramo(Tramo tramo) {

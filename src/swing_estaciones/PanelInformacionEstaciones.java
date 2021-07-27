@@ -11,9 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PanelInformacionEstaciones extends JPanel{
-	
-	private static final long serialVersionUID = -8660085662214980618L;
-	
+		
 	private JLabel tituloPag;
 	private JButton mantenimiento;
 	private JButton pagerank;

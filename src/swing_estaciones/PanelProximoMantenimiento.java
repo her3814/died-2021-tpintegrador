@@ -109,7 +109,7 @@ public class PanelProximoMantenimiento extends JPanel {
 	}
 
 	public DefaultTableModel renovarTabla(List<Estacion> nuevosDatos) {
-		String nombreColumnas[] = {"Id","Id estacion" , "Nombre estacion", "Fecha"};
+		String nombreColumnas[] = {"Nro.","Id estacion" , "Nombre estacion", "Fecha"};
 		datosFila = new Object[nuevosDatos.size()] [4];
 		for(int i=0; i<nuevosDatos.size();i++) {
 			datosFila[i][0] = i+1;
