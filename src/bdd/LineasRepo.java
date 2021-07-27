@@ -236,6 +236,9 @@ public class LineasRepo {
 		List<Estacion> finales= TramosRepo.ObtenerRecorrido(l).stream()
 							.map(t -> t.getDestino())
 							.collect(Collectors.toList());
+		if(finales.size()==0) {
+			return null;
+		}
 		return finales.get(finales.size()-1);
 	}
 	

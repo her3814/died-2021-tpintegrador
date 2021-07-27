@@ -8,8 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import modelo.Boleto;
+import modelo.Estacion;
 import modelo.Tramo;
 
 public class BoletosRepo {
@@ -161,6 +163,15 @@ public class BoletosRepo {
 			e.printStackTrace();
 		}
 		return boleto;
+	}
+	
+	public static Boolean estacionEstaEnUnBoleto(String estacion) {
+		List<Boleto> boletos= BoletosRepo.ObtenerBoletos();
+		List<String> origenes = new ArrayList<String>();
+			origenes =	boletos.stream().map(b -> b.get_origen()).filter(e -> e.equalsIgnoreCase(estacion)).collect(Collectors.toList());
+		List<String> destinos = new ArrayList<String>();
+			destinos =	boletos.stream().map(b -> b.get_destino()).filter(e -> e.equalsIgnoreCase(estacion)).collect(Collectors.toList());
+		return (origenes.size()!=0 || destinos.size()!=0);
 	}
 
 }

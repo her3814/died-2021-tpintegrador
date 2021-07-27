@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
+import bdd.BoletosRepo;
 import bdd.EstacionesRepo;
 import bdd.TareaMantenimientoRepo;
 import bdd.TramosRepo;
@@ -171,7 +172,11 @@ public class PanelBuscarEstacion extends JPanel {
 				
 				if(TramosRepo.estacionEstaEnUnTramo(actual)) {
 					JOptionPane.showMessageDialog(null, "No puede eliminar la estacion "+ nombre + " ya que se encuentra asociada a un tramo.", "Eliminar estacion", JOptionPane.WARNING_MESSAGE);
-				}else {
+				}else if(BoletosRepo.estacionEstaEnUnBoleto(actual.getNombre())) {
+					int eliminarBoleto= JOptionPane.showConfirmDialog(null, "La estación esta asociada a un boleto, desea eliminar de todos modos?", "Eliminar estacion", JOptionPane.YES_NO_CANCEL_OPTION);
+					System.out.println(eliminarBoleto);
+				}
+				else {
 					model.removeRow(fila);
 					TareaMantenimientoRepo.EliminarTareasMantenimiento(actual);
 				}

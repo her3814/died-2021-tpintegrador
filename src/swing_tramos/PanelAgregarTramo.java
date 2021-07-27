@@ -158,7 +158,7 @@ public class PanelAgregarTramo extends JPanel {
 				
 								System.out.println(((Linea) comboBox_1_1.getSelectedItem()).toString());
 				
-							//	var recorrido = TramosRepo.ObtenerRecorrido((Linea) comboBox_1_1.getSelectedItem());
+								var recorrido = TramosRepo.ObtenerRecorrido((Linea) comboBox_1_1.getSelectedItem());
 								try {
 									thread_recorrido.join();
 								} catch (InterruptedException e1) {
@@ -500,7 +500,7 @@ public class PanelAgregarTramo extends JPanel {
 		gbcTramoAgregado.insets = new Insets(0, 0, 5, 5);
 		gbcTramoAgregado.gridx = 1;
 		gbcTramoAgregado.gridy = 17;
-		gbcTramoAgregado.gridwidth = 3;
+		gbcTramoAgregado.gridwidth = 4;
 		add(tramoAgregado, gbcTramoAgregado);
 		tramoAgregado.setVisible(false);
 	}
