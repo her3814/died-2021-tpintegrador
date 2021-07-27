@@ -221,10 +221,7 @@ public class PanelAgregarTramo extends JPanel {
 				
 					comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(estacion));
 				}
-				
-				
-						
-
+		
 		JLabel lblNewLabel_1_1 = new JLabel("ESTACION DESTINO:");
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_1.setFont(new Font("Arial", Font.BOLD, 13));

@@ -236,7 +236,9 @@ public class LineasRepo {
 		List<Estacion> finales= TramosRepo.ObtenerRecorrido(l).stream()
 							.map(t -> t.getDestino())
 							.collect(Collectors.toList());
-		return finales.get(finales.size()-1);
+		if(finales.size()==0) {
+			return null;
+		}else return finales.get(finales.size()-1);
 	}
 	
 	public static Boolean pertenece(Estacion est, Linea l) {

@@ -125,7 +125,6 @@ public class Graph <T> {
 		}
 		
 	}
-	
 	public Map<Estacion, Double> pageRank(Graph grafo) {
 		Double cantidadNodos = (double) grafo.getVertexs().size();
 		Double pr =   (1 / cantidadNodos);
@@ -142,13 +141,13 @@ public class Graph <T> {
 		for(int j=0;j<vertices.size();j++) {
 			if(i==j) {}
 			else {
-			int k = grafo.gradoSalida(vertices.get(i));
+			Double k = (double)grafo.gradoSalida(vertices.get(i));
 			if(k!=0) {
-			double divisor = (1/k);
-			if(grafo.hayCamino((Estacion) vertices.get(i),vertices.get(j))) {
+			Double divisor = (1/k);
+			if(grafo.hayCamino(vertices.get(i),vertices.get(j))) {
 					//son adyacentes, entonoces le sumo el pr a j
 				Double pr_viejo = map.get(vertices.get(j));
-				map.replace(vertices.get(j), pr_viejo + pr_viejo * divisor);
+				map.replace(vertices.get(j), pr_viejo + map.get(vertices.get(i))* divisor);
 			}
 			}
 			}
@@ -174,7 +173,6 @@ public class Graph <T> {
 		}
 		return salida;
 	}
-	
   
 }
 	
