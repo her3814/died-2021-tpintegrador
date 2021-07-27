@@ -84,6 +84,38 @@ public class TareaMantenimientoRepo {
 			}
 		}
 	}
+	
+	public static void EliminarTareasMantenimiento(Estacion estacion) {
+		String sql = "DELETE FROM estaciones_tareas_mantenimiento WHERE id_estacion = ?;";
+		Connection con = BddSingleton.GetConnection();
+		
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql);
+			pstm.setInt(1, estacion.getId());
+
+			con.beginRequest();
+
+			pstm.executeUpdate();
+
+			con.commit();
+			pstm.close();
+		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		EstacionesRepo.EliminarEstacion(estacion);
+	}
+
 
 	public static void ModificarTareaMantenimiento(TareaMantenimiento tarea) {
 		String sql = "UPDATE estaciones_tareas_mantenimiento SET id_estacion = ?, fecha_inicio = ? , fecha_fin = ?, observaciones = ? WHERE id = ?";

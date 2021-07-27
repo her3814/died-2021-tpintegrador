@@ -29,6 +29,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 import bdd.EstacionesRepo;
+import bdd.TareaMantenimientoRepo;
 import excepciones.HoraCierreMenorHoraAperturaException;
 //import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.Estacion;
@@ -166,7 +167,7 @@ public class PanelBuscarEstacion extends JPanel {
 				} catch (HoraCierreMenorHoraAperturaException e1) {
 					e1.printStackTrace();
 				} 
-				EstacionesRepo.EliminarEstacion(actual);
+				TareaMantenimientoRepo.EliminarTareasMantenimiento(actual);
 				model.removeRow(fila);
 				table.setModel(model);
 				autoajustarAnchoColumnas(table);

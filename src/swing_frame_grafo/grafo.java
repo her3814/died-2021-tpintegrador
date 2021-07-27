@@ -93,6 +93,7 @@ public class grafo {
 		}
 		return g;
 	}
+	
 
 	public static void main(String[] args) {
 		var g = grafo.ObtenerGrafoCompleto();
