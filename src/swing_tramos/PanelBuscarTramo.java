@@ -115,10 +115,15 @@ public class PanelBuscarTramo extends JPanel {
 				seguir = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el tramo con origen: " + actual.getOrigen().getNombre() + "?", 
 				null, 2);
 				if(seguir==0) {
-				TramosRepo.EliminarTramo(actual);
-				model.removeRow(fila);
-				table.setModel(model);
-				autoajustarAnchoColumnas(table);
+					if(!TramosRepo.estaEnElMedio(actual.getLinea(), actual)) {
+						TramosRepo.EliminarTramo(actual);
+						model.removeRow(fila);
+						table.setModel(model);
+						autoajustarAnchoColumnas(table);
+					}else {
+						JOptionPane.showMessageDialog(null, "No puede eliminar el tramo ya que se encuentra en el medio de un recorrido.", "Eliminar tramo", JOptionPane.WARNING_MESSAGE);
+					}
+				
 				}
 		}});
 		

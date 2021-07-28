@@ -158,7 +158,7 @@ public class PanelBuscarEstacion extends JPanel {
 				String nombre = (String) table.getValueAt(fila, 1);
 				seguir = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar la estacion: " + nombre + "?", 
 				null, 2);
-				//System.out.println(seguir);
+				System.out.println(seguir);
 				if(seguir==0) {
 				LocalTime hi = (LocalTime) table.getValueAt(fila, 2);
 				LocalTime hf = (LocalTime) table.getValueAt(fila, 3);
@@ -174,7 +174,13 @@ public class PanelBuscarEstacion extends JPanel {
 					JOptionPane.showMessageDialog(null, "No puede eliminar la estacion "+ nombre + " ya que se encuentra asociada a un tramo.", "Eliminar estacion", JOptionPane.WARNING_MESSAGE);
 				}else if(BoletosRepo.estacionEstaEnUnBoleto(actual.getNombre())) {
 					int eliminarBoleto= JOptionPane.showConfirmDialog(null, "La estación esta asociada a un boleto, desea eliminar de todos modos?", "Eliminar estacion", JOptionPane.YES_NO_CANCEL_OPTION);
-					System.out.println(eliminarBoleto);
+					if(eliminarBoleto==0) {
+						//elimina todo
+						model.removeRow(fila);
+						TareaMantenimientoRepo.EliminarTareasMantenimiento(actual);
+					}else {
+						//no elimina nada
+					}
 				}
 				else {
 					model.removeRow(fila);
@@ -316,7 +322,7 @@ public class PanelBuscarEstacion extends JPanel {
 					else if(filtros.getHoraApertura().equals("18:01 a 00:00")) {
 						estacionesBDDFiltradas = estacionesBDDFiltradas
 								.stream()
-								.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(23,59))) 
+								.filter(est -> (est.getHorarioApertura().isBefore(LocalTime.of(00,01))) 
 										&& (est.getHorarioApertura().isAfter(LocalTime.of(18, 00))))
 								.collect(Collectors.toList());
 					}

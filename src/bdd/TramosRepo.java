@@ -119,6 +119,11 @@ public class TramosRepo {
 		return res;		
 	}
 	
+	public static Boolean estaEnElMedio(Linea linea, Tramo tramo) {
+		List<Tramo> tramosLinea = new ArrayList<Tramo>();
+			tramosLinea=	TramosRepo.ObtenerRecorrido(linea);
+		return !tramosLinea.get(tramosLinea.size()-1).equals(tramo);
+	}
 	
 	
 	/**

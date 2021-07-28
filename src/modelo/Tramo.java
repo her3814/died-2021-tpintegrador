@@ -68,7 +68,8 @@ public class Tramo {
 		if (getClass() != obj.getClass())
 			return false;
 		Tramo other = (Tramo) obj;
-		return Objects.equals(_linea, other._linea) && Objects.equals(_orden, other._orden);
+		return other._linea.equals(this._linea) && other._orden== this._orden;
+		//return Objects.equals(_linea, other._linea) && Objects.equals(_orden, other._orden);
 	}
 	
 	@Override
