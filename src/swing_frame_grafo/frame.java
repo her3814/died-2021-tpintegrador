@@ -17,6 +17,7 @@ import modelo.Tramo;
 
 public class frame {
 
+	
 	public static void createFrame(grafo g, TramoMostrarEnum mostrar) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -46,7 +47,7 @@ public class frame {
 	}
 
 	public static void main(String[] a) {
-		Linea l = LineasRepo.ObtenerLinea(1);
+		Linea l = LineasRepo.ObtenerLinea(17);
 		List<Tramo> t = TramosRepo.ObtenerRecorrido(l);
 		grafo g = grafo.ObtenerGrafoDesdeRecorrido(t);
 		frame.createFrame(g, TramoMostrarEnum.DURACION);
