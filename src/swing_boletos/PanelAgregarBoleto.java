@@ -126,6 +126,7 @@ public class PanelAgregarBoleto extends JPanel {
 		gbc_textField.gridy = 4;
 		add(textField, gbc_textField);
 		textField.setColumns(10);
+	
 		
 		inserteEmail = new JLabel("Por favor, inserte un email.");
 		inserteEmail.setForeground(Color.RED);

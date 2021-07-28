@@ -8,10 +8,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import bdd.BddInMemoryCache;
 import bdd.TareaMantenimientoRepo;
 import excepciones.HoraCierreMenorHoraAperturaException;
-
-
 
 public class Estacion {
 	private final Integer _id;
@@ -19,20 +18,22 @@ public class Estacion {
 	private LocalTime _horarioApertura;
 	private LocalTime _horarioCierre;
 	private EstadoEstacionEnum _estado;
-	
-	public Estacion(int Id, String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado) throws HoraCierreMenorHoraAperturaException {
-		if(horaApertura!=null && horaCierre!=null && horaCierre.isBefore(horaApertura)) {
+
+	public Estacion(int Id, String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado)
+			throws HoraCierreMenorHoraAperturaException {
+		if (horaApertura != null && horaCierre != null && horaCierre.isBefore(horaApertura)) {
 			throw new HoraCierreMenorHoraAperturaException();
 		}
 		_id = Id;
 		_nombre = nombre;
-		_estado = estado;  
+		_estado = estado;
 		_horarioApertura = horaApertura;
 		_horarioCierre = horaCierre;
 	}
 
-	public Estacion(String nombre, LocalTime horaApertura, LocalTime horaCierre) throws HoraCierreMenorHoraAperturaException  {
-		if(horaApertura!=null && horaCierre!=null && horaCierre.isBefore(horaApertura)) {
+	public Estacion(String nombre, LocalTime horaApertura, LocalTime horaCierre)
+			throws HoraCierreMenorHoraAperturaException {
+		if (horaApertura != null && horaCierre != null && horaCierre.isBefore(horaApertura)) {
 			throw new HoraCierreMenorHoraAperturaException();
 		}
 		_id = null;
@@ -40,9 +41,10 @@ public class Estacion {
 		_horarioApertura = horaApertura;
 		_horarioCierre = horaCierre;
 	}
-	 
-	public Estacion( String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado) throws HoraCierreMenorHoraAperturaException  {
-		if(horaApertura!=null && horaCierre!=null && horaCierre.isBefore(horaApertura)) {
+
+	public Estacion(String nombre, LocalTime horaApertura, LocalTime horaCierre, EstadoEstacionEnum estado)
+			throws HoraCierreMenorHoraAperturaException {
+		if (horaApertura != null && horaCierre != null && horaCierre.isBefore(horaApertura)) {
 			throw new HoraCierreMenorHoraAperturaException();
 		}
 		_id = null;
@@ -51,11 +53,11 @@ public class Estacion {
 		_horarioApertura = horaApertura;
 		_horarioCierre = horaCierre;
 	}
-	
+
 	public Integer getId() {
 		return _id;
 	}
-	
+
 	public String getNombre() {
 		return _nombre;
 	}
@@ -73,8 +75,8 @@ public class Estacion {
 		return _horarioApertura;
 	}
 
-	public void setHorarioApertura(LocalTime _horarioApertura) throws HoraCierreMenorHoraAperturaException{
-		if(_horarioApertura!=null && _horarioCierre!=null &&_horarioCierre.isBefore(_horarioApertura)) {
+	public void setHorarioApertura(LocalTime _horarioApertura) throws HoraCierreMenorHoraAperturaException {
+		if (_horarioApertura != null && _horarioCierre != null && _horarioCierre.isBefore(_horarioApertura)) {
 			throw new HoraCierreMenorHoraAperturaException();
 		}
 		this._horarioApertura = _horarioApertura;
@@ -84,8 +86,8 @@ public class Estacion {
 		return _horarioCierre;
 	}
 
-	public void setHorarioCierre(LocalTime _horarioCierre) throws HoraCierreMenorHoraAperturaException{
-		if(_horarioApertura!=null && _horarioCierre!=null && _horarioCierre.isBefore(_horarioApertura)) {
+	public void setHorarioCierre(LocalTime _horarioCierre) throws HoraCierreMenorHoraAperturaException {
+		if (_horarioApertura != null && _horarioCierre != null && _horarioCierre.isBefore(_horarioApertura)) {
 			throw new HoraCierreMenorHoraAperturaException();
 		}
 		this._horarioCierre = _horarioCierre;
@@ -111,29 +113,34 @@ public class Estacion {
 		if (_id != other._id)
 			return false;
 		return true;
-	}	
-	
-	public LocalDate getFechaUltimoMantenimiento () {
+	}
+
+	// TODO DESCARTAR FUNCION EN LO POSIBLE
+	public LocalDate getFechaUltimoMantenimiento() {
+		if (BddInMemoryCache.getCacheInstance().contains("UltimoMant-Estacion" + this.getId())) {
+			System.out.println("DEVUELVO FECHA EN CACHE");
+			return (LocalDate) BddInMemoryCache.getCacheInstance().get("UltimoMant-Estacion" + this.getId());
+		} else
+			System.out.println("DEVUELVO FECHA DESDE BDD");
+
+		LocalDate fechaUltimoMantenimiento = null;
 		List<TareaMantenimiento> tareas = new ArrayList<TareaMantenimiento>();
-		Comparator<TareaMantenimiento> comparador = (TareaMantenimiento t1, TareaMantenimiento t2) -> t2.getFechaFin().compareTo(t1.getFechaFin());
+		Comparator<TareaMantenimiento> comparador = (TareaMantenimiento t1, TareaMantenimiento t2) -> t2.getFechaFin()
+				.compareTo(t1.getFechaFin());
 		tareas = TareaMantenimientoRepo.Obtener(this);
-		if(tareas.size()>2) {
-		List<LocalDate> retorno = new ArrayList<LocalDate>();
-		retorno = TareaMantenimientoRepo.Obtener(this)
-				.stream()
-				.sorted(comparador)
-				.map(t1 -> t1.getFechaFin())
-				.collect(Collectors.toList());
-		return retorno.get(0);
-		}
-		else if(tareas.size()==1) {
+		if (tareas.size() > 2) {
 			List<LocalDate> retorno = new ArrayList<LocalDate>();
-			retorno = TareaMantenimientoRepo.Obtener(this)
-					.stream()
-					.sorted(comparador)
-					.map(t1 -> t1.getFechaFin())
-					.collect(Collectors.toList());
-			return retorno.get(0);		}
-		else return LocalDate.now();
+			retorno = tareas.stream().sorted(comparador).map(t1 -> t1.getFechaFin()).collect(Collectors.toList());
+			fechaUltimoMantenimiento = retorno.get(0);
+		} else if (tareas.size() == 1) {
+			List<LocalDate> retorno = new ArrayList<LocalDate>();
+			retorno = tareas.stream().sorted(comparador).map(t1 -> t1.getFechaFin()).collect(Collectors.toList());
+			fechaUltimoMantenimiento = retorno.get(0);
+		} else
+			fechaUltimoMantenimiento = LocalDate.now();
+
+		BddInMemoryCache.getCacheInstance().put("UltimoMant-Estacion" + this.getId(), fechaUltimoMantenimiento);
+
+		return fechaUltimoMantenimiento;
 	}
 }

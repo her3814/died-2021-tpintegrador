@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import excepciones.FechaFinMenorFechaInicioException;
 
 public class TareaMantenimiento {
+	
 	private final Integer _id;
 	private Estacion _estacion;
 	private LocalDate _fechaInicio;
@@ -106,6 +107,14 @@ public class TareaMantenimiento {
 		else return String.format("Tarea Mantenimiento en Estacion: %s desde %s", _estacion.getNombre(),
 				_fechaInicio.toString());
 
+	}
+
+	public int compareTo(TareaMantenimiento tareaMantenimiento) {
+		// TODO Auto-generated method stub
+		if(tareaMantenimiento == null)
+			return 1;
+		else return this.getFechaInicio().compareTo(tareaMantenimiento.getFechaInicio());
+			
 	}
 
 }

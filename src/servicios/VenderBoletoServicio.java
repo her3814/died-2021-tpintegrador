@@ -2,6 +2,8 @@ package servicios;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import bdd.EstacionesRepo;
 import bdd.TramosRepo;
 import modelo.Estacion;
 import modelo.Tramo;
@@ -9,6 +11,14 @@ import modelo.TramosFunciones;
 
 public class VenderBoletoServicio {
 
+	public static void main(String[] args) {
+		var eA=EstacionesRepo.ObtenerEstacion(47);
+		var eB=EstacionesRepo.ObtenerEstacion(51);
+		
+		var boleto = VenderBoletoServicio.CalcularCaminoMasBarato(eA,eB);
+		System.out.println(boleto);
+	}
+	
 	public static List<Tramo> CalcularCaminoMenorDistancia(Estacion origen, Estacion destino) {
 		if (origen.equals(destino))
 			return null;
@@ -58,6 +68,7 @@ public class VenderBoletoServicio {
 		List<List<Tramo>> caminos = new ArrayList<List<Tramo>>();
 
 		destinos.forEach(d -> {
+			System.out.println(d);
 			List<Tramo> camino = new ArrayList<Tramo>();
 			if (d.getDestino().equals(destino)) {
 				camino.add(d);

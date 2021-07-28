@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import excepciones.HoraCierreMenorHoraAperturaException;
@@ -17,7 +18,7 @@ import modelo.EstadoEstacionEnum;
 
 public class EstacionesRepo {
 
-	/** 
+	/**
 	 * Elimina la estacion indicada de la base de datos
 	 * 
 	 * @param estacion Estacion a eliminar
@@ -42,6 +43,7 @@ public class EstacionesRepo {
 		} finally {
 			try {
 				con.close();
+				BddInMemoryCache.getCacheInstance().remove("ESTACION-" + estacion.getId());
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -54,11 +56,11 @@ public class EstacionesRepo {
 	 * 
 	 * @param estacion Estacion a modificar
 	 */
-	
+
 	public static void ModificarEstacion(Estacion estacion) {
 		String sql = "UPDATE estaciones SET nombre = ?, hora_apertura = ?, hora_cierre = ?  WHERE id = ?";
 		Connection con = BddSingleton.GetConnection();
-	
+
 		try {
 			con.beginRequest();
 			PreparedStatement pstm = con.prepareStatement(sql);
@@ -68,7 +70,7 @@ public class EstacionesRepo {
 			pstm.setInt(4, estacion.getId());
 
 			pstm.executeUpdate();
-			
+
 			con.commit();
 			pstm.close();
 		} catch (SQLException e) {
@@ -81,6 +83,7 @@ public class EstacionesRepo {
 		} finally {
 			try {
 				con.close();
+				BddInMemoryCache.getCacheInstance().put("ESTACION-" + estacion.getId(), estacion);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -89,7 +92,9 @@ public class EstacionesRepo {
 	}
 
 	/**
-	 * Agrega una nueva estacion (debe ir sin ID), en caso de indicarse este será ignorado.
+	 * Agrega una nueva estacion (debe ir sin ID), en caso de indicarse este será
+	 * ignorado.
+	 * 
 	 * @param estacion
 	 * @return
 	 */
@@ -129,6 +134,7 @@ public class EstacionesRepo {
 		} finally {
 			try {
 				con.close();
+				BddInMemoryCache.getCacheInstance().put("ESTACION-" + nEst.getId(), nEst);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -164,6 +170,10 @@ public class EstacionesRepo {
 		} finally {
 			try {
 				con.close();
+				for (Estacion e : estaciones) {
+					BddInMemoryCache.getCacheInstance().put("ESTACION-" + e.getId(), e);
+				}
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -174,7 +184,9 @@ public class EstacionesRepo {
 	}
 
 	public static Estacion ObtenerEstacion(int id) {
-
+		//if (BddInMemoryCache.getCacheInstance().contains("ESTACION-" + id)) {
+		//		return (Estacion)BddInMemoryCache.getCacheInstance().get("ESTACION-" + id);
+		//}
 		Estacion estacion = null;
 		String sql = "select *, NOT EXISTS (SELECT * " + "FROM estaciones_tareas_mantenimiento etm "
 				+ "WHERE etm.id_estacion = est.id " + "AND "
