@@ -133,6 +133,10 @@ public class LineasRepo {
 	}
 
 	public static Linea ObtenerLinea(Integer id) {
+		
+		if(BddInMemoryCache.getCacheInstance().contains("LINEA-"+id))
+			return (Linea)BddInMemoryCache.getCacheInstance().get("LINEA-"+id);
+		
 		String sql = "SELECT * FROM lineas_transporte WHERE id = ?;";
 
 		Connection con = BddSingleton.GetConnection();
@@ -165,25 +169,13 @@ public class LineasRepo {
 				e.printStackTrace();
 			}
 		}
-
+		BddInMemoryCache.getCacheInstance().put("LINEA-"+id,linea);
 		return linea;
 	}
 
 	public static List<Linea> ObtenerLineas() {
 		List<Linea> lineas = new ArrayList<Linea>();
-		/*Runnable obtenerLineas =()->{
-			sql = "SELECT * FROM lineas_transporte;";
-			con = BddSingleton.GetConnection();
-		};
-		Thread t1= new Thread(obtenerLineas, "Obtener lineas");
-		t1.start();
-		try {
-			t1.join();
-		} catch (InterruptedException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-*/
+		
 		sql = "SELECT * FROM lineas_transporte;";
 		con = BddSingleton.GetConnection();
 		try {
@@ -232,35 +224,4 @@ public class LineasRepo {
 		 return TramosRepo.ObtenerRecorrido(l).size()+1;
 	}
 	
-	public static Estacion ultimaEstacion(Linea l) {
-		List<Estacion> finales= TramosRepo.ObtenerRecorrido(l).stream()
-							.map(t -> t.getDestino())
-							.collect(Collectors.toList());
-		if(finales.size()==0) {
-			return null;
-		}
-		return finales.get(finales.size()-1);
-
-
-	}
-	
-	public static Boolean pertenece(Estacion est, Linea l) {
-		List<Tramo> tramos= TramosRepo.ObtenerRecorrido(l);
-		if(tramos==null || tramos.size()==0) return false;
-		if(est.equals(LineasRepo.ultimaEstacion(l))) {
-			return false;
-		}else {
-			return 	tramos.stream()
-					.map(t -> t.getOrigen())
-					.filter(e -> e.equals(est))
-					.collect(Collectors.toList()).size()>0
-					||
-					tramos.stream()
-					.map(t -> t.getDestino())
-					.filter(e -> e.equals(est))
-					.collect(Collectors.toList()).size()>0;
-		}
-		
-		
-	}
 }

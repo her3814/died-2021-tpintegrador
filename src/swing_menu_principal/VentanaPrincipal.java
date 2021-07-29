@@ -602,35 +602,8 @@ panelMenuPrincipal.getTramos().addActionListener(new ActionListener() {
 						panelAgregarTramo.setBackground(Color.WHITE);
 						ventana1.setContentPane(panelAgregarTramo);
 						ventana1.setVisible(true);
-						ventana1.pack();
-						
+						ventana1.pack();						
 					
-						panelAgregarTramo.getComboBox().addItemListener(new ItemListener() {
-							public void itemStateChanged(ItemEvent e) {
-								Runnable cambiarDestino= ()->{
-								panelAgregarTramo.cambiarEstacionDestino();
-								};
-								new Thread(cambiarDestino, "cambiar destino").start();
-						}});
-						
-						
-						panelAgregarTramo.getComboBox_1_1().addItemListener(new ItemListener() {
-							public void itemStateChanged(ItemEvent e) {
-								Runnable cambiarOrigen=()->{
-								panelAgregarTramo.cambiarEstacionOrigen();
-								panelAgregarTramo.cambiarEstacionDestino();
-								};
-								new Thread(cambiarOrigen, "cambiar origen").start();
-							}
-						});
-
-						panelAgregarTramo.getBtnGuardar().addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								panelAgregarTramo.limpiarWarnings();
-								panelAgregarTramo.agregarTramo();
-							}
-						});
-						
 						panelAgregarTramo.getBtnCancelar().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								panelAgregarTramo.limpiarWarnings();

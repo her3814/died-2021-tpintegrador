@@ -15,6 +15,7 @@ import excepciones.HoraCierreMenorHoraAperturaException;
 import filtros.EstacionesFiltro;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
+import modelo.Linea;
 
 public class EstacionesRepo {
 
@@ -184,9 +185,9 @@ public class EstacionesRepo {
 	}
 
 	public static Estacion ObtenerEstacion(int id) {
-		//if (BddInMemoryCache.getCacheInstance().contains("ESTACION-" + id)) {
-		//		return (Estacion)BddInMemoryCache.getCacheInstance().get("ESTACION-" + id);
-		//}
+		if (BddInMemoryCache.getCacheInstance().contains("ESTACION-" + id)) {
+				return (Estacion)BddInMemoryCache.getCacheInstance().get("ESTACION-" + id);
+		}
 		Estacion estacion = null;
 		String sql = "select *, NOT EXISTS (SELECT * " + "FROM estaciones_tareas_mantenimiento etm "
 				+ "WHERE etm.id_estacion = est.id " + "AND "
@@ -317,4 +318,40 @@ public class EstacionesRepo {
 		return estacion;
 	}
 
+	public static Estacion ObtenerUltimoDestino(Linea linea) {
+		var sql = "SELECT *, NOT EXISTS (SELECT * FROM estaciones_tareas_mantenimiento etm \r\n"
+				+ "				WHERE etm.id_estacion = est.id AND \r\n"
+				+ "				((fecha_fin is not null and  CURRENT_DATE() >= fecha_inicio and fecha_fin > CURRENT_DATE()) OR \r\n"
+				+ "				(fecha_fin is null and CURRENT_DATE() >= fecha_inicio))) AS estado \r\n"
+				+ "FROM estaciones AS est,\r\n"
+				+ "				lineas_trayecto trl\r\n"
+				+ "				WHERE est.id = trl.id_estacion_destino\r\n"
+				+ "				AND trl.trayecto_orden = (SELECT MAX(trayecto_orden)\r\n"
+				+ "				FROM lineas_trayecto as ltr\r\n"
+				+ "				WHERE ltr.id_linea_transporte = trl.id_linea_transporte \r\n"
+				+ "				GROUP BY id_linea_transporte)\r\n"
+				+ "				AND id_linea_transporte = ?;";
+		
+		Estacion estacion = null;
+				Connection con = BddSingleton.GetConnection();
+		try {
+			PreparedStatement pstm;
+
+			pstm = con.prepareStatement(sql);
+			pstm.setInt(1, linea.get_id());
+
+			ResultSet result = pstm.executeQuery();
+
+			if (result.next())
+				estacion = ToEntity(result);
+
+			result.close();
+			pstm.close();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return estacion;
+	}
 }

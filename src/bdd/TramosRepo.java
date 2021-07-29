@@ -306,6 +306,36 @@ public class TramosRepo {
 
 		return res;
 	}
+	
+	public static Tramo obtenerTramo(Integer orden, Integer linea) {
+
+		Tramo tramo = null;
+		String sql = "select * FROM lineas_trayecto est WHERE id_linea_transporte = ? AND trayecto_orden =? ;";
+
+		Connection con = BddSingleton.GetConnection();
+		try {
+			PreparedStatement pstm;
+
+			pstm = con.prepareStatement(sql);
+			pstm.setInt(1, linea);
+			pstm.setInt(2, orden);
+
+			ResultSet result = pstm.executeQuery();
+
+			// SE ESPERA UN SOLO RESULTADO, POR LO QUE SOLO SE HACE UN NEXT, SI NO HAY UN
+			// NEXT NO SE ASIGNA NADA, ES DECIR, NO EXISTE UNA ESTACION CON EL ID INDICADO
+			if (result.next())
+				tramo = ToEntity(result);
+
+			result.close();
+			pstm.close();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return tramo;
+	}
 
 	private static Tramo ToEntity(ResultSet result) {
 
@@ -331,7 +361,6 @@ public class TramosRepo {
 		return tramo;
 	}
 	
-
 	public static List<Tramo> obtenerTramos() {
 		List<Tramo> tramos = new ArrayList<Tramo>();
 
@@ -362,37 +391,6 @@ public class TramosRepo {
 		}
 
 		return tramos;
-
-	}
-	
-	public static Tramo obtenerTramo(Integer orden, Integer linea) {
-
-		Tramo tramo = null;
-		String sql = "select * FROM lineas_trayecto est WHERE id_linea_transporte = ? AND trayecto_orden =? ;";
-
-		Connection con = BddSingleton.GetConnection();
-		try {
-			PreparedStatement pstm;
-
-			pstm = con.prepareStatement(sql);
-			pstm.setInt(1, linea);
-			pstm.setInt(2, orden);
-
-			ResultSet result = pstm.executeQuery();
-
-			// SE ESPERA UN SOLO RESULTADO, POR LO QUE SOLO SE HACE UN NEXT, SI NO HAY UN
-			// NEXT NO SE ASIGNA NADA, ES DECIR, NO EXISTE UNA ESTACION CON EL ID INDICADO
-			if (result.next())
-				tramo = ToEntity(result);
-
-			result.close();
-			pstm.close();
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return tramo;
 	}
 	
 	
