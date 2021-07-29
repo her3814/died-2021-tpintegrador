@@ -51,16 +51,16 @@ public class Graph <T> {
     	Map<Estacion, Tramo> adyascentes = this.getNeighbourhood1(e1);
     	int flujoMaximo=0;
     	List<Map<Estacion, Tramo>> recorridos= this.paths(e1, e2);
+    	
     	Map<Tramo, Integer> pesos = new LinkedHashMap<Tramo, Integer>();
     	//List<Map<Tramo, Integer>> pesos = new ArrayList<Map<Tramo, Integer>>();
-    	//INICIALIZACIÓN DE LOS PESOS DE LOS TRAMOS -> Ver si no hace falta tener en cuenta q el tramo no este ya.
+    	//INICIALIZACIÓN DE LOS PESOS DE LOS TRAMOS -> funciona ben 
     	for(Map<Estacion, Tramo> rec: recorridos) {
     	for(Estacion e: rec.keySet()) {
     		pesos.put(rec.get(e), rec.get(e).get_cantPasajeros());
     	}
     	}
-    	//Estacion tramoMayorPeso= null;
-    	int menorPeso;
+    	Integer menorPeso;
    /* 	for(Estacion e: adyascentes.keySet()) {
     		if(((Tramo)adyascentes.get(e)).get_cantPasajeros()> mayorPeso) mayorPeso = ((Tramo)adyascentes.get(e)).get_cantPasajeros();
     		tramoMayorPeso= e;
@@ -70,11 +70,10 @@ public class Graph <T> {
     		// Primero debemos ver si el recorrido no tiene pesos 0 en ninguna arista
     		if(! tienePesos0(rec, pesos)) { 
     			menorPeso= rec.keySet().stream()
-    						.mapToInt(e -> rec.get(e).get_cantPasajeros())
+    						.mapToInt(e -> pesos.get(rec.get(e)))
     						.min()
     						.getAsInt();
     			for(Estacion e: rec.keySet()) {
-    				// le descuento a todos esos, el valor y lo sumo al flujo máximo
         			pesos.put(rec.get(e), pesos.get(rec.get(e))-menorPeso);
         			flujoMaximo=flujoMaximo+menorPeso;
         		}
@@ -221,10 +220,10 @@ public class Graph <T> {
 			System.out.println(vertices.get(i).toString()+": pageRank -> "+ pr.get(vertices.get(i)));
 		}
 		*/
-		List<Map<Estacion, Tramo>>recorridos = grafo.paths(EstacionesRepo.ObtenerEstacion(47), EstacionesRepo.ObtenerEstacion(49));
+		/*List<Map<Estacion, Tramo>>recorridos = grafo.paths(EstacionesRepo.ObtenerEstacion(47), EstacionesRepo.ObtenerEstacion(49));
 		for(Map<Estacion, Tramo> rec: recorridos) {
 			System.out.println(rec.keySet().toString());
-		}
+		}*/
 		
 		/*List<List<Estacion>> recorridos= grafo.caminos(EstacionesRepo.ObtenerEstacion(47), EstacionesRepo.ObtenerEstacion(49));
 		for(List<Estacion> rec: recorridos) {
@@ -233,7 +232,7 @@ public class Graph <T> {
 		*/
 	//	Map<Estacion, Tramo> vecinos = grafo.getNeighbourhood1(EstacionesRepo.ObtenerEstacion(47));
 		//System.out.println(vecinos.toString());
-		//System.out.println(grafo.flujoMaximo1(EstacionesRepo.ObtenerEstacion(47), EstacionesRepo.ObtenerEstacion(48)));
+		System.out.println(grafo.flujoMaximo1(EstacionesRepo.ObtenerEstacion(47), EstacionesRepo.ObtenerEstacion(49)));
 		
 		
 	}
@@ -310,8 +309,6 @@ public class Graph <T> {
 	    	Map<Estacion, Tramo> copiaMarcados = null;
 	    	for(Estacion ady: adyascentes.keySet()) {
 	    	copiaMarcados= marcados.keySet().stream().collect(Collectors.toMap(e -> e,e -> marcados.get(e))); 
-	    		
-	    		//Map.Entry::getKey, Map.Entry::getValue, (oldVal, newVal) -> oldVal, LinkedHashMap::new
 	    		if(ady.equals(e2)) {
 	    			copiaMarcados.put(e2, adyascentes.get(ady));
 	    			todos.add(new LinkedHashMap<Estacion, Tramo>(copiaMarcados));
