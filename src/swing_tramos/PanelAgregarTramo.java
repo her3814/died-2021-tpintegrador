@@ -54,14 +54,13 @@ public class PanelAgregarTramo extends JPanel {
 	private JLabel inserteCP;
 	private JLabel inserteCosto;
 	private JLabel inserteEstado;
-	private JComboBox comboBox;
-	private JComboBox comboBox_estDestino;
 	private JComboBox comboBox_lineas;
+	private JComboBox comboBox_estOrigen;
+	private JComboBox comboBox_estDestino;
 	private JRadioButton rdbtnNewRadioButton;
 	private JRadioButton rdbtnNewRadioButton1;
 	private JLabel tramoAgregado;
 	private JLabel fallaDestino;
-	private static JLabel label;
 	private JButton btnRecorrido;
 
 	private List<Estacion> estaciones;
@@ -131,6 +130,8 @@ public class PanelAgregarTramo extends JPanel {
 			public void itemStateChanged(ItemEvent e) {
 				tramosLinea = TramosRepo.ObtenerRecorrido((Linea) e.getItem());
 				btnRecorrido.setEnabled(true);
+				comboBox_estOrigen.setSelectedIndex(-1);
+				comboBox_estDestino.setSelectedIndex(-1);
 				cambiarEstacionOrigen();
 				cambiarEstacionDestino();
 			}
@@ -167,18 +168,18 @@ public class PanelAgregarTramo extends JPanel {
 		gbc_lblNewLabel_1.gridy = 3;
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 
-		comboBox = new JComboBox();
-		comboBox.setEnabled(false);
-		comboBox.setBackground(new Color(204, 204, 204));
+		comboBox_estOrigen = new JComboBox();
+		comboBox_estOrigen.setEnabled(false);
+		comboBox_estOrigen.setBackground(new Color(204, 204, 204));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridwidth = 3;
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 3;
 		gbc_comboBox.gridy = 3;
-		add(comboBox, gbc_comboBox);
+		add(comboBox_estOrigen, gbc_comboBox);
 
-		comboBox.addItemListener(new ItemListener() {
+		comboBox_estOrigen.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				Runnable cambiarDestino = () -> {
 					cambiarEstacionDestino();
@@ -479,7 +480,7 @@ public class PanelAgregarTramo extends JPanel {
 	}
 
 	public void limpiarDatos() {
-		comboBox.setSelectedIndex(0);
+		comboBox_estOrigen.setSelectedIndex(0);
 		comboBox_estDestino.setSelectedIndex(0);
 		comboBox_lineas.setSelectedIndex(0);
 		textField.setText(null);
@@ -494,7 +495,7 @@ public class PanelAgregarTramo extends JPanel {
 		// Integer cant_pasajeros,
 		// Double duracion, Double distancia, Double costo, EstadoTramoEnum estado)
 		EstacionesFiltro origen = new EstacionesFiltro();
-		origen.setNombre(comboBox.getSelectedItem().toString());
+		origen.setNombre(comboBox_estOrigen.getSelectedItem().toString());
 		EstacionesFiltro destino = new EstacionesFiltro();
 		destino.setNombre(comboBox_estDestino.getSelectedItem().toString());
 		EstadoTramoEnum estado = null;
@@ -519,7 +520,7 @@ public class PanelAgregarTramo extends JPanel {
 
 		return new Tramo((Linea) this.comboBox_lineas.getSelectedItem(),
 				LineasRepo.siguienteOrden((Linea) this.comboBox_lineas.getSelectedItem()),
-				(Estacion) this.comboBox.getSelectedItem(), (Estacion) this.comboBox_estDestino.getSelectedItem(),
+				(Estacion) this.comboBox_estOrigen.getSelectedItem(), (Estacion) this.comboBox_estDestino.getSelectedItem(),
 				cant_pasajeros, duracion, distancia, costo, estado);
 	}
 
@@ -578,13 +579,14 @@ public class PanelAgregarTramo extends JPanel {
 	}
 
 	private void cambiarEstacionDestino() {
-		Estacion origen = (Estacion) comboBox.getSelectedItem();
+		Estacion ultTramo = (Estacion) comboBox_estOrigen.getSelectedItem();
 		List<Estacion> estacionesRecorrido = tramosLinea.stream().map(t -> t.getOrigen()).collect(Collectors.toList());
 
 		List<Estacion> estacionesDisponibles = estaciones.stream()
-				.filter(a -> !origen.equals(a) && !estacionesRecorrido.contains(a)).collect(Collectors.toList());
+				.filter(a -> !a.equals(ultTramo) && !estacionesRecorrido.contains(a)).collect(Collectors.toList());
 
 		comboBox_estDestino.setModel(new javax.swing.DefaultComboBoxModel<>(estacionesDisponibles.toArray()));
+		comboBox_estDestino.setSelectedIndex(-1);
 		comboBox_estDestino.setEnabled(true);
 	}
 
@@ -593,13 +595,13 @@ public class PanelAgregarTramo extends JPanel {
 //		tramosLinea = TramosRepo.ObtenerRecorrido((Linea) comboBox_lineas.getSelectedItem());
 
 		if (tramosLinea.size() == 0 || tramosLinea == null) {
-			comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(estaciones.toArray()));
-			comboBox.setEnabled(true);
+			comboBox_estOrigen.setModel(new javax.swing.DefaultComboBoxModel<>(estaciones.toArray()));
+			comboBox_estOrigen.setEnabled(true);
 			comboBox_estDestino.setEnabled(true);
 		} else {
 			Estacion[] e = { tramosLinea.stream().reduce((a, b) -> b).get().getDestino() };
-			comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(e));
-			comboBox.setEnabled(false);
+			comboBox_estOrigen.setModel(new javax.swing.DefaultComboBoxModel<>(e));
+			comboBox_estOrigen.setEnabled(false);
 			comboBox_estDestino.setEnabled(true);
 		}
 
