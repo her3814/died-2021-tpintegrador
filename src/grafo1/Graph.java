@@ -73,9 +73,9 @@ public class Graph <T> {
     						.mapToInt(e -> pesos.get(rec.get(e)))
     						.min()
     						.getAsInt();
+    			flujoMaximo=flujoMaximo+menorPeso;
     			for(Estacion e: rec.keySet()) {
-        			pesos.put(rec.get(e), pesos.get(rec.get(e))-menorPeso);
-        			flujoMaximo=flujoMaximo+menorPeso;
+        			pesos.replace(rec.get(e), pesos.get(rec.get(e))-menorPeso);
         		}
     		}
     			
@@ -220,19 +220,21 @@ public class Graph <T> {
 			System.out.println(vertices.get(i).toString()+": pageRank -> "+ pr.get(vertices.get(i)));
 		}
 		*/
-		/*List<Map<Estacion, Tramo>>recorridos = grafo.paths(EstacionesRepo.ObtenerEstacion(47), EstacionesRepo.ObtenerEstacion(49));
+		/*List<Map<Estacion, Tramo>>recorridos = grafo.paths(EstacionesRepo.ObtenerEstacion(49), EstacionesRepo.ObtenerEstacion(51));
 		for(Map<Estacion, Tramo> rec: recorridos) {
-			System.out.println(rec.keySet().toString());
+			System.out.println(rec.toString());
 		}*/
 		
-		/*List<List<Estacion>> recorridos= grafo.caminos(EstacionesRepo.ObtenerEstacion(47), EstacionesRepo.ObtenerEstacion(49));
+	/*	List<List<Estacion>> recorridos= grafo.caminos(EstacionesRepo.ObtenerEstacion(52), EstacionesRepo.ObtenerEstacion(56));
 		for(List<Estacion> rec: recorridos) {
 			System.out.println(rec.toString());
 		}
 		*/
+		System.out.println(grafo.getNeighbourhood1(EstacionesRepo.ObtenerEstacion(52)).toString());
+		
 	//	Map<Estacion, Tramo> vecinos = grafo.getNeighbourhood1(EstacionesRepo.ObtenerEstacion(47));
 		//System.out.println(vecinos.toString());
-		System.out.println(grafo.flujoMaximo1(EstacionesRepo.ObtenerEstacion(47), EstacionesRepo.ObtenerEstacion(49)));
+		System.out.println(grafo.flujoMaximo1(EstacionesRepo.ObtenerEstacion(49), EstacionesRepo.ObtenerEstacion(51)));
 		
 		
 	}
@@ -313,7 +315,7 @@ public class Graph <T> {
 	    			copiaMarcados.put(e2, adyascentes.get(ady));
 	    			todos.add(new LinkedHashMap<Estacion, Tramo>(copiaMarcados));
 	    		}else {
-	    			if(!copiaMarcados.keySet().contains(ady)) {
+	    			if(!copiaMarcados.containsKey(ady)) {
 	    				copiaMarcados.put(ady, adyascentes.get(ady));
 	    				this.findPathAux(ady,e2,copiaMarcados, todos);
 	    			}

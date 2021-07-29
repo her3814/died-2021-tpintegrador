@@ -74,7 +74,7 @@ public class Tramo {
 	
 	@Override
 	public String toString() {
-		return "TRAMO LINEA " + "A COMPLETAR" + ": " + _origen.getNombre() + " a " + _destino.getNombre() + _costo;
+		return "TRAMO LINEA " + _linea.get_nombre() + ": " + _origen.getNombre() + " a " + _destino.getNombre() + _costo;
 	}
 
 	public Integer get_cantPasajeros() {
