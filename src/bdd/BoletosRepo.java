@@ -123,6 +123,47 @@ public class BoletosRepo {
 		
 	}
 	
+
+	public static void EliminarRecorridoBoleto(Tramo t) { // dado un tramo elimina los boleto_recorrido y los boletos asociados
+		String sql = "DELETE FROM boleto_recorrido WHERE trayecto_linea_id = ? AND trayecto_orden = ? ";
+		List<Boleto> res = new ArrayList<Boleto>();
+		Connection con = BddSingleton.GetConnection();
+		try {
+			con.beginRequest();
+			PreparedStatement pstm = con.prepareStatement(sql);
+			var r = pstm.executeQuery();
+
+			while (r.next()) {
+				res.add(ToEntity(r));
+			}
+			pstm.setInt(1, t.getLinea().get_id());
+			pstm.setInt(2, t.getOrden());
+			pstm.executeUpdate();
+			con.commit();
+			pstm.close();
+		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		for(Boleto b: res) {
+			BoletosRepo.EliminarBoleto(b);	
+		}
+	
+	}
+	
+	
 	public static void EliminarRecorridoBoleto(Boleto boleto) {
 		String sql = "DELETE FROM boleto_recorrido WHERE boleto_numero = ? ";
 		Connection con = BddSingleton.GetConnection();
@@ -173,5 +214,33 @@ public class BoletosRepo {
 			destinos =	boletos.stream().map(b -> b.get_destino()).filter(e -> e.equalsIgnoreCase(estacion)).collect(Collectors.toList());
 		return (origenes.size()!=0 || destinos.size()!=0);
 	}
+	
+	public static Boolean tramoEstaEnUnBoleto(Tramo t) {
+		String sql = "SELECT FROM boleto_recorrido WHERE trayecto_linea_id = ? AND trayecto_orden = ? ";
+		Connection con = BddSingleton.GetConnection();
+		List<Boleto> res = new ArrayList<Boleto>();
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql);
+			pstm.setInt(1, t.getLinea().get_id());
+			pstm.setInt(2, t.getOrden());
+			var r = pstm.executeQuery();
+
+			while (r.next()) {
+				res.add(ToEntity(r));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return res.size()>0;
+	}
+	
 
 }

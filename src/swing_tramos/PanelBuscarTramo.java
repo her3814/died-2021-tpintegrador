@@ -27,6 +27,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
+import bdd.BoletosRepo;
+import bdd.TareaMantenimientoRepo;
 import bdd.TramosRepo;
 import modelo.Tramo;
 
@@ -115,14 +117,33 @@ public class PanelBuscarTramo extends JPanel {
 				seguir = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el tramo con origen: " + actual.getOrigen().getNombre() + "?", 
 				null, 2);
 				if(seguir==0) {
-					if(!TramosRepo.estaEnElMedio(actual.getLinea(), actual)) {
+					/*if(TramosRepo.estaEnElMedio(actual.getLinea(), actual)) {
+						JOptionPane.showMessageDialog(null, "No puede eliminar el tramo ya que se encuentra en el medio de un recorrido.", "Eliminar tramo", JOptionPane.WARNING_MESSAGE);
+					}
+					else if(BoletosRepo.tramoEstaEnUnBoleto(actual)) {
+						int eliminarBoleto= JOptionPane.showConfirmDialog(null, "El tramo esta asociada a un boleto, desea eliminar de todos modos?", "Eliminar tramo", JOptionPane.YES_NO_CANCEL_OPTION);
+						if(eliminarBoleto==0) {
+							//elimina todo -> tramo y boletos asociados
+							model.removeRow(fila);
+							BoletosRepo.EliminarRecorridoBoleto(actual);
+						}else {
+							//no elimina nada
+						}
+						
+					}else {
+						//Elimina normal, solo el tramo
 						TramosRepo.EliminarTramo(actual);
 						model.removeRow(fila);
 						table.setModel(model);
 						autoajustarAnchoColumnas(table);
-					}else {
-						JOptionPane.showMessageDialog(null, "No puede eliminar el tramo ya que se encuentra en el medio de un recorrido.", "Eliminar tramo", JOptionPane.WARNING_MESSAGE);
-					}
+					}*/
+					TramosRepo.EliminarTramo(actual);
+					model.removeRow(fila);
+					table.setModel(model);
+					autoajustarAnchoColumnas(table);
+					
+					
+					
 				
 				}
 		}});

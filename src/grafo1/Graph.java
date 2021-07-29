@@ -2,11 +2,13 @@ package grafo1;
 
 
 import java.util.*;
+
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import bdd.EstacionesRepo;
 import bdd.TramosRepo;
+//import died.clase.grafos.Vertex;
 //import died.clase.grafos.Edge;
 //import died.clase.grafos.Vertex;
 import modelo.Estacion;
@@ -173,6 +175,64 @@ public class Graph <T> {
 		}
 		return salida;
 	}
+	private Map<Estacion, Tramo> getNeighbourhood1(Estacion e){ 
+		Map<Estacion, Tramo> salida = new LinkedHashMap<Estacion, Tramo>();
+		for(Tramo tramo : this.edges){
+			if(tramo.getOrigen().equals(e) && tramo.get_cantPasajeros()>0) {
+				salida.put(tramo.getDestino(),tramo);
+			}
+		}
+		return salida;
+	}
+	
+	    public List<Map<Estacion, Tramo>> paths(Estacion e1 ,Estacion e2){
+	    	List<Map<Estacion, Tramo>>salida = new ArrayList<Map<Estacion, Tramo>>();
+	    	Map<Estacion, Tramo> marcados = new LinkedHashMap<Estacion, Tramo>();
+	    	marcados.put(e1, null);
+	    	findPathAux(e1,e2,marcados, salida);
+	    	return salida;
+	    }
+
+	    private void findPathAux(Estacion e1,Estacion e2, Map<Estacion, Tramo> marcados, List<Map<Estacion, Tramo>> todos) {
+	    	Map <Estacion, Tramo> adyascentes = this.getNeighbourhood1(e1);
+	    	Map<Estacion, Tramo> copiaMarcados = null;
+	    	for(Estacion ady: adyascentes.keySet()) {
+	    		copiaMarcados= marcados;
+	    		if(ady.equals(e2)) {
+	    			copiaMarcados.put(e2, adyascentes.get(ady) );
+	    			todos.add(new LinkedHashMap<Estacion, Tramo>(copiaMarcados));
+	    		}else {
+	    			if(!copiaMarcados.keySet().contains(ady)) {
+	    				copiaMarcados.put(ady, adyascentes.get(ady));
+	    				this.findPathAux(ady,e2,copiaMarcados, todos);
+	    			}
+	    		}
+	    	}
+	    }
+	    
+	    public Integer flujoMaximo(Estacion e1, Estacion e2) {
+	    	Map<Estacion, Tramo> adyascentes = this.getNeighbourhood1(e1);
+	    	Map<Tramo, Integer> pesos = new LinkedHashMap<Tramo, Integer>();
+	    	for(Estacion e: adyascentes.keySet()) {
+	    		pesos.put(adyascentes.get(e), 0);
+	    	}
+	    	List<Map<Estacion, Tramo>> recorridos= this.paths(e1, e2);
+	    	Estacion tramoMayorPeso= null;
+	    	Integer mayorPeso=0;
+	    	for(Estacion e: adyascentes.keySet()) {
+	    		if(((Tramo)adyascentes.get(e)).get_cantPasajeros()> mayorPeso) mayorPeso = ((Tramo)adyascentes.get(e)).get_cantPasajeros();
+	    		tramoMayorPeso= e;
+	    	}
+	    	for(Map<Estacion, Tramo> rec : recorridos) {
+	    		for(Estacion e: rec.keySet()) {
+	    			if (e.equals(tramoMayorPeso)){
+	    				
+	    			}
+	    		}
+	    		
+	    	}
+	    	
+	    }
   
 }
 	
