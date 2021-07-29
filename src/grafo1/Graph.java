@@ -27,6 +27,52 @@ public class Graph <T> {
 		System.out.println(this.edges.toString());
 	}
 
+	public void flujoMaximo(Estacion e1, Estacion e2) {
+		List<List<Estacion>> caminos = new ArrayList<List<Estacion>>();
+		caminos = this.caminos(e1, e2);
+		int flujoMaximo = 0;
+		List<Tramo> tramos = new ArrayList<Tramo>();
+		tramos = TramosRepo.obtenerTramos();
+		for(int i=0;i<caminos.size();i++) {
+			List<Tramo> tramo = new ArrayList<Tramo>();
+			List<Estacion> estaciones = caminos.get(i);
+			//me quedo con un camino de todos los que hay entre esas dos estaciones
+			//busco para cada tramo del camino su peso
+			for(int j = 0;j<estaciones.size();j++) {
+				//tramo = tramos.stream().filter(t -> t.getOrigen().equals(estaciones.get(j)) &&
+					//	t.getDestino().equals(estaciones.get(j+1)))
+				
+			}
+		}
+	}
+	
+	
+	
+	public List<List<Estacion>> caminos (Estacion e1, Estacion e2){
+		List<List<Estacion>> salida = new ArrayList<List<Estacion>>();
+		List<Estacion> marcados = new ArrayList<Estacion>();
+		marcados.add(e1);
+		buscarCaminos(e1,e2,marcados,salida);
+		return salida;
+	}
+	public void buscarCaminos(Estacion e1, Estacion e2, List<Estacion> marcados, List<List<Estacion>> salida) {
+		List<Estacion> adyacentes = this.getNeighbourhood(e1);
+		List<Estacion> copiaMarcados = null;
+		for(Estacion ady : adyacentes) {
+			copiaMarcados = marcados.stream().collect(Collectors.toList());
+			if(ady.equals(e2)) {
+				copiaMarcados.add(e2);
+				salida.add(new ArrayList<Estacion>(copiaMarcados));
+			}
+			else {
+				if (! copiaMarcados.contains(ady)) {
+					copiaMarcados.add(ady);
+					this.buscarCaminos(e1, e2, copiaMarcados, salida);
+				}		
+			}
+		}
+	}
+	
 	public Integer gradoEntrada(Estacion vertice){
 		Integer res =0;
 		for(Tramo arista : this.edges){
@@ -158,6 +204,8 @@ public class Graph <T> {
 	return map;
 	
 }
+	
+	
 	
 	private boolean hayCamino(Estacion e1,Estacion e2){
     	List<Estacion> ady = this.getNeighbourhood(e1);
