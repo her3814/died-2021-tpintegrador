@@ -255,8 +255,8 @@ public class PanelBuscarTramo extends JPanel {
 	}
 	
 	public DefaultTableModel renovarTabla(List<Tramo> nuevosDatos) {
-		String nombreColumnas[] = {"Origen","Destino", "Linea","Orden", "Estado", "Costo"};
-		datosFila = new Object[nuevosDatos.size()] [6];
+		String nombreColumnas[] = {"Origen","Destino", "Linea","Orden", "Estado", "Costo", "Cant. pasajeros"};
+		datosFila = new Object[nuevosDatos.size()] [7];
 		for(int i=0; i<nuevosDatos.size();i++) {
 			datosFila[i][0] = nuevosDatos.get(i).getOrigen().getNombre();
 			datosFila[i][1] = nuevosDatos.get(i).getDestino().getNombre();
@@ -264,6 +264,7 @@ public class PanelBuscarTramo extends JPanel {
 			datosFila[i][3] = nuevosDatos.get(i).getOrden();
 			datosFila[i][4] = nuevosDatos.get(i).get_estadoTramo();
 			datosFila[i][5] = nuevosDatos.get(i).getCosto();
+			datosFila[i][6] = nuevosDatos.get(i).get_cantPasajeros();
 		}
 		//Crear modelo de la tabla
 		model = new DefaultTableModel(datosFila,nombreColumnas){
