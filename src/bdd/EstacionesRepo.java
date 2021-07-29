@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import excepciones.HoraCierreMenorHoraAperturaException;
@@ -141,6 +140,7 @@ public class EstacionesRepo {
 			}
 		}
 
+		BddInMemoryCache.getCacheInstance().put("ESTACION-" + nEst.getId(), nEst);
 		return nEst;
 	}
 
@@ -185,9 +185,11 @@ public class EstacionesRepo {
 	}
 
 	public static Estacion ObtenerEstacion(int id) {
+		
 		if (BddInMemoryCache.getCacheInstance().contains("ESTACION-" + id)) {
 				return (Estacion)BddInMemoryCache.getCacheInstance().get("ESTACION-" + id);
 		}
+		
 		Estacion estacion = null;
 		String sql = "select *, NOT EXISTS (SELECT * " + "FROM estaciones_tareas_mantenimiento etm "
 				+ "WHERE etm.id_estacion = est.id " + "AND "
@@ -216,6 +218,8 @@ public class EstacionesRepo {
 			e.printStackTrace();
 		}
 
+		BddInMemoryCache.getCacheInstance().put("ESTACION-" + id, estacion);
+		
 		return estacion;
 	}
 

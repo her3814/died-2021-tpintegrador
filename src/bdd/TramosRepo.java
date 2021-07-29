@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 import modelo.Boleto;
 import modelo.Estacion;
-import modelo.EstadoLineaEnum;
 import modelo.EstadoTramoEnum;
 import modelo.Linea;
 import modelo.Tramo;
@@ -337,29 +336,6 @@ public class TramosRepo {
 		return tramo;
 	}
 
-	private static Tramo ToEntity(ResultSet result) {
-
-		Tramo tramo = null;
-
-		try {
-			Linea linea = LineasRepo.ObtenerLinea(result.getInt("id_linea_transporte"));
-			Integer orden = result.getInt("trayecto_orden");
-			Estacion origen = EstacionesRepo.ObtenerEstacion(result.getInt("id_estacion_origen"));
-			Estacion destino = EstacionesRepo.ObtenerEstacion(result.getInt("id_estacion_destino"));
-			Integer cant_pasajeros = result.getInt("cant_pasajeros");
-			Double duracion = result.getDouble("duracion_min");
-			Double costo = result.getDouble("costo");
-			Double distancia = result.getDouble("distancia");
-			EstadoTramoEnum estado = result.getString("estado").equals("ACT") ? EstadoTramoEnum.ACTIVO
-					: EstadoTramoEnum.INACTIVO;
-
-			tramo = new Tramo(linea, orden, origen, destino, cant_pasajeros, duracion, distancia, costo, estado);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return tramo;
-	}
 	
 	public static List<Tramo> obtenerTramos() {
 		List<Tramo> tramos = new ArrayList<Tramo>();
@@ -393,6 +369,28 @@ public class TramosRepo {
 		return tramos;
 	}
 	
-	
+	private static Tramo ToEntity(ResultSet result) {
+
+		Tramo tramo = null;
+
+		try {
+			Linea linea = LineasRepo.ObtenerLinea(result.getInt("id_linea_transporte"));
+			Integer orden = result.getInt("trayecto_orden");
+			Estacion origen = EstacionesRepo.ObtenerEstacion(result.getInt("id_estacion_origen"));
+			Estacion destino = EstacionesRepo.ObtenerEstacion(result.getInt("id_estacion_destino"));
+			Integer cant_pasajeros = result.getInt("cant_pasajeros");
+			Double duracion = result.getDouble("duracion_min");
+			Double costo = result.getDouble("costo");
+			Double distancia = result.getDouble("distancia");
+			EstadoTramoEnum estado = result.getString("estado").equals("ACT") ? EstadoTramoEnum.ACTIVO
+					: EstadoTramoEnum.INACTIVO;
+
+			tramo = new Tramo(linea, orden, origen, destino, cant_pasajeros, duracion, distancia, costo, estado);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return tramo;
+	}	
 	
 }

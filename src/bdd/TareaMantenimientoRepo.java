@@ -15,16 +15,16 @@ import modelo.Estacion;
 import modelo.TareaMantenimiento;
 
 public class TareaMantenimientoRepo {
-	
+
 	public static TareaMantenimiento FinalizarTareaDeMantenimiento(TareaMantenimiento tarea)
 			throws FechaFinMenorFechaInicioException {
 		var sql = "UPDATE estaciones_tareas_mantenimiento SET fecha_fin = CURRENT_DATE() WHERE id = ?";
 		Connection con = BddSingleton.GetConnection();
 
-		try{
+		try {
 			tarea.setFechaFin(LocalDate.now());
-		}catch(java.lang.NullPointerException e) {
-			
+		} catch (java.lang.NullPointerException e) {
+
 		}
 
 		try {
@@ -50,6 +50,8 @@ public class TareaMantenimientoRepo {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			//Limpio la cache a fin de eliminar la estacion y que la proxima vez que se busque el cambio de estado necesario pueda reflejarse
+			BddInMemoryCache.getCacheInstance().remove("ESTACION-" + tarea.getEstacion().getId());
 		}
 
 		return tarea;
@@ -58,7 +60,7 @@ public class TareaMantenimientoRepo {
 	public static void EliminarTareaMantenimiento(TareaMantenimiento tarea) {
 		String sql = "DELETE FROM estaciones_tareas_mantenimiento WHERE id = ?;";
 		Connection con = BddSingleton.GetConnection();
-		
+
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql);
 			pstm.setInt(1, tarea.getId());
@@ -82,13 +84,15 @@ public class TareaMantenimientoRepo {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			//Limpio la cache a fin de eliminar la estacion y que la proxima vez que se busque el cambio de estado necesario pueda reflejarse
+			BddInMemoryCache.getCacheInstance().remove("ESTACION-" + tarea.getEstacion().getId());
 		}
 	}
-	
+
 	public static void EliminarTareasMantenimiento(Estacion estacion) {
 		String sql = "DELETE FROM estaciones_tareas_mantenimiento WHERE id_estacion = ?;";
 		Connection con = BddSingleton.GetConnection();
-		
+
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql);
 			pstm.setInt(1, estacion.getId());
@@ -112,10 +116,11 @@ public class TareaMantenimientoRepo {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			//Limpio la cache a fin de eliminar la estacion y que la proxima vez que se busque el cambio de estado necesario pueda reflejarse
+			BddInMemoryCache.getCacheInstance().remove("ESTACION-" + estacion.getId());
 		}
-		EstacionesRepo.EliminarEstacion(estacion);
-	}
 
+	}
 
 	public static void ModificarTareaMantenimiento(TareaMantenimiento tarea) {
 		String sql = "UPDATE estaciones_tareas_mantenimiento SET id_estacion = ?, fecha_inicio = ? , fecha_fin = ?, observaciones = ? WHERE id = ?";
@@ -136,7 +141,7 @@ public class TareaMantenimientoRepo {
 			con.beginRequest();
 
 			pstm.executeUpdate();
-			
+
 			con.commit();
 			pstm.close();
 		} catch (SQLException e) {
@@ -152,6 +157,8 @@ public class TareaMantenimientoRepo {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			//Limpio la cache a fin de eliminar la estacion y que la proxima vez que se busque el cambio de estado necesario pueda reflejarse
+			BddInMemoryCache.getCacheInstance().remove("ESTACION-" + tarea.getEstacion().getId());
 		}
 	}
 
@@ -208,6 +215,8 @@ public class TareaMantenimientoRepo {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			//Limpio la cache a fin de eliminar la estacion y que la proxima vez que se busque el cambio de estado necesario pueda reflejarse
+			BddInMemoryCache.getCacheInstance().remove("ESTACION-" + tarea.getEstacion().getId());
 		}
 
 		return nTarea;
@@ -344,6 +353,5 @@ public class TareaMantenimientoRepo {
 		}
 		return tarea;
 	}
-	
-	
+
 }

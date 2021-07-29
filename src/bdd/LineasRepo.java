@@ -7,16 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import modelo.Estacion;
 import modelo.EstadoLineaEnum;
 import modelo.Linea;
 import modelo.LineaTipoTransporteEnum;
-import modelo.Tramo;
 
 public class LineasRepo {
-	private static String sql ;
+	private static String sql;
 	private static Connection con;
 
 	public static void EliminarLinea(Linea linea) {
@@ -48,6 +44,7 @@ public class LineasRepo {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			BddInMemoryCache.getCacheInstance().remove("LINEA-" + linea.get_id());
 		}
 	}
 
@@ -59,7 +56,7 @@ public class LineasRepo {
 		try {
 			con.beginRequest();
 			PreparedStatement pstm = con.prepareStatement(sql);
-			pstm.setInt(5,linea.get_id());
+			pstm.setInt(5, linea.get_id());
 			pstm.setString(1, linea.get_nombre());
 			pstm.setString(2, linea.get_color());
 			pstm.setString(3, linea.get_estado().equals(EstadoLineaEnum.ACTIVA) ? "ACT" : "INA");
@@ -84,6 +81,7 @@ public class LineasRepo {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			BddInMemoryCache.getCacheInstance().put("LINEA-" + linea.get_id(), linea);
 		}
 	}
 
@@ -127,16 +125,17 @@ public class LineasRepo {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			BddInMemoryCache.getCacheInstance().put("LINEA-" + nLinea.get_id(), nLinea);
 		}
 
 		return nLinea;
 	}
 
 	public static Linea ObtenerLinea(Integer id) {
-		
-		if(BddInMemoryCache.getCacheInstance().contains("LINEA-"+id))
-			return (Linea)BddInMemoryCache.getCacheInstance().get("LINEA-"+id);
-		
+
+		if (BddInMemoryCache.getCacheInstance().contains("LINEA-" + id))
+			return (Linea) BddInMemoryCache.getCacheInstance().get("LINEA-" + id);
+
 		String sql = "SELECT * FROM lineas_transporte WHERE id = ?;";
 
 		Connection con = BddSingleton.GetConnection();
@@ -169,13 +168,13 @@ public class LineasRepo {
 				e.printStackTrace();
 			}
 		}
-		BddInMemoryCache.getCacheInstance().put("LINEA-"+id,linea);
+		BddInMemoryCache.getCacheInstance().put("LINEA-" + id, linea);
 		return linea;
 	}
 
 	public static List<Linea> ObtenerLineas() {
 		List<Linea> lineas = new ArrayList<Linea>();
-		
+
 		sql = "SELECT * FROM lineas_transporte;";
 		con = BddSingleton.GetConnection();
 		try {
@@ -183,8 +182,11 @@ public class LineasRepo {
 
 			ResultSet res = pstm.executeQuery();
 
-			while (res.next())
-				lineas.add(ToEntity(res));
+			while (res.next()) {
+				var nLinea = ToEntity(res);
+				lineas.add(nLinea);
+				BddInMemoryCache.getCacheInstance().put("LINEA-" + nLinea.get_id(), nLinea);				
+			}
 
 			res.close();
 			pstm.close();
@@ -219,9 +221,9 @@ public class LineasRepo {
 		}
 		return linea;
 	}
-	
+
 	public static Integer siguienteOrden(Linea l) {
-		 return TramosRepo.ObtenerRecorrido(l).size()+1;
+		return TramosRepo.ObtenerRecorrido(l).size() + 1;
 	}
-	
+
 }
