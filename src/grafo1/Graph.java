@@ -48,16 +48,16 @@ public class Graph <T> {
 	}
 	
 	public Integer flujoMaximo1(Estacion e1, Estacion e2) {
-    	Map<Estacion, Tramo> adyascentes = this.getNeighbourhood1(e1);
+    	Map<Tramo, Estacion> adyascentes = this.getNeighbourhood1(e1);
     	int flujoMaximo=0;
-    	List<Map<Estacion, Tramo>> recorridos= this.paths(e1, e2);
+    	List<Map<Tramo, Estacion>> recorridos= this.paths(e1, e2);
     	
     	Map<Tramo, Integer> pesos = new LinkedHashMap<Tramo, Integer>();
     	//List<Map<Tramo, Integer>> pesos = new ArrayList<Map<Tramo, Integer>>();
     	//INICIALIZACIÓN DE LOS PESOS DE LOS TRAMOS -> funciona ben 
-    	for(Map<Estacion, Tramo> rec: recorridos) {
-    	for(Estacion e: rec.keySet()) {
-    		pesos.put(rec.get(e), rec.get(e).get_cantPasajeros());
+    	for(Map<Tramo, Estacion> rec: recorridos) {
+    	for(Tramo t: rec.keySet()) {
+    		pesos.put(t, t.get_cantPasajeros());
     	}
     	}
     	Integer menorPeso;
@@ -66,16 +66,16 @@ public class Graph <T> {
     		tramoMayorPeso= e;
     	}
     	*/
-    	for(Map<Estacion, Tramo> rec : recorridos) {
+    	for(Map<Tramo, Estacion> rec : recorridos) {
     		// Primero debemos ver si el recorrido no tiene pesos 0 en ninguna arista
     		if(! tienePesos0(rec, pesos)) { 
     			menorPeso= rec.keySet().stream()
-    						.mapToInt(e -> pesos.get(rec.get(e)))
+    						.mapToInt(t -> pesos.get(t))
     						.min()
     						.getAsInt();
     			flujoMaximo=flujoMaximo+menorPeso;
-    			for(Estacion e: rec.keySet()) {
-        			pesos.replace(rec.get(e), pesos.get(rec.get(e))-menorPeso);
+    			for(Tramo t: rec.keySet()) {
+        			pesos.replace(t, pesos.get(t)-menorPeso);
         		}
     		}
     			
@@ -84,12 +84,11 @@ public class Graph <T> {
     }
 
 	
-	public Boolean tienePesos0(Map<Estacion, Tramo> recorrido,Map<Tramo, Integer> pesos ) {
-		for(Estacion e: recorrido.keySet()) {
+	public Boolean tienePesos0(Map<Tramo, Estacion> recorrido,Map<Tramo, Integer> pesos ) {
+		for(Tramo t: recorrido.keySet()) {
 		//TODO CAMBIARLO EN FUNCION DE LOS PESOS, QUE ES LO QUE SE VA ACTUALIZANDO
 			//if(recorrido.get(e).get_cantPasajeros()==0) return true;
-			Tramo actual = recorrido.get(e);
-		if(pesos.containsKey(actual) && pesos.get(actual)==0) {
+		if(pesos.containsKey(t) && pesos.get(t)==0) {
 			return true;
 		}
 		}
@@ -220,21 +219,22 @@ public class Graph <T> {
 			System.out.println(vertices.get(i).toString()+": pageRank -> "+ pr.get(vertices.get(i)));
 		}
 		*/
-		/*List<Map<Estacion, Tramo>>recorridos = grafo.paths(EstacionesRepo.ObtenerEstacion(49), EstacionesRepo.ObtenerEstacion(51));
-		for(Map<Estacion, Tramo> rec: recorridos) {
+		List<Map<Tramo, Estacion>>recorridos = grafo.paths(EstacionesRepo.ObtenerEstacion(49), EstacionesRepo.ObtenerEstacion(50));
+		for(Map<Tramo, Estacion> rec: recorridos) {
+			System.out.println(rec.toString());
+			System.out.println("");
+		}
+		
+		/*List<List<Estacion>> recorridos= grafo.caminos(EstacionesRepo.ObtenerEstacion(52), EstacionesRepo.ObtenerEstacion(56));
+		for(List<Estacion> rec: recorridos) {
 			System.out.println(rec.toString());
 		}*/
 		
-	/*	List<List<Estacion>> recorridos= grafo.caminos(EstacionesRepo.ObtenerEstacion(52), EstacionesRepo.ObtenerEstacion(56));
-		for(List<Estacion> rec: recorridos) {
-			System.out.println(rec.toString());
-		}
-		*/
-		System.out.println(grafo.getNeighbourhood1(EstacionesRepo.ObtenerEstacion(52)).toString());
+	//	System.out.println(grafo.getNeighbourhood1(EstacionesRepo.ObtenerEstacion(52)).toString());
 		
-	//	Map<Estacion, Tramo> vecinos = grafo.getNeighbourhood1(EstacionesRepo.ObtenerEstacion(47));
+		//Map<Tramo, Estacion> vecinos = grafo.getNeighbourhood1(EstacionesRepo.ObtenerEstacion(47));
 		//System.out.println(vecinos.toString());
-		System.out.println(grafo.flujoMaximo1(EstacionesRepo.ObtenerEstacion(49), EstacionesRepo.ObtenerEstacion(51)));
+		System.out.println(grafo.flujoMaximo1(EstacionesRepo.ObtenerEstacion(49), EstacionesRepo.ObtenerEstacion(50)));
 		
 		
 	}
@@ -288,28 +288,42 @@ public class Graph <T> {
 		}
 		return salida;
 	}
-	private Map<Estacion, Tramo> getNeighbourhood1(Estacion e){ 
-		Map<Estacion, Tramo> salida = new LinkedHashMap<Estacion, Tramo>();
+	private Map<Tramo, Estacion> getNeighbourhood1(Estacion e){ 
+		Map<Tramo, Estacion> salida = new LinkedHashMap<Tramo, Estacion>();
 		for(Tramo tramo : this.edges){
 			if(tramo.getOrigen().equals(e) && tramo.get_cantPasajeros()>0) {
-				salida.put(tramo.getDestino(),tramo);
+				salida.put(tramo,tramo.getDestino());
 			}
 		}
 		return salida;
 	}
 	
-	    public List<Map<Estacion, Tramo>> paths(Estacion e1 ,Estacion e2){
-	    	List<Map<Estacion, Tramo>>salida = new ArrayList<Map<Estacion, Tramo>>();
-	    	Map<Estacion, Tramo> marcados = new LinkedHashMap<Estacion, Tramo>();
+	    public List<Map<Tramo, Estacion>> paths(Estacion e1 ,Estacion e2){
+	    	List<Map<Tramo, Estacion>>salida = new ArrayList<Map<Tramo, Estacion>>();
+	    	Map<Tramo, Estacion> marcados = new LinkedHashMap<Tramo, Estacion>();
 	    //	marcados.put(e1, null);
 	    	findPathAux(e1,e2,marcados, salida);
 	    	return salida;
 	    }
 
-	    private void findPathAux(Estacion e1,Estacion e2, Map<Estacion, Tramo> marcados, List<Map<Estacion, Tramo>> todos) {
-	    	Map <Estacion, Tramo> adyascentes = this.getNeighbourhood1(e1);
-	    	Map<Estacion, Tramo> copiaMarcados = null;
-	    	for(Estacion ady: adyascentes.keySet()) {
+	    private void findPathAux(Estacion e1,Estacion e2, Map<Tramo, Estacion> marcados, List<Map<Tramo, Estacion>> todos) {
+	    	Map <Tramo, Estacion> adyascentes = this.getNeighbourhood1(e1);
+	    	Map<Tramo, Estacion> copiaMarcados = null;
+	    	for(Tramo ady: adyascentes.keySet()) {
+	    		copiaMarcados= marcados.keySet().stream().collect(Collectors.toMap(t -> t,t -> marcados.get(t)));
+	    		if(adyascentes.get(ady).equals(e2)) {
+	    			copiaMarcados.put(ady, e2);
+	    			todos.add(new LinkedHashMap<Tramo, Estacion>(copiaMarcados));
+	    		}else {
+	    			if(!copiaMarcados.containsKey(ady)) {
+	    				copiaMarcados.put(ady, adyascentes.get(ady));
+	    				this.findPathAux(adyascentes.get(ady), e2, copiaMarcados, todos);
+	    			}
+	    		}
+	    	}
+	    	
+	    	
+	    /*	for(Estacion ady: adyascentes.keySet()) {
 	    	copiaMarcados= marcados.keySet().stream().collect(Collectors.toMap(e -> e,e -> marcados.get(e))); 
 	    		if(ady.equals(e2)) {
 	    			copiaMarcados.put(e2, adyascentes.get(ady));
@@ -320,7 +334,7 @@ public class Graph <T> {
 	    				this.findPathAux(ady,e2,copiaMarcados, todos);
 	    			}
 	    		}
-	    	}
+	    	}*/
 	    }
 	    
 	    
