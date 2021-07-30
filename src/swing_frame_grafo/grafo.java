@@ -97,7 +97,7 @@ public class grafo {
 
 	public static void main(String[] args) {
 		var g = grafo.ObtenerGrafoCompleto();
-		System.out.println(grafo.ObtenerGrafoCompleto());
+		System.out.println(g);
 	}
-
+	
 }

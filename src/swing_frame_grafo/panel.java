@@ -23,6 +23,7 @@ public class panel extends JPanel {
 	TramoMostrarEnum _mostrar;
 
 	public panel(grafo grafo, TramoMostrarEnum mostrar) {
+		System.out.println(grafo);
 		this.grafo1 = grafo;
 		this.setSize(600, 320);
 		this.setBackground(Color.BLACK);

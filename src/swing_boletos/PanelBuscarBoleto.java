@@ -151,16 +151,7 @@ public class PanelBuscarBoleto extends JPanel {
 				seguir = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el boleto nro: " + nroBoleto + "?", 
 				null, 2);
 				if(seguir==0) {
-				String nombreCliente = (String) table.getValueAt(row_selected, 1);
-				String correoCliente = (String) table.getValueAt(row_selected, 2);
-				LocalDate fechaVenta = (LocalDate) table.getValueAt(row_selected, 3);
-				Double costo = (Double) table.getValueAt(row_selected, 4);
-				String estacionOrigen = (String) table.getValueAt(row_selected, 5);
-				String estacionDestino = (String) table.getValueAt(row_selected, 6);
-				Boleto actual = null;
-				actual = new Boleto(nroBoleto, correoCliente, nombreCliente,fechaVenta, costo, estacionOrigen, estacionDestino);
-				BoletosRepo.EliminarRecorridoBoleto(actual);
-				model.removeRow(fila);
+					BoletosRepo.EliminarBoleto(BoletosRepo.Obtener(nroBoleto));
 				table.setModel(renovarTabla(BoletosRepo.ObtenerBoletos()));
 				autoajustarAnchoColumnas(table);
 				}

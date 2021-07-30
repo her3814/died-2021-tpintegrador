@@ -114,33 +114,4 @@ public class Estacion {
 			return false;
 		return true;
 	}
-
-	// TODO DESCARTAR FUNCION EN LO POSIBLE
-	public LocalDate getFechaUltimoMantenimiento() {
-		if (BddInMemoryCache.getCacheInstance().contains("UltimoMant-Estacion" + this.getId())) {
-			System.out.println("DEVUELVO FECHA EN CACHE");
-			return (LocalDate) BddInMemoryCache.getCacheInstance().get("UltimoMant-Estacion" + this.getId());
-		} else
-			System.out.println("DEVUELVO FECHA DESDE BDD");
-
-		LocalDate fechaUltimoMantenimiento = null;
-		List<TareaMantenimiento> tareas = new ArrayList<TareaMantenimiento>();
-		Comparator<TareaMantenimiento> comparador = (TareaMantenimiento t1, TareaMantenimiento t2) -> t2.getFechaFin()
-				.compareTo(t1.getFechaFin());
-		tareas = TareaMantenimientoRepo.Obtener(this);
-		if (tareas.size() > 2) {
-			List<LocalDate> retorno = new ArrayList<LocalDate>();
-			retorno = tareas.stream().sorted(comparador).map(t1 -> t1.getFechaFin()).collect(Collectors.toList());
-			fechaUltimoMantenimiento = retorno.get(0);
-		} else if (tareas.size() == 1) {
-			List<LocalDate> retorno = new ArrayList<LocalDate>();
-			retorno = tareas.stream().sorted(comparador).map(t1 -> t1.getFechaFin()).collect(Collectors.toList());
-			fechaUltimoMantenimiento = retorno.get(0);
-		} else
-			fechaUltimoMantenimiento = LocalDate.now();
-
-		BddInMemoryCache.getCacheInstance().put("UltimoMant-Estacion" + this.getId(), fechaUltimoMantenimiento);
-
-		return fechaUltimoMantenimiento;
-	}
 }

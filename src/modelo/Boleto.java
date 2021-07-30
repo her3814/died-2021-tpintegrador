@@ -2,8 +2,9 @@ package modelo;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import bdd.TramosRepo;
+import bdd.BoletosRepo;
 
 public class Boleto {
 	private final Integer _nroBoleto;
@@ -13,7 +14,7 @@ public class Boleto {
 	private Double _costo;
 	private String _origen;
 	private String _destino;
-	private List<Tramo> _tramos;
+	private List<TramoBoleto> _tramos;
 	
 	public Boleto(Integer numeroBoleto, String correo, String nombre, LocalDate fechaVenta, Double costo, String nombreEstacionOrigen, String nombreEstacionDestino) {
 		_nroBoleto = numeroBoleto;
@@ -23,7 +24,7 @@ public class Boleto {
 		_costo = costo;
 		_origen = nombreEstacionOrigen;
 		_destino = nombreEstacionDestino;
-		_tramos = TramosRepo.ObtenerDeBoleto(this);
+		_tramos = BoletosRepo.ObtenerTramos(this);
 	}
 	
 	public Boleto(String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, List<Tramo> recorrido) {
@@ -34,7 +35,7 @@ public class Boleto {
 		_costo = costo;
 		_origen = origen.getNombre();
 		_destino = destino.getNombre();
-		_tramos = recorrido;
+		_tramos = recorrido.stream().map(t -> new TramoBoleto(t)).collect(Collectors.toList());
 	}
 
 	public Double get_costo() {
@@ -51,10 +52,10 @@ public class Boleto {
 		return _destino;
 	}
 
-	public List<Tramo> get_tramos() {
+	public List<TramoBoleto> get_tramos() {
 		return _tramos;
 	}
-	public void set_tramos(List<Tramo> _tramos) {
+	public void set_tramos(List<TramoBoleto> _tramos) {
 		this._tramos = _tramos;
 	}
 	public Integer get_nroBoleto() {

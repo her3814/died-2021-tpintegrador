@@ -47,9 +47,8 @@ public class frame {
 	}
 
 	public static void main(String[] a) {
-		Linea l = LineasRepo.ObtenerLinea(17);
-		List<Tramo> t = TramosRepo.ObtenerRecorrido(l);
-		grafo g = grafo.ObtenerGrafoDesdeRecorrido(t);
+		
+		grafo g = grafo.ObtenerGrafoDeLinea(LineasRepo.ObtenerLinea(13));
 		frame.createFrame(g, TramoMostrarEnum.DURACION);
 	}
 }

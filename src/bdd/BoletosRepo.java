@@ -13,16 +13,19 @@ import java.util.stream.Collectors;
 import modelo.Boleto;
 import modelo.Estacion;
 import modelo.Tramo;
+import modelo.TramoBoleto;
 
 public class BoletosRepo {
+
 	public static void GuardarBoleto(Boleto boleto) {
 		String sql = "INSERT INTO boletos (nombre_cliente, correo_cliente, fecha_venta, costo, nombre_estacion_origen, nombre_estacion_fin) VALUES (?, ?, ?, ?, ?, ?);";
-		String sqlInsertRecorridoBoleto = "INSERT INTO boleto_recorrido (boleto_numero, boleto_recorrido_orden, trayecto_linea_id, trayecto_orden) VALUES (?, ?, ?, ?);";
+		String sqlInsertRecorridoBoleto = "INSERT INTO boleto_trayecto (boleto_numero, trayecto_orden, linea_nombre, linea_color, linea_tipo_transporte, estacion_origen_nombre, estacion_destino_nombre, trayecto_duracion_min, trayecto_costo, trayecto_distancia) VALUES (?,	?,	?,	?,	?,	?,	?,	?,	?,	?);";
 
 		Connection con = BddSingleton.GetConnection();
 		try {
 			con.beginRequest();
 			PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
 			stm.setString(1, boleto.get_nombreCliente());
 			stm.setString(2, boleto.get_correoCliente());
 			stm.setDate(3, Date.valueOf(boleto.get_fechaVenta()));
@@ -43,9 +46,14 @@ public class BoletosRepo {
 				stm = con.prepareStatement(sqlInsertRecorridoBoleto);
 				stm.setInt(1, idBoleto);
 				stm.setInt(2, 1 + i);
-				stm.setInt(3, t.getLinea().get_id());
-				stm.setInt(4, t.getOrden());
-				stm.executeUpdate();
+				stm.setString(3, t.get_linea_nombre());
+				stm.setString(4, t.get_linea_color());
+				stm.setString(5, t.get_linea_tipo_transporte());
+				stm.setString(6, t.get_estacion_origen_nombre());
+				stm.setString(7, t.get_estacion_destino_nombre());
+				stm.setDouble(8, t.get_trayecto_duracion_min());
+				stm.setDouble(9, t.get_trayecto_costo());
+				stm.setDouble(10, t.get_trayecto_distancia());
 				stm.close();
 			}
 
@@ -120,83 +128,13 @@ public class BoletosRepo {
 				e.printStackTrace();
 			}
 		}
-		
-	}
-	
 
-	public static void EliminarRecorridoBoleto(Tramo t) { // dado un tramo elimina los boleto_recorrido y los boletos asociados
-		String sql = "DELETE FROM boleto_recorrido WHERE trayecto_linea_id = ? AND trayecto_orden = ? ";
-		List<Boleto> res = new ArrayList<Boleto>();
-		Connection con = BddSingleton.GetConnection();
-		try {
-			con.beginRequest();
-			PreparedStatement pstm = con.prepareStatement(sql);
-			var r = pstm.executeQuery();
+	}
 
-			while (r.next()) {
-				res.add(ToEntity(r));
-			}
-			pstm.setInt(1, t.getLinea().get_id());
-			pstm.setInt(2, t.getOrden());
-			pstm.executeUpdate();
-			con.commit();
-			pstm.close();
-		} catch (SQLException e) {
-			try {
-				con.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		for(Boleto b: res) {
-			BoletosRepo.EliminarBoleto(b);	
-		}
-	
-	}
-	
-	
-	public static void EliminarRecorridoBoleto(Boleto boleto) {
-		String sql = "DELETE FROM boleto_recorrido WHERE boleto_numero = ? ";
-		Connection con = BddSingleton.GetConnection();
-		try {
-			con.beginRequest();
-			PreparedStatement pstm = con.prepareStatement(sql);
-			pstm.setInt(1, boleto.get_nroBoleto());
-			pstm.executeUpdate();
-			con.commit();
-			pstm.close();
-		} catch (SQLException e) {
-			try {
-				con.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		BoletosRepo.EliminarBoleto(boleto);
-	}
-	
-	
 	private static Boleto ToEntity(ResultSet r) {
 		Boleto boleto = null;
 		try {
-			boleto = new Boleto(r.getInt("numero"),  r.getString("correo_cliente"),r.getString("nombre_cliente"),
+			boleto = new Boleto(r.getInt("numero"), r.getString("correo_cliente"), r.getString("nombre_cliente"),
 					r.getDate("fecha_venta").toLocalDate(), r.getDouble("costo"), r.getString("nombre_estacion_origen"),
 					r.getString("nombre_estacion_fin"));
 		} catch (SQLException e) {
@@ -205,28 +143,65 @@ public class BoletosRepo {
 		}
 		return boleto;
 	}
-	
-	public static Boolean estacionEstaEnUnBoleto(String estacion) {
-		List<Boleto> boletos= BoletosRepo.ObtenerBoletos();
-		List<String> origenes = new ArrayList<String>();
-			origenes =	boletos.stream().map(b -> b.get_origen()).filter(e -> e.equalsIgnoreCase(estacion)).collect(Collectors.toList());
-		List<String> destinos = new ArrayList<String>();
-			destinos =	boletos.stream().map(b -> b.get_destino()).filter(e -> e.equalsIgnoreCase(estacion)).collect(Collectors.toList());
-		return (origenes.size()!=0 || destinos.size()!=0);
-	}
-	
-	public static Boolean tramoEstaEnUnBoleto(Tramo t) {
-		String sql = "SELECT FROM boleto_recorrido WHERE trayecto_linea_id = ? AND trayecto_orden = ? ";
+
+	public static List<TramoBoleto> ObtenerTramos(Boleto boleto) {
+		String sql = "SELECT * FROM boleto_trayecto WHERE boleto_numero = ?";
 		Connection con = BddSingleton.GetConnection();
-		List<Boleto> res = new ArrayList<Boleto>();
+
+		var res = new ArrayList<TramoBoleto>();
+
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql);
-			pstm.setInt(1, t.getLinea().get_id());
-			pstm.setInt(2, t.getOrden());
+			pstm.setInt(1, boleto.get_nroBoleto());
+			var reader = pstm.executeQuery();
+
+			while (reader.next()) {
+				res.add(ToTramoEntity(reader));
+			}
+			reader.close();
+			pstm.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return res;
+	}
+
+	private static TramoBoleto ToTramoEntity(ResultSet r) {
+		// TODO Auto-generated method stub
+		TramoBoleto entity = null;
+
+		try {
+			entity = new TramoBoleto(r.getInt("boleto_numero"), r.getInt("trayecto_orden"), r.getString("linea_nombre"),
+					r.getString("linea_color"), r.getString("linea_tipo_transporte"),
+					r.getString("estacion_origen_nombre"), r.getString("estacion_destino_nombre"),
+					r.getDouble("trayecto_duracion_min"), r.getDouble("trayecto_costo"),
+					r.getDouble("trayecto_distancia"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return entity;
+	}
+
+	public static Boleto Obtener(Integer nroBoleto) {
+		String sql = "SELECT * FROM boletos WHERE boleto_numero = ?";
+		Connection con = BddSingleton.GetConnection();
+		Boleto res = null;
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql);
+			pstm.setInt(1, nroBoleto);
 			var r = pstm.executeQuery();
 
-			while (r.next()) {
-				res.add(ToEntity(r));
+			if (r.next()) {
+				res = ToEntity(r);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -239,8 +214,7 @@ public class BoletosRepo {
 			}
 		}
 
-		return res.size()>0;
+		return res;
 	}
-	
 
 }
