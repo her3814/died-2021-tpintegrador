@@ -16,31 +16,10 @@ import modelo.Linea;
 import modelo.Tramo;
 
 public class TramosRepo {
-
-	/**
-	 * Guarda o actualiza el tramo de una linea, si ya existe un tramo con la
-	 * posicion indicada, el mismo es reemplazado con la nueva información
-	 * 
-	 * @param tramo Tramo a agregar o actualizar
-	 */
-	public static void GuardarRecorrido(Linea linea, Tramo[] recorrido) {
-
-		LimpiarRecorrido(linea);
-
-		for (var t : recorrido) {
-			GuardarTramo(t);
-		}
-
-	}
 	
 	public static Boolean estacionEstaEnUnTramo(Estacion est) {
 		List<Tramo> tramos = TramosRepo.obtenerTramos();
-		List<Estacion> origenes = new ArrayList<Estacion>();
-		origenes = tramos.stream().map(t -> t.getOrigen()).filter(e -> e.equals(est)).collect(Collectors.toList());
-		List<Estacion> destinos =  new ArrayList<Estacion>();
-		destinos = tramos.stream().map(t -> t.getDestino()).filter(e -> e.equals(est)).collect(Collectors.toList());
-		return (origenes.size()!=0 || destinos.size()!=0);
-
+		return tramos.stream().anyMatch(t -> est.equals(t.getOrigen()) || est.equals(t.getDestino()));
 	}
 	
 	public static void ModificarTramo(Tramo tramo) {
@@ -124,39 +103,6 @@ public class TramosRepo {
 		return !tramosLinea.get(tramosLinea.size()-1).equals(tramo);
 	}
 	
-	
-	/**
-	 * Elimina todo el recorrido que realiza una linea
-	 * 
-	 * @param estacion
-	 */
-	public static void LimpiarRecorrido(Linea linea) {
-		String sql = "DELETE FROM lineas_trayecto WHERE id_linea_transporte = ?";
-		Connection con = BddSingleton.GetConnection();
-		try {
-			con.beginRequest();
-			PreparedStatement pstm = con.prepareStatement(sql);
-			pstm.setInt(1, linea.get_id());
-			pstm.executeUpdate();
-			con.commit();
-			pstm.close();
-		} catch (SQLException e) {
-			try {
-				con.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-
 	public static void EliminarTramo(Tramo tramo) {
 		String sql = "DELETE FROM lineas_trayecto WHERE id_linea_transporte = ? AND trayecto_orden = ?";
 		Connection con = BddSingleton.GetConnection();

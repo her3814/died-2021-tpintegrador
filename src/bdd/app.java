@@ -19,8 +19,8 @@ public class app {
 				
 			}
 
-			grafo g = grafo.ObtenerGrafoDesdeRecorrido(b.get_tramos());	
-			 frame.createFrame(g, TramoMostrarEnum.LINEA);
+	//		grafo g = grafo.ObtenerGrafoDesdeRecorrido(b.get_tramos());	
+		//	 frame.createFrame(g, TramoMostrarEnum.LINEA);
 		}
 		
 	}

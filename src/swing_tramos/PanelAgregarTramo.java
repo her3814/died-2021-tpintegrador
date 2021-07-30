@@ -480,9 +480,9 @@ public class PanelAgregarTramo extends JPanel {
 	}
 
 	public void limpiarDatos() {
-		comboBox_estOrigen.setSelectedIndex(0);
-		comboBox_estDestino.setSelectedIndex(0);
-		comboBox_lineas.setSelectedIndex(0);
+		comboBox_estOrigen.setSelectedIndex(-1);
+		comboBox_estDestino.setSelectedIndex(-1);
+		comboBox_lineas.setSelectedIndex(-1);
 		textField.setText(null);
 		textField_1.setText(null);
 		textField_4.setText(null);
