@@ -355,25 +355,8 @@ public class PanelAgregarBoleto extends JPanel {
 	}
 
 	public Boleto obtenerBoletoCreado() {
-		Double costo = 0.0;
-		if (this.comboBox_tipoCalculo.getSelectedItem().toString().equalsIgnoreCase("MÁS BARATO")) {
-			recorrido = VenderBoletoServicio.CalcularCaminoMasBarato((Estacion) this.comboBox_Origen.getSelectedItem(),
-					(Estacion) this.comboBox_Destino.getSelectedItem());
-		} else if (this.comboBox_tipoCalculo.getSelectedItem().toString().equalsIgnoreCase("MENOR DISTANCIA")) {
-			recorrido = VenderBoletoServicio.CalcularCaminoMenorDistancia(
-					(Estacion) this.comboBox_Origen.getSelectedItem(),
-					(Estacion) this.comboBox_Destino.getSelectedItem());
-		} else if (this.comboBox_tipoCalculo.getSelectedItem().toString().equalsIgnoreCase("MÁS RÁPIDO")) {
-			recorrido = VenderBoletoServicio.CalcularCaminoMasRapido((Estacion) this.comboBox_Origen.getSelectedItem(),
-					(Estacion) this.comboBox_Destino.getSelectedItem());
-		}
-		if (recorrido != null) {
-			for (Tramo t : recorrido) {
-				costo += t.getCosto();
-			}
-		}
-		// public Boleto(String correo, String nombre, LocalDate fechaVenta, Double
-		// costo, Estacion origen, Estacion destino, LinkedHashSet<Tramo> recorrido)
+		
+		Double costo = recorrido.stream().mapToDouble(t -> t.getCosto()).sum();
 		return new Boleto(textField.getText(), textField_1.getText(), LocalDate.now(), costo,
 				(Estacion) this.comboBox_Origen.getSelectedItem(), (Estacion) this.comboBox_Destino.getSelectedItem(),
 				recorrido);

@@ -54,6 +54,7 @@ public class BoletosRepo {
 				stm.setDouble(8, t.get_trayecto_duracion_min());
 				stm.setDouble(9, t.get_trayecto_costo());
 				stm.setDouble(10, t.get_trayecto_distancia());
+				stm.executeUpdate();
 				stm.close();
 			}
 
