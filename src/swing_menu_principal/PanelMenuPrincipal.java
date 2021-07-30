@@ -64,23 +64,23 @@ public class PanelMenuPrincipal extends JPanel{
 		lineas.setPreferredSize(new Dimension(500,20));
 		this.add(lineas, gbc);
 		
-		boletos= new JButton("GESTIONAR BOLETOS");
-		boletos.setBackground(new Color(204,204,51));
-		boletos.setFont(new Font("Arial", Font.BOLD,18));
-		this.gbc.gridx=0;
-		this.gbc.gridy=4;
-		this.gbc.insets= new Insets(5,0,5,0); 
-		boletos.setPreferredSize(new Dimension(500,20));
-		this.add(boletos, gbc);
-		
 		tramos = new JButton("GESTIONAR TRAMOS");
 		tramos.setBackground(new Color(204,204,0));
 		tramos.setFont(new Font("Arial", Font.BOLD,18));
 		this.gbc.gridx=0;
-		this.gbc.gridy=5;
+		this.gbc.gridy=4;
 		this.gbc.insets= new Insets(5,0,5,0); 
 		tramos.setPreferredSize(new Dimension(500,20));
 		this.add(tramos, gbc);
+		
+		boletos= new JButton("GESTIONAR BOLETOS");
+		boletos.setBackground(new Color(204,204,51));
+		boletos.setFont(new Font("Arial", Font.BOLD,18));
+		this.gbc.gridx=0;
+		this.gbc.gridy=5;
+		this.gbc.insets= new Insets(5,0,5,0); 
+		boletos.setPreferredSize(new Dimension(500,20));
+		this.add(boletos, gbc);
 	}
 
 	public JButton getBoletos() {

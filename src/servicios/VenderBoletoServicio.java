@@ -8,29 +8,31 @@ import java.util.stream.Collectors;
 import bdd.EstacionesRepo;
 import bdd.TramosRepo;
 import modelo.Estacion;
+import modelo.EstadoEstacionEnum;
+import modelo.EstadoLineaEnum;
+import modelo.EstadoTramoEnum;
 import modelo.Tramo;
 import modelo.TramosFunciones;
 
 public class VenderBoletoServicio {
 
-	public static void main(String[] args) {
-		var eA = EstacionesRepo.ObtenerEstacion(47);
-		var eB = EstacionesRepo.ObtenerEstacion(51);
-
-		var boleto = VenderBoletoServicio.CalcularCaminoMenorDistancia(eA, eB);
-		System.out.println(boleto);
-	}
-
-	private static List<Tramo> CalcularCamino(Estacion origen, Estacion destino,
-			List<Estacion> recorridas, Function<List<List<Tramo>>, List<Tramo>> funcion) {
+	private static List<Tramo> CalcularCamino(Estacion origen, Estacion destino, List<Estacion> recorridas,
+			Function<List<List<Tramo>>, List<Tramo>> funcion) {
 		if (origen.equals(destino))
 			return null;
 
-		//Si ya se paso por esta estacion, se corta el algoritmo a fin de evitar bucles
+		// Si ya se paso por esta estacion, se corta el algoritmo a fin de evitar bucles
 		if (recorridas.contains(origen))
 			return null;
 
-		List<Tramo> destinos = TramosRepo.ObtenerDestinosDesde(origen);
+		if (origen.getEstado().equals(EstadoEstacionEnum.MANTENIMIENTO))
+			return null;
+
+		List<Tramo> destinos = TramosRepo.ObtenerDestinosDesde(origen).stream()
+				.filter(t -> t.get_estadoTramo().equals(EstadoTramoEnum.ACTIVO)
+						&& t.getDestino().getEstado().equals(EstadoEstacionEnum.OPERATIVA)
+						&& t.getLinea().get_estado().equals(EstadoLineaEnum.ACTIVA))
+				.collect(Collectors.toList());
 
 		if (destinos == null)
 			return null;
@@ -43,7 +45,7 @@ public class VenderBoletoServicio {
 				camino.add(d);
 				caminos.add(camino);
 			} else {
-				var recAux =  recorridas.stream().collect(Collectors.toList());
+				var recAux = recorridas.stream().collect(Collectors.toList());
 				recAux.add(origen);
 				var caminoSiguiente = CalcularCamino(d.getDestino(), destino, recAux, funcion);
 				if (caminoSiguiente != null && caminoSiguiente.size() > 0) {
@@ -63,10 +65,11 @@ public class VenderBoletoServicio {
 
 	}
 
-	public static List<Tramo> CalcularCaminoMenorDistancia(Estacion origen, Estacion destino) {		
+	public static List<Tramo> CalcularCaminoMenorDistancia(Estacion origen, Estacion destino) {
 
-		return CalcularCamino(origen, destino, new ArrayList<Estacion>(), TramosFunciones.obtenerRecorridoMenorDistancia);
-	
+		return CalcularCamino(origen, destino, new ArrayList<Estacion>(),
+				TramosFunciones.obtenerRecorridoMenorDistancia);
+
 	}
 
 	public static List<Tramo> CalcularCaminoMasBarato(Estacion origen, Estacion destino) {

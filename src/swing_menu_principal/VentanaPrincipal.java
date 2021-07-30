@@ -4,8 +4,6 @@ import java.awt.GridBagLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import bdd.EstacionesRepo;
@@ -39,7 +37,6 @@ import swing_tareas_mantenimiento.PanelModificarTareaMantenimiento;
 import swing_tareas_mantenimiento.PanelVerHistorialTareaMantenimiento;
 import swing_tramos.PanelAgregarTramo;
 import swing_tramos.PanelBuscarTramo;
-//import swing_tramos.PanelBuscarTramo;
 import swing_tramos.PanelGestionarTramos;
 import swing_tramos.PanelModificarTramo;
 
@@ -406,17 +403,6 @@ public class VentanaPrincipal {
 					}
 				});
 
-				panelGestionarLineas.getTrayecto().addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						ventana1.setTitle("DEFINIR TRAYECTOS DE LA LINEA");
-						PanelDefinirTrayectos panelDefinirTrayectos = new PanelDefinirTrayectos();
-						panelDefinirTrayectos.setBackground(Color.WHITE);
-						ventana1.setContentPane(panelDefinirTrayectos);
-						ventana1.setVisible(true);
-						ventana1.pack();
-
-					}
-				});
 
 				panelGestionarLineas.getAgregar().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
