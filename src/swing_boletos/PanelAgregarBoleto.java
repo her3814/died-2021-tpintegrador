@@ -57,6 +57,7 @@ public class PanelAgregarBoleto extends JPanel {
 	private JLabel noExisteRecorrido;
 	private JPanel panel;
 	private List<Tramo> recorrido = null;
+	private JPanel panel_1;
 
 	public PanelAgregarBoleto() {
 
@@ -279,6 +280,7 @@ public class PanelAgregarBoleto extends JPanel {
 
 		panel = new JPanel();
 		comboBox_tipoCalculo.setSelectedIndex(-1);
+		
 
 		this.comboBox_tipoCalculo.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -314,7 +316,16 @@ public class PanelAgregarBoleto extends JPanel {
 				if (recorrido != null) {
 					noExisteRecorrido.setVisible(false);
 					panel = new swing_frame_grafo.panel(grafo.ObtenerGrafoDesdeRecorrido(recorrido), mostrar);
+					panel.setVisible(true);
 					guardar.setEnabled(true);
+					GridBagConstraints gbc_panel = new GridBagConstraints();
+					gbc_panel.gridheight = 2;
+					gbc_panel.gridwidth = 3;
+					gbc_panel.insets = new Insets(0, 0, 5, 5);
+					gbc_panel.fill = GridBagConstraints.BOTH;
+					gbc_panel.gridx = 1;
+					gbc_panel.gridy = 11;
+					add(panel, gbc_panel);
 				} else {
 					// TODO: Agregar
 					noExisteRecorrido.setVisible(true);
@@ -324,14 +335,7 @@ public class PanelAgregarBoleto extends JPanel {
 			}
 		});
 
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.gridheight = 2;
-		gbc_panel.gridwidth = 3;
-		gbc_panel.insets = new Insets(0, 0, 5, 5);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 1;
-		gbc_panel.gridy = 11;
-		add(panel, gbc_panel);
+		
 
 	}
 
