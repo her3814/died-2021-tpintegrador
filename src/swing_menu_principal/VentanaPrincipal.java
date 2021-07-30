@@ -369,11 +369,19 @@ public class VentanaPrincipal {
 								ventana1.setContentPane(panelFlujoMaximo);
 								ventana1.setVisible(true);
 								ventana1.pack();
+								
+								panelFlujoMaximo.getBuscar().addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+										panelFlujoMaximo.calcularFM();
+										panelFlujoMaximo.deshabilitar();
+									}
+								});
 
 								panelFlujoMaximo.getCancelar().addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
 										ventana1.setTitle("INFORMACION DE ESTACIONES");
 										ventana1.setContentPane(panelInformacionEstaciones);
+										panelFlujoMaximo.habilitar();
 										ventana1.setVisible(true);
 										ventana1.pack();
 									}

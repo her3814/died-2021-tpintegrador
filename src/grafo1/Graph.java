@@ -194,7 +194,7 @@ public class Graph <T> {
 		
 		//Map<Tramo, Estacion> vecinos = grafo.getNeighbourhood1(EstacionesRepo.ObtenerEstacion(47));
 		//System.out.println(vecinos.toString());
-		System.out.println(grafo.flujoMaximo1(EstacionesRepo.ObtenerEstacion(49), EstacionesRepo.ObtenerEstacion(50)));
+		System.out.println(grafo.flujoMaximo1(EstacionesRepo.ObtenerEstacion(50), EstacionesRepo.ObtenerEstacion(50)));
 		
 	}
 	public Map<Estacion, Double> pageRank(Graph grafo) {
