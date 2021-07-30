@@ -269,7 +269,9 @@ public class Graph <T> {
 	    	Map<Tramo, Estacion> copiaMarcados = null;
 	    	for(Tramo ady: adyacentes.keySet()) {
 	    		if(adyacentes.get(ady).equals(original)) {
-	    			
+	    		//TODO ANTO, AGREGUÉ ESTO, COMO QUE LE PASO SIEMPRE LA ORIGINAL
+	    			//QUE NUNCA CAMBIA, Y SI EN ALGUN MOMENTO QUIERE PASAR POR AHI
+	    			//OTRA VEZ, NO LO DEJAMOS Y PASA A OTRO RECORRIDO
 	    		}
 	    		else {
 	    		copiaMarcados= marcados.keySet().stream().collect(Collectors.toMap(t -> t,t -> marcados.get(t)));
