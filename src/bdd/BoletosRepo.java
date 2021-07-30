@@ -192,7 +192,7 @@ public class BoletosRepo {
 	}
 
 	public static Boleto Obtener(Integer nroBoleto) {
-		String sql = "SELECT * FROM boletos WHERE boleto_numero = ?";
+		String sql = "SELECT * FROM boletos WHERE numero = ?";
 		Connection con = BddSingleton.GetConnection();
 		Boleto res = null;
 		try {
