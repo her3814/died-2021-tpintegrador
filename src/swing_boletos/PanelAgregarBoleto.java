@@ -326,6 +326,7 @@ public class PanelAgregarBoleto extends JPanel {
 					gbc_panel.gridx = 1;
 					gbc_panel.gridy = 11;
 					add(panel, gbc_panel);
+					
 				} else {
 					// TODO: Agregar
 					noExisteRecorrido.setVisible(true);
@@ -352,9 +353,9 @@ public class PanelAgregarBoleto extends JPanel {
 	public void limpiarDatos() {
 		this.textField_1.setText(null);
 		this.textField.setText(null);
-		this.comboBox_Origen.setSelectedIndex(0);
-		this.comboBox_Destino.setSelectedIndex(0);
-		this.comboBox_tipoCalculo.setSelectedIndex(0);
+		this.comboBox_Origen.setSelectedIndex(-1);
+		this.comboBox_Destino.setSelectedIndex(-1);
+		this.comboBox_tipoCalculo.setSelectedIndex(-1);
 		this.boletoAgregado.setVisible(false);
 	}
 

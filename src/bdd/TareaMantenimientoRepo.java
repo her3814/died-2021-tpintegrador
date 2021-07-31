@@ -118,6 +118,7 @@ public class TareaMantenimientoRepo {
 			}
 			//Limpio la cache a fin de eliminar la estacion y que la proxima vez que se busque el cambio de estado necesario pueda reflejarse
 			BddInMemoryCache.getCacheInstance().remove("ESTACION-" + estacion.getId());
+			EstacionesRepo.EliminarEstacion(estacion);
 		}
 
 	}
