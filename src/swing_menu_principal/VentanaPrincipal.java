@@ -1,7 +1,7 @@
 package swing_menu_principal;
 
 import java.awt.GridBagLayout;
-
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
@@ -516,9 +516,10 @@ public class VentanaPrincipal {
 						ventana1.setTitle("AGREGAR BOLETO");
 						PanelAgregarBoleto panelAgregarBoleto = new PanelAgregarBoleto();
 						panelAgregarBoleto.setBackground(Color.WHITE);
+						ventana1.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 						ventana1.setContentPane(panelAgregarBoleto);
 						ventana1.setVisible(true);
-						ventana1.pack();
+						//ventana1.pack();
 
 
 						panelAgregarBoleto.getCancelar().addActionListener(new ActionListener() {
@@ -527,6 +528,7 @@ public class VentanaPrincipal {
 								ventana1.setTitle("GESTIONAR BOLETOS");
 								ventana1.setVisible(true);
 								ventana1.pack();
+								ventana1.setLocationRelativeTo(null);
 								panelAgregarBoleto.limpiarWarnings();
 								panelAgregarBoleto.limpiarDatos();
 							}

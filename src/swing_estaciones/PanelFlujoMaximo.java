@@ -10,10 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import modelo.Estacion;
@@ -25,13 +22,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class PanelFlujoMaximo extends JPanel {
 
-	private static final long serialVersionUID = -1490698534951693261L;
-	
 	private JTextField textField_1;
 	private JButton buscar;
 	private JButton cancelar;
@@ -40,7 +33,6 @@ public class PanelFlujoMaximo extends JPanel {
 	private  JComboBox comboBox_estDestino;
 	private  JLabel lblNewLabel_3;
 	private  Graph<Estacion> grafo;
-	private JLabel lblNewLabel_1;
 	
 	public PanelFlujoMaximo() {
 		
@@ -50,8 +42,7 @@ public class PanelFlujoMaximo extends JPanel {
 		
 		grafo = new Graph<Estacion>();
 		grafo.setVertexs(estaciones);
-		grafo.setEdges(TramosRepo.obtenerTramos());
-		
+		grafo.setEdges(TramosRepo.obtenerTramos());	
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
@@ -114,8 +105,6 @@ public class PanelFlujoMaximo extends JPanel {
 		gbc_comboBox1.gridy = 3;
 		add(comboBox_estDestino, gbc_comboBox1);
 		
-	//	Estacion origen = (Estacion)this.comboBox_estOrigen.getSelectedItem();
-	//	Estacion destino = (Estacion)this.comboBox_estDestino.getSelectedItem();
 		lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setBackground(new Color(240, 240, 240));
 		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 13));
@@ -129,7 +118,6 @@ public class PanelFlujoMaximo extends JPanel {
 		add(lblNewLabel_3, gbc_lblNewLabel_3);
 		lblNewLabel_3.setVisible(false);
 		
-		
 		cancelar = new JButton("VOLVER");
 		cancelar.setBackground(new Color(204, 204, 51));
 		cancelar.setFont(new Font("Arial", Font.BOLD, 12));
@@ -140,7 +128,7 @@ public class PanelFlujoMaximo extends JPanel {
 		gbc_btnNewButton_1.gridy = 10;
 		add(cancelar, gbc_btnNewButton_1);
 		
-		buscar = new JButton("BUSCAR");
+		buscar = new JButton("CALCULAR");
 	
 		buscar.setBackground(new Color(204, 204, 51));
 		buscar.setFont(new Font("Arial", Font.BOLD, 12));
@@ -166,20 +154,7 @@ public class PanelFlujoMaximo extends JPanel {
 	public void calcularFM() {
 		Estacion origen = (Estacion)this.comboBox_estOrigen.getSelectedItem();
 		Estacion destino = (Estacion)this.comboBox_estDestino.getSelectedItem();
-	/*	JLabel lblNewLabel_3 = new JLabel("El flujo máximo entre la estacion"+ origen.getNombre() +" y "
-								+ destino.getNombre()+" es de: "+grafo.flujoMaximo1(origen, destino)+".");
-		lblNewLabel_3.setBackground(new Color(240, 240, 240));
-		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 13));
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.LEFT);
-		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
-		gbc_lblNewLabel_3.anchor = GridBagConstraints.CENTER;
-		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_3.gridx = 1;
-		gbc_lblNewLabel_3.gridy = 4;
-		gbc_lblNewLabel_3.gridwidth = 4;
-		add(lblNewLabel_3, gbc_lblNewLabel_3);
-		lblNewLabel_3.setVisible(true);
-		*/
+
 		lblNewLabel_3.setText("El flujo máximo entre la estacion "+ origen.getNombre() +" y "
 				+ destino.getNombre()+" es de: "+grafo.flujoMaximo1(origen, destino)+".");
 		lblNewLabel_3.setVisible(true);
