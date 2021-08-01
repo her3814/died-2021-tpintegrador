@@ -22,6 +22,7 @@ public class BoletosRepo {
 		String sqlInsertRecorridoBoleto = "INSERT INTO boleto_trayecto (boleto_numero, trayecto_orden, linea_nombre, linea_color, linea_tipo_transporte, estacion_origen_nombre, estacion_destino_nombre, trayecto_duracion_min, trayecto_costo, trayecto_distancia) VALUES (?,	?,	?,	?,	?,	?,	?,	?,	?,	?);";
 
 		Connection con = BddSingleton.GetConnection();
+		
 		try {
 			con.beginRequest();
 			PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
