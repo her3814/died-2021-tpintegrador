@@ -6,12 +6,16 @@ import modelo.TramoBoleto;
 class Recorrido {
 	private Double _costo;
 	private Double _distancia;
-	private Double _longitud;
 	private Double _duracion;
 	private Integer _capacidad;
 	private String _color;
 	private String _lineaNombre;
 
+	@Override
+	public String toString() {
+		return "Linea " + _lineaNombre + " - Costo: " + _costo + " Distancia: " + _distancia + "km"; 
+	}
+	
 	public Recorrido(Tramo tramo) {
 		_costo = tramo.getCosto();
 		_distancia = tramo.getDistancia();
@@ -39,10 +43,6 @@ class Recorrido {
 
 	public Double getDistancia() {
 		return _distancia;
-	}
-
-	public Double getLongitud() {
-		return _longitud;
 	}
 
 	public Double getDuracion() {

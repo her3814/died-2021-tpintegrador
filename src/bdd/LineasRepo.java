@@ -185,7 +185,7 @@ public class LineasRepo {
 			while (res.next()) {
 				var nLinea = ToEntity(res);
 				lineas.add(nLinea);
-				BddInMemoryCache.getCacheInstance().put("LINEA-" + nLinea.get_id(), nLinea);				
+				BddInMemoryCache.getCacheInstance().put("LINEA-" + nLinea.get_id(), nLinea);
 			}
 
 			res.close();

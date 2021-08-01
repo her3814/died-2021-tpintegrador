@@ -15,23 +15,25 @@ public class Boleto {
 	private String _origen;
 	private String _destino;
 	private List<TramoBoleto> _tramos;
-	
-	public Boleto(Integer numeroBoleto, String correo, String nombre, LocalDate fechaVenta, Double costo, String nombreEstacionOrigen, String nombreEstacionDestino) {
+
+	public Boleto(Integer numeroBoleto, String correo, String nombre, LocalDate fechaVenta, Double costo,
+			String nombreEstacionOrigen, String nombreEstacionDestino) {
 		_nroBoleto = numeroBoleto;
-		_correoCliente=correo;
+		_correoCliente = correo;
 		_nombreCliente = nombre;
-		_fechaVenta=fechaVenta;
+		_fechaVenta = fechaVenta;
 		_costo = costo;
 		_origen = nombreEstacionOrigen;
 		_destino = nombreEstacionDestino;
 		_tramos = BoletosRepo.ObtenerTramos(this);
 	}
-	
-	public Boleto(String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino, List<Tramo> recorrido) {
+
+	public Boleto(String correo, String nombre, LocalDate fechaVenta, Double costo, Estacion origen, Estacion destino,
+			List<Tramo> recorrido) {
 		_nroBoleto = null;
-		_correoCliente=correo;
+		_correoCliente = correo;
 		_nombreCliente = nombre;
-		_fechaVenta=fechaVenta;
+		_fechaVenta = fechaVenta;
 		_costo = costo;
 		_origen = origen.getNombre();
 		_destino = destino.getNombre();
@@ -41,9 +43,11 @@ public class Boleto {
 	public Double get_costo() {
 		return _costo;
 	}
+
 	public void set_costo(Double _costo) {
 		this._costo = _costo;
 	}
+
 	public String get_origen() {
 		return _origen;
 	}
@@ -55,9 +59,11 @@ public class Boleto {
 	public List<TramoBoleto> get_tramos() {
 		return _tramos;
 	}
+
 	public void set_tramos(List<TramoBoleto> _tramos) {
 		this._tramos = _tramos;
 	}
+
 	public Integer get_nroBoleto() {
 		return _nroBoleto;
 	}
@@ -65,27 +71,35 @@ public class Boleto {
 	public String get_correoCliente() {
 		return _correoCliente;
 	}
+
 	public void set_correoCliente(String _correoCliente) {
 		this._correoCliente = _correoCliente;
 	}
+
 	public String get_nombreCliente() {
 		return _nombreCliente;
 	}
+
 	public void set_nombreCliente(String _nombreCliente) {
 		this._nombreCliente = _nombreCliente;
 	}
+
 	public LocalDate get_fechaVenta() {
 		return _fechaVenta;
 	}
+
 	public void set_fechaVenta(LocalDate _fechaVenta) {
 		this._fechaVenta = _fechaVenta;
 	}
+
 	public Double getCosto() {
 		return _costo;
 	}
+
 	public void setCosto(Double costo) {
 		this._costo = costo;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -93,6 +107,7 @@ public class Boleto {
 		result = prime * result + ((_nroBoleto == null) ? 0 : _nroBoleto.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

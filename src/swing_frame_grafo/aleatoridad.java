@@ -26,23 +26,6 @@ public class aleatoridad {
 		crearCirculos();
 	}
 
-	private boolean rango(int distancia, int e) {
-		boolean salida = false;
-		// Si no hay puntos no compruebo nada
-		if (puntos.isEmpty()) {
-			return true;
-		} else {
-
-			for (Point i : puntos) {
-				int x = i.x;
-				int y = i.y;
-				if ((e == 1 && Math.abs(distancia - x) >= lim) || (e == 0 && Math.abs(distancia - y) >= lim))
-					return true;
-			}
-		}
-		return salida;
-	}
-
 	/**
 	 * Comprueba que no exista un punto en la posición indicada
 	 * 

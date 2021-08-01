@@ -520,8 +520,9 @@ public class PanelAgregarTramo extends JPanel {
 
 		return new Tramo((Linea) this.comboBox_lineas.getSelectedItem(),
 				LineasRepo.siguienteOrden((Linea) this.comboBox_lineas.getSelectedItem()),
-				(Estacion) this.comboBox_estOrigen.getSelectedItem(), (Estacion) this.comboBox_estDestino.getSelectedItem(),
-				cant_pasajeros, duracion, distancia, costo, estado);
+				(Estacion) this.comboBox_estOrigen.getSelectedItem(),
+				(Estacion) this.comboBox_estDestino.getSelectedItem(), cant_pasajeros, duracion, distancia, costo,
+				estado);
 	}
 
 	public void mensajeTramoCreado() {
@@ -565,7 +566,8 @@ public class PanelAgregarTramo extends JPanel {
 			bandera = false;
 		}
 
-		if (tramosLinea.stream().anyMatch(t -> nuevo.equals(t.getDestino()) || nuevo.equals(t.getOrigen()))) {
+		if (tramosLinea.stream()
+				.anyMatch(t -> nuevo.getDestino().equals(t.getDestino()) || nuevo.getOrigen().equals(t.getOrigen()))) {
 			this.fallaDestino.setVisible(true);
 			bandera = false;
 		}

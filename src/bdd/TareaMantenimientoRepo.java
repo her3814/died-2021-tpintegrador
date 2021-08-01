@@ -50,7 +50,8 @@ public class TareaMantenimientoRepo {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			//Limpio la cache a fin de eliminar la estacion y que la proxima vez que se busque el cambio de estado necesario pueda reflejarse
+			// Limpio la cache a fin de eliminar la estacion y que la proxima vez que se
+			// busque el cambio de estado necesario pueda reflejarse
 			BddInMemoryCache.getCacheInstance().remove("ESTACION-" + tarea.getEstacion().getId());
 		}
 
@@ -84,7 +85,8 @@ public class TareaMantenimientoRepo {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			//Limpio la cache a fin de eliminar la estacion y que la proxima vez que se busque el cambio de estado necesario pueda reflejarse
+			// Limpio la cache a fin de eliminar la estacion y que la proxima vez que se
+			// busque el cambio de estado necesario pueda reflejarse
 			BddInMemoryCache.getCacheInstance().remove("ESTACION-" + tarea.getEstacion().getId());
 		}
 	}
@@ -116,7 +118,8 @@ public class TareaMantenimientoRepo {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			//Limpio la cache a fin de eliminar la estacion y que la proxima vez que se busque el cambio de estado necesario pueda reflejarse
+			// Limpio la cache a fin de eliminar la estacion y que la proxima vez que se
+			// busque el cambio de estado necesario pueda reflejarse
 			BddInMemoryCache.getCacheInstance().remove("ESTACION-" + estacion.getId());
 			EstacionesRepo.EliminarEstacion(estacion);
 		}
@@ -158,7 +161,8 @@ public class TareaMantenimientoRepo {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			//Limpio la cache a fin de eliminar la estacion y que la proxima vez que se busque el cambio de estado necesario pueda reflejarse
+			// Limpio la cache a fin de eliminar la estacion y que la proxima vez que se
+			// busque el cambio de estado necesario pueda reflejarse
 			BddInMemoryCache.getCacheInstance().remove("ESTACION-" + tarea.getEstacion().getId());
 		}
 	}
@@ -216,7 +220,8 @@ public class TareaMantenimientoRepo {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			//Limpio la cache a fin de eliminar la estacion y que la proxima vez que se busque el cambio de estado necesario pueda reflejarse
+			// Limpio la cache a fin de eliminar la estacion y que la proxima vez que se
+			// busque el cambio de estado necesario pueda reflejarse
 			BddInMemoryCache.getCacheInstance().remove("ESTACION-" + tarea.getEstacion().getId());
 		}
 

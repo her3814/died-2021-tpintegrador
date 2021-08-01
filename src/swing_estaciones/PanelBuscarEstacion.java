@@ -28,12 +28,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-import bdd.BoletosRepo;
 import bdd.EstacionesRepo;
 import bdd.TareaMantenimientoRepo;
 import bdd.TramosRepo;
 import excepciones.HoraCierreMenorHoraAperturaException;
-//import excepciones.HoraCierreMenorHoraAperturaException;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 
@@ -42,6 +40,10 @@ import java.awt.Component;
 import java.awt.Dimension;
 
 public class PanelBuscarEstacion extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4501661436172005155L;
 	private JTextField textField;
 	private JTable table;
 	private SubPanelFiltros filtros;
@@ -415,6 +417,11 @@ public class PanelBuscarEstacion extends JPanel {
 		}
 		// Crear modelo de la tabla
 		model = new DefaultTableModel(datosFila, nombreColumnas) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 8250444517930759462L;
+
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
 				return false;
 			}

@@ -35,6 +35,9 @@ class arista {
 		for (Recorrido recorrido : recorridos) {
 			String texto = null;
 			switch (mostrar) {
+			case DISTANCIA:
+				texto = recorrido.getDistancia() + "KM";
+				break;
 			case CAPACIDAD:
 				texto = recorrido.getCapacidad() + "PASAJEROS";
 				break;

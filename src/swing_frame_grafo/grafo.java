@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import bdd.EstacionesRepo;
 import bdd.TramosRepo;
 import modelo.Estacion;
 import modelo.Linea;
@@ -20,8 +18,15 @@ import modelo.TramoBoleto;
  * calculos o procesamiento logico/matematico de grafos *
  */
 public class grafo {
+
 	private HashMap<Estacion, HashMap<Estacion, Recorrido[]>> _grafo;
 
+	
+	@Override
+	public String toString() {
+		return _grafo.toString();
+	}
+	
 	public grafo() {
 		_grafo = new HashMap<Estacion, HashMap<Estacion, Recorrido[]>>();
 	}
@@ -40,39 +45,10 @@ public class grafo {
 		return keys;
 	}
 
-	/**
-	 * Genera un grafo con todas las estaciones y tramos existentes
-	 * 
-	 * @return
-	 */
-	public static grafo ObtenerGrafoCompleto() {
-		grafo g = new grafo();
-
-		List<Estacion> estaciones = EstacionesRepo.ObtenerEstaciones();
-
-		for (Estacion e : estaciones) {
-			var tramosDesde = TramosRepo.ObtenerDestinosDesde(e);
-			Set<Estacion> estacionesDestino = tramosDesde.stream().map(t -> t.getDestino()).collect(Collectors.toSet());
-
-			var recorridos = new HashMap<Estacion, Recorrido[]>();
-
-			for (Estacion eD : estacionesDestino) {
-				var aux = tramosDesde.stream().filter(t -> t.getDestino().equals(eD)).map(t -> new Recorrido(t))
-						.toArray(Recorrido[]::new);
-
-				recorridos.put(eD, aux);
-			}
-
-			g.crearVertice(e, recorridos);
-		}
-		return g;
-	}
-
 	public static grafo ObtenerGrafoDeLinea(Linea linea) {
 		var recorrido = TramosRepo.ObtenerRecorrido(linea);
 		return ObtenerGrafoDesdeRecorrido(recorrido);
 	}
-	
 
 	public static grafo ObtenerGrafoDesdeBoleto(List<TramoBoleto> recorrido) {
 		grafo g = new grafo();
@@ -84,14 +60,16 @@ public class grafo {
 		}
 
 		for (Estacion e : estaciones) {
-			var tramosDesde = recorrido.stream().filter(t -> t.getFakeEstacionOrigen().equals(e)).collect(Collectors.toList()); 
-			Set<Estacion> estacionesDestino = tramosDesde.stream().map(t -> t.getFakeEstacionDestino()).collect(Collectors.toSet());
+			var tramosDesde = recorrido.stream().filter(t -> t.getFakeEstacionOrigen().equals(e))
+					.collect(Collectors.toList());
+			Set<Estacion> estacionesDestino = tramosDesde.stream().map(t -> t.getFakeEstacionDestino())
+					.collect(Collectors.toSet());
 
 			var recorridos = new HashMap<Estacion, Recorrido[]>();
 
 			for (Estacion eD : estacionesDestino) {
-				var aux = tramosDesde.stream().filter(t -> t.getFakeEstacionDestino().equals(eD)).map(t -> new Recorrido(t))
-						.toArray(Recorrido[]::new);
+				var aux = tramosDesde.stream().filter(t -> t.getFakeEstacionDestino().equals(eD))
+						.map(t -> new Recorrido(t)).toArray(Recorrido[]::new);
 
 				recorridos.put(eD, aux);
 			}
@@ -103,7 +81,6 @@ public class grafo {
 		return g;
 	}
 
-	
 	public static grafo ObtenerGrafoDesdeRecorrido(List<Tramo> recorrido) {
 		grafo g = new grafo();
 		Set<Estacion> estaciones = new HashSet<Estacion>();
@@ -114,7 +91,7 @@ public class grafo {
 		}
 
 		for (Estacion e : estaciones) {
-			var tramosDesde = recorrido.stream().filter(t -> t.getOrigen().equals(e)).collect(Collectors.toList()); 
+			var tramosDesde = recorrido.stream().filter(t -> t.getOrigen().equals(e)).collect(Collectors.toList());
 			Set<Estacion> estacionesDestino = tramosDesde.stream().map(t -> t.getDestino()).collect(Collectors.toSet());
 
 			var recorridos = new HashMap<Estacion, Recorrido[]>();
@@ -132,10 +109,4 @@ public class grafo {
 
 		return g;
 	}
-
-	public static void main(String[] args) {
-		var g = grafo.ObtenerGrafoCompleto();
-		System.out.println(g);
-	}
-
 }

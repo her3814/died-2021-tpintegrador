@@ -40,6 +40,9 @@ import java.awt.Component;
 import java.awt.Dimension;
 
 public class PanelBuscarLinea extends JPanel {
+
+	private static final long serialVersionUID = 3079863996553343894L;
+
 	private JTextField textField;
 	private JTable table;
 	private SubPanelFiltrosLineas filtros;
@@ -262,7 +265,7 @@ public class PanelBuscarLinea extends JPanel {
 					btn_verRecorrido.setEnabled(false);
 				else {
 					var g = grafo.ObtenerGrafoDeLinea(actual);
-					frame.createFrame(g, TramoMostrarEnum.SIN_LINEA);
+					frame.createFrame(g, TramoMostrarEnum.DURACION);
 				}
 			}
 		});
@@ -363,6 +366,9 @@ public class PanelBuscarLinea extends JPanel {
 		}
 		// Crear modelo de la tabla
 		model = new DefaultTableModel(datosFila, nombreColumnas) {
+
+			private static final long serialVersionUID = 3411796921614755096L;
+
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
 				return false;
 			}

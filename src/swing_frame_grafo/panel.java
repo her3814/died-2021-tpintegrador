@@ -15,6 +15,9 @@ import javax.swing.JPanel;
 import modelo.Estacion;
 
 public class panel extends JPanel {
+
+	private static final long serialVersionUID = -5818335275294306936L;
+
 	ArrayList<vertice> vertices;
 	ArrayList<arista> aristas;
 
@@ -24,22 +27,22 @@ public class panel extends JPanel {
 
 	public panel(grafo grafo, TramoMostrarEnum mostrar) {
 		this.grafo = grafo;
-		this.setBackground(Color.WHITE);
+		//this.setBackground(Color.WHITE);
 		vertices = new ArrayList<vertice>();
 		aristas = new ArrayList<arista>();
 		_mostrar = mostrar;
 		crearMapa();
 	}
 
-	public void crearVertice(Estacion e, int x, int y) {
+	private void crearVertice(Estacion e, int x, int y) {
 		vertices.add(new vertice(e, x, y));
 	}
 
-	public void crearArista(Recorrido[] r, int x1, int y1, int x2, int y2) {
+	private void crearArista(Recorrido[] r, int x1, int y1, int x2, int y2) {
 		aristas.add(new arista(r, x1, y1, x2, y2, _mostrar));
 	}
 
-	public void crearMapa() {
+	private void crearMapa() {
 		aleatoridad ram = new aleatoridad(grafo.getKeys().size(), 600, 320, 25, 40);
 		ArrayList<Point> ra = ram.getList();
 
@@ -81,7 +84,7 @@ public class panel extends JPanel {
 		Graphics2D graph2 = (Graphics2D) g;
 
 		for (int i = 0; i < vertices.size(); i++) {
-			vertices.get(i).paint(g);
+			vertices.get(i).paint(graph2);
 		}
 
 		for (int i = 0; i < aristas.size(); i++) {

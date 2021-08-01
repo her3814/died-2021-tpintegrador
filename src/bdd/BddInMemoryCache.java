@@ -18,7 +18,7 @@ public class BddInMemoryCache {
 	public Object get(String key) {
 		return cache.get(key);
 	}
-	
+
 	public Boolean contains(String key) {
 		return cache.containsKey(key);
 

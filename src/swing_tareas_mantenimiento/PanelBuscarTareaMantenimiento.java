@@ -38,6 +38,10 @@ import java.awt.Component;
 import java.awt.Dimension;
 
 public class PanelBuscarTareaMantenimiento extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8395692206862343297L;
 	private JTextField textField;
 	private JTable table;
 	private SubPanelFiltrosTareaMantenimiento filtros;
@@ -371,7 +375,12 @@ public class PanelBuscarTareaMantenimiento extends JPanel {
 			datosFila[i][4] = nuevosDatos.get(i).getObservaciones();
 		}
 		//Crear modelo de la tabla
-		model = new DefaultTableModel(datosFila,nombreColumnas){
+		model = new DefaultTableModel(datosFila, nombreColumnas){
+		/**
+			 * 
+			 */
+			private static final long serialVersionUID = 6781330652511446684L;
+
 		public boolean isCellEditable(int rowIndex,int columnIndex){
 				return false;
 				}

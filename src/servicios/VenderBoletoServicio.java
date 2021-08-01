@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import bdd.EstacionesRepo;
 import bdd.TramosRepo;
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
@@ -29,8 +28,7 @@ public class VenderBoletoServicio {
 			return null;
 
 		List<Tramo> destinos = tramos.stream()
-				.filter(t -> t.getOrigen().equals(origen) 
-						&& t.get_estadoTramo().equals(EstadoTramoEnum.ACTIVO)
+				.filter(t -> t.getOrigen().equals(origen) && t.get_estadoTramo().equals(EstadoTramoEnum.ACTIVO)
 						&& t.getDestino().getEstado().equals(EstadoEstacionEnum.OPERATIVA)
 						&& t.getLinea().get_estado().equals(EstadoLineaEnum.ACTIVA))
 				.collect(Collectors.toList());
@@ -75,7 +73,8 @@ public class VenderBoletoServicio {
 
 	public static List<Tramo> CalcularCaminoMasBarato(Estacion origen, Estacion destino) {
 
-		return CalcularCamino(origen, destino, TramosRepo.obtenerTramos(), new ArrayList<Estacion>(), TramosFunciones.obtenerRecorridoMasBarato);
+		return CalcularCamino(origen, destino, TramosRepo.obtenerTramos(), new ArrayList<Estacion>(),
+				TramosFunciones.obtenerRecorridoMasBarato);
 
 	}
 

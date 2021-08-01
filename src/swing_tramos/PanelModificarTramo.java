@@ -20,18 +20,18 @@ import javax.swing.JButton;
 import bdd.EstacionesRepo;
 import bdd.LineasRepo;
 import bdd.TramosRepo;
-import modelo.ColoresLineasEnum;
 import modelo.Estacion;
-import modelo.EstadoLineaEnum;
 import modelo.EstadoTramoEnum;
 import modelo.Linea;
-import modelo.LineaTipoTransporteEnum;
 import modelo.Tramo;
 
 import java.awt.Color;
 import javax.swing.JComboBox;
 
 public class PanelModificarTramo extends JPanel {
+
+	private static final long serialVersionUID = -4609442402432300973L;
+
 	private JTextField textField;
 	private JTextField textField_1;
 	private ButtonGroup estado;
@@ -61,31 +61,28 @@ public class PanelModificarTramo extends JPanel {
 	private JLabel inserteCosto;
 	private JLabel inserteEstado;
 
-	public void modificarTramo(){
-			Tramo nueva =  this.getTramoModificado();
-				TramosRepo.ModificarTramo(nueva);
-				tramoModificado.setVisible(true);
-				guardar.setEnabled(false);
+	public void modificarTramo() {
+		Tramo nueva = this.getTramoModificado();
+		TramosRepo.ModificarTramo(nueva);
+		tramoModificado.setVisible(true);
+		guardar.setEnabled(false);
 	}
-	
-	public Tramo getTramoModificado()  {
+
+	public Tramo getTramoModificado() {
 		EstadoTramoEnum e = null;
-		if(rdbtnNewRadioButton.isSelected()) {
-			e= EstadoTramoEnum.ACTIVO;
-		}else if(rdbtnNewRadioButton1.isSelected()){
-			e= EstadoTramoEnum.INACTIVO;
+		if (rdbtnNewRadioButton.isSelected()) {
+			e = EstadoTramoEnum.ACTIVO;
+		} else if (rdbtnNewRadioButton1.isSelected()) {
+			e = EstadoTramoEnum.INACTIVO;
 		}
-		
-		return new Tramo(a_modificar.getLinea(), (Integer) a_modificar.getOrden(),
-				a_modificar.getOrigen(), a_modificar.getDestino(), 
-				Integer.valueOf(textField_4.getText()),
-				Double.valueOf(textField.getText()), 
-				Double.valueOf(textField_1.getText()), 
-				Double.valueOf(textField_5.getText()),  e);
-		
+
+		return new Tramo(a_modificar.getLinea(), (Integer) a_modificar.getOrden(), a_modificar.getOrigen(),
+				a_modificar.getDestino(), Integer.valueOf(textField_4.getText()), Double.valueOf(textField.getText()),
+				Double.valueOf(textField_1.getText()), Double.valueOf(textField_5.getText()), e);
+
 	}
-	
-	public PanelModificarTramo(Tramo actual) {		
+
+	public PanelModificarTramo(Tramo actual) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		a_modificar = actual;
 		gridBagLayout.columnWidths = new int[] { 54, 135, 13, 85, 67, 0, 0, 0, 0, 67, 0 };
@@ -130,7 +127,7 @@ public class PanelModificarTramo extends JPanel {
 		gbc_comboBox.gridy = 2;
 		add(comboBox, gbc_comboBox);
 		comboBox.setEnabled(false);
-		
+
 		JLabel lblNewLabel_1_1 = new JLabel("ESTACION DESTINO:");
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_1.setFont(new Font("Arial", Font.BOLD, 13));
@@ -196,7 +193,7 @@ public class PanelModificarTramo extends JPanel {
 		gbc_btnRecorrido.gridy = 6;
 		add(btnRecorrido, gbc_btnRecorrido);
 		btnRecorrido.setEnabled(false);
-		
+
 		JLabel lblNewLabel_1_1_2 = new JLabel("DURACION:");
 		lblNewLabel_1_1_2.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_1_2.setFont(new Font("Arial", Font.BOLD, 13));
@@ -206,7 +203,7 @@ public class PanelModificarTramo extends JPanel {
 		gbc_lblNewLabel_1_1_2.gridx = 1;
 		gbc_lblNewLabel_1_1_2.gridy = 9;
 		add(lblNewLabel_1_1_2, gbc_lblNewLabel_1_1_2);
-		
+
 		textField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.gridwidth = 3;
@@ -261,7 +258,7 @@ public class PanelModificarTramo extends JPanel {
 		add(textField_1, gbc_textField_1);
 		textField_1.setColumns(10);
 		textField_1.setText(actual.getDistancia().toString());
-		
+
 		JLabel lblNewLabel_2 = new JLabel("(km)");
 		lblNewLabel_2.setFont(new Font("Arial", Font.BOLD, 10));
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
@@ -305,7 +302,7 @@ public class PanelModificarTramo extends JPanel {
 		add(textField_4, gbc_textField_4);
 		textField_4.setColumns(10);
 		textField_4.setText(actual.get_cantPasajeros().toString());
-		
+
 		inserteCP = new JLabel("Por favor, inserte la cantidad máxima de pasajeros.");
 		inserteCP.setForeground(Color.RED);
 		inserteCP.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
@@ -340,7 +337,7 @@ public class PanelModificarTramo extends JPanel {
 		add(textField_5, gbc_textField_5);
 		textField_5.setColumns(10);
 		textField_5.setText(actual.getCosto().toString());
-		
+
 		inserteCosto = new JLabel("Por favor, inserte un costo.");
 		inserteCosto.setForeground(Color.RED);
 		inserteCosto.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
@@ -384,7 +381,7 @@ public class PanelModificarTramo extends JPanel {
 		estado = new ButtonGroup();
 		estado.add(rdbtnNewRadioButton);
 		estado.add(rdbtnNewRadioButton1);
-		
+
 		inserteEstado = new JLabel("Por favor, seleccione un estado.");
 		inserteEstado.setForeground(Color.RED);
 		inserteEstado.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 11));
@@ -432,18 +429,20 @@ public class PanelModificarTramo extends JPanel {
 		gbcTramoAgregado.gridwidth = 3;
 		add(tramoModificado, gbcTramoAgregado);
 		tramoModificado.setVisible(false);
-		if(actual.get_estadoTramo().equals(EstadoTramoEnum.ACTIVO)) {
+		if (actual.get_estadoTramo().equals(EstadoTramoEnum.ACTIVO)) {
 			rdbtnNewRadioButton.setSelected(true);
-		}
-		else rdbtnNewRadioButton1.setSelected(true);
+		} else
+			rdbtnNewRadioButton1.setSelected(true);
 	}
-	
+
 	public JTextField getTextField_1() {
 		return textField_1;
 	}
+
 	public JButton getBtnNewButton() {
 		return guardar;
 	}
+
 	public JButton getBtnNewButton_1() {
 		return cancelar;
 	}
@@ -453,7 +452,7 @@ public class PanelModificarTramo extends JPanel {
 		this.estado.clearSelection();
 		this.tipoTransporte.clearSelection();
 	}
-	
+
 	public void limpiarWarnings() {
 		this.seleccioneEstado.setVisible(false);
 		this.lblNewLabel_1.setVisible(false);
@@ -461,11 +460,11 @@ public class PanelModificarTramo extends JPanel {
 		this.inserteColor.setVisible(false);
 		this.inserteTipoTransporte.setVisible(false);
 	}
-	
+
 	public void nombreFaltante() {
 		lblNewLabel_1.setVisible(true);
 	}
-	
+
 	public JButton getCancelar() {
 		return cancelar;
 	}
@@ -485,10 +484,11 @@ public class PanelModificarTramo extends JPanel {
 	public void habilitarBotones() {
 		guardar.setEnabled(true);
 	}
-	
+
 	public JButton getGuardar() {
 		return guardar;
 	}
+
 	public void setGuardar(JButton guardar) {
 		this.guardar = guardar;
 	}
@@ -498,11 +498,11 @@ public class PanelModificarTramo extends JPanel {
 		this.rdbtnNewRadioButton.setEnabled(false);
 		this.rdbtnNewRadioButton1.setEnabled(false);
 	}
-	
+
 	public void habilitar() {
 		textField_1.setEditable(true);
 		this.rdbtnNewRadioButton.setEnabled(true);
 		this.rdbtnNewRadioButton1.setEnabled(true);
 	}
-	
+
 }
