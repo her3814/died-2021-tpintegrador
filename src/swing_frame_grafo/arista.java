@@ -57,7 +57,10 @@ class arista {
 						recorrido.getDuracion().toString(), recorrido.getCapacidad().toString(),
 						recorrido.getDistancia().toString(), recorrido.getCosto().toString());
 				break;
-
+			case BOLETO:
+				texto = String.format(Locale.CANADA, "%s - T: %s MINS, L: %sKM, V: %s", recorrido.getLineaNombre(),
+						recorrido.getDuracion().toString(), recorrido.getDistancia().toString(), recorrido.getCosto().toString());
+				break;
 			case TODO:
 				texto = String.format(Locale.CANADA, "%s - T: %s MINS, C: %s, L: %s KM, V: %s",
 						recorrido.getLineaNombre(), recorrido.getDuracion().toString(),

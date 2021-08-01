@@ -30,6 +30,10 @@ import javax.swing.table.TableColumnModel;
 
 import bdd.BoletosRepo;
 import modelo.Boleto;
+import swing_frame_grafo.TramoMostrarEnum;
+import swing_frame_grafo.frame;
+import swing_frame_grafo.grafo;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -54,6 +58,7 @@ public class PanelBuscarBoleto extends JPanel {
 	private JButton aplicarFiltros;
 	private DefaultTableModel model;
 	private JButton btnLimpiarFiltros;
+	private JButton btnNewButton_4;
 
 	public PanelBuscarBoleto() {
 
@@ -253,6 +258,22 @@ public class PanelBuscarBoleto extends JPanel {
 			}
 
 		});
+
+		btnNewButton_4 = new JButton("VER RECORRIDO");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Integer nroBoleto = (Integer) table.getValueAt(row_selected, 0);
+
+				var r = BoletosRepo.ObtenerTramos(BoletosRepo.Obtener(nroBoleto));
+				var g = grafo.ObtenerGrafoDesdeBoleto(r);
+				frame.createFrame(g, TramoMostrarEnum.BOLETO);
+			}
+		});
+		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
+		gbc_btnNewButton_4.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_4.gridx = 5;
+		gbc_btnNewButton_4.gridy = 5;
+		add(btnNewButton_4, gbc_btnNewButton_4);
 
 		btnLimpiarFiltros = new JButton("Limpiar filtros");
 		btnLimpiarFiltros.setBackground(new Color(204, 204, 102));
