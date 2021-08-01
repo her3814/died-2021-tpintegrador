@@ -343,6 +343,7 @@ public class PanelAgregarBoleto extends JPanel {
 
 		this.comboBox_tipoCalculo.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				remove(panel);
 				Estacion origen = obtenerEstacionOrigen();
 				Estacion destino = obtenerEstacionDestino();
 
@@ -373,6 +374,7 @@ public class PanelAgregarBoleto extends JPanel {
 				}
 
 				if (recorrido != null) {
+					remove(panel);
 					// Muestro datos del recorrido
 					lblDistancia.setVisible(true);
 					lblDistanciaDato.setVisible(true);
@@ -396,8 +398,7 @@ public class PanelAgregarBoleto extends JPanel {
 					gbc_panel.fill = GridBagConstraints.BOTH;
 					gbc_panel.gridx = 1;
 					gbc_panel.gridy = 14;
-					remove(panel);
-					addImpl(panel, gbc_panel, -1);
+					addImpl(panel, gbc_panel,-1);
 				} else {
 					// Oculto los labels
 					lblDistancia.setVisible(false);
