@@ -262,7 +262,7 @@ public class PanelBuscarLinea extends JPanel {
 					btn_verRecorrido.setEnabled(false);
 				else {
 					var g = grafo.ObtenerGrafoDeLinea(actual);
-					frame.createFrame(g, TramoMostrarEnum.TODO);
+					frame.createFrame(g, TramoMostrarEnum.SIN_LINEA);
 				}
 			}
 		});

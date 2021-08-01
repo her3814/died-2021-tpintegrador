@@ -2,8 +2,10 @@ package swing_frame_grafo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import bdd.EstacionesRepo;
@@ -72,32 +74,36 @@ public class grafo {
 
 	public static grafo ObtenerGrafoDesdeRecorrido(List<Tramo> recorrido) {
 		grafo g = new grafo();
+		Set<Estacion> estaciones = new HashSet<Estacion>();
 
-		Set<Estacion> estacionesOrigen = recorrido.stream().map(t -> t.getOrigen()).collect(Collectors.toSet());
+		for (Tramo t : recorrido) {
+			estaciones.add(t.getOrigen());
+			estaciones.add(t.getDestino());
+		}
 
-		for (Estacion eO : estacionesOrigen) {
-
-			Set<Estacion> estacionesDestino = recorrido.stream().filter(t -> t.getOrigen().equals(eO))
-					.map(t -> t.getDestino()).collect(Collectors.toSet());
+		for (Estacion e : estaciones) {
+			var tramosDesde = recorrido.stream().filter(t -> t.getOrigen().equals(e)).collect(Collectors.toList()); 
+			Set<Estacion> estacionesDestino = tramosDesde.stream().map(t -> t.getDestino()).collect(Collectors.toSet());
 
 			var recorridos = new HashMap<Estacion, Recorrido[]>();
 
 			for (Estacion eD : estacionesDestino) {
-				var aux = recorrido.stream().filter(t -> t.getDestino().equals(eD) && t.getOrigen().equals(eO))
-						.map(t -> new Recorrido(t)).toArray(Recorrido[]::new);
+				var aux = tramosDesde.stream().filter(t -> t.getDestino().equals(eD)).map(t -> new Recorrido(t))
+						.toArray(Recorrido[]::new);
 
 				recorridos.put(eD, aux);
 			}
 
-			g.crearVertice(eO, recorridos);
+			g.crearVertice(e, recorridos);
+
 		}
+
 		return g;
 	}
-	
 
 	public static void main(String[] args) {
 		var g = grafo.ObtenerGrafoCompleto();
 		System.out.println(g);
 	}
-	
+
 }

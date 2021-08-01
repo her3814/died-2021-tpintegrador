@@ -32,7 +32,7 @@ class vertice {
 		FontMetrics fm = g.getFontMetrics();
 		Font fuente = new Font("Sans Serif", Font.BOLD, 10);
 		g.setFont(fuente);
-		g.setColor(Color.white);
+		g.setColor(Color.BLACK);
 		g.drawString(nombre.toUpperCase(),20+x - fm.stringWidth(nombre) / 2, y +54);
 		
 		

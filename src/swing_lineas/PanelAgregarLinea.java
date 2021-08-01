@@ -29,7 +29,7 @@ public class PanelAgregarLinea extends JPanel {
 	private JTextField textField;
 	private ButtonGroup estado;
 	private JButton btnGuardar;
-	private JButton btnCancelar;
+	private JButton btnVolver;
 	private JLabel inserteNombre;
 	private JLabel inserteColor;
 	private JLabel inserteEstado;
@@ -241,15 +241,15 @@ public class PanelAgregarLinea extends JPanel {
 		gbc_btnNewButton.gridy = 10;
 		add(btnGuardar, gbc_btnNewButton);
 		
-		btnCancelar = new JButton("CANCELAR");
-		btnCancelar.setBackground(new Color(204, 204, 51));
-		btnCancelar.setFont(new Font("Arial", Font.BOLD, 13));
+		btnVolver = new JButton("VOLVER");
+		btnVolver.setBackground(new Color(204, 204, 51));
+		btnVolver.setFont(new Font("Arial", Font.BOLD, 13));
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_1.gridx = 3;
 		gbc_btnNewButton_1.gridy = 10;
-		add(btnCancelar, gbc_btnNewButton_1);
+		add(btnVolver, gbc_btnNewButton_1);
 		
 		lineaAgregada = new JLabel("LA LINEA SE HA AGREGADO CORRECTAMENTE");
 		lineaAgregada.setFont(new Font("Arial", Font.BOLD, 12));
@@ -266,7 +266,7 @@ public class PanelAgregarLinea extends JPanel {
 		return btnGuardar;
 	}
 	public JButton getBtnCancelar() {
-		return btnCancelar;
+		return btnVolver;
 	}
 	
 	public void limpiarDatos() {

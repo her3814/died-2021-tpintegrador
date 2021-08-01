@@ -29,6 +29,7 @@ import modelo.Boleto;
 import modelo.Estacion;
 import modelo.Linea;
 import modelo.Tramo;
+import modelo.TramosFunciones;
 import servicios.VenderBoletoServicio;
 import swing_frame_grafo.TramoMostrarEnum;
 import swing_frame_grafo.grafo;
@@ -58,12 +59,12 @@ public class PanelAgregarBoleto extends JPanel {
 	private JPanel panel;
 	private List<Tramo> recorrido = null;
 	private JPanel panel_1;
-	private JLabel lblNewLabel_6;
-	private JLabel lblNewLabel_7;
-	private JLabel lblNewLabel_8;
-	private JLabel lblNewLabel_9;
-	private JLabel lblNewLabel_10;
-	private JLabel lblNewLabel_11;
+	private JLabel lblCosto;
+	private JLabel lblDuracion;
+	private JLabel lblDistancia;
+	private JLabel lblCostoDato;
+	private JLabel lblDuracionDato;
+	private JLabel lblDistanciaDato;
 
 	public PanelAgregarBoleto() {
 
@@ -72,10 +73,10 @@ public class PanelAgregarBoleto extends JPanel {
 		gridBagLayout.columnWidths = new int[] { 54, 90, 141, 211, 67, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 26, 19, 0, 19, 0, 19, 19, 21, 0, 0, 0, 0, 0, 0, 155, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0,
-				Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				1.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
-	//	setPreferredSize(new Dimension(1000, 1000));
+		// setPreferredSize(new Dimension(1000, 1000));
 		setMinimumSize(new Dimension(300, 300));
 		setBackground(Color.WHITE);
 
@@ -121,14 +122,14 @@ public class PanelAgregarBoleto extends JPanel {
 		add(inserteCliente, gbc_i_cli);
 		inserteCliente.setVisible(false);
 
-		JLabel lblNewLabel_3 = new JLabel("EMAIL CLIENTE:");
-		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 14));
+		JLabel lblEmail = new JLabel("EMAIL CLIENTE:");
+		lblEmail.setFont(new Font("Arial", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_3.gridx = 1;
 		gbc_lblNewLabel_3.gridy = 4;
-		add(lblNewLabel_3, gbc_lblNewLabel_3);
+		add(lblEmail, gbc_lblNewLabel_3);
 
 		textField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
@@ -231,54 +232,59 @@ public class PanelAgregarBoleto extends JPanel {
 		gbc_comboBox_2.gridx = 2;
 		gbc_comboBox_2.gridy = 8;
 		add(comboBox_tipoCalculo, gbc_comboBox_2);
-		
-		lblNewLabel_6 = new JLabel("COSTO:");
+
+		lblCosto = new JLabel("COSTO:");
+		lblCosto.setVisible(false);
 		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
 		gbc_lblNewLabel_6.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_6.gridx = 1;
 		gbc_lblNewLabel_6.gridy = 9;
-		add(lblNewLabel_6, gbc_lblNewLabel_6);
-		
-		lblNewLabel_9 = new JLabel("");
+		add(lblCosto, gbc_lblNewLabel_6);
+
+		lblCostoDato = new JLabel("");
+		lblCostoDato.setVisible(false);
 		GridBagConstraints gbc_lblNewLabel_9 = new GridBagConstraints();
 		gbc_lblNewLabel_9.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_9.gridx = 2;
 		gbc_lblNewLabel_9.gridy = 9;
-		add(lblNewLabel_9, gbc_lblNewLabel_9);
-		lblNewLabel_9.setVisible(false);
+		add(lblCostoDato, gbc_lblNewLabel_9);
 
-		lblNewLabel_7 = new JLabel("DURACIÓN:");
+		lblDuracion = new JLabel("DURACIÓN:");
+		lblDuracion.setVisible(false);
 		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
 		gbc_lblNewLabel_7.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_7.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_7.gridx = 1;
 		gbc_lblNewLabel_7.gridy = 10;
-		add(lblNewLabel_7, gbc_lblNewLabel_7);
-		
-		lblNewLabel_10 = new JLabel("");
+		add(lblDuracion, gbc_lblNewLabel_7);
+
+		lblDuracionDato = new JLabel("");
+		lblDuracionDato.setVisible(false);
 		GridBagConstraints gbc_lblNewLabel_10 = new GridBagConstraints();
 		gbc_lblNewLabel_10.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_10.gridx = 2;
 		gbc_lblNewLabel_10.gridy = 10;
-		add(lblNewLabel_10, gbc_lblNewLabel_10);
-		lblNewLabel_10.setVisible(false);
-		
-		lblNewLabel_8 = new JLabel("DISTANCIA:");
+		add(lblDuracionDato, gbc_lblNewLabel_10);
+		lblDuracionDato.setVisible(false);
+
+		lblDistancia = new JLabel("DISTANCIA:");
+		lblDistancia.setVisible(false);
 		GridBagConstraints gbc_lblNewLabel_8 = new GridBagConstraints();
 		gbc_lblNewLabel_8.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_8.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_8.gridx = 1;
 		gbc_lblNewLabel_8.gridy = 11;
-		add(lblNewLabel_8, gbc_lblNewLabel_8);
-		
-		lblNewLabel_11 = new JLabel("");
+		add(lblDistancia, gbc_lblNewLabel_8);
+
+		lblDistanciaDato = new JLabel("");
+		lblDistanciaDato.setVisible(false);
 		GridBagConstraints gbc_lblNewLabel_11 = new GridBagConstraints();
 		gbc_lblNewLabel_11.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_11.gridx = 2;
 		gbc_lblNewLabel_11.gridy = 11;
-		add(lblNewLabel_11, gbc_lblNewLabel_11);
-		lblNewLabel_11.setVisible(false);
+		add(lblDistanciaDato, gbc_lblNewLabel_11);
+		lblDistanciaDato.setVisible(false);
 
 		noExisteRecorrido = new JLabel("No existe un recorrido para las estaciones seleccionadas.");
 		noExisteRecorrido.setForeground(Color.RED);
@@ -367,19 +373,40 @@ public class PanelAgregarBoleto extends JPanel {
 				}
 
 				if (recorrido != null) {
+					// Muestro datos del recorrido
+					lblDistancia.setVisible(true);
+					lblDistanciaDato.setVisible(true);
+					lblCosto.setVisible(true);
+					lblCostoDato.setVisible(true);
+					lblDuracion.setVisible(true);
+					lblDuracionDato.setVisible(true);
+
+					lblDistanciaDato.setText(TramosFunciones.calcularDistanciaRecorrido.apply(recorrido) + "KM");
+					lblCostoDato.setText("$" + TramosFunciones.calcularCostoRecorrido.apply(recorrido));
+					lblDuracionDato.setText(TramosFunciones.calcularDuracionRecorrido.apply(recorrido) + "minutos");
+
 					noExisteRecorrido.setVisible(false);
+
 					panel = new swing_frame_grafo.panel(grafo.ObtenerGrafoDesdeRecorrido(recorrido), mostrar);
 					guardar.setEnabled(true);
 					GridBagConstraints gbc_panel = new GridBagConstraints();
-					gbc_panel.gridheight = 2;
+					// gbc_panel.gridheight = 1;
 					gbc_panel.gridwidth = 3;
 					gbc_panel.insets = new Insets(0, 0, 5, 5);
 					gbc_panel.fill = GridBagConstraints.BOTH;
 					gbc_panel.gridx = 1;
-					gbc_panel.gridy = 11;
-					add(panel, gbc_panel);
+					gbc_panel.gridy = 14;
+					remove(panel);
+					addImpl(panel, gbc_panel, -1);
 				} else {
-					// TODO: Agregar
+					// Oculto los labels
+					lblDistancia.setVisible(false);
+					lblDistanciaDato.setVisible(false);
+					lblCosto.setVisible(false);
+					lblCostoDato.setVisible(false);
+					lblDuracion.setVisible(false);
+					lblDuracionDato.setVisible(false);
+
 					noExisteRecorrido.setVisible(true);
 					guardar.setEnabled(false);
 				}
@@ -408,7 +435,7 @@ public class PanelAgregarBoleto extends JPanel {
 	}
 
 	public Boleto obtenerBoletoCreado() {
-		
+
 		Double costo = recorrido.stream().mapToDouble(t -> t.getCosto()).sum();
 		return new Boleto(textField.getText(), textField_1.getText(), LocalDate.now(), costo,
 				(Estacion) this.comboBox_Origen.getSelectedItem(), (Estacion) this.comboBox_Destino.getSelectedItem(),
@@ -448,7 +475,7 @@ public class PanelAgregarBoleto extends JPanel {
 	public void cambiarEstacionDestino() {
 		Estacion origen = (Estacion) comboBox_Origen.getSelectedItem();
 		comboBox_Destino.setModel(new javax.swing.DefaultComboBoxModel<>(
-				estaciones.stream().filter(e -> e.getId() != origen.getId()).collect(Collectors.toList()).toArray()));
+				estaciones.stream().filter(e -> !e.equals(origen)).collect(Collectors.toList()).toArray()));
 		comboBox_Destino.setEnabled(true);
 		comboBox_Destino.setSelectedIndex(-1);
 		comboBox_tipoCalculo.setSelectedIndex(-1);

@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -14,8 +15,9 @@ import java.util.Random;
 import modelo.ColoresLineasEnum;
 
 /**
- * Clase de paquete representando una arista de un grafo dibujable.
- * No se debe utilizar esta clase para calculos o procesamiento logico/matematico de grafos *
+ * Clase de paquete representando una arista de un grafo dibujable. No se debe
+ * utilizar esta clase para calculos o procesamiento logico/matematico de grafos
+ * *
  */
 class arista {
 	Color color;
@@ -43,8 +45,14 @@ class arista {
 				texto = recorrido.getDuracion() + "MINS";
 				break;
 			case LINEA:
-				texto =  recorrido.getLineaNombre();
+				texto = recorrido.getLineaNombre();
 				break;
+			case SIN_LINEA:
+				texto = String.format(Locale.CANADA, "T: %s MINS, C: %s, L: %sKM, V: %s",
+						recorrido.getDuracion().toString(), recorrido.getCapacidad().toString(),
+						recorrido.getDistancia().toString(), recorrido.getCosto().toString());
+				break;
+
 			case TODO:
 				texto = String.format(Locale.CANADA, "%s - T: %s MINS, C: %s, L: %s KM, V: %s",
 						recorrido.getLineaNombre(), recorrido.getDuracion().toString(),
@@ -79,6 +87,7 @@ class arista {
 		int[] ypoints = { y2, (int) ym, (int) yn };
 
 		g.setColor(Color.LIGHT_GRAY);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.drawLine(x1, y1, x2, y2);
 		g.setStroke(new BasicStroke(3));
 		g.setColor(color);
@@ -90,7 +99,7 @@ class arista {
 		int i = 0;
 		for (Color color : valores.keySet()) {
 			FontMetrics fm = g.getFontMetrics();
-			int hFont = fm.getHeight()/2 * i;
+			int hFont = fm.getHeight() / 2 * i;
 			g.setColor(color);
 			g.drawString(valores.get(color), ((x1 + x2) / 2) - fm.stringWidth(valores.get(color)) / 2,
 					((y1 + y2) / 2) - hFont);

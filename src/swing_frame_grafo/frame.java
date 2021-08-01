@@ -48,7 +48,7 @@ public class frame {
 
 	public static void main(String[] a) {
 		
-		grafo g = grafo.ObtenerGrafoDeLinea(LineasRepo.ObtenerLinea(13));
+		grafo g = grafo.ObtenerGrafoCompleto();
 		frame.createFrame(g, TramoMostrarEnum.DURACION);
 	}
 }

@@ -16,8 +16,8 @@ import modelo.TramosFunciones;
 
 public class VenderBoletoServicio {
 
-	private static List<Tramo> CalcularCamino(Estacion origen, Estacion destino, List<Estacion> recorridas,
-			Function<List<List<Tramo>>, List<Tramo>> funcion) {
+	private static List<Tramo> CalcularCamino(Estacion origen, Estacion destino, List<Tramo> tramos,
+			List<Estacion> recorridas, Function<List<List<Tramo>>, List<Tramo>> funcion) {
 		if (origen.equals(destino))
 			return null;
 
@@ -28,8 +28,9 @@ public class VenderBoletoServicio {
 		if (origen.getEstado().equals(EstadoEstacionEnum.MANTENIMIENTO))
 			return null;
 
-		List<Tramo> destinos = TramosRepo.ObtenerDestinosDesde(origen).stream()
-				.filter(t -> t.get_estadoTramo().equals(EstadoTramoEnum.ACTIVO)
+		List<Tramo> destinos = tramos.stream()
+				.filter(t -> t.getOrigen().equals(origen) 
+						&& t.get_estadoTramo().equals(EstadoTramoEnum.ACTIVO)
 						&& t.getDestino().getEstado().equals(EstadoEstacionEnum.OPERATIVA)
 						&& t.getLinea().get_estado().equals(EstadoLineaEnum.ACTIVA))
 				.collect(Collectors.toList());
@@ -47,7 +48,7 @@ public class VenderBoletoServicio {
 			} else {
 				var recAux = recorridas.stream().collect(Collectors.toList());
 				recAux.add(origen);
-				var caminoSiguiente = CalcularCamino(d.getDestino(), destino, recAux, funcion);
+				var caminoSiguiente = CalcularCamino(d.getDestino(), destino, tramos, recAux, funcion);
 				if (caminoSiguiente != null && caminoSiguiente.size() > 0) {
 					camino.add(d);
 					camino.addAll(caminoSiguiente);
@@ -67,42 +68,19 @@ public class VenderBoletoServicio {
 
 	public static List<Tramo> CalcularCaminoMenorDistancia(Estacion origen, Estacion destino) {
 
-		return CalcularCamino(origen, destino, new ArrayList<Estacion>(),
+		return CalcularCamino(origen, destino, TramosRepo.obtenerTramos(), new ArrayList<Estacion>(),
 				TramosFunciones.obtenerRecorridoMenorDistancia);
 
 	}
 
 	public static List<Tramo> CalcularCaminoMasBarato(Estacion origen, Estacion destino) {
 
-		return CalcularCamino(origen, destino, new ArrayList<Estacion>(), TramosFunciones.obtenerRecorridoMasBarato);
+		return CalcularCamino(origen, destino, TramosRepo.obtenerTramos(), new ArrayList<Estacion>(), TramosFunciones.obtenerRecorridoMasBarato);
 
 	}
 
 	public static List<Tramo> CalcularCaminoMasRapido(Estacion origen, Estacion destino) {
-
-		return CalcularCamino(origen, destino, new ArrayList<Estacion>(), TramosFunciones.obtenerRecorridoMasRapido);
-	}
-
-	public static List<List<Tramo>> CalcularCaminos(Estacion origen) {
-
-		List<Tramo> destinos = TramosRepo.ObtenerDestinosDesde(origen);
-
-		if (destinos == null)
-			return null;
-
-		List<List<Tramo>> caminos = new ArrayList<List<Tramo>>();
-
-		destinos.forEach(d -> {
-			if (d.getDestino().equals(origen)) {
-				List<Tramo> camino = new ArrayList<Tramo>();
-				camino.add(d);
-				caminos.add(camino);
-			} else {
-				var camino = CalcularCaminos(d.getDestino());
-
-			}
-		});
-
-		return caminos;
+		return CalcularCamino(origen, destino, TramosRepo.obtenerTramos(), new ArrayList<Estacion>(),
+				TramosFunciones.obtenerRecorridoMasRapido);
 	}
 }

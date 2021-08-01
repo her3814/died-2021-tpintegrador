@@ -19,14 +19,12 @@ public class panel extends JPanel {
 	ArrayList<arista> aristas;
 
 	Random r = new Random();
-	grafo grafo1;
+	grafo grafo;
 	TramoMostrarEnum _mostrar;
 
 	public panel(grafo grafo, TramoMostrarEnum mostrar) {
-		System.out.println(grafo);
-		this.grafo1 = grafo;
-		this.setSize(600, 320);
-		this.setBackground(Color.BLACK);
+		this.grafo = grafo;
+		this.setBackground(Color.WHITE);
 		vertices = new ArrayList<vertice>();
 		aristas = new ArrayList<arista>();
 		_mostrar = mostrar;
@@ -42,12 +40,12 @@ public class panel extends JPanel {
 	}
 
 	public void crearMapa() {
-		aleatoridad ram = new aleatoridad(grafo1.getKeys().size(), 600, 320, 25, 40);
+		aleatoridad ram = new aleatoridad(grafo.getKeys().size(), 600, 320, 25, 40);
 		ArrayList<Point> ra = ram.getList();
 
 		HashMap<Estacion, Point> conjunto = new HashMap<Estacion, Point>();
 
-		List<Estacion> keys = grafo1.getKeys();
+		List<Estacion> keys = grafo.getKeys();
 
 		// Se cargan los vertices y su ubicación
 		for (int i = 0; i < keys.size(); i++) {
@@ -56,9 +54,9 @@ public class panel extends JPanel {
 		}
 
 		// Se cargan las aristas entre vertices
-		for (int v = 0; v < grafo1.getKeys().size(); v++) {
+		for (int v = 0; v < grafo.getKeys().size(); v++) {
 
-			HashMap<Estacion, Recorrido[]> relacion = grafo1.getVertice(keys.get(v));
+			HashMap<Estacion, Recorrido[]> relacion = grafo.getVertice(keys.get(v));
 
 			List<Estacion> kU = new ArrayList<Estacion>();
 			kU.addAll(relacion.keySet());
