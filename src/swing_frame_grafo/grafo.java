@@ -13,6 +13,7 @@ import bdd.TramosRepo;
 import modelo.Estacion;
 import modelo.Linea;
 import modelo.Tramo;
+import modelo.TramoBoleto;
 
 /**
  * Clase representando un grafo dibujable. No se debe utilizar esta clase para
@@ -71,7 +72,38 @@ public class grafo {
 		var recorrido = TramosRepo.ObtenerRecorrido(linea);
 		return ObtenerGrafoDesdeRecorrido(recorrido);
 	}
+	
 
+	public static grafo ObtenerGrafoDesdeBoleto(List<TramoBoleto> recorrido) {
+		grafo g = new grafo();
+		Set<Estacion> estaciones = new HashSet<Estacion>();
+
+		for (TramoBoleto t : recorrido) {
+			estaciones.add(t.getFakeEstacionOrigen());
+			estaciones.add(t.getFakeEstacionDestino());
+		}
+
+		for (Estacion e : estaciones) {
+			var tramosDesde = recorrido.stream().filter(t -> t.getFakeEstacionOrigen().equals(e)).collect(Collectors.toList()); 
+			Set<Estacion> estacionesDestino = tramosDesde.stream().map(t -> t.getFakeEstacionDestino()).collect(Collectors.toSet());
+
+			var recorridos = new HashMap<Estacion, Recorrido[]>();
+
+			for (Estacion eD : estacionesDestino) {
+				var aux = tramosDesde.stream().filter(t -> t.getFakeEstacionDestino().equals(eD)).map(t -> new Recorrido(t))
+						.toArray(Recorrido[]::new);
+
+				recorridos.put(eD, aux);
+			}
+
+			g.crearVertice(e, recorridos);
+
+		}
+
+		return g;
+	}
+
+	
 	public static grafo ObtenerGrafoDesdeRecorrido(List<Tramo> recorrido) {
 		grafo g = new grafo();
 		Set<Estacion> estaciones = new HashSet<Estacion>();

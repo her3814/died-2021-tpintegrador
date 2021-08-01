@@ -1,6 +1,7 @@
 package swing_frame_grafo;
 
 import modelo.Tramo;
+import modelo.TramoBoleto;
 
 class Recorrido {
 	private Double _costo;
@@ -18,6 +19,14 @@ class Recorrido {
 		_capacidad = tramo.get_cantPasajeros();
 		_color = tramo.getLinea().get_color();
 		_lineaNombre = tramo.getLinea().get_nombre();
+	}
+
+	public Recorrido(TramoBoleto tramo) {
+		_costo = tramo.get_trayecto_costo();
+		_distancia = tramo.get_trayecto_distancia();
+		_duracion = tramo.get_trayecto_duracion_min();
+		_color = tramo.get_linea_color();
+		_lineaNombre = tramo.get_linea_nombre();
 	}
 
 	public Double getCosto() {

@@ -1,5 +1,9 @@
 package modelo;
 
+import java.time.LocalTime;
+
+import excepciones.HoraCierreMenorHoraAperturaException;
+
 public class TramoBoleto {
 	private int _boletoNumero;
 	private int _trayecto_orden;
@@ -17,26 +21,27 @@ public class TramoBoleto {
 		_linea_color = tramo.getLinea().get_color();
 		_linea_tipo_transporte = tramo.getLinea().get_tipoTransporte().name();
 		_estacion_destino_nombre = tramo.getDestino().getNombre();
-		_estacion_origen_nombre=tramo.getOrigen().getNombre();
-		_trayecto_costo=tramo.getCosto();
-		_trayecto_distancia=tramo.getDistancia();
-		_trayecto_duracion_min=tramo.getDuracion();
+		_estacion_origen_nombre = tramo.getOrigen().getNombre();
+		_trayecto_costo = tramo.getCosto();
+		_trayecto_distancia = tramo.getDistancia();
+		_trayecto_duracion_min = tramo.getDuracion();
 
 	}
-	
-	public TramoBoleto(int nroBoleto, int orden, String nombreLinea, String lineaColor, String tipoTransporte, String origen, String destino, Double duracion, Double costo, Double distancia)
-	{
-		_boletoNumero=nroBoleto;
-		_trayecto_orden=orden;
-		_linea_nombre=nombreLinea;
-		_linea_color=lineaColor;
-		_linea_tipo_transporte=tipoTransporte;
-		_estacion_origen_nombre=origen;
-		_estacion_destino_nombre=destino;
-		_trayecto_duracion_min=duracion;
-		_trayecto_costo=costo;
-		_trayecto_distancia=distancia;
+
+	public TramoBoleto(int nroBoleto, int orden, String nombreLinea, String lineaColor, String tipoTransporte,
+			String origen, String destino, Double duracion, Double costo, Double distancia) {
+		_boletoNumero = nroBoleto;
+		_trayecto_orden = orden;
+		_linea_nombre = nombreLinea;
+		_linea_color = lineaColor;
+		_linea_tipo_transporte = tipoTransporte;
+		_estacion_origen_nombre = origen;
+		_estacion_destino_nombre = destino;
+		_trayecto_duracion_min = duracion;
+		_trayecto_costo = costo;
+		_trayecto_distancia = distancia;
 	}
+
 	public int get_boletoNumero() {
 		return _boletoNumero;
 	}
@@ -76,7 +81,35 @@ public class TramoBoleto {
 	public Double get_trayecto_distancia() {
 		return _trayecto_distancia;
 	}
-	
-	
-	
+
+	public Estacion getFakeEstacionOrigen() {
+		Estacion est = null;
+		try {
+			est = new Estacion(_trayecto_orden, _estacion_origen_nombre, LocalTime.MIN, LocalTime.MAX,
+					EstadoEstacionEnum.OPERATIVA);
+		} catch (HoraCierreMenorHoraAperturaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return est;
+	}
+
+	public Estacion getFakeEstacionDestino() {
+		Estacion est = null;
+		try {
+			est = new Estacion(_trayecto_orden + 1, _estacion_destino_nombre, LocalTime.MIN, LocalTime.MAX,
+					EstadoEstacionEnum.OPERATIVA);
+		} catch (HoraCierreMenorHoraAperturaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return est;
+	}
+
+	public Linea getFakeLinea() {
+		return new Linea(_trayecto_orden, _linea_nombre, _linea_color, EstadoLineaEnum.ACTIVA,
+				LineaTipoTransporteEnum.valueOf(_linea_tipo_transporte));
+	}
 }

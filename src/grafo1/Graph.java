@@ -2,8 +2,6 @@ package grafo1;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import bdd.EstacionesRepo;
-import bdd.TramosRepo;
 import modelo.Estacion;
 import modelo.Tramo;
 
@@ -21,7 +19,7 @@ public class Graph<T> {
 	}
 
 	public Integer flujoMaximo1(Estacion e1, Estacion e2) {
-		Map<Tramo, Estacion> adyacentes = this.getNeighbourhood1(e1);
+		//Map<Tramo, Estacion> adyacentes = this.getNeighbourhood1(e1);
 		int flujoMaximo = 0;
 		List<Map<Tramo, Estacion>> recorridos = this.paths(e1, e2);
 
@@ -93,8 +91,7 @@ public class Graph<T> {
 		Double cantidadNodos = (double) grafo.getVertexs().size();
 		Double pr = (1 / cantidadNodos);
 
-		List<Estacion> vertices = new ArrayList<Estacion>();
-		vertices = grafo.getVertexs();
+		List<Estacion> vertices = grafo.getVertexs();
 		Map<Estacion, Double> pageRank = new HashMap<Estacion, Double>();
 		Map<Estacion, List<Estacion>> estacionesQueLLegan = estacionesQueLLegan(grafo);
 		Map<Estacion, Integer> gradoSalida = new HashMap<Estacion, Integer>();
@@ -131,7 +128,7 @@ public class Graph<T> {
 
 	}
 
-	public Map<Estacion, List<Estacion>> estacionesQueLLegan(Graph grafo) {
+	public Map<Estacion, List<Estacion>> estacionesQueLLegan(Graph<T> grafo) {
 		List<Estacion> vertices = grafo.getVertexs();
 		List<Tramo> aristas = grafo.getEdges();
 		Map<Estacion, List<Estacion>> retorno = new HashMap<Estacion, List<Estacion>>();
@@ -147,7 +144,7 @@ public class Graph<T> {
 		return retorno;
 	}
 
-	public Map<Estacion, Double> pageRank(Graph grafo) {
+	public Map<Estacion, Double> pageRank(Graph<T> grafo) {
 		Double cantidadNodos = (double) grafo.getVertexs().size();
 		Double pr = (1 / cantidadNodos);
 

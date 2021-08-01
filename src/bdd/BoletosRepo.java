@@ -8,11 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import modelo.Boleto;
-import modelo.Estacion;
-import modelo.Tramo;
 import modelo.TramoBoleto;
 
 public class BoletosRepo {
