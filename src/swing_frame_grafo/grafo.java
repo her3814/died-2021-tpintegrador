@@ -91,14 +91,16 @@ public class grafo {
 		}
 
 		for (Estacion e : estaciones) {
-			var tramosDesde = recorrido.stream().filter(t -> t.getOrigen().equals(e)).collect(Collectors.toList());
-			Set<Estacion> estacionesDestino = tramosDesde.stream().map(t -> t.getDestino()).collect(Collectors.toSet());
+			var tramosDesde = recorrido.stream().filter(t -> t.getOrigen().equals(e))
+					.collect(Collectors.toList());
+			Set<Estacion> estacionesDestino = tramosDesde.stream().map(t -> t.getDestino())
+					.collect(Collectors.toSet());
 
 			var recorridos = new HashMap<Estacion, Recorrido[]>();
 
 			for (Estacion eD : estacionesDestino) {
-				var aux = tramosDesde.stream().filter(t -> t.getDestino().equals(eD)).map(t -> new Recorrido(t))
-						.toArray(Recorrido[]::new);
+				var aux = tramosDesde.stream().filter(t -> t.getDestino().equals(eD))
+						.map(t -> new Recorrido(t)).toArray(Recorrido[]::new);
 
 				recorridos.put(eD, aux);
 			}

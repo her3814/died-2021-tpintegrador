@@ -20,7 +20,7 @@ import modelo.ColoresLineasEnum;
  * *
  */
 class arista {
-	Color color;
+	Color color = Color.DARK_GRAY;
 	Random r = new Random();
 	int x1, y1, x2, y2;
 	Map<Color, String> valores;
@@ -31,7 +31,9 @@ class arista {
 		this.y1 = y1;
 		this.x2 = x2 - 20;
 		this.y2 = y2;
+		
 		valores = new HashMap<Color, String>();
+		
 		for (Recorrido recorrido : recorridos) {
 			String texto = null;
 			switch (mostrar) {
@@ -91,8 +93,8 @@ class arista {
 
 		g.setColor(Color.LIGHT_GRAY);
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g.drawLine(x1, y1, x2, y2);
 		g.setStroke(new BasicStroke(3));
+		g.drawLine(x1, y1, x2, y2);
 		g.setColor(color);
 		g.fillPolygon(xpoints, ypoints, 3);
 
@@ -101,6 +103,7 @@ class arista {
 
 		int i = 0;
 		for (Color color : valores.keySet()) {
+			
 			FontMetrics fm = g.getFontMetrics();
 			int hFont = fm.getHeight() / 2 * i;
 			g.setColor(color);
@@ -108,13 +111,5 @@ class arista {
 					((y1 + y2) / 2) - hFont);
 			i++;
 		}
-
-	}
-
-	public void drawCenteredString(String s, int w, int h, Graphics g) {
-		FontMetrics fm = g.getFontMetrics();
-		int x = (w - fm.stringWidth(s)) / 2;
-		int y = (fm.getAscent() + (h - (fm.getAscent() + fm.getDescent())) / 2);
-		g.drawString(s, x, y);
 	}
 }

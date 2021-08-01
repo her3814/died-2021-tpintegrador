@@ -25,9 +25,18 @@ public class panel extends JPanel {
 	grafo grafo;
 	TramoMostrarEnum _mostrar;
 
-	public panel(grafo grafo, TramoMostrarEnum mostrar) {
-		this.grafo = grafo;
-		//this.setBackground(Color.WHITE);
+	public panel(grafo g, TramoMostrarEnum mostrar) {
+		this.grafo = g;
+		vertices = new ArrayList<vertice>();
+		aristas = new ArrayList<arista>();
+		_mostrar = mostrar;
+		crearMapa();
+	}
+
+	public panel(grafo g, TramoMostrarEnum mostrar, int i, int j) {
+		this.grafo = g;
+		//this.setBackground(Color.BLACK);
+		//this.setSize(600, 320);
 		vertices = new ArrayList<vertice>();
 		aristas = new ArrayList<arista>();
 		_mostrar = mostrar;

@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+
 import modelo.Estacion;
 import modelo.EstadoEstacionEnum;
 
@@ -26,10 +29,10 @@ class vertice {
 
 	}
 
-	public void paint(Graphics g) {
+	public void paint(Graphics2D g) {
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(color);
 		g.fillOval(x, y, 40, 40);
-		g.setColor(Color.BLACK);
 
 		FontMetrics fm = g.getFontMetrics();
 		Font fuente = new Font("Sans Serif", Font.BOLD, 10);
