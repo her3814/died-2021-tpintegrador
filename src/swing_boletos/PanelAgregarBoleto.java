@@ -118,7 +118,7 @@ public class PanelAgregarBoleto extends JPanel {
 		add(inserteCliente, gbc_i_cli);
 		inserteCliente.setVisible(false);
 
-		JLabel lblEmail = new JLabel("EMAIL CLIENTE:");
+		lblEmail = new JLabel("EMAIL CLIENTE:");
 		lblEmail.setFont(new Font("Arial", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
