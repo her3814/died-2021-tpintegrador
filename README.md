@@ -8,3 +8,4 @@
 - [JCalendar (v1.4)](https://toedter.com/jcalendar/)
 - [MariaDB JAVA Client](https://mariadb.com/downloads)
 - [LGoodDatePicker](https://github.com/LGoodDatePicker/LGoodDatePicker)
+- [JTimeChooser](https://sourceforge.net/projects/jtimechooser/)
