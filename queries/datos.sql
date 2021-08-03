@@ -1,3 +1,5 @@
+USE `died`;
+
 INSERT INTO `estaciones` (`id`, `nombre`, `hora_apertura`, `hora_cierre`) VALUES
 (1,	'A',	'01:00:00',	'03:00:00'),
 (2,	'B',	'06:30:00',	'20:30:00'),
@@ -8,7 +10,8 @@ INSERT INTO `estaciones` (`id`, `nombre`, `hora_apertura`, `hora_cierre`) VALUES
 (7,	'H',	'04:00:00',	'22:30:00'),
 (8,	'X',	'03:30:00',	'20:00:00'),
 (9,	'Y',	'04:00:00',	'04:30:00'),
-(10,	'Z',	'01:00:00',	'01:30:00');
+(10,	'Z',	'01:00:00',	'01:30:00'),
+(12,	'C',	'08:00:00',	'12:00:00');
 
 INSERT INTO `estaciones_tareas_mantenimiento` (`id`, `id_estacion`, `fecha_inicio`, `fecha_fin`, `observaciones`) VALUES
 (1,	1,	'2021-08-01',	'2021-08-06',	'Mantenimiento de Escaleras mecanicas');
