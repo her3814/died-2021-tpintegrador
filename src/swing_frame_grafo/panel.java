@@ -1,6 +1,5 @@
 package swing_frame_grafo;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;

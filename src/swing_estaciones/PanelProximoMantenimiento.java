@@ -33,8 +33,9 @@ import java.awt.Color;
 import java.awt.Component;
 
 public class PanelProximoMantenimiento extends JPanel {
-
-	private JButton cancelar;
+	private static final long serialVersionUID = -6709091402896796059L;
+	
+	private JButton cancelar;	
 	private JTable table;
 	private Object datosFila[][];
 	private DefaultTableModel model;
@@ -139,6 +140,9 @@ public class PanelProximoMantenimiento extends JPanel {
 		}
 		// Crear modelo de la tabla
 		model = new DefaultTableModel(datosFila, nombreColumnas) {
+
+			private static final long serialVersionUID = -8902651067351428383L;
+
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
 				return false;
 			}

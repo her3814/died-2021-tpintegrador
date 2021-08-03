@@ -268,6 +268,8 @@ public class PanelBuscarTramo extends JPanel {
 		}
 		// Crear modelo de la tabla
 		model = new DefaultTableModel(datosFila, nombreColumnas) {
+			
+			private static final long serialVersionUID = -2476791951404920699L;
 
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
 				return false;

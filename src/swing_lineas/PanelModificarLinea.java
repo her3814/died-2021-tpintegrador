@@ -25,6 +25,8 @@ import javax.swing.JComboBox;
 
 public class PanelModificarLinea extends JPanel {
 	
+	private static final long serialVersionUID = -5691657203367344964L;
+	
 	private JTextField textField_1;
 	private ButtonGroup estado;
 	private ButtonGroup tipoTransporte;
