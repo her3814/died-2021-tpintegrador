@@ -28,14 +28,15 @@ import bdd.TareaMantenimientoRepo;
 import modelo.Estacion;
 import modelo.TareaMantenimiento;
 
+import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Component;
 
 public class PanelProximoMantenimiento extends JPanel {
 	private static final long serialVersionUID = -6709091402896796059L;
-	
-	private JButton cancelar;	
+
+	private JButton cancelar;
 	private JTable table;
 	private Object datosFila[][];
 	private DefaultTableModel model;
@@ -55,34 +56,38 @@ public class PanelProximoMantenimiento extends JPanel {
 		setPreferredSize(new Dimension(500, 500));
 		setMinimumSize(new Dimension(300, 300));
 
-		List<Estacion> estaciones = EstacionesRepo.ObtenerEstaciones();
 		List<TareaMantenimiento> tareas = TareaMantenimientoRepo.Obtener();
+		HashMap<Estacion, LocalDate> mapEstacionUltimaFechaMantenimiento = new HashMap<Estacion, LocalDate>();
 
-		HashMap<Estacion, TareaMantenimiento> mapEstacionUltimoMantenimiento = new HashMap<Estacion, TareaMantenimiento>();
+		Comparator<TareaMantenimiento> tareaMantenimientoMasAntigua = (TareaMantenimiento a, TareaMantenimiento b) -> a
+				.getFechaInicio().compareTo(b.getFechaInicio());
 
-		Comparator<TareaMantenimiento> masAntigua = (TareaMantenimiento a, TareaMantenimiento b) -> a.getFechaInicio()
-				.compareTo(b.getFechaInicio());
-
-		
-		for (Estacion e : estaciones) {
-			tareas.stream().filter(t -> t.getEstacion().equals(e)).min(masAntigua).ifPresentOrElse(
-					(t -> mapEstacionUltimoMantenimiento.put(e, t)), () -> mapEstacionUltimoMantenimiento.put(e, null));
+		/**
+		 * Por cada estacion filtro las tareas y me quedo con las que pertenecen a la
+		 * estacion 'e' comparo las tareas, y me quedo con la menor de todas bbteniendo
+		 * la tarea mas antigua y Asocio la Estacion con la fecha de inicio de la TDM o
+		 * LocalDate.MIN en caso de no haber recibido mantenimiento previamente
+		 */
+		for (Estacion e : EstacionesRepo.ObtenerEstaciones()) {
+			tareas.stream().filter(t -> t.getEstacion().equals(e)).min(tareaMantenimientoMasAntigua).ifPresentOrElse(
+					(t -> mapEstacionUltimaFechaMantenimiento.put(e, t.getFechaInicio())),
+					() -> mapEstacionUltimaFechaMantenimiento.put(e, LocalDate.MIN));
 		}
 
+		/**
+		 * Comparador de fecha asociada a cada estacion, ya que las estaciones no guardan su ultima fecha de mantenimiento
+		 */
 		Comparator<Estacion> comparador = (Estacion e1, Estacion e2) -> {
-			if (mapEstacionUltimoMantenimiento.get(e1) == null)
-				return -1;
-			else
-				return mapEstacionUltimoMantenimiento.get(e1).compareTo(mapEstacionUltimoMantenimiento.get(e2));
+			return mapEstacionUltimaFechaMantenimiento.get(e1).compareTo(mapEstacionUltimaFechaMantenimiento.get(e2));
 		};
 
-		PriorityQueue<Estacion> cola = new PriorityQueue<Estacion>(mapEstacionUltimoMantenimiento.size(), comparador);
-		cola.addAll(estaciones);
+		PriorityQueue<Estacion> cola = new PriorityQueue<Estacion>(mapEstacionUltimaFechaMantenimiento.size(), comparador);
+		cola.addAll(mapEstacionUltimaFechaMantenimiento.keySet());
 
-		LinkedHashMap <Estacion,LocalDate> nuevosDatos = new LinkedHashMap<Estacion, LocalDate>();
+		LinkedHashMap<Estacion, LocalDate> nuevosDatos = new LinkedHashMap<Estacion, LocalDate>();
 		while (!cola.isEmpty()) {
 			var e = cola.poll();
-			nuevosDatos.put(e, mapEstacionUltimoMantenimiento.get(e) != null ? mapEstacionUltimoMantenimiento.get(e).getFechaInicio() : null);
+			nuevosDatos.put(e, mapEstacionUltimaFechaMantenimiento.get(e) != LocalDate.MIN ? mapEstacionUltimaFechaMantenimiento.get(e) : null);
 		}
 
 		JLabel lblNewLabel = new JLabel("PROXIMO MANTENIMIENTO");
@@ -129,13 +134,13 @@ public class PanelProximoMantenimiento extends JPanel {
 	public DefaultTableModel renovarTabla(LinkedHashMap<Estacion, LocalDate> nuevosDatos) {
 		String nombreColumnas[] = { "Nro.", "Id estacion", "Nombre estacion", "Ult Mantenimiento" };
 		datosFila = new Object[nuevosDatos.size()][4];
-		
-		int i=0;
-		for(Estacion key: nuevosDatos.keySet()) {
+
+		int i = 0;
+		for (Estacion key : nuevosDatos.keySet()) {
 			datosFila[i][0] = i + 1;
 			datosFila[i][1] = key.getId();
 			datosFila[i][2] = key.getNombre();
-			datosFila[i][3] = nuevosDatos.get(key) != null ? nuevosDatos.get(key) : "SIN MANTENIMIENTO REALIZADO" ;
+			datosFila[i][3] = nuevosDatos.get(key) != null ? nuevosDatos.get(key) : "SIN MANTENIMIENTO REALIZADO";
 			i++;
 		}
 		// Crear modelo de la tabla
