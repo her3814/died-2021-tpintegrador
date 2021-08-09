@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
@@ -75,7 +77,7 @@ public class PanelProximoMantenimiento extends JPanel {
 		}
 
 		/**
-		 * Comparador de fecha asociada a cada estacion, ya que las estaciones no guardan su ultima fecha de mantenimiento
+		 * Comparador de fecha asociada a cada estacion, ya que el modelo de estaciones no guarda la ultima fecha de mantenimiento
 		 */
 		Comparator<Estacion> comparador = (Estacion e1, Estacion e2) -> {
 			return mapEstacionUltimaFechaMantenimiento.get(e1).compareTo(mapEstacionUltimaFechaMantenimiento.get(e2));
@@ -83,12 +85,7 @@ public class PanelProximoMantenimiento extends JPanel {
 
 		PriorityQueue<Estacion> cola = new PriorityQueue<Estacion>(mapEstacionUltimaFechaMantenimiento.size(), comparador);
 		cola.addAll(mapEstacionUltimaFechaMantenimiento.keySet());
-
-		LinkedHashMap<Estacion, LocalDate> nuevosDatos = new LinkedHashMap<Estacion, LocalDate>();
-		while (!cola.isEmpty()) {
-			var e = cola.poll();
-			nuevosDatos.put(e, mapEstacionUltimaFechaMantenimiento.get(e) != LocalDate.MIN ? mapEstacionUltimaFechaMantenimiento.get(e) : null);
-		}
+		
 
 		JLabel lblNewLabel = new JLabel("PROXIMO MANTENIMIENTO");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22));
@@ -100,7 +97,7 @@ public class PanelProximoMantenimiento extends JPanel {
 		add(lblNewLabel, gbc_lblNewLabel);
 
 		table = new JTable();
-		model = renovarTabla(nuevosDatos);
+		model = renovarTabla(cola, mapEstacionUltimaFechaMantenimiento);
 		table.setModel(model);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setFillsViewportHeight(true);
@@ -131,18 +128,20 @@ public class PanelProximoMantenimiento extends JPanel {
 		return java.sql.Date.valueOf(dateToConvert);
 	}
 
-	public DefaultTableModel renovarTabla(LinkedHashMap<Estacion, LocalDate> nuevosDatos) {
+	public DefaultTableModel renovarTabla(PriorityQueue<Estacion> estacionesOrdenadas, HashMap<Estacion, LocalDate> mapEstFechaUltMant) {
 		String nombreColumnas[] = { "Nro.", "Id estacion", "Nombre estacion", "Ult Mantenimiento" };
-		datosFila = new Object[nuevosDatos.size()][4];
+		datosFila = new Object[estacionesOrdenadas.size()][4];
 
 		int i = 0;
-		for (Estacion key : nuevosDatos.keySet()) {
+		while (!estacionesOrdenadas.isEmpty()) {
+			var e = estacionesOrdenadas.poll();
 			datosFila[i][0] = i + 1;
-			datosFila[i][1] = key.getId();
-			datosFila[i][2] = key.getNombre();
-			datosFila[i][3] = nuevosDatos.get(key) != null ? nuevosDatos.get(key) : "SIN MANTENIMIENTO REALIZADO";
+			datosFila[i][1] = e.getId();
+			datosFila[i][2] = e.getNombre();
+			datosFila[i][3] = mapEstFechaUltMant.get(e) != LocalDate.MIN ? mapEstFechaUltMant.get(e) : "SIN MANTENIMIENTO REALIZADO";
 			i++;
 		}
+
 		// Crear modelo de la tabla
 		model = new DefaultTableModel(datosFila, nombreColumnas) {
 
